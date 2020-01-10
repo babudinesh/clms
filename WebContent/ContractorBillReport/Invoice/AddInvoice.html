@@ -1,0 +1,439 @@
+<form id="invoiceForm" name="invoiceForm" novalidate ng-submit="submit">
+    <div class="container-fluid">
+        <div class="col-md-12 well">
+         	<h3 class="cls_plainheader">Invoice</h3>
+            <div class="col-md-12">
+                <br/>
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-6">
+                            	<div class="form-group is-empty">
+		                            <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+		                            <div class="col-md-8 select-box">
+		                             	<select   ng-model="invoice.vendorId"  ng-change="vendorChange()" name="vendorId" ng-options="item.id as item.name for item in invoiceList.vendorList" class="form-control"  id="vendorId"  ng-disabled="readOnly || onlyRead || dropdownDisable"  required>
+		                                 	<option value="">Select</option>
+		                                </select>
+		                                <span class="input-group-btn">
+                                    			<label for="vendorId" class="fa fa-caret-down"></label>
+                                       	</span>
+		                            </div>
+		                        </div>
+		                        
+                                <div class="form-group"></div>
+                                
+                                <div class="form-group">
+                                    <label for="contactNumber" class="col-md-4 control-label">Contact Number</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name ="ContactNumber"  ng-model="invoice.vendorContactNumber" ng-disabled="vendorContact" class="form-control " id="contactNumber" placeholder="Contact Number"  />
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="col-md-6">
+                            	<div class="form-group ">
+                                    <label for="address" class="col-md-4 control-label required" >Address</label>
+                                    <div class="col-md-8">
+                                        <textarea id="address" ng-disabled="vendorAddress" ng-model="invoice.vendorAddress" class="form-control" name = "address" required ></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email" class="col-md-4 control-label">Email</label>
+                                    <div class="col-md-8">
+                                        <input type="email"  ng-model="invoice.vendorEmail" ng-disabled="vendorEmail" class="form-control" id="email" placeholder="Email"  />
+                                    </div>
+                                </div>
+									
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="panel panel-primary">
+                	<div class="panel-heading">
+                    	<h5> Principal Employer Details</h5>
+                    </div>
+                    <div class="sepr">
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                                <div class="form-group is-empty">
+		                            <label for="companyId" class="col-md-4 control-label required">Company Name</label>
+		                            <div class="col-md-8 select-box">
+		                             	<select   ng-model="invoice.companyId"   name="companyId" ng-options="item.id as item.name for item in invoiceList.companyList" class="form-control"  id="companyId"  ng-disabled="true"  required>
+		                                 	<option value="">Select</option>
+		                                </select>
+		                                <span class="input-group-btn">
+                                    			<label for="companyId" class="fa fa-caret-down"></label>
+                                       	</span>
+		                            </div>
+		                        </div>
+                                
+                                <div class="form-group">
+                                    <label for="contactNumber" class="col-md-4 control-label">Contact Number</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name ="contactNumber"  ng-model="invoice.companyContactNumber" ng-disabled="companyContact" class="form-control " id="contactNumber" placeholder="Contact Number "  />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="locationId" class="col-md-4 control-label ">Location Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-model="invoice.locationId"  name="locationId" ng-options="item.locationId as item.locationName for item in invoiceList.locationsList" class="form-control"  id="locationId" ng-disabled="readOnly"  >
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="locationId" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+     							</div>
+     							
+								
+                            </div>
+
+                            <div class="col-md-6">
+                             	<div class="form-group ">
+                                    <label for="address" class="col-md-4 control-label required" >Address</label>
+                                    <div class="col-md-8">
+                                        <textarea id="address" ng-disabled="companyAddress" ng-model="invoice.companyAddress" class="form-control" name = "address" required></textarea>
+                                    </div>
+                                </div>
+								<br/>
+								<div class="form-group"></div>
+								<div class="form-group">
+	                                <label for="departmentId" class="col-md-4 control-label">Department Name</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select id="departmentId" class="form-control" ng-model="invoice.departmentId" ng-options="item.id as item.name for item in invoiceList.departmentsList " name="departmentId" ng-disabled="readOnly" >
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+											<label for="departmentId" class="fa fa-caret-down"></label>
+										</span>
+	                                </div>
+	                            </div>
+                                
+                            </div>
+                        </div>
+                        <div></div>
+
+
+                    </div>
+
+                    <br />
+
+
+                </div>
+
+                 <div class="panel panel-primary">
+                 	<div class="panel-heading">
+                    	<h5> Invoice Details</h5>
+                    </div>
+                    
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-6">
+                           		<div class="form-group">
+                                	<label for="invoiceNumber" class="col-md-4 control-label required">Invoice Number</label>
+                                 	<div class="col-md-8">
+	                                 	<input type = "text" ng-model="invoice.invoiceNumber" name="invoiceNumber" id="invoiceNumber" class="form-control onlyNumbersWithZero" ng-maxlength = 11 placeholder="Invoice Number" required"/>
+		                             </div>
+		                        </div>
+
+                                <div class="form-group is-empty">
+	                            	<label for="status" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+										<select  ng-model="invoice.status" class="form-control" id="status" name="status"  ng-options="item.id as item.name for item in list_status" ng-disabled="true" required>
+											<option value="">Select</option>
+	                                    </select> 
+	                                     <span class="input-group-btn">
+											<label for="status" class="fa fa-caret-down"></label>
+										</span>	                                    
+	                               	</div>
+	                            </div>
+
+                                <div class="form-group">
+                                    <label for="panno" class="col-md-4 control-label">PR Number </label><!-- Purchase requesition -->
+                                    <div class="col-md-8">
+                                        <input type="text" ng-model="invoice.prNumber" ng-disabled="readOnly" class="form-control capitalize" id="prNumber" placeholder="PR Number"  maxlength="10"/>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6">
+
+								<div class="form-group">
+		                        	<label for="invoiceDate" class="col-md-4 control-label required">Invoice Date</label>
+		                            <div class="col-md-8 ">
+	                                	<input class="form-control" type="text"  ng-model="invoice.invoiceDate" name="invoiceDate" ng-disabled="readOnly"  id="invoiceDate" placeholder="Invoice Date" required/>
+		                            </div>
+		                        </div>
+		                            
+                                <div class="form-group">
+                                    <label for="servregno" class="col-md-4 control-label">PO Number </label> <!-- Purchase Order -->
+                                    <div class="col-md-8">
+                                        <input type="text" ng-model="invoice.poNumber" ng-disabled="readOnly"  class="form-control" id="servregno" placeholder="PO Number"  maxlength="45"/>
+                                    </div>
+                                </div>
+		
+                                <div class="form-group">
+                                    <label for="serviceNumber"  class="col-md-4 control-label">Service Number </label>
+                                    <div class="col-md-8">
+                                        <input type="text" ng-model="invoice.serviceNumber" ng-disabled="readOnly" class="form-control" id="serviceNumber" placeholder="Service Number" name="serviceNumber" maxlength="45"/>
+                                    </div>
+                                </div>
+		
+		
+		                    </div>
+		                </div>
+		            </div>
+				</div>  
+	            <div class="panel panel-primary">
+	                <div class="sepr">
+	                 	<div class="row">
+                    		<div class="col-md-12">
+                        		<table class="table table-striped " id = "particulars">
+                            		<thead>
+	                                	<tr>
+		                                   	<th>Sl.No</th>
+		                                    <th>Particulars</th>
+		                                    <th>From Date</th>
+		                                    <th>To Date</th>
+		                                    <th>Quantity/Hours</th>
+		                                    <th>Rate</th>
+		                                    <th>Frequency</th>
+		                                    <th>Amount</th>
+		                                    <th>Currency</th>
+		                                    <th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#particular" ng-show="gridButtons" ng-click ="particularPlusIcon()"> </i></td>
+	                                  	</tr>
+                            		</thead>
+                            		<tbody>
+	                                  	<tr ng-repeat = "i in invoice.particularsList" >
+		                                  	<td>{{$index+1}}</td>
+		                                  	<td>{{i.particulars}}</td>
+		                                  	<td>{{i.fromDate}}</td>
+		                                  	<td>{{i.toDate}}</td>
+		                                  	<td>{{i.quantity}}</td>
+		                                  	<td>{{i.rate}}</td>
+		                                  	<td>{{i.frequency}}</td>
+		                                  	<td>{{i.amount}}</td>
+		                                  	<td>{{i.currencyName}}</td>
+		                                  	<td> <i ng-click="editParticulars($event)" class="fa fa-edit" data-toggle="modal" data-target="#particular" ng-show="gridButtons"></i></td>
+	                                      	<td> <i ng-click="deleteParticulars($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+	                              		</tr>
+                            		</tbody>
+                        		</table>
+                    		</div> 
+                    	</div>
+                    	<div class="row">
+                    		<div class="col-md-9">
+                    			<div class="form-group">                                    
+                                    <label for="serviceTaxNumber" class="col-md-3 control-label ">Total amount in words : </label>
+                                    <div class="col-md-9" style="top:10px;left:-90px;">
+                                        {{invoice.totalAmountInWords}}
+                                    </div>
+                                </div>
+                    		</div>
+                    		<div class="col-md-3">
+                    			<div class="form-group">                                    
+                                    <label for="serviceTaxNumber" class="col-md-4 control-label ">Total : </label>
+                                    <div class="col-md-8" style="top:10px;left:-30px;">
+                                    	{{invoice.totalAmount}}
+                                    </div>
+                                </div>
+                    		</div>
+                    	</div>
+                    	<br/>
+					</div>
+				</div>
+                
+                 <div class="panel panel-primary">
+                       <div class="sepr">
+                           <div class="row">
+                               <div class="col-md-6">
+                                <div class="form-group">                                    
+                                    <label for="serviceTaxNumber" class="col-md-4 control-label ">Service Tax Number</label>
+                                    <div class="col-md-8">
+                                        <input type = "text"  ng-model="invoice.serviceTaxNumber" name="serviceTaxNumber"  class="form-control"  id="serviceTaxNumber" placeholder="Service Tax Number" ng-disabled="readOnly" / >
+                                    </div>
+                                </div>
+                               </div>
+
+                               <div class="col-md-6">
+                                   <div class="form-group">
+                                       <label for="panNumber" class="col-md-4 control-label">PAN Number</label>
+                                       <div class="col-md-8">
+                                           <input type="text" ng-model="invoice.panNumber" name="panNumber" ng-disabled="readOnly" class="form-control bothAlphabetsAndNumbers" id="panNumber" placeholder="PAN Number" />
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                           <div class="row">
+                           	<div class="col-md-12">
+                           		 <div class="form-group">
+                                       <label for="remarks" class="col-md-2 control-label">Remarks</label>
+                                       <div class="col-md-10">
+                                           <input class="form-control" ng-model="invoice.remarks" ng-disabled="readOnly" id="remarks" name="remarks" ng-maxlength="255" placeholder="Remarks"/>
+                                       </div>
+                                   </div>
+                           	</div>
+                           </div>
+                           <div class="row">
+                           	<div class="col-md-6">
+                           		 <div class="form-group">
+                                       <label for="remarks" class="col-md-4 control-label">Subject To</label>
+                                       <div class="col-md-6">
+                                           <input class="form-control" ng-model="invoice.subjectTo" ng-disabled="readOnly" id="remarks" name="remarks" ng-maxlength="255" placeholder="Subject To"/>
+                                       </div>
+                                       <div class="col-md-2" style="top:2px;"><label for="subjectTo" class="control-label">Jurisdiction</label></div>
+                                   </div>
+                           	</div>
+                           	
+                           	<div class="col-md-6">
+                           		 <div class="form-group">
+                                       <label for="remarks" class="col-md-4 control-label">For M/S Vendor Name</label>
+                                       <div class="col-md-8">
+                                           <input class="form-control" ng-model="vendorName" ng-disabled="readOnly" id="vendorName" name="vendorName" ng-maxlength="255" placeholder="Vendor Name"/> 
+                                       </div>
+                                   </div>
+                           	</div>
+						</div>
+                           
+                        <div class="row">
+							<div class="col-md-6">
+                           	</div>
+                           	
+                           	<div class="col-md-6">
+                           		 <div class="form-group">
+                                 	<label for="remarks" class="col-md-4 control-label"  style="left:340px; top:30px;">Authorized Signature</label>
+                                 </div>
+                           	</div>
+                           	<br/>
+                           	<br/>
+                           	<br/>
+                           	<br/>
+                           	<br/>
+                           	<br/>
+                       </div>
+					</div>
+                </div>		
+				<div class="col-md-12 form-group" ng-show="commentsShow">
+					<label for="particular" class="col-md-2 control-label">Comments</label>
+                       <div class="col-md-10 ">
+                       		<input type="text" class="form-control" ng-model="invoice.comments" placeholder="Comments" name="comments" id="comments" ng-maxlength=255 />
+                       </div>
+				</div>
+				
+			</div>
+            <br />
+            <br />
+
+            <div class="btn-group btn-group-right pull-right">               
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || saveAction($event)" >Save</a>
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="enable || updateBtnAction($event)" >Update</a>
+                <a href="javascript:void(0)" class="btn btn-success" ng-show="sendForApprovalBtn  && buttonArray.includes('APPROVE')" ng-click="sendForApprovalAction($event)">Send For Approval</a>
+                <a href="javascript:void(0)" class="btn btn-info" ng-click="approveAction($event)" ng-show="approve && buttonArray.includes('APPROVE')">Approve</a>
+                <a href="javascript:void(0)" class="btn btn-info" ng-click="correctionAction($event)" ng-show="correctionBtn  && buttonArray.includes('CORRECT HISTORY')">Send For Correction</a>
+                <a href="javascript:void(0)" class="btn btn-info" ng-click="rejectAction($event)" ng-show="rejectBtn && buttonArray.includes('REJECT')">Reject</a>
+                <a href="javascript:void(0)" class="btn btn-primary resetBtn"  ng-show="!statusDisabled && resetBtn" ng-click="clearFun()">Reset</a>
+                <a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="fun_cancelBtnCLick()"> Cancel </a>
+                <a href="#/searchInvoice" class="btn btn-warning">Return To Search</a>
+            </div>
+		</div>
+	</div>
+</form>
+
+<form id="particularsForm">
+<!-- Modal -->
+	<div class="modal fade" id="particular" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Particulars</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="particular" class="col-md-4 control-label required">Particulars</label>
+                                        <div class="col-md-8 ">
+                                        	<input type="text" class="form-control" ng-model="particular.particulars" placeholder="Particulars" name="documentName" id="documentName" ng-maxlength=50 required/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="toDate" class="col-md-4 control-label">To Date</label>
+                                        <div class="col-md-8 ">
+                                        	<input type="text" class="form-control" ng-model="particular.toDate" name="toDate" id="toDate" placeholder="To Date" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="rate" class="col-md-4 control-label">Rate</label>
+                                        <div class="col-md-8 ">
+                                        	<input type="text"  class="form-control" ng-model="particular.rate" name="rate" id="rate" placeholder="Rate" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="amount" class="col-md-4 control-label required">Amount</label>
+                                        <div class="col-md-5 ">
+                                        	<input type="text"  class="form-control" ng-model="particular.amount" name="amount" id="amount" placeholder="Amount" required/>
+                                        </div>
+                                        <div class="col-md-3 select-box">
+		 									  <input type="text" class="form-control"  ng-model="particular.currencyName" id="currency" name="currency" placeholder="Currency" maxlength="10" ng-disabled="true" required />                       
+										</div>
+                                    </div>
+                                     
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="fromDate" class="col-md-4 control-label">From Date</label>
+                                        <div class="col-md-8 ">
+                                        	<input type="text"  class="form-control" ng-model="particular.fromDate" name="fromDate" id="fromDate" placeholder="From Date" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="quantity" class="col-md-4 control-label">Quantity/Hours</label>
+                                        <div class="col-md-8 ">
+                                        	<input type="text" class="form-control" ng-model="particular.quantity" name="quantity" id="quantity" placeholder="Quantity/Hours" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="frequency" class="col-md-4 control-label">Frequency</label>
+                                        <div class="col-md-8 select-box">
+                                        	<select  ng-model="particular.frequency" class="form-control" id="frequency" name="frequency"  ng-options="item.id as item.name for item in list_frequency" >
+												<option value="">Select</option>
+		                                    </select> 
+		                                     <span class="input-group-btn">
+												<label for="frequency" class="fa fa-caret-down"></label>
+											</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+	                <button type="button"  class="btn btn-primary"  ng-click="saveParticulars()" ng-show ="popUpSave">Save Changes</button>
+ 	                <button type="button"  class="btn btn-primary"  ng-click="updateParticulars($event)"  ng-show ="popUpUpdate">Update Changes</button>
+ 	                <button type="button" class="btn btn-warning" ng-click="close_particulars()">Close</button>
+        	 	</div>
+            </div>
+        </div>
+	</div>
+</form>
+        

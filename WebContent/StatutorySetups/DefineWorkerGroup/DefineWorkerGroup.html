@@ -1,0 +1,220 @@
+<form id="workerGroupForm" name="workerGroupForm" novalidate ng-submit="submit"> 
+	<div class="container-fluid">
+    	<div class="col-md-12 well">
+         	<h3 class="cls_plainheader">Worker Group Details</h3>
+         	<div class="col-md-12">
+	        <br>
+	       <div class="panel panel-default" ng-show="transactionList">
+				<div class="container">
+					<h5 class="cls_plainheader"> Search : </h5>
+					<div class="row">
+						<div class="col-md-6 transactionList">
+							<div class="form-group">
+								<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+								<div class="col-md-6 select-box">
+                                    <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                    	<option value="">Select</option>
+                                    </select>   
+                                    <span class="input-group-btn">
+										<label for="transactionList" class="fa fa-caret-down"></label>
+									</span>                        											
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="pull-left" style="width: 105%" />
+			</div> 
+                    
+			<div class="panel panel-default">
+            	<div class="sepr">
+               		<div class="row">
+                    	<div class="col-md-6">
+                        	<div class="form-group is-empty">
+                            	<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                    <select  ng-change="customerChange()"  ng-model="group.customerId" ng-options="item.customerId as item.customerName for item in groupList.customerList" class="form-control" id="custName" name="custName" ng-disabled="readOnly || onlyRead" required>
+						 				<option value="">Select</option>
+                                    </select> 
+                                    <span class="input-group-btn">
+										<label for="customerName" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+							
+							<div class="form-group is-empty">
+                           		<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+                                <div class="col-md-8 select-box">
+									<select ng-change="countryChange()" ng-model="group.countryId" ng-options="item.id as item.name for item in groupList.countryList" class="form-control" id="countryName" name="countryId" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+                                   	</select> 	  
+                                    	<span class="input-group-btn">
+										<label for="countryName" class="fa fa-caret-down"></label>
+									</span>                                  
+                                </div>
+                            </div>
+						</div>
+
+						<div class="col-md-6">
+                        	<div class="form-group is-empty">
+                            	<label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                            	<div class="col-md-8 select-box">
+									<select ng-change="companyChange()"  ng-model="group.companyId" ng-options="item.id as item.name for item in groupList.companyList" class="form-control" id="companyName" name= "companyName"ng-disabled="readOnly || onlyRead" required>
+								 		<option value="">Select</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="companyName" class="fa fa-caret-down"></label>
+									</span>
+                              	</div>
+							</div>
+						
+							<div class="form-group is-empty">
+                            	<label for="budgetCode" class="col-md-4 control-label required">Group ID</label>
+                                <div class="col-md-8">
+									<input type="text" ng-model="group.groupCode" placeholder="Group ID" class="form-control capitalize" name="budgetCode" id="budgetCode" ng-disabled="readOnly || onlyRead"  onchange="angular.element(this).scope().checkBudgetCode()" maxlength="20" required>
+                              	</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+           			
+           
+            <div class="panel panel-primary">
+	            <div class="panel-heading">
+	            	 <h5>Define Group</h5>
+	            </div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactiondate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="group.transactionDate" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly"  required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="groupName" class="col-md-4 control-label required">Group Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="group.groupName" id="groupName"  name="groupName" placeholder="Group Name" maxlength ="50" ng-disabled="readOnly" required />
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="status" class="form-control" ng-model="group.status"  ng-options="item.id as item.name for item in list_status " name="status" ng-disabled="readOnly" required>
+                                        <option value="Y">Active</option>
+                                        <option value="N">Inactive</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="status" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>   
+                        </div>
+                    </div> 
+                    <div class="row">
+                       	<div class="panel panel-primary">
+			                 <div class="panel-heading">
+			                 	<h5 >Associate Rules </h5>
+			                 </div>
+			                 <div class="sepr">
+			                 	<div class="row">
+                            		<div class="col-md-6">
+			                            <!-- <div class="form-group">
+			                                <label for="wageRateId" class="col-md-4 control-label required">Wage Rate </label>
+			                                <div class="col-md-8 select-box">
+			                                    <select id="wageRateId" class="form-control" ng-model="group.wageRateId"  ng-options="item.id as item.name for item in list_Status " name="wageRateId" ng-disabled="readOnly" required>
+			                                        <option value="">Select</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+													<label for="wageRateId" class="fa fa-caret-down"></label>
+												</span>
+			                                </div>
+			                            </div>  -->
+			                            
+			                            <div class="form-group">
+			                                <label for="TimeRuleId" class="col-md-4 control-label required">Time Rule </label>
+			                                <div class="col-md-8 select-box">
+			                                    <select id="TimeRuleId" class="form-control" ng-model="group.timeRuleId"  ng-options="item.id as item.name+' - '+item.desc for item in groupList.timeRuleList " name="timeRuleId" ng-disabled="readOnly" required>
+			                                        <option value="">Select</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+													<label for="TimeRuleId" class="fa fa-caret-down"></label>
+												</span>
+			                                </div>
+			                            </div> 
+			                            
+			                            <div class="form-group">
+			                                <label for="shiftpatternId" class="col-md-4 control-label required">Shift Pattern </label>
+			                                <div class="col-md-8 select-box">
+			                                    <select id="shiftpatternId" class="form-control" ng-model="group.shiftPatternId"  ng-options="item.id as item.name+' - '+item.desc for item in groupList.shiftPatternList " name="shiftpatternId" ng-disabled="readOnly" required>
+			                                        <option value="">Select</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+													<label for="shiftpatternId" class="fa fa-caret-down"></label>
+												</span>
+			                                </div>
+			                            </div> 
+			                        </div>
+			                        <div class="col-md-6">
+			                            <div class="form-group">
+			                                <label for="holidayCalendarId" class="col-md-4 control-label required">Holiday Calendar</label>
+			                                <div class="col-md-8 select-box">
+			                                    <select id="holidayCalendarId" class="form-control" ng-model="group.holidayCalendarId"  ng-options="item.id as item.name+' - '+item.desc for item in groupList.holidayCalendarList " name="holidayCalendarId" ng-disabled="readOnly" required>
+			                                        <option value="">Select</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+													<label for="holidayCalendarId" class="fa fa-caret-down"></label>
+												</span>
+			                                </div>
+			                            </div>
+			                            
+			                            <div class="form-group">
+			                                <label for="overTimeRuleId" class="col-md-4 control-label required">Overtime Rule </label>
+			                                <div class="col-md-8 select-box">
+			                                    <select id="overTimeRuleId" class="form-control" ng-model="group.overTimeRuleId"  ng-options="item.id as item.name+' - '+item.desc for item in groupList.overTimeRuleList " name="overTimeRuleId" ng-disabled="readOnly" required>
+			                                        <option value="">Select</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+													<label for="overTimeRuleId" class="fa fa-caret-down"></label>
+												</span>
+			                                </div>
+			                            </div>   
+			                        </div>
+                            	</div>
+                            </div>
+                         </div>
+                      </div>    
+                </div>
+            </div>
+             
+        </div>
+
+         <div class="btn-group btn-group-right pull-right">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+ 			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click=" save($event)">Correct History</a> 
+ 			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button> 
+			 <a href="#/searchWorkerGroup" class="btn btn-primary">Return To Search</a> 
+		</div>
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+</form>
+           
+                            

@@ -1,0 +1,183 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Search Existing Company Documents</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" ng-href="#/addCompanyDocument/0" ng-show = "buttonArray.includes('ADD')">Add New Company Document <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+				<div class="panel-heading">
+             		<h5>Search Parameters</h5>
+           		 </div>
+                <div class="sepr">
+                    <div class="row">
+                    	<div class="col-md-6">
+                    		<div class="form-group">
+								<label for="customerName" class="col-md-4 control-label">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="customerChange()" ng-model="customerName" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerId" ng-disabled="dropdownDisableCustomer" required>
+                                        <option value="">Select</option>
+                                    </select>
+									<span class="input-group-btn">
+                                 		<label for="customerName" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+								
+							<div class="form-group">
+								<label for="locationId" class="col-md-4 control-label">Location Name</label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="locationName"   name="locationId" ng-options="item.id as item.name for item in locationsList" class="form-control"  id="locationId"  >
+                                        <option value="">Select</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                 		<label for="locationId" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div> 
+                        	
+                        	<div class="form-group">
+								<label for="challanNumber" class="col-md-4 control-label">Challan Number</label>
+								<div class="col-md-8">
+									<input type = "text" class="form-control" ng-model="challanNumber" name="challanNumber" id="challanNumber" placeholder="Challan Number"/>
+								</div>
+							</div>
+
+							<div class="form-group is-empty">
+                                <label for="selectBy" class="col-md-4 control-label">Select Period</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-model="selectBy"  class="form-control"  id="selectBy" name="selectBy">
+										<option value="">Select</option>
+										<option value="byDate"> By Date</option>
+										<option value="byMonth"> By Month</option>
+                                    </select> 	
+                                     <span class="input-group-btn">
+										<label for="selectBy" class="fa fa-caret-down"></label>
+									</span>                                    
+                               	</div>
+                            </div>
+                            
+                             <div class="form-group"  ng-show="selectBy == 'byDate'">
+                                <label for="toDate" class="col-md-4 control-label required"> By Date  </label>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="fromDate"  placeholder=" From Date &#xf073;" ng-model="fromDate" name="fromDate"  required/>                                                                                                     
+                                </div>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="toDate" placeholder=" To Date &#xf073;" ng-model="toDate" name="toDate" required/>                                                                                                     
+                                </div>
+                            </div>
+                                                        
+                            <div class="form-group " ng-show="selectBy == 'byMonth'">
+                            	<label for="year" class="col-md-4 control-label required"> Month & Year  </label>
+                                <div class="col-md-4 select-box">
+	                                <select ng-model="year" class="form-control" id="year" name="year" ng-options="item.id as item.name for item in list_years" required>
+	                         			<option value="">Select</option>
+									</select>  
+									<span class="input-group-btn">
+                                    	<label for="year" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+								
+								 <div class="col-md-4 select-box">                                                                                                                               
+	                                 <select  ng-model="month" ng-options="item.id as item.name for item in list_months " name="month" class="form-control" id="month" required> 
+	                                  	<option value="">Select</option>
+	                                 </select>   
+	                                 <span class="input-group-btn">
+	                           			<label for="month" class="fa fa-caret-down"></label>
+	                              </span>                                                                                             
+                                </div>
+                            </div>
+                           
+                                      
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="companyName" class="col-md-4 control-label">Company Name</label>
+								<div class="col-md-8 select-box">
+									 <select  ng-change="companyChange()"  ng-model="companyName"  name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyId" ng-disabled="dropdownDisableCompany"  required>
+                                        <option value="">Select</option>
+                                     </select>
+                                     <span class="input-group-btn">
+                                 		<label for="Select1" class="fa fa-caret-down"></label>
+                                     </span>
+								</div>
+							</div>
+							<div class="form-group is-empty">
+                                <label for="documentName" class="col-md-4 control-label">Document Name</label>
+                                <div class="col-md-8 select-box">
+                                	 <select  ng-model="documentName" ng-options="item.name as item.name for item in documentsList" class="form-control" id="documentName"  name="documentName">
+						 				<option value="">Select</option>
+                                    </select> 
+                                     <span class="input-group-btn">
+										<label for="documentName" class="fa fa-caret-down"></label>
+									 </span> 
+                                </div>
+                            </div>
+                        	<div class="form-group is-empty">
+                            	<label for="status" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-model="status" class="form-control" id="status" name="status"  ng-options="item.id as item.name for item in list_status">
+										<option value="">Select</option>
+                                    </select> 
+                                     <span class="input-group-btn">
+										<label for="status" class="fa fa-caret-down"></label>
+									</span>	                                    
+                               	</div>
+                            </div>
+                            
+                            <div class="form-group is-empty">
+                            	<label for="searchBy" class="col-md-4 control-label">Search By</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-model="searchBy" class="form-control" id="searchBy" name="searchBy" ng-options="item.id as item.name for item in list_searchBy" >
+										<option value="">Select</option>
+                                    </select> 
+                                     <span class="input-group-btn">
+										<label for="status" class="fa fa-caret-down"></label>
+									</span>	                                    
+                               	</div>
+                            </div>
+							
+						</div>
+						
+                        <div class="col-md-2 pull-right">
+                          	<a class="btn btn-primary col-md-6 " ng-click="search()">Search <i class="fa fa-search"></i></a>
+                          	<a class="btn btn-warning col-md-5" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary"  ng-show="DocumentSearchTableView">
+	            <div class="panel-heading">
+	           		<h5>Search Result</h5>
+	            </div>
+                <div class="sepr">
+                    <div class="row">
+                        <table class="table table-striped" id="DocumentSearchTable">
+                            <thead>
+                                <tr>
+                                    <th>Document Name</th>
+                                    <th>Challan Number </th>
+                                    <th>Document Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                          
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AttendanceRepot" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="882972af-449b-4374-ac7b-84810cbf500d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="groupHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.group.3" value="ProductGroup"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.report.3" value="ProductReport"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="AttendanceTable" uuid="5a07e581-11f2-42d6-bc19-25b78244ae66">
+		<parameter name="customerId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="companyId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="vendorId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="year" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="month" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="employeeCode" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="employeeName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="fromdate" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="todate" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="schemaName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT
+        DISTINCT vendorDtls.vendor_code AS CODE,
+        vendorDtls.vendor_name AS Contractor,
+         a.Emp AS IDNo,
+        REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ') AS WorkMen,
+        Shift,
+         DATE_FORMAT(Business_Date,'%d-%m-%Y') AS `Date`,
+       DATE_FORMAT(STR_TO_DATE(intime,'%Y-%m-%d %H:%i:%s'),'%d-%m-%Y %H:%i:%s') AS  InTime,
+       DATE_FORMAT(STR_TO_DATE(OutTime,'%Y-%m-%d %H:%i:%s'),'%d-%m-%Y %H:%i:%s') AS  OutTime,
+      Attendance AS  `Status`,
+      IFNULL(ManHours,'')
+       AS ManHrs,
+        IFNULL(OTHours,
+        0) AS OT
+    FROM
+    $P!{schemaName}.Labor_Time_report a
+    INNER JOIN vendor_view vendorDtls ON ( vendorDtls.vendor_code=a.contractorCode)
+    INNER JOIN v_worker_details vw ON vw.Worker_code = a.Emp
+    WHERE
+
+             vendorDtls.customer_id=$P{customerId}
+        AND  vendorDtls.company_id=$P{companyId}
+        AND  (vendorDtls.vendor_id= $P{vendorId} OR $P{vendorId} = -1)
+        AND  (a.Emp LIKE '%$P!{employeeCode}%')
+        AND  (REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ')  LIKE '%$P!{employeeName}%')
+        AND  Business_Date BETWEEN STR_TO_DATE($P{fromdate},'%d/%m/%Y') AND STR_TO_DATE($P{todate},'%d/%m/%Y')
+    ORDER BY   1,5 ,4,2;]]>
+		</queryString>
+		<field name="CODE" class="java.lang.String"/>
+		<field name="Contractor" class="java.lang.String"/>
+		<field name="IDNo" class="java.lang.Long"/>
+		<field name="WorkMen" class="java.lang.String"/>
+		<field name="Shift" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Date" class="java.lang.String"/>
+		<field name="InTime" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="OutTime" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Status" class="java.lang.String"/>
+		<field name="ManHrs" class="java.lang.String"/>
+		<field name="OT" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="employeeCode" class="java.lang.String"/>
+	<parameter name="employeeName" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="todate" class="java.lang.String"/>
+	<parameter name="schemaName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT
+        DISTINCT count(*)
+    FROM
+    $P!{schemaName}.Labor_Time_report a
+    INNER JOIN
+        vendor_details vendorDtls
+            ON (
+                vendorDtls.vendor_code=a.contractorCode
+            )
+    WHERE
+
+             vendorDtls.customer_id=$P{customerId}
+        AND  vendorDtls.company_id=$P{companyId}
+        AND  (vendorDtls.vendor_id= $P{vendorId} OR $P{vendorId} = -1)
+        AND  (a.Emp LIKE '%$P!{employeeCode}%')
+        AND  (a.Emp_Name LIKE '%$P!{employeeName}%')
+        AND  Business_Date BETWEEN STR_TO_DATE($P{fromdate},'%d/%m/%Y') AND STR_TO_DATE($P{todate},'%d/%m/%Y')
+   ;]]>
+	</queryString>
+	<field name="count(*)" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="50" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="555" height="50" uuid="a2fad2a9-55c0-4c5f-97f6-41ee962d6aae">
+					<printWhenExpression><![CDATA[!$F{count(*)}.equals("0") ? true : false]]></printWhenExpression>
+				</reportElement>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="AttendanceTable" uuid="9d083dc2-497a-4901-955c-3744e09a0cee">
+						<datasetParameter name="customerId">
+							<datasetParameterExpression><![CDATA[$P{customerId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="companyId">
+							<datasetParameterExpression><![CDATA[$P{companyId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="vendorId">
+							<datasetParameterExpression><![CDATA[$P{vendorId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="year">
+							<datasetParameterExpression><![CDATA[$P{year}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="month">
+							<datasetParameterExpression><![CDATA[$P{month}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="employeeCode">
+							<datasetParameterExpression><![CDATA[$P{employeeCode}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="employeeName">
+							<datasetParameterExpression><![CDATA[$P{employeeName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fromdate">
+							<datasetParameterExpression><![CDATA[$P{fromdate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="todate">
+							<datasetParameterExpression><![CDATA[$P{todate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="schemaName">
+							<datasetParameterExpression><![CDATA[$P{schemaName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="71" uuid="a018d7ce-502b-4156-80fd-bb76556fd68e">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="71" height="13" uuid="211d9827-7ca4-428b-a642-ca2691c48455"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Vendor_Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="71" height="20" uuid="8e654191-86dc-4042-a387-4a4b86448c95"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{CODE}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="92db0629-cf71-46e9-9ea7-58690f3202d2">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="13" uuid="6c6e42fb-11c4-42d7-b249-eeeca1b7729c"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Vendor_Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="a7ff2d80-787b-4c48-ae86-5f825c6e7a01"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Contractor}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="64" uuid="bc053b1e-aac3-4fde-bfdd-c5b62f6814de">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="64" height="13" uuid="968f90f5-4ee0-495f-9216-822b036949a1"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Worker_Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="64" height="20" uuid="401c259b-f00c-46b2-9455-79eb807b0810"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{IDNo}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="b7e1bc9f-7725-4c4b-98cd-32cee595a6d7">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="13" uuid="91b4be4c-d745-4af7-892e-edb77a323651"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Worker_Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="47485d93-3b7e-4f4d-9b45-014f7a2522af"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{WorkMen}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="2428d92d-9583-439d-b192-b90184f337e0">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="39" height="13" uuid="ad909dce-c14a-4132-86fb-b7b2d392bf14"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Shift]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="39" height="20" uuid="c505ff4c-e34f-4eb1-98cd-204ffafd1f3d"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Shift}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="74" uuid="92938b4f-401b-4c1b-987f-7ebb746c713c">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="74" height="13" uuid="93017100-9d85-4f70-8639-abbc0ee64add"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Business_Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="74" height="20" uuid="15b80cec-9643-431c-8b96-9af603db8a52"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="46" uuid="b7dffc41-20f8-4e38-af5d-2ed05d444dbe">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="46" height="13" uuid="87aadec1-b352-4686-a621-cc9a76650833"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[In_Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="yyyy-MM-dd HH:mm:ss" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="46" height="20" uuid="98736d5e-e7fc-450f-b30e-1f855daa3d5c"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{InTime}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="8331a9c1-7943-4ea1-b06b-716641c646d5">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="58" height="13" uuid="e85a28c3-5b39-4276-9f59-49b340b8d5cc"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Out_Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField pattern="yyyy-MM-dd HH:mm:ss" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="58" height="20" uuid="b7fc6f94-175b-46dd-adf9-d35e3727e063"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{OutTime}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="95" uuid="d9943f32-b3e0-4e13-ada6-3328d92354db">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="95" height="13" uuid="35851bff-78e7-40a4-98b9-ab876ac38262"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Attendance_Status]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="95" height="20" uuid="49186cd7-af1e-4f43-af17-5b05258e17e3"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Status}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="04909442-9b33-4b50-8bec-2923315e26a8">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="13" uuid="a14bb68b-8a18-4c3f-a18a-95155846f998"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[Man_Hours]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="55" height="20" uuid="8d249559-330d-4be5-91d3-75417e614df6"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ManHrs}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="9d85de9d-31ff-4702-8e05-b1543c7284f9">
+						<jr:columnHeader style="table 1_CH" height="13" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="57" height="13" uuid="8a98847b-92a2-4597-8787-38e2a865d922"/>
+								<textElement>
+									<font fontName="SansSerif" size="8"/>
+								</textElement>
+								<text><![CDATA[OT_Hours]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="57" height="20" uuid="9d89c8d4-e0f5-4b17-9012-cdda2639cf99"/>
+								<textElement>
+									<font fontName="SansSerif" size="5"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{OT}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

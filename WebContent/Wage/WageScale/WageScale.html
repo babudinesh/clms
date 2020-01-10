@@ -1,0 +1,314 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Define Wage Scale</h3>
+		<form id="wageScaleForm">
+     		<div class="col-md-12">
+        	<br/>
+        	
+        		<div class="panel panel-primary" ng-show="transactionList">
+        			<div  class="panel-heading">
+        				<h5 class="cls_plainheader"> Search : </h5>
+        			</div>
+					<div class="container">
+					
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-6 select-box">
+	                                    <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" name="transactionModel"  id="transactionModel" ng-disabled="readOnly">
+	                                    	<option value="">Select</option>
+	                                    </select>    
+	                                    <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                      											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			  		<hr class="pull-left" style="width: 105%" />
+				</div>
+            	<br/>
+            
+	            <div class="panel panel-primary">
+	            
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+                            <div class="form-group">
+                                <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="wageScale.customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="custName" ng-disabled="readOnlyVar" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="locationName" class="col-md-4 control-label required">Location Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-model="wageScale.locationId" ng-options="item.id as item.name for item in locationList " class="form-control" id="locationName" name="locationName"  ng-disabled="readOnlyVar" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="wageScaleCode" class="col-md-4 control-label required">Wage Scale ID</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="wageScaleCode" class="form-control"  ng-model="wageScale.wageScaleCode" id="wageScaleCode" placeholder="Wage Scale ID" ng-disabled="readOnlyVar" required maxlength="45"/>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="wageCode" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-change="companyChange()" ng-model="wageScale.companyId" ng-options="item.id as item.name for item in companyList" class="form-control" id="compName"  name="compName" ng-disabled="readOnlyVar"  required>
+										<option value="">Select</option>
+									</select>       
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                         
+								</div>
+                            </div>
+
+                            
+							<div class="form-group">
+                                <label for="status" class="col-md-4 control-label required">Country</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="wageScale.countryId" name="countryId"
+											ng-options="item.id as item.name for item in countriesList"
+											class="form-control" id="countryId"  ng-disabled="readOnlyVar"
+											required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+
+									</div>
+								</div>
+						</div>
+					</div>
+				</div>
+</div>
+		   		<br />
+		   		
+            	<div class="panel panel-primary">
+           			<div  class="panel-heading">
+        	 			<h5>Define Wage Scale</h5>
+        			</div>
+             			<div class="sepr">
+                  
+                    	<div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control" ng-model="transactionDate" id="transactionDate" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required />
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group">
+	                                <label for="wageRateName" class="col-md-4 control-label required">Wage Scale Name</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control" ng-model="wageScale.wageScaleName" id="wageName" placeholder="Wage Scale Name" name="wageName" maxlength="45" ng-disabled="readOnly" required/>
+	                                </div>
+	                            </div>
+	
+	                            
+	
+	                        </div>
+
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="isActive" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select  ng-model="wageScale.isActive" ng-options="item.id as item.name for item in list_status" class="form-control" id="isActive"  ng-disabled="readOnly" name="isActive" title="Please select  status" required>                                 	
+                                 		</select>
+                                 		<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+	                                </div>
+	                            </div>
+	                            
+	                           
+	                        </div>
+	                        </div>
+	                   
+							
+							<div class="row">
+								<div class="panel panel-primary" style="margin: 15px ">
+	                      
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>Job Skill</th>
+												<th>From</th>
+												<th>To</th>
+												<th>Currency</th>
+												<th>Frequency</th>
+												<th><i class="fa fa-plus" data-toggle="modal"
+													data-target="#WorkSkill" ng-click="plusIconAction()" ng-show="gridButtons"> </i></th>
+
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng:repeat="i in wageScale.wageScaleWorkSkillList"
+												on-last-repeat>
+												<td>{{i.workSkll}}</td>
+												<td>{{i.from}}</td>
+												<td>{{i.to}}</td>
+												<td>{{i.currencyName}}</td>
+												<td>{{i.frequency}}</td>
+												<td><i ng-click="Delete($event)"
+													class="fa fa-trash" ng-show="gridButtons"></i></td>
+												<td><i ng-click="Edit($event)"
+													class="fa fa-edit" data-toggle="modal"
+													data-target="#WorkSkill" ng-show="gridButtons"></i></td>
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+
+               		</div>
+           	 	</div>
+            
+       		
+		</form>
+        <div class="btn-group btn-group-right pull-right">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || validateWageScaleCode($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || validateWageScaleCode($event)">Correct History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+			 <a href="#/wageScaleSearch" class="btn btn-primary">Return to search</a>
+		</div>
+	</div>
+	 
+	<div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+
+<form id="WorkSkillForm">
+	<!-- Modal -->
+	<div class="modal fade" id="WorkSkill" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Define Wage Scale Skills</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="workSkll"
+											class="col-md-4 control-label  required">Job Skill</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="wageScaleWorkSkill.workSkll"
+												ng-options="item.id as item.name for item in list_jobCategory "
+												class="form-control" id="workSkll" required>
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="workSkll"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="fromHours" class="col-md-4 control-label required">From
+											</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="wageScaleWorkSkill.from"
+												name="fromHours" class="form-control onlyNumbers"
+												id="fromHours" placeholder="From" required
+												minlength="1" maxlength="5" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="toHours" class="col-md-4 control-label required">To
+											</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="wageScaleWorkSkill.to"
+												name="toHours" class="form-control onlyNumbers"
+												id="toHours" placeholder="To" minlength="1"
+												maxlength="5"  required/>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="Currency" class="col-md-4 control-label required">Currency</label>
+										<div class="col-md-8 select-box">
+											<!-- 	{{wageScaleWorkSkill.currency}} -->
+											<select ng-model="wageScaleWorkSkill.currency"
+												ng-options="item.id as item.name for item in currencyList "
+												class="form-control" id="currency" name="currency" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="Currency" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="statusCode"
+											class="col-md-4 control-label required">Frequency</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="wageScaleWorkSkill.frequency"
+												ng-options="item.id as item.name for item in list_Frequency "
+												class="form-control" id="Frequency" name="frequency" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="Frequency" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary"
+						ng-click="saveDetails($event)" onclick="return false;"
+						ng-show="popUpSave">Save</button>
+					<button class="btn btn-primary"
+						ng-click="updateDetails($event)" onclick="return false;"
+						ng-show="popUpUpdate">Update</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal"
+						ng-show="popUpSave">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>
+
+				                            

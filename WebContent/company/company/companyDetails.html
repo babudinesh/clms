@@ -1,0 +1,428 @@
+<!-- <link rel="stylesheet" href="/company/create/all.css"/> -->
+<div class="body">	
+   
+         
+    <div class="container-fluid  childGrid">
+    <form id="CompanyDetails" name="CompanyDetails" novalidate ng-submit="submit" >
+        <div class="col-md-12 well">
+        <h3 class="cls_plainheader">Company Details</h3>
+         
+        
+           <!--  <div class="navbar navbar-default">
+              <div class="container-fluid">
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>     
+                </div>
+                <div class="navbar-collapse collapse navbar-responsive-collapse">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#/companyDetailsSearch">Company</a></li>
+                    <li><a href="#/companyProfile">Profile</a></li>
+                    <li><a href="#/companyContctsSearch" ng-click="">Contacts</a></li>  
+                  </ul>
+                </div>
+              </div>
+            </div> -->
+            <br />
+					<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">
+					<h5 > Search : </h5>
+					</div>
+						<div class="container">
+							
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6 select-box">
+                                            <select  ng-model="transactionModel" ng-change="fun_Company_Trans_Change()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                            <option value="">Select</option>
+                                            </select>      
+                                            
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>                                   											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr class="pull-left" style="width: 105%" />
+					</div>
+
+			
+            <div class="col-md-12">
+             <ul class="nav nav-tabs">
+                    <li class="active"><a href="#/companyDetails/create" ng-show="newCompany" >Company</a></li>
+                    <li class="active"><a href="#/companyDetails/{{companyInfoId}}" ng-show="editCompany">Company</a></li>
+                    <li><a href="#/companyProfile">Profile</a></li>
+                    <li><a href="#/companyContctsSearch" ng-click="">Contacts</a></li>  
+                  </ul>
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                 <h5>Customer Information</h5>
+                </div>
+                
+                    <div class="sepr">                                        
+                    <input type="hidden" ng-model="company.companyInfoId" />
+                    <input type="hidden" ng-model="company.customerDetailsId"/>
+                    <input type="hidden" ng-model="company.companyDetailsId"/>
+                    <input type="hidden" ng-model="company.uniqueId"/>
+                    
+                    <div class="row">
+                            
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label for="companyCode" class="col-md-4 control-label required">Customer Name </label>                                  
+                                        <div class="col-md-8 select-box">
+                                        <select  ng-model="company.customerDetailsId" ng-options="item.customerId as item.customerName for item in list_customerList " class="form-control" ng-change="fun_Customer_Change()" id="customerDetailsId" ng-disabled="readOnly" required>
+                                            <option value="">Select</option>
+                                            </select> 
+                                            
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                        </div>
+                                    </div>                                  
+                                	<div class="form-group">
+                                    <label for="companyCode" class="col-md-4 control-label required">Company Code</label>
+                                    <div class="col-md-8">
+                                        <input type="text" style="text-transform: uppercase" class="form-control" id="companyCode" placeholder="Company Code" ng-model="company.companyCode" name="companyCode"   ng-disabled="readOnly" maxlength="45" required/>
+                                    </div>
+                                    </div>
+                                   
+                                </div>
+                                <div class="col-md-6">
+                                        
+                                        <div class="form-group">
+                                        <label for="companyName" class="col-md-4 control-label required"> Company Name </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="companyName" placeholder="Company Name" ng-model="company.companyName" name="companyName"   maxlength="45" ng-disabled="readOnly" required/>
+                                        </div>
+                                        </div>
+                                        <div class="form-group">
+                                         <label for="countryId" class="col-md-4 control-label required"> Country </label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="company.countryId" name="countryId" ng-options="item.countryId as item.countryName for item in list_countries" class="form-control" id="countryId" title="Please Select Country" ng-disabled="readOnly" required>
+                                                <option value="">Select</option>
+                                                </select>           
+                                                
+                                                <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>                                                                      
+                                        </div>
+                                        </div>
+                                    </div>
+                                
+                                
+                             
+                      </div>
+                    </div>    </div>                      
+                <br />
+                 <div class="panel panel-primary">
+                 <div class="panel-heading">
+                 <h5 >Company Details</h5>
+                </div>
+                    <div class="sepr"> 
+                       
+                        <div class="row">
+                             <div class="col-md-6">
+                             <div class="form-group">
+                                    <label for="transactionDate" class="col-md-4 control-label required">Effective From Date </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="transactionDate" data-dtp="dtp_cdo8l" readonly="true"   placeholder="Effective From Date &#xf073;" ng-model="transactionDate" name="transactionDate"    ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sectorId" class="col-md-4 control-label required">Sector</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-model="company.sectorId" name="sectorId" ng-options="item.id as item.name for item in list_company_sectors " class="form-control" id="sectorId"  ng-disabled="readOnly" required title="Please select Sector">
+                                            <option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                            
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="industryId" class="col-md-4 control-label required">Industry</label>
+                                    <div class="col-md-8 select-box">
+                                        
+                                         <select  ng-model="company.industryId" name="industryId" ng-options="item.id as item.name for item in list_industries" class="form-control" id="industryId"  ng-disabled="readOnly" ng-change="fun_Industrychange()" required title="Please select Industry">
+                                            <option value="">Select</option>
+                                            </select>  
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>                                                                             
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="isActive" class="col-md-4 control-label required">Status</label>
+                                    <div class="col-md-8 select-box">
+                                        <select id="isActive" class="form-control" ng-model="company.isActive" name="isActive"   ng-disabled="readOnly" required>
+                                            <option value="Y"> Active </option>
+                                            <option value="N"> In-Active </option>                                           
+                                        </select>
+                                        <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="legacyId" class="col-md-4 control-label ">Company Legacy ID </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="legacyId" placeholder="Company Legacy ID" ng-model="company.legacyId" name="legacyId"   ng-disabled="readOnly"/>
+                                    </div>
+                                </div>
+
+                               <div class="form-group">
+                                    <label for="subIndustryId" class="col-md-4 control-label ">Sub Industry </label>
+                                    <div class="col-md-8 select-box">
+                                        
+                                        <select  ng-model="company.subIndustryId" ng-options="item.id as item.name for item in list_sub_industries " class="form-control" id="subIndustryId"  ng-disabled="readOnly" >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <br />
+            <div class="col-md-12">
+
+                <div class="panel panel-primary">
+	                <div class="panel-heading">
+	                 	<h5 >Company Registration Details</h5>
+	                </div>
+                    <div class="sepr">
+                        
+                        <div class="row">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="corporateIdentityNumber" class="col-md-4 control-label">Corporate Identity Number</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="corporateIdentityNumber" placeholder="Corporate Identity Number" ng-model="company.corporateIdentityNumber" name="corporateIdentityNumber"   ng-disabled="readOnly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="rocRegistrationNumber" class="col-md-4 control-label required"> Registration Number</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="rocRegistrationNumber" placeholder=" Registration Number"  ng-model="company.rocRegistrationNumber" name="rocRegistrationNumber" maxlength="25"  ng-disabled="readOnly" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="serviceTaxRegistrationNumber" class="col-md-4 control-label">Service Tax Number</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="serviceTaxRegistrationNumber" placeholder="Service Tax Number"  ng-model="company.serviceTaxRegistrationNumber" maxlength="45"  name="serviceTaxRegistrationNumber"   ng-disabled="readOnly" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="registrationDate" class="col-md-4 control-label">Registration Date</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="registrationDate"  data-dtp="dtp_cdo8l" readonly="true"   placeholder="Registration Date  &#xf073;"  ng-model="registrationDate"  name="registrationDate"   ng-disabled="readOnly" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="registrationActId" class="col-md-4 control-label">Registered Under</label>
+                                        <div class="col-md-8 select-box">
+                                            
+                                            <select  ng-model="company.registrationActId" ng-options="item.id as item.name for item in list_registration_acts" class="form-control" id="registrationActId"  ng-disabled="readOnly" >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-hide=true>
+                                        <label for="tinNumber" class="col-md-4 control-label">TIN Number</label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="tinNumber" placeholder="TIN Number"  ng-model="company.tinNumber" name="tinNumber"   ng-disabled="readOnly"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="panel panel-primary pandit" ng-hide=true>
+							<div class="panel-heading">
+							 	<h5 >PAN Details</h5>
+							</div>
+                            <div class="sepr">
+                               
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="panNumber" class="col-md-4 control-label">Company PAN</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control capitalize" id="panNumber" placeholder="Company PAN"  ng-model="company.panNumber" name="panNumber"   ng-disabled="readOnly"/>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="panRegistrationDate" class="col-md-4 control-label">PAN Registration Date</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="panRegistrationDate"  data-dtp="dtp_cdo8l" readonly="true"   placeholder="PAN Registration Date  &#xf073;"  ng-model="panRegistrationDate" name="panRegistrationDate"   ng-disabled="readOnly"/>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-primary pandit" ng-hide=true>
+							<div class="panel-heading">
+								<h5>PF Details</h5>
+							</div>
+                            <div class="sepr">
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="pfNumber" class="col-md-4 control-label">PF Account Number</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="pfNumber" placeholder="PF Account Number" ng-model="company.pfNumber" name="pfNumber"   ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="pfStartDate" class="col-md-4 control-label">PF Start Date</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="pfStartDate" data-dtp="dtp_cdo8l" readonly="true"   placeholder="PF Start Date  &#xf073;" ng-model="pfStartDate"  name="pfStartDate"   ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="pfRegistrationDate" class="col-md-4 control-label">PF Registration Date</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="pfRegistrationDate"  data-dtp="dtp_cdo8l" readonly="true"   placeholder="PF Registration Date  &#xf073;" ng-model="pfRegistrationDate" name="pfRegistrationDate"   ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="pfTypeId" class="col-md-4 control-label">PF Type</label>
+                                                <div class="col-md-8 select-box">
+                                                    <select  ng-model="company.pfTypeId" ng-options="item.id as item.name for item in list_providentFundTypes " class="form-control" id="pfTypeId"  ng-disabled="readOnly" >
+                                            			<option value="">Select</option>
+                                            		</select> 
+		                                            <span class="input-group-btn">
+		                                     			<label for="Select1" class="fa fa-caret-down"></label>
+		                                        	</span>
+                                                                                                       
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-primary pandit" ng-hide=true>
+                        	<div class="panel-heading">
+                            	<h5>ESI Details</h5>
+                            </div>
+
+                            <div class="sepr">
+                            
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="esiNumber" class="col-md-4 control-label">ESI Account Number</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="esiNumber" placeholder="ESI Account Number" ng-model="company.esiNumber" name="esiNumber"   ng-disabled="readOnly" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="esiStartDate" class="col-md-4 control-label">ESI Start Date</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="esiStartDate"  data-dtp="dtp_cdo8l" readonly="true"   placeholder="ESI Start Date  &#xf073;" ng-model="esiStartDate"  name="esiStartDate"   ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="esiRegistrationDate" class="col-md-4 control-label">ESI Registration Date</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control"  id="esiRegistrationDate"  data-dtp="dtp_cdo8l" readonly="true"   placeholder="ESI Registration Date  &#xf073;" ng-model="esiRegistrationDate" name="esiRegistrationDate"   ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>	
+                    </div>
+                </div>
+            </div>
+            <div  class="btn-group btn-group-right pull-right">
+	            <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn  && buttonArray.includes('UPDATE')" ng-click="updateCompanyBtnAction($event)"> Update </a>
+				<button class="btn btn-primary" ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click=" enable || fun_save_company_details($event)" onclick="return false;">Save</button> 
+				<button class="btn btn-primary" ng-show="currentHistoryBtn && buttonArray.includes('CORRECT HISTORY')"  type="submit" ng-click="enable || fun_save_company_details($event)" onclick="return false;"> Correct History </button>		
+				<button class="btn btn-primary" ng-show="resetBtn"  type="reset"> Reset </button>
+				<a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+				<a href="javascript:void(0)" class="btn btn-primary"  ng-show="addrHistory && buttonArray.includes('VIEW HISTORY')" ng-click="historyBtnAction($event)"> View Or Update History </a>
+                <a href="#/companyDetailsSearch" class="btn btn-primary"  ng-show="returnTOSearchBtn">Return To Search</a>		
+				
+            </div>
+
+        </div>
+        
+
+        <div class="container-fluid">
+            <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+                <div class="container text-right">
+                    <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+                </div>
+            </div>
+        </div>
+        </form>
+        </div>
+   
+  </div>

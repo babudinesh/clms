@@ -1,0 +1,115 @@
+
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader"> Module Transaction </h3>
+		<div class="col-md-12">
+			<a class="btn btn-primary pull-right" 
+				href="#/approvalPathTransaction/0">Add New Module Transaction <i
+				class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+			<div class="panel panel-primary">	
+				<div class="panel-heading">
+					<h5>Search Module </h5>
+				</div>	
+				<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerId" class="col-md-4 control-label "> Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="transaction.customerId" ng-options="item.customerId as item.customerName for item in customerList "  class="form-control" id="customerId" >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="approvalPathModuleId" class="col-md-4 control-label "> Module Code</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="transaction.approvalPathModuleId" ng-options='item.approvalPathModuleId as (item.moduleCode+ " (" +item.moduleName+ ")") for item in moduleList '  class="form-control" id="approvalPathModuleId" >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="transactionCode" class="col-md-4 control-label "> Transaction Code</label>
+									<div class="col-md-8 select-box">
+										<input type="text" class="form-control" ng-model="transaction.transactionCode" name="transactionCode" id="transactionCode" maxlength="25">
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">	
+								<div class="form-group">
+									<label for="companyId" class="col-md-4 control-label "> Company Name</label>
+									<div class="col-md-8 select-box ">
+										<select ng-change="companyChange()" ng-model="transaction.companyId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyId" >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="status" class="col-md-4 control-label "> Status </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="transaction.isActive" ng-options="item.id as item.name for item in statusList " class="form-control" id="userId" >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+									
+								<div class="form-group">
+									<label for="transactionName" class="col-md-4 control-label "> Transaction Name</label>
+									<div class="col-md-8 select-box">
+										<input type="text" class="form-control" ng-model="transaction.transactionName" name="transactionName" id="transactionName" maxlength="25">
+									</div>
+								</div>	
+								<a class="btn btn-primary col-md-3"
+										ng-click="fun_search()">Search <i class="fa fa-search"></i></a>					
+								<a class="btn btn-warning col-md-3 "
+										ng-click="fun_clearSearchFields($event)">Clear <i
+										class="fa fa-times"></i></a>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="panel panel-default" ng-show="tableView">
+				<br />
+				<div class="sepr">
+					<table id="searchResults" class="table table-striped">
+						<thead>
+							<tr>
+								<th>Module Name</th>
+								<th>Transaction Code</th>
+								<th>Transaction Name</th>
+								<th>Effective Date</th>
+								<th>Created Date</th>
+								<th>Modified Date</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<br />
+		</div>
+		<div class="container-fluid">
+			<div class="navbar navbar-default navbar-fixed-bottom text-center"
+				style="min-height: 15px; padding: 0px;">
+				<div class="container text-right" style="">
+					<label class="control-label text-center"
+						style="color: white !important; margin: 0px; font-size: 14px;">@Copyright</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

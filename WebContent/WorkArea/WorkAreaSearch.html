@@ -1,0 +1,175 @@
+<!-- <link href="WorkArea/WorkAreaSearch/WorkAreaSearch.css" rel="stylesheet" /> -->
+
+
+
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Work Area Search</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" ng-href="#/WorkAreaAdd/0" ng-show="buttonArray.includes('ADD')">Add New Work Area <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+            <div class="panel-heading">
+             <h5>Search Existing Work Area</h5>
+            </div>
+                <div class="sepr">
+                   
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="CustomerName" class="col-md-4 control-label">Customer Name</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="custName" >
+						 				<option value="">Select</option>
+                                    </select>  
+                                    
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                              
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="LocationName" class="col-md-4 control-label">Location Name</label>
+                                <div class="col-md-8 select-box">
+                                   <select  ng-change="locationChange()"  ng-model="locationName" ng-options="item.locationId as item.locationName for item in locationList" class="form-control" id="locationName" >
+						 				<option value="">Select</option>
+                                    </select>
+                                    
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                </div>
+                            </div>
+                              <div class="form-group">
+                                <label for="departmentIdName" class="col-md-4 control-label">Department</label>
+                                <div class="col-md-8 select-box">
+                                    <select  ng-model="departmentId" ng-options="item.departmentId as item.departmentName for item in departmentList" class="form-control" id="departmentId" ng-change="departmentChange()" ng-disabled="readOnly">
+						 				<option value="">Select</option>
+                                    </select>									                                    
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                            
+                            
+                            
+                             <div class="form-group">
+                                <label for="status" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select class="form-control" id="status" ng-model="status">
+                                        <option value="Y">Active</option>
+                                        <option value="N">In Active</option>
+                                    </select>
+                                    
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Companyname" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                    <select  ng-change="companyChange()"  ng-model="companyName" ng-options="item.id as item.name for item in companyList" class="form-control" id="cmpName" >
+						 				<option value="">Select</option>
+                                    </select>
+                                    
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="plantId" class="col-md-4 control-label">Plant Name</label>
+                                <div class="col-md-8 select-box">
+                                    <select  ng-model="plantId" ng-options="item.plantId as item.plantName for item in plantList" class="form-control" id="plantId"  ng-change="plantChange()">
+						 				<option value="">Select</option>
+                                    </select>
+                                    
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                </div>
+                            </div>
+                           <div class="form-group">
+                                <label for="sectionId" class="col-md-4 control-label"> Section Name </label>
+                                <div class="col-md-8 select-box">
+                                     <select  ng-model="sectionId" ng-options="item.sectionDetailsId as item.sectionName for item in sectionList" class="form-control" id="sectionId" >
+						 				<option value="">Select</option>
+                                    </select>                                    
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                           <div class="form-group">
+                                <label for="workAreaName" class="col-md-4 control-label">Work Area Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="workAreaName" ng-model="workAreaName" placeholder="Work Area Name" maxlength="50" required />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="search()">Search <i class="fa fa-search"></i></a>
+                                <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary" ng-show="resultDataView">
+            
+            <div class="panel-heading" >
+             <h5>Search Result</h5>
+            </div>
+                <div class="sepr">
+                    <div class="row">
+                       
+                        <table class="table table-striped" id="workAreaTable">
+                            <thead>
+                                <tr>
+                               		 <th>Customer Name</th>
+                                    <th>Company Name</th>
+                                    <th>Work Area code</th>
+                                    <th>Work Area Name</th>                                    
+                                    <th>Location Name</th>
+                                    <th>Plant Name</th>
+                                    <th>Section Name</th>                                    
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td><a ng-href="#/WorkAreaAdd/{{i.workAreaDetailsId}}">{{i.workAreaCode}}</td>
+                                     <td>{{i.workAreaName}}</td>
+                                    <td>{{i.customerName}}</td>
+                                    <td>{{i.companyName}}</td>
+                                    <td>{{i.locationName}}</td>
+                                    <td>{{i.plantName}}</td>
+                                    <td>{{i.sectionName}}</td>                                   
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.status}}</td>
+                                </tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>

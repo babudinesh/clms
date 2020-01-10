@@ -1,0 +1,737 @@
+
+
+
+<div class="container-fluid">
+	<form id="workerPoliceVerificationForm"
+		name="workerPoliceVerificationForm" novalidate ng-submit="submit">
+		<div id="wizard" class="swMain">
+			<ul class="anchor">
+				 <li>
+				 <a
+					ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}"
+					class="disabled" isdone="0" rel="1"> <label class="stepNumber">1</label>
+						<span class="stepDesc">Worker<br> <!--  <small>Create a layout</small> -->
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i></li>
+				<li>
+				<a ng-click="workerFamilyDetails($event) || enable"
+					class="disabled" isdone="0" rel="2"> <label class="stepNumber">2</label>
+						<span class="stepDesc">Family Details<br>
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i>
+				</li>
+				<li><a ng-click="workerMedicalExamination($event) || enable"
+					class="disabled" isdone="0" rel="3"> <label class="stepNumber">3</label>
+						<span class="stepDesc">Medical Safety<br>
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i>
+				</li>
+				<li><a ng-click="policeVerification($event) || enable"
+					class="selected" isdone="1" rel="4"> <label class="stepNumber">4</label>
+						<span class="stepDesc">Police Verification<br>
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i>
+				</li>
+				  <li ><a ng-click="workerVerification($event)" class="disabled"
+					isdone="0" rel="5"> <label class="stepNumber">5</label> <span
+						class="stepDesc">Verification<br>
+					</span>
+				</a><i class="fa fa-play pull-right disabled" aria-hidden="true"></i></li>
+				  <li><a ng-click="workerJobDetails($event)" class="disabled"
+					isdone="0" rel="6"> <label class="stepNumber">6</label> <span
+						class="stepDesc"> Job Details </span>
+				</a> <i class="fa fa-play pull-right selected" aria-hidden="true"></i></li>
+				<li><a ng-click="workerbadgeGeneration($event)"
+					class="disabled" isdone="0" rel="7"> <label class="stepNumber">7</label>
+						<span class="stepDesc">Badge Generation<br>
+					</span>
+				</a></li>
+			</ul>
+
+		</div>
+		<div class="col-md-12 well">
+			<h3 class="cls_plainheader">Police Verification</h3>
+			<br />
+
+			<div class="panel panel-primary">
+				<div class="sepr">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="custName" class="col-md-4 control-label">Customer
+									Name</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="customerName"
+										placeholder="Customer Name" type="text" name="workerCode"
+										ng-disabled="true"/>
+								</div>
+							</div>
+							<div class="form-group is-empty">
+								<label for="countryId" class="col-md-4 control-label">Country
+									Name</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="countryName"
+										placeholder="Country Name" type="text" name="workerCode"
+										ng-disabled="true"/>
+								</div>
+							</div>
+
+							<div class="form-group is-empty">
+								<label for="workerCode" class="col-md-4 control-label">Worker
+									Code</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="workerCode"
+										placeholder="Worker Code" type="text" name="workerCode"
+										ng-disabled="true"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="fatherNamelabel"
+									class="col-md-4 control-label ">Father/Spouse Name</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control bothNumbersAndAlphabets"
+										ng-model="fatherSpouseName" id="fatherName"
+										name="fatherName" placeholder="Father Name"  ng-disabled="true"
+										 />
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="mobileNumberName"
+									class="col-md-4 control-label ">Mobile Number</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="mobileNumber"
+										class="form-control " placeholder="Mobile Number"
+										name="mobileNumber" id="mobileNumber"  ng-disabled="true" >
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="nationalityName"
+									class="col-md-4 control-label">Nationality</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="nationality"
+										class="form-control " placeholder="Nationality"
+										name="nationality" id="nationality"  ng-disabled="true">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="PermanentAddrName"
+									class="col-md-4 control-label">Permanent Address</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="permanentAddress"
+										class="form-control " placeholder="Permanent Address"
+										name="PermanentAddress" id="PermanentAddress"  ng-disabled="true">
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="cmpName" class="col-md-4 control-label">Company
+									Name</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="companyName"
+										placeholder="Company Name" type="text" name="workerCode"
+										ng-disabled="true" />
+								</div>
+							</div>
+
+							<div class="form-group is-empty">
+								<label for="venName" class="col-md-4 control-label">Vendor
+									Name</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="vendorName"
+										placeholder="Vendor Name" type="text" name="workerCode"
+										ng-disabled="true"/>
+								</div>
+							</div>
+
+							<div class="form-group is-empty">
+								<label for="WorkerName" class="col-md-4 control-label">Worker
+									Name</label>
+								<div class="col-md-8">
+									<input class="form-control" ng-model="firstName"
+										placeholder="Worker Name" type="text" name="WorkerName"
+										ng-disabled="true"/>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="motherName" class="col-md-4 control-label">Mother
+									Name</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="motherName"
+										class="form-control" name="motherName" id="motherName"
+										placeholder="Mother Name"  ng-disabled="true"
+										>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="LanguageName"
+									class="col-md-4 control-label">Language</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="language"
+										class="form-control" name="language" id="language"
+										placeholder="language"  ng-disabled="true">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="educationName"
+									class="col-md-4 control-label">Education</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="education"
+										class="form-control" name="education" id="education" 
+										placeholder="Education" ng-disabled="true">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="LoaclAddName"
+									class="col-md-4 control-label">Local Address</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="localAddress"
+										class="form-control " placeholder="Local Address"
+										name="localAddress" id="localAddress"  ng-disabled="true">
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" style="margin-top:-26px">
+							<div class="form-group" >
+								<label for="previousEmployerlabel"
+									class="col-md-4 control-label">Police Station</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control bothNumbersAndAlphabets"
+										ng-model="workerPoliceVerification.policeStation"
+										id="previousEmployer" name="previousEmployer"
+										placeholder="Previous Employer" maxlength="50" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" style="margin-top:-26px">
+							<div class="form-group">
+								<label for="totalExperienceName" class="col-md-4 control-label ">District</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.district"
+										class="form-control" name="totalExperience"
+										id="totalExperience" placeholder="Total Experience"
+										 maxlength="45">
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-6" style="margin-top:-26px">
+
+							<div class="form-group">
+								<label for="visibleIdentificationMarksOneName"
+									class="col-md-12 control-label required">Visible
+									Identification Marks</label>
+								<div class="col-md-10">
+									<input type="text"
+										ng-model="workerPoliceVerification.visibleIdentificationMarksOne"
+										class="form-control" name="visibleIdentificationMarksOne"
+										id="visibleIdentificationMarksOne"
+										placeholder=" 1) Visible Identification Marks" 
+										maxlength="45" required>
+								</div>
+								<div class="col-md-10">
+									<input type="text"
+										ng-model="workerPoliceVerification.visibleIdentificationMarksTwo"
+										class="form-control" name="visibleIdentificationMarksTwo"
+										id="visibleIdentificationMarksTwo"
+										placeholder="2) Visible Identification Marks" 
+										maxlength="45" required>
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-6" style="margin-top:-26px">
+							<div class="form-group">
+								<label for="previousEmployerlabel"
+									class="col-md-4 control-label">Previous Employer</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control bothNumbersAndAlphabets"
+										ng-model="workerPoliceVerification.previousEmployer"
+										id="previousEmployer" name="previousEmployer"
+										placeholder="Previous Employer" maxlength="50" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6" style="margin-top:-26px">
+							<div class="form-group">
+								<label for="totalExperienceName" class="col-md-4 control-label ">Total Experience</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.totalExperience"
+										class="form-control" name="totalExperience"
+										id="totalExperience" placeholder="Total Experience"
+										 maxlength="45">
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-6" style="margin-top:7px">
+							<div class="form-group">
+								<label for="relativesOrFriendsNamelabel"
+									class="col-md-4 control-label">Relative/Friends Name </label>
+								<div class="col-md-8">
+									<input type="text" class="form-control bothNumbersAndAlphabets"
+										ng-model="workerPoliceVerification.relativesOrFriendsName"
+										id="relativesOrFriendsName" name="relativesOrFriendsName"
+										placeholder="Relatives Or Friends Name" maxlength="50" />
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6" style="margin-top:-74px">
+							<div class="form-group">
+								<label for="phoneNumberName" class="col-md-4 control-label">Phone
+									Number</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.phoneNumber"
+										class="form-control" name="phoneNumber" id="phoneNumber"
+										placeholder="Phone Number"  maxlength="45">
+								</div>
+							</div>
+
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="propertyDetailslabel" class="col-md-2 control-label">PropertyDetails
+									(Land,House,Shop & Vehicle Etc)</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control bothNumbersAndAlphabets"
+										ng-model="workerPoliceVerification.propertyDetails"
+										id="propertyDetails" name="propertyDetails"
+										placeholder="Property Details" maxlength="50" />
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="hobbiesName" class="col-md-4 control-label ">Hobbies</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="workerPoliceVerification.hobbies"
+										class="form-control" name="hobbies" id="hobbies"
+										placeholder="Hobbies"  maxlength="45">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="habitName" class="col-md-4 control-label ">Habit</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="workerPoliceVerification.habit"
+										class="form-control" name="habit" id="habit"
+										placeholder="Habit" maxlength="45">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="prohibitedActivityName"
+									class="col-md-4 control-label ">Prohibited Activity</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.prohibitedActivity"
+										class="form-control" name="prohibitedActivity"
+										id="prohibitedActivity" placeholder="Prohibited Activity"
+										minlength="2" maxlength="45">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="specialName" class="col-md-4 control-label ">Special
+									(Other)</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="workerPoliceVerification.special"
+										class="form-control" name="special" id="special"
+										placeholder="special"  maxlength="45">
+								</div>
+								
+							</div>
+							
+							
+									
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="dressesName" class="col-md-4 control-label ">Dresses</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="workerPoliceVerification.dresses"
+										class="form-control" name="dresses" id="dresses"
+										placeholder="Dresses"  maxlength="45">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="socialActivityName" class="col-md-4 control-label ">Social
+									Activity</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.socialActivity"
+										class="form-control" name="socialActivity" id="socialActivity"
+										placeholder="Social Activity"  maxlength="45">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="hiddenActivityName" class="col-md-4 control-label ">Hidden
+									Activity</label>
+								<div class="col-md-8">
+									<input type="text"
+										ng-model="workerPoliceVerification.hiddenActivity"
+										class="form-control" name="hiddenActivity" id="hiddenActivity"
+										placeholder="Hidden Activity"  maxlength="45">
+								</div>
+							</div>
+							
+						</div>
+						
+						<div class="col-md-6">
+						<div class="form-group">
+								<label for="hiddenActivityName" class="col-md-4 control-label "> </label>								
+									<a class="fa fa-plus addrow " data-toggle="modal"
+										data-target="#myModal"> Download PS Letter</a>
+								
+							</div>
+						</div>
+						<div class="col-md-6">										
+							<label for="Currency" class="col-md-4 control-label">Upload The Verified Document</label>
+							<div class="col-md-8">                  
+                                          	<input type ="file" file-policeexamin ="myFile"  name="fileName" id ="fileName" ng-model="workerPoliceVerification.fileName" onchange="angular.element(this).scope().getFileDetails(this)" />
+                                        <div ng-show="workerPoliceVerification.fileName != null && myFile == null">
+		                                		<a href ng-click="fun_download(workerPoliceVerification.filePath, workerPoliceVerification.fileName, '')" >{{workerPoliceVerification.fileName}}</a>
+		                                </div>
+							</div>	
+                            								
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h5>Identification Proof</h5>
+				</div>
+				<div class="sepr">
+					<div class="row">
+						<div class="col-md-12">
+							<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Identification Type</th>
+									<th>Number</th>
+									<th>Place Of Issue</th>
+									<th>Date Of Issue</th>
+									<th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#IdentificationModel" ng-click="plusIconAction()" > </i></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng:repeat="i in workerPoliceVerification.identityList"
+									on-last-repeat>
+									<td>{{i.identityType}}</td>
+									<td>{{i.identificationNumber}}</td>
+									<td>{{i.identityPlaceOfIssue}}</td>
+									<td>{{i.identityDateOfIssue}}</td>
+									<td><i ng-click="DeleteWorkDayStatus($event)" class="fa fa-trash" ></i></td>
+									<td><i ng-click="Edit($event)" class="fa fa-edit" data-toggle="modal" data-target="#IdentificationModel" ></i></td>
+								</tr>
+							</tbody>
+							</table>
+						</div>
+						<br />
+					</div>
+				</div>
+			</div>
+			
+			
+			</div>
+
+
+
+			<div class="btn-group btn-group-right pull-right">
+				 <a href="javascript:void(0)" class="btn btn-danger" ng-click="callingUrl($event)" > Proceed </a> 
+				<a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('SAVE')"
+					ng-click="fun_Save($event,true)">Save & Proceed</a> <a
+					href="javascript:void(0)" class="btn btn-primary"
+					ng-click="fun_Save($event,false)" ng-show="buttonArray.includes('SAVE')" >Save</a>
+				<button class="btn" ng-show="resetBtn" type="reset">Reset</button>
+				
+				
+				
+			</div>
+
+		</div>
+
+
+
+
+
+	</form>
+	
+	
+	<form id="countryForm" name="countryForm" style="font-size:12px;">
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<!-- <h4 class="modal-title">Letter</h4> -->
+						<!-- <a href="javascript:void(0)" class="btn btn-danger" ng-click="print($event)" > Print </a>  -->
+						
+					</div>
+					<div class="modal-body">
+						<div>
+						
+							 <div class="sepr">
+								<div class="row">
+								
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<label for="letterDateName" class="col-md-1 control-label required">Date</label>
+											<div class="col-md-3" style="padding:0px;margin-top:-10px">
+												<input type="text"
+													ng-model="dateOne"
+													class="form-control letterForPolice" name="dateOne" id="dateOne"
+													placeholder="Date" required>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<label for="letterDateName" class="col-md-1 control-label ">To,</label>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-3">
+											<label for="letterDateName" class="control-label ">	The Police Station</label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.thePoliceStationDetailsOne"
+													class="form-control letterForPolice" name="thePoliceStationDetailsOne" id="thePoliceStationDetailsOne"
+													  maxlength="45" required>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.thePoliceStationDetailsTwo"
+													class="form-control letterForPolice" name="thePoliceStationDetailsTwo" id="thePoliceStationDetailsTwo"
+													  maxlength="45" required>
+											</div>
+											
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-8">
+												<label for="letterDateName" class="control-label ">Sub: Information With Regards to Contract Labour</label>
+											</div>
+											
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-3">
+											<label for="letterDateName" class="control-label ">	Respected Sir,</label>
+											</div>
+											
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-4">
+												<label for="letterDateName" class="control-label">This is With reference to your letter No</label>
+											</div>
+											<div class="col-md-2" style="padding:0px;margin-top:-10px">
+												<input type="text"
+													ng-model="workerPoliceVerification.letterNumber"
+													class="form-control letterForPolice" name="letterNumber" id="letterNumber"
+													placeholder="Letter Number" maxlength="45" required>
+											</div>
+											<div class="col-md-2">
+												<label for="datedOnName" class="control-label ">Dated on</label>
+											</div>
+											<div class="col-md-2" style="padding:0px;margin-top:-10px">
+												<input type="text"
+													ng-model="datedOn"
+													class="form-control letterForPolice" name="datedOn" id="datedOn"
+													placeholder="Date"  maxlength="45" required>
+											</div>
+											<div class="col-md-2">
+											<label for="letterDateName" class="control-label ">	. We hereby </label>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+									<div class="form-group" style= "margin:2px !important">
+											<div class="col-md-12">
+										<label for="letterDateName" class="control-label ">		enclosed all the details of our workmen for your kind persual, as request you to kindly acknowledge the same.</label>
+											</div>
+									</div>		
+									</div>
+									
+									
+									<div class="col-md-12" >
+										<div class="form-group"  style= "margin:2px !important">
+											<label for="nameOfContractName" class="col-md-3 control-label required">Name of Contract</label>
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.nameOfContract"
+													class="form-control letterForPolice" name="nameOfContract" id="nameOfContract"
+													placeholder="Name of Contract"  maxlength="45" required>
+											</div>
+										</div>
+									</div>
+									
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<label for="letterDateName" class="col-md-3 control-label required">Contract engaged with</label>
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.contractEngagedWith"
+													class="form-control letterForPolice" name="contractEngagedWith" id="contractEngagedWith"
+													placeholder="Contract engaged with"  maxlength="45" required>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<label for="signatureofProprietorName" class="col-md-3 control-label required">Proprietor Name</label>
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.signatureOfProprietor"
+													class="form-control letterForPolice" name="signatureofProprietor" id="signatureofProprietor"
+													placeholder="Proprietor Name"  maxlength="45" required>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group"  style= "margin:2px !important">
+											<label for="dateTwoName" class="col-md-3 control-label required">Date</label>
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="dateTwo"
+													class="form-control letterForPolice" name="dateTwo" id="dateTwo"
+													placeholder="Date" required>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-12">
+										<div class="form-group" style= "margin:2px !important">
+											<label for="placeName" class="col-md-3 control-label required">Place</label>
+											<div class="col-md-3">
+												<input type="text"
+													ng-model="workerPoliceVerification.letterPlace"
+													class="form-control letterForPolice" name="place" id="place"
+													placeholder="Place"  maxlength="45" required>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">				
+					<button type="button" class="btn btn-warning col-md-3" data-dismiss="modal" ng-show="buttonArray.includes('SAVE')">Save</button>
+					<span class="btn btn-primary col-md-2" style="margin-top: 2px;" ng-click="fun_pdf_Download()" ng-show="buttonArray.includes('DOWNLOAD')" > Download <i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+				</div>
+			</div>
+		</div>
+</div>
+</form>
+
+<form id="identificationForm">
+	<!-- Modal -->
+	<div class="modal fade" id="IdentificationModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"  aria-label="Close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Identification Details</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="fromHours" class="col-md-4 control-label required">Identification Type</label>
+										<div class="col-md-8 select-box">
+											<select  ng-model="identification.identityType" ng-options="item.id as item.name for item in identificationTypeList" class="form-control" id="identificationTypeList"  name="identificationTypeList" ng-disabled="readOnly"  required>
+										<option value="">Select</option>
+									</select>       
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>   
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="NUmberCode" class="col-md-4 control-label required">Number</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="identification.identificationNumber" name="number" class="form-control" id="number" placeholder="Number" required  maxlength="45" />
+										</div>
+									</div>
+								</div>
+								<div class = "col-md-6">
+									<div class="form-group">
+										<label for="toHours" class="col-md-4 control-label required">Place Of Issue</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="identification.identityPlaceOfIssue" name="placeOfIssue" class="form-control" id="placeOfIssue" placeholder="Place Of Issue"  maxlength="45"  required/>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="statusDescription" class="col-md-4 control-label required">Date Of Issue</label>
+										<div class="col-md-8 ">
+											<input type="text" ng-model="identification.identityDateOfIssue" name="identityDateOfIssue" class="form-control" id="identityDateOfIssue" placeholder="Date Of Issue"  required/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="saveDetails($event)"  ng-show="popUpSave">Save</button>
+					<button class="btn btn-primary" ng-click="updateDetails($event)"  ng-show="popUpUpdate">Update</button>					
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>
+
+</div>
+
+
+
+
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,109 @@
+
+.form-control {
+    height: 31px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+legend {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #4cb8e7;
+    /* border-bottom: 1px solid #4cb8e7; */
+}
+
+.navbar-inverse {
+    background-image: linear-gradient(to bottom, #2c3e50 0%, #2c3e50 100%);
+    padding: 15px;
+}
+
+.panel {
+    margin-bottom: 0px;
+}
+
+.panel-info > .panel-heading {
+    background-image: linear-gradient(to bottom, #00508b 0%, #00508b 100%);
+    color: white;
+}
+
+.panel-info {
+    border: 1px solid #00508b;
+}
+
+.btn-info {
+    color: #fff;
+    background-color: #0072c6;
+    border-color: #0072c6;
+}
+
+.cls_address {
+    padding: 0px;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.cls_contact {
+    padding: 0px;
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.panel-body {
+    /*min-height: 450px;*/
+}
+
+.clscust_IndSecPanel > div {
+    padding: 0px;
+}
+
+
+.cls_madatory {
+    color:red;
+}
+
+.control-label {
+    text-align:left !important;
+    padding-left:0px;
+}
+
+.form-horizontal > div {
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.tbltd_hdncol {
+    display:none;
+}
+
+.txtbox_hint {
+    font-size:11px;
+    padding-left:10px;
+    color:#2B769A;
+}
+
+.ng-touched.ng-invalid {
+    background-color:#f2dede;
+}
+
+.hidden {
+display: none;
+}
+
+ #loderImg {
+	background: url("../images/loader.gif") no-repeat center center;
+	width: 100%;
+	height: 100%;
+	/* background-color: rgba(255,255,255,0.7); */
+	display : none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}

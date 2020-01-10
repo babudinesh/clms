@@ -1,0 +1,123 @@
+<!-- <link href="vendor/locationsearch/VendorLocationSearch.css" rel="stylesheet" />
+
+ -->
+
+<form id="associateSearchForm" name="associateSearchForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12 well">
+      <h3 class="cls_plainheader"> Associate Work Order </h3>
+        <div class="col-md-12">
+          <!--   <a class="btn btn-primary pull-right" ng-href="#/companyWorkOrder/create">Associate Work Order <i class="fa fa-plus-circle"></i></a> 
+            <br />
+            <br /> -->
+            <br />
+            <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 >Search Existing Vendors</h5>
+            </div>         
+                <div class="sepr">                
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required>
+                                    	<option value="">Select</option>
+                                    </select> 
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                     
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="vendorName" class="col-md-4 control-label">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorName" name="vendorName">
+                                    	<option value="">Select</option>
+                                    </select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="venCode" class="col-md-4 control-label">Vendor Code</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control onlyNumbersWithZero" ng-model="vendorCode" placeholder="Vendor Code" name="vendorCode" id="vendorCode" maxlength="3" />
+                                </div>
+                            </div>
+                                                     
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                    	<option value="">Select</option>
+                                    </select>  
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="venName" class="col-md-4 control-label">Vendor Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="vendorName" placeholder="Vendor Name" name="vendorName" id="vendorName" maxlength="45" />
+                                </div>
+                            </div>
+							                                                     
+                        </div>
+
+                        <div class="col-md-6 pull-right">
+                            <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="fun_searchGridData()">Search <i class="fa fa-search"></i></a>
+                            <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear<i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="associateWorkOrderTableView">
+                <div class="sepr">
+                    <h5 class="cls_plainheader panhead">Search Result</h5>
+                    <div>
+                        <table class="table table-striped" id="associateWorkOrderTable">
+                            <thead>
+                               <tr>																			
+										<th> Vendor Code </th>
+										<th> Vendor Name </th>
+										<th> Status </th>
+										<th> Add Work Order </th>
+									</tr>
+								</thead>
+								<!-- <tbody ng:repeat="i in result"  on-last-repeat>
+									<tr>									
+										<td>{{i.customerName}}</td>
+										<td>{{i.companyName}}</td>
+										<td>{{i.workOrderCode}}</td>
+										<td><a ng-href="#/companyWorkOrder/{{i.workOrderInfoId}}">{{i.workOrderName}}</a></td>
+										<td>{{i.locationName}}</td>
+										<td>{{i.departmentName}}</td>
+										<td>{{i.isActive}}</td>
+									</tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        
+        
+    </div>
+</div>
+</form>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

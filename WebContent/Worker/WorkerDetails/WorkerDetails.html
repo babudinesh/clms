@@ -1,0 +1,965 @@
+<!-- <link rel="stylesheet" href="/company/create/all.css"/> -->
+<!-- <form id="workerForm"> -->
+<div class="body">	 
+
+
+
+        
+    <div class="container-fluid  childGrid">
+    	<form id="workerForm" name="workerForm" novalidate ng-submit="submit" >
+    		<div id="wizard" class="swMain">
+        <ul class="anchor">
+            <li>
+            <a ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}" class="selected" isdone="1" rel="1">
+                <label class="stepNumber">1</label>
+                <span class="stepDesc">Worker                
+                   <!--  <small>Create a layout</small> -->
+                </span>               
+            </a>
+             <i class="fa fa-play pull-right selected"  aria-hidden="true"></i>
+            </li>
+            
+            <li>
+            <a ng-click="workerFamilyDetails($event) || enable" class="disabled" isdone="0" rel="2">
+                <label class="stepNumber">2</label>
+                <span class="stepDesc">Family Details<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+             <li >
+            <a ng-click="workerMedicalExamination($event) || enable" class="disabled" isdone="0" rel="3">
+                <label class="stepNumber">3</label>
+                <span class="stepDesc">Medical Safety<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+            <li >
+            <a ng-click="workerPoliceVerification($event) || enable" class="disabled" isdone="0" rel="4">
+                <label class="stepNumber">4</label>
+                <span class="stepDesc">Police Verification<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+            <li >
+            <a ng-click="workerVerification($event) || enable" class="disabled" isdone="0" rel="5">
+                <label class="stepNumber">5</label>
+                <span class="stepDesc">Verification<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+            <li>
+            <a ng-click="workerJobDetails($event,false) || enable" class="disabled" isdone="0" rel="6">
+                <label class="stepNumber">6</label>
+                <span class="stepDesc"> Job Details                    
+                </span>
+            </a><i class="fa fa-play pull-right" aria-hidden="true"></i>
+            </li>
+            <li>
+            <a ng-click="workerbadgeGeneration($event) || enable" class="disabled" isdone="0" rel="7">
+                <label class="stepNumber">7</label>
+                <span class="stepDesc">Badge Generation<br>                   
+                </span>
+            </a> 
+            </li>
+        </ul>
+		
+		</div>
+        	<div class="col-md-12 well">
+        		<!-- <div class="row">
+	        		
+						<div class="col-md-2">
+						<ul class="nav">
+	            		<li class="active"><a ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}">Worker</a>
+	            		
+	            		</li>
+	            		
+	            		</ul> 
+	            		</div>
+	            		<div class="col-md-2">
+	            		<ul class="nav">	            		
+	            		<li><a ng-click="workerVerification()" >Worker Verification ==>></a></li>
+	            		</ul>
+	            		</div>	            		
+	            		<div class="col-md-2">
+	            		<ul class="nav">
+	              		<li><a ng-click="workerJobDetails()">Job Details ==>></a></li> 
+	              		</ul>
+	              		</div>
+	              		<div class="col-md-2">
+	            		<ul class="nav">
+	              		<li><a ng-click="workerbadgeGeneration()">Worker Badge Generation </a></li> 
+	              		</ul>
+	              		</div>
+	              		
+	              	</div> -->
+        		<h3 class="cls_plainheader">Worker Details</h3>
+        		<br/>
+        		<div class="col-md-12">
+	         		<!-- <ul class="nav nav-tabs">
+	            		<li class="active"><a ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}">Worker</a></li>
+	            		<li><a href ng-click="familyDetails()">Family Details</a></li>
+	              		<li><a ng-href="#/workerEducationEmploymentDetails" >Education And Employment Details</a></li> 
+	        		</ul> -->
+	        		
+	        		
+	        	
+	        		
+         			<br />
+					<div class="panel panel-default" ng-show="transactionList">
+						<div class="container">
+							<h5 class="cls_plainheader"> Search : </h5>
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6">
+		                                    <select  ng-model="transactionModel" ng-change="transactionDatesListChnage()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly" >
+		                                    	<option value="">Select</option>
+		                                    </select>                                         											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				
+	        		<div class="panel panel-primary">
+				 		<div class="sepr">
+	            			<div class="row">
+			                    <div class="col-md-6">
+			                        <div class="form-group is-empty">
+			                            <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+			                            <div class="col-md-8 select-box">
+			                                <select ng-change="customerChange()" ng-model="workerVo.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerId" ng-disabled="readOnly || onlyRead || dropdownDisable" required>
+			                                    <option value="">Select</option>
+			                                </select>
+			                                <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+			                            </div>
+			                        </div>
+			                        <div class="form-group is-empty">
+			                            <label for="venName" class="col-md-4 control-label required">Vendor Name</label>
+			                            <div class="col-md-8 select-box">
+			                             	<select   ng-model="workerVo.vendorId"  ng-change="vendorChange()" name="vendorId" ng-options="item.id as item.name for item in vendorList" class="form-control"  id="vendorId"  ng-disabled="readOnly || onlyRead || dropdownDisable"  required>
+			                                 	<option value="">Select</option>
+			                                </select>
+			                                <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+			                            </div>
+			                        </div>
+			                        <div class="form-group is-empty">
+	                                    <label for="bnkCode" class="col-md-4 control-label required">Worker Code</label>
+	                                    <div class="col-md-8">
+	                                        <input class="form-control capitalize onlyNumbersWithZero" ng-model="workerVo.workerCode" placeholder="Worker Code" type="text"  name="workerCode" ng-disabled="workerCodeChange" required minlength="7" maxlength="7"/>
+	                                    </div>
+	                                </div>
+			                    </div>
+
+	                            <div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+	                                    <div class="col-md-8 select-box">
+	                                        <select  ng-change="companyChange()"  ng-model="workerVo.companyId"  name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyId" ng-disabled="readOnly || onlyRead || dropdownDisable"  required>
+	                                         	<option value="">Select</option>
+	                                        </select>
+	                                        <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+	                                    </div>
+	                                </div>
+									<div class="form-group is-empty">
+	                                    <label for="countryId" class="col-md-4 control-label required">Country Name</label>
+	                                    <div class="col-md-8 select-box">
+	                                    	<select  ng-model="workerVo.countryId"   ng-options="item.id as item.name for item in countriesList" class="form-control"  id="countryId" ng-disabled="true" name="countryId" required>
+	                                        	<option value="">Select</option>
+	                                        </select>
+	                                        <span class="input-group-btn">
+                                     		 	<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+							<br/>
+							
+
+							<div class="panel panel-primary">
+				                 <div class="panel-heading">
+				                 	<h5 data-toggle="collapse" data-target="#personalInfo">Worker Personal Information</h5>
+				                 </div>
+			                    <div class="sepr" id="personalInfo"> 
+			                        <div class="row">
+			                        	<div class="col-md-6">
+			                            	<div class="form-group">
+			                                    <label for="transactionDate" class="col-md-4 control-label required">Effective From Date </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="transactionDate" readonly="true" placeholder="Effective From Date &#xf073;" ng-model="transactionDate" name="transactionDate" date-change-picker   ng-disabled="readOnly" required/>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group" id="reason" ng-show ="workerVo.isActive == 'N'">
+			                                    <label for="reasonForStatus" class="col-md-4 control-label required">Reason for Status Change</label>
+			                                    <div class="col-md-8 select-box">
+			                                        <select id="isActive" class="form-control" ng-model="workerVo.reasonForStatus" name="reasonForStatus" id="reasonForStatus" ng-options="item.id as item.name for item in reasonForStatus_list"  ng-disabled="readOnly" required>
+			                                            <option value=""> Select </option>
+			                                        </select>
+			                                        <span class="input-group-btn">
+			                                     	<label for="Select1" class="fa fa-caret-down"></label>
+			                                        </span>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group">
+			                                    <label for="firstName" class="col-md-4 control-label required">First Name</label>
+			                                    <div class="col-md-8 ">
+			                                         <input type="text" class="form-control" id="firstName" placeholder="First Name" ng-model="workerVo.firstName" name="firstName" ng-disabled="readOnly" maxlength="50" required/>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group">
+			                                    <label for="middleName" class="col-md-4 control-label">Middle Name</label>
+			                                    <div class="col-md-8 ">
+			                                         <input type="text" class="form-control" id="middleName" placeholder="Middle Name" ng-model="workerVo.middleName" name="middleName" maxlength="50" ng-disabled="readOnly" />
+			                                    </div>
+			                                </div>
+			                                
+		                                  	<div class="form-group">
+		                                    	<label for="lastName" class="col-md-4 control-label required">Last Name</label>
+		                                    	<div class="col-md-8 ">
+		                                        	<input type="text" class="form-control" id="lastName" placeholder="Last Name" ng-model="workerVo.lastName" name="lastName" ng-disabled="readOnly" maxlength="50" required/>
+		                                            
+		                                    	</div>
+			                                </div>
+			                                
+		                                  	<div class="form-group">
+		                                    	<label for="fatherOrSpouse" class="col-md-4 control-label">Father/Spouse Name</label>
+		                                      	<div class="col-md-3 select-box">
+		                                          	<select id="father" class="form-control" ng-model="workerVo.fatherOrSpouse" name="fatherOrSpouse"  ng-disabled="readOnly" >
+			                                            <option value=""> Select </option>
+			                                            <option value="Father"> Father </option>
+			                                            <option value="Spouse"> Spouse </option>                                           
+		                                        	</select>
+		                                        	<span class="input-group-btn">
+		                                     			<label for="Select1" class="fa fa-caret-down"></label>
+		                                        	</span>  
+		                                    	</div>
+		                                    	<div class="col-md-5 ">
+		                                         	<input type="text" class="form-control" id="fatherSpouseName" placeholder="Father/Spouse Name" ng-model="workerVo.fatherSpouseName" name="fatherSpouseName" ng-disabled="readOnly" />
+		                                    	</div>
+			                                </div>
+			                                <div class="form-group" >
+			                                    <label for="panNumber" class="col-md-4 control-label ">Pension ID </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control capitalize" id="panNumber" placeholder="" ng-model="workerVo.panNumber" ng-disabled="readOnly" name="panNumber" maxlength="10"  />
+			                                    </div>
+			                                </div> 
+			                                
+			                                <div class="form-group">
+			                                    <label for="dateOfBirth" class="col-md-4 control-label required">Date Of Birth (DD/MM/YYYY)</label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" onchange="angular.element(this).scope().dateOfBirthValidaton(this)" class="form-control" id="dateOfBirth1" placeholder="Date Of Birth(DD/MM/YYYY) &#xf073;" ng-model="dateOfBirth" name="dateOfBirth"  maxlength="10" ng-disabled="readOnly" required/>  
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group">
+					                            <label for="dateOfJoining" class="col-md-4 control-label required"> Date Of Joining </label>
+					                            <div class="col-md-8">
+					                            	<input type="text" class="form-control" id="dateOfJoining" name="dateOfJoining"  placeholder="Date Of Joining &#xf073;" ng-model="dateOfJoining" ng-disabled="readOnly" required/>                                    
+					                            </div>
+					                        </div>
+					                        
+			                                <div class="form-group">
+			                                    <label for="GenderFor" class="col-md-4 control-label required">Gender</label>
+			                                 	<div class="col-md-8 select-box">
+			                                        <select  class="form-control" ng-model="workerVo.gender" name="gender" id="gender"  ng-disabled="readOnly" required>
+			                                            <option value="M"> Male </option>
+			                                            <option value="F"> Female </option>       
+			                                            <option value="U"> Unknown </option>                                    
+			                                        </select>
+			                                        <span class="input-group-btn">
+			                                     		<label for="Select1" class="fa fa-caret-down"></label>
+			                                        </span>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group">
+			                                    <label for="bloodGroup" class="col-md-4 control-label">Blood Group</label>
+			                                 	<div class="col-md-8 select-box">
+			                                        <select id="bloodGroup" class="form-control" ng-model="workerVo.bloodGroup" name="bloodGroup" ng-options="item.id as item.name for item in blood_group_list"  ng-disabled="readOnly">
+			                                            <option value="">Select </option>
+			                                        </select>
+			                                        <span class="input-group-btn">
+			                                     		<label for="Select1" class="fa fa-caret-down"></label>
+			                                        </span>
+			                                    </div>
+			                                </div>
+			                                
+			                                
+			
+			                                <div class="form-group">
+			                                    <label for="phoneNumber" class="col-md-4 control-label ">Phone Number </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control onlyNumbers" id="phoneNumber" placeholder="Phone Number " ng-model="workerVo.phoneNumber" ng-disabled="readOnly" name="phoneNumber"  maxlength="12" />
+			                                    </div>
+			                                </div>
+			
+			                                <div class="form-group">
+			                                    <label for="emergencyContactPerson" class="col-md-4 control-label">Emergency Contact  Person </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="emergencyContactPerson" placeholder="Emergency Contact Person" ng-model="workerVo.emergencyContactPerson" name="emergencyContactPerson" ng-disabled="readOnly"/>
+			                                    </div>
+			                                </div>
+			                                
+			                               
+			                                <div class="form-group">
+			                                    <label for="shiftName" class="col-md-4 control-label required">Shift</label>
+			                                    <div class="col-md-8 select-box">
+			                                        <select   ng-model="workerVo.shiftName"  name="shiftName" ng-options="item.shiftName as item.shiftName for item in shiftsList" class="form-control"  id="shiftName" ng-disabled="readOnly" required>
+			                                         	<option value="">Select</option>
+			                                        </select>
+			                                        <span class="input-group-btn">
+		                                     			<label for="Select1" class="fa fa-caret-down"></label>
+		                                        	</span>
+			                                    </div>
+			                                </div>
+											<div class="form-group">
+			                                    <label for="motherNamePerson" class="col-md-4 control-label required">Mother Name </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="motherName" placeholder="Mother Name" ng-model="workerVo.motherName" name="motherName" ng-disabled="readOnly" required/>
+			                                    </div>
+			                                </div>
+	                            			<div class="form-group">
+			                                    <label for="NationalityPerson" class="col-md-4 control-label required">Nationality </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="Nationality" placeholder="Nationality" ng-model="workerVo.nationality" name="Nationality" ng-disabled="readOnly" required/>
+			                                    </div>
+			                                </div>
+			                                <div class="form-group">
+			                                    <label for="EducationNumber" class="col-md-4 control-label required">Education </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="Education" placeholder="Education" ng-model="workerVo.education" name="Education" ng-disabled="readOnly" required/>
+			                                    </div>
+			                               </div>
+			
+			                            </div>
+			
+			                            <div class="col-md-6">			                            	
+			                                <div class="form-group">
+			                                    <label for="isActive" class="col-md-4 control-label required">Status</label>
+			                                    <div class="col-md-8 select-box">
+			                                        <select ng-change="statusChange()" id="isActive" class="form-control" ng-model="workerVo.isActive" name="isActive"   ng-disabled="wiladminBoolean  || workerVo.isActive == 'I'"   required>
+			                                       
+			                                             <option value="Y" ng-show="{{workerInfoId >0 ? true : false}}"> Active </option> 
+			                                            <option value="I" ng-show="{{workerInfoId >0 ? false : true}}"> New </option>
+			                                            <option value="N" ng-show="{{workerInfoId >0 ? true : false}}"> Inactive </option>                                           
+			                                        </select>
+			                                        <span class="input-group-btn">
+			                                     		<label for="Select1" class="fa fa-caret-down"></label>
+			                                        </span>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group" ng-show=" workerVo.isActive == 'N'">
+			                                    <!-- <a class="col-md-12 ">Add photo </a> -->
+			                                   <label for="dateOfLeaving" class="col-md-4 control-label required">Date of Leaving</label>
+			                                    <div class="col-md-8">
+			                                    	<input type="text" class="form-control" id="dateOfLeaving"  placeholder="Date Of Leaving &#xf073;" ng-model="dateOfLeaving" name="dateOfLeaving"    ng-disabled="readOnly" required/>
+			                                    </div>
+			                                </div>
+			                                
+			                               <!--  <div class="form-group" >
+			                                   <label></label>
+			                                    <div >
+			                                    </div>
+			                                </div> -->
+			                                <div class="form-group" >
+			                                	<label for="photo" class="col-md-2 control-label">Upload Photo</label>
+			                                </div>
+			                                <div> 
+			                                 <div class="col-md-10">
+			                                 
+				                                    	<img ng-if="image" ng-src="{{image}}" alt="" width="100" height="50" ng-show="workerVo.imagePath == null  || workerVo.imagePath == undefined || workerVo.imagePath == '' " />
+	 			                                     	<img ng-if="image" src="data:image/JPEG;base64,{{image}}" alt="" width="100" height="50" ng-show="workerVo.imagePath != null && workerVo.imagePath != undefined && workerVo.imagePath != '' "/>
+				                                    <div>
+				                                   		<input my-upload type="file" ng-disabled="readOnly" name="upload" onchange="angular.element(this).scope().getImageDetails(this)" accept="image/*" data-max-size="200">
+			                                    	</div>
+			                                 </div>
+			                                </div> 
+			                                <br/>
+			                                 <div class="form-group" ng-hide="image != null && image != undefined && image != ''">
+			                                   <label for="panNumber" class="control-label"></label>
+			                                    <div >
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group" ng-hide="image != null && image != undefined && image != ''">
+			                                   <label for="panNumber" class="control-label"></label>
+			                                    <div >
+			                                    </div>
+			                                </div>
+			                                
+			                             	<div class="form-group" ng-hide="image != null && image != undefined && image != ''">
+			                                   <label for="panNumber" class="control-label"></label>
+			                                    <div >
+			                                    </div>
+			                                </div>
+			                              
+			                                <br/>
+			                                <div class="form-group">
+			                                    <label for="placeOfBirthFor" class="col-md-4 control-label">Place Of Birth</label>
+			                                    <div class="col-md-8 ">
+			                                         <input type="text" class="form-control" id="placeOfBirth" placeholder="Place Of Birth" ng-model="workerVo.placeOfBirth" name="placeOfBirth" ng-disabled="readOnly" maxlength="50" />
+			                                    </div>
+			                                </div>
+			                                <div class="form-group">
+			                                    <label for="age" class="col-md-4 control-label ">Age</label>
+			                                     <div class="col-md-2">
+			                                        <input type="text" class="form-control onlyNumbers" id="years" placeholder="Years" ng-model="years"  name="years" ng-disabled="readOnly" /> 
+			                                    </div>
+			                                    <div class="col-md-2" >
+			                                    	<label for="years" class="col-md-2 control-label ">Years</label>
+			                                    </div>
+			                                      <div class="col-md-2">
+			                                        <input type="text" class="form-control onlyNumbers" id="months" placeholder="Months" ng-model="months"  name="months" ng-disabled="readOnly" /> 
+			                                    </div>
+			                                    <div class="col-md-2" >
+			                                      	<label for="Months" class="col-md-2 control-label ">Months</label>
+			                                    </div>   
+			                                </div> 
+			                               
+			                               
+			                                
+			                                <div class="form-group">
+			                                    <label for="maritalStatus" class="col-md-4 control-label required">Marital Status</label>
+			                                 	<div class="col-md-8 select-box">
+			                                        <select id="maritalStatus" class="form-control" ng-model="workerVo.maritalStatus" name="maritalStatus"  ng-options="item.id as item.name for item in marital_status_list" ng-disabled="readOnly" required>
+			                                        	<option value="">Select </option>
+			                                        </select>
+			                                        <span class="input-group-btn">
+			                                    		<label for="Select1" class="fa fa-caret-down"></label>
+			                                        </span>
+			                                    </div>
+			                               	</div>
+			                               	
+			                                <div class="form-group">
+			                                	<label for="religion" class="col-md-4 control-label ">Religion </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="religion" placeholder="Religion" ng-model="workerVo.religion" name="religion" ng-disabled="readOnly"/>
+			                                    </div>
+			                                </div>
+											
+											
+			                                
+			                                <div class="form-group">
+			                                    <label for="email" class="col-md-4 control-label ">Email </label>
+			                                    <div class="col-md-8">
+			                                        <input type="email" class="form-control" id="email" placeholder="Email" ng-model="workerVo.email" name="email" ng-disabled="readOnly"/>
+			                                    </div>
+			                                </div>
+			                                
+			                                <div class="form-group">
+			                                    <label for="emergencyContactNumber" class="col-md-4 control-label ">Emergency Contact Number </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="emergencyContactNumber" placeholder="Emergency Contact Number" ng-model="workerVo.emergencyContactNumber" name="emergencyContactNumber" ng-disabled="readOnly"/>
+			                                    </div>
+			                               </div>
+			                               
+			                               <div class="form-group">
+			                                    <label for="weeklyOff" class="col-md-4 control-label required">Weekly Off</label>
+			                                    <div class="col-md-8 select-box">
+			                                    	<select  ng-model="workerVo.weeklyOff"   ng-options="item.id as item.name for item in weekList" class="form-control"  id="weeklyOff"  name="weeklyOff" ng-disabled="readOnly" required>
+			                                        	<option value="">Select</option>
+			                                        </select>
+			                                        <span class="input-group-btn">
+		                                     		 	<label for="Select1" class="fa fa-caret-down"></label>
+		                                        	</span>
+			                                    </div>
+			                                </div>
+			                                  <!-- <div class="form-group">
+			                                    <label class="control-label"></label>
+			                                    <div class="select-box">			                                    	
+			                                      
+			                                    </div>
+			                                </div>
+			                                <div class="form-group">
+			                                    <label class="control-label"></label>
+			                                    <div class=" select-box">			                                    	
+			                                      
+			                                    </div>
+			                                </div> -->
+			                                  
+			                                 <div class="form-group">
+			                                    <label for="languageNumber" class="col-md-4 control-label required">Language </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="language" placeholder="Language" ng-model="workerVo.language" name="language" ng-disabled="readOnly" required/>
+			                                    </div>
+			                               </div>
+			                               
+			                                <div class="form-group">
+			                                    <label for="DomicileNumber" class="col-md-4 control-label required">Domicile  </label>
+			                                    <div class="col-md-8">
+			                                        <input type="text" class="form-control" id="Domicile " placeholder="Domicile" ng-model="workerVo.domicile " name="Domicile" ng-disabled="readOnly" required/>
+			                                    </div>
+			                               </div>
+			                               
+			                            </div>
+										<br/>
+				                           
+			                        </div>
+			                        
+			                        </div>
+			                        </div>
+			                        <br/>
+			                        <div class="row">
+			                        	<div class="panel panel-primary">
+							                 <div class="panel-heading">							                 
+							                 	<h5>Addresses</h5>
+							                 </div>
+							                 <div class="sepr">
+							                 	<div class="row">
+				                            		<div class="col-md-6" >
+				                            			<div class="form-group " >
+			                                 		 <!--   <label for="transactionDate" class="col-md-4 control-label required"> Permanent Address </label> -->
+			                                    			<div >			                                     
+			                                      				<a class="btn btn-primary addressAdd required"  id="permAdressAdd" data-toggle="modal" data-target="#myModal1" ng-disabled="readOnly" >{{labelName1}} Permanent Address  <i class="fa fa-plus-circle"></i> <span style="color:red;font-size:14px;">*</span></a>
+			                                      				
+			                                    			</div>
+			                                     
+		                                				</div>
+		                               					<div style="display:inline-flex; margin: -20px 0px 15px 0px;">                              
+		                                					<div>
+		                                
+																<label class="control-label" > <input
+																	type="checkbox" id="localOrPermAddress"
+																	ng-model="workerVo.isSameAddress"
+																	name="localOrPermAddress"													
+																	ng-disabled="readOnly"  ng-click="fun_localAddress()" />
+																	Local address is same As Permanent Address
+																</label>
+															</div>
+														</div>
+													</div>
+														
+													<div class="col-md-6">
+							                            <div class="form-group ">		                             
+						                                    <div >			                                    
+						                                      <a class="btn btn-primary addressAdd required" id="localAdressAdd" data-toggle="modal" data-target="#myModal2" ng-disabled="readOnly" >{{labelName2}} Local Address <i class="fa fa-plus-circle"></i> <span style="color:red;font-size:14px;">*</span> </a>
+						                                    </div>
+						                                </div>
+		                                 				
+				                            		</div> 
+				                            	</div>
+				                            </div>
+				                         </div>
+				                      </div>
+			                        <br/>
+			                         
+                 <div class="panel panel-primary">
+                <div class="panel-heading">					
+					 <h5 data-toggle="collapse" data-target="#bankDetails">Bank Details</h5>
+					</div>
+                    <div class="sepr" id="bankDetails">
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                
+                                <div class="form-group is-empty">
+                                    <label for="bnkNameLabel" id="bnkNameLabel" class="col-md-4 control-label required">Bank Name</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="workerVo.bankName" placeholder="Bank Name" type="text" name="bankName" id = "bankName" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+								
+								 <div class="form-group is-empty">
+                                    <label for="accNo" id="accountNumberLable" class="col-md-4 control-label required">Account Number</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control onlyNumbers" ng-model="workerVo.acountNumber" placeholder="Account Number" name="accountNumber"  id= "accountNumber" type="text" ng-disabled="readOnly" required minlength="2" maxlength="20">
+                                    </div>
+                                </div>
+                               
+ 								<div class="form-group is-empty">
+                                    <label for="accHolderName" id="accountHolderNameLabel" class="col-md-4 control-label required">A/C Holder Name</label>
+                                    <div class="col-md-8">
+                                      <input ng-model="workerVo.acountHolderName" class="form-control" placeholder="A/C Holder Name" type="text"  name="accountHolderName" id="accountHolderName" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+                                
+                                
+                                
+                            </div>
+                           
+
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="ifscCode" id="ifscCodeLable" class="col-md-4 control-label required">Branch Code</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" style="z-index:10px;" ng-model="workerVo.ifscCode" name="ifscCode" id="ifscCode" type="text" ng-disabled="readOnly" minlength="2" maxlength="11">
+                                    </div>
+                                     
+                                </div>
+                               
+                               
+
+                                <div class="form-group is-empty">                               
+                                    <label for="branch" id="branchNameLabel" class="col-md-4 control-label required">Branch Name</label>
+                                    <div class="col-md-8">
+                                     (OR)
+                                        <input class="form-control" ng-model="workerVo.branchName" placeholder="Branch Name" type="text" name="branch" ng-disabled="readOnly" id="branchName" minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+								
+                                 
+                                
+                              
+                            </div>
+							
+
+                        </div>
+                        <div>
+                      </div>
+
+
+                    </div>
+
+                    <br/>
+
+
+                </div>
+                
+			                      
+			                        <div class="row">
+			                        	<div class="panel panel-primary">
+							                 <div class="panel-heading">
+							                 	<h5 >Add Worker Documents</h5>
+							                 </div>
+							                 <div class="sepr">
+							                 	<div class="row">
+				                            		<div class="col-md-12">
+				                                		<table class="table table-striped " id = "attachment1">
+				                                    		<thead>
+						                                        <tr>
+						                                        	<th>Country</th>
+						                                         	<th>Document Type</th>
+						                                         	<th>Document Number</th>
+						                                            <th>Attachment</th>
+						                                            <th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#identificationType" ng-show="gridButtons" ng-click ="plusIconAction()"> </i></td>
+						                                        </tr>
+				                                    		</thead>
+				                                    		<tbody>
+						                                        <tr ng-repeat = "i in result" on-last-repeat >
+						                                        	<td>{{i.countryName}}</td>
+						                                         	<td>{{i.identificationType}}</td>
+						                                         	<td>{{i.identificationNumber}}</td>
+						                                            <td><a href ng-click="fun_download(i.fileData,i.fileName)" > Download {{i.identificationType}}</a></td>
+						                                            <td> <i ng-click="Delete($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+			<!--   			                            				<td><i ng-click="Edit($event,i.fileData)"  class="fa fa-edit" data-toggle="modal" data-target="#identificationType" ng-show="gridButtons"></i></td>
+			 --> 			                                    </tr>
+				                                    		</tbody>
+				                                		</table>
+				                            		</div> 
+				                            	</div>
+				                            </div>
+				                         </div>
+				                      </div>
+				                      
+			                    </div>
+			                    
+			                </div>
+			                <br/>
+			                
+						</div>
+						
+						<div class="btn-group btn-group-right pull-right">
+							<a href="javascript:void(0)" class="btn btn-danger" ng-show="showProceedButton  && buttonArray.includes('APPROVE')" ng-click="workerJobDetails($event,true) || enable" >Proceed To Activate Worker</a>
+							<a href="javascript:void(0)" class="btn btn-danger" ng-hide="showProceedButton  && buttonArray.includes('APPROVE')" ng-click="callingUrl($event,true) || enable" >Proceed</a>
+				            <a href="javascript:void(0)" class="btn btn-danger" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction($event)"> Update </a>
+							<a class="btn  btn-primary " ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || validateWorkerCode($event)">Save & Proceed</a> 		
+							<!-- <a class="btn  btn-primary " ng-show="buttonArray.includes('CHANGE CODE')" ng-click="enable || changeWorkerCode($event)">Change Worker Code</a>  -->				
+							<a class="btn  btn-primary " ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" type="submit" ng-click="enable || validateWorkerCode($event)" > Correct History </a>						
+							<button class="btn  btn-danger  " ng-show="resetBtn" type="reset"> Reset </button> 
+							<a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="cancelButnAction()"> Cancel </a>
+							<a href="javascript:void(0)" class="btn  btn-info" ng-show="viewOrUpdateBtn  && buttonArray.includes('VIEW HISTORY')" ng-click="viewOrEditHistory($event)"> View Or Update History </a>
+							<a href="#/workerSearch"  class="btn btn-default">Return to Search</a>
+					   </div>	
+				   </div>
+	            
+			</div>
+		    <div class="container-fluid">
+		        <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+		            <div class="container text-right">
+		                <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		            </div>
+		        </div>
+		    </div>
+  		</form>
+  		</div>
+  	</div>
+</div>
+
+								<div id="loader"
+								style="display: none; text-align: center; width: 100%; height: 100%; background-color: transparent;">
+								<img src="images/loader.gif" alt="Saving Details..." width="214"
+									height="138" />
+								</div>
+
+
+
+
+
+<form id="permanentAddressForm">
+<!-- Modal -->
+	<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ 		<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                       <h4 class="modal-title">Permanent Address</h4>
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                   
+                                    <div class="form-group">
+                                        <label for="PermanentAddressLine1"  class="col-md-4 control-label required">Address Line 1</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.permanentAddressLine1" name="PermanentAddressLine1" class="form-control" id="PermanentAddressLine1" placeholder="Address Line 1" required minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PermanentAddressLine3"  class="col-md-4 control-label">Address Line 3</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.permanentAddressLine3" class="form-control" id="PermanentAddressLine3" placeholder="Address Line 3" minlength="2" maxlength="45" name="PermanentAddressLine3"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PermanentStateId"  class="col-md-4 control-label">County</label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="workerVo.permanentStateId" ng-options="item.id as item.name for item in statesListPerm" class="form-control"  id="PermanentStateId" name="PermanentStateId">
+                                            	<option value="">Select</option>
+                                            </select>
+                                             <span class="input-group-btn">
+	                                    		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PermanentPinCode"  class="col-md-4 control-label">Pincode</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.permanentPinCode" name="PermanentPinCode" class="form-control onlyNumbersWithZero" id="PermanentPinCode" placeholder="Pincode"  minlength="6" maxlength="6"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="PermanentAddressLine2" class="col-md-4 control-label">Address line 2</label>
+                                        <div class="col-md-8">
+                                            <input type="text"  ng-model="workerVo.permanentAddressLine2" class="form-control" id="PermanentAddressLine2" name= "PermanentAddressLine2" placeholder="Address line 2" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PermanentCountryId" class="col-md-4 control-label required">Country</label>
+                                        <div class="col-md-8 select-box">
+                                        	<select ng-change="countryChangePerm()" ng-model="workerVo.permanentCountryId" name="PermanentCountryId" ng-options="item.id as item.name for item in list_Country" class="form-control"  id="PermanentCountryId" required>
+                                           		<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+	                                    		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PermanentCity" class="col-md-4 control-label ">City</label>
+                                        <div class="col-md-8">                                           
+                                           <!--  <select  ng-model="workerVo.city" name="city" ng-options="item.id as item.name for item in cityList" class="form-control"  id="Select5" >
+                                            <option value="">Select</option>
+                                            </select> -->
+                                             <input type="text" ng-model="workerVo.permanentCity" class="form-control" id="PermanentCity" placeholder="City Name" name="PermanentCity" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                	 
+                <div class="modal-footer">
+	                <button type="button"  class="btn btn-primary" ng-click="saveAddress()" >Save changes</button>
+	                <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click = "fun_close()">Close</button>
+            	</div>
+            </div>
+        </div>
+	</div>
+</form>
+
+
+<form id="localAddressForm">
+<!-- Modal -->
+	<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ 		<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                     	<h4 class="modal-title">Local Address</h4>
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                   
+                                    <div class="form-group">
+                                        <label for="PresentAddressLine1"  class="col-md-4 control-label required">Address Line 1</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.presentAddressLine1" name="PresentAddressLine1" class="form-control" id="PresentAddressLine1" placeholder="Address Line 1" required minlength="2" maxlength="45" required/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PresentAddressLine3"  class="col-md-4 control-label">Address Line 3</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.presentAddressLine3" class="form-control" id="PresentAddressLine3" placeholder="Address Line 3" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PresentStateId"  class="col-md-4 control-label">State</label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="workerVo.presentStateId" ng-options="item.id as item.name for item in statesListPre" class="form-control"  id="PresentStateId" name="PresentStateId">
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PresentPinCode"  class="col-md-4 control-label">Pincode</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="workerVo.presentPinCode" name="PresentPinCode" class="form-control onlyNumbersWithZero" id="PresentPinCode" placeholder="Pincode" required minlength="6" maxlength="6"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="PresentAddressLine2" class="col-md-4 control-label">Address line 2</label>
+                                        <div class="col-md-8">
+                                            <input type="text"  ng-model="workerVo.presentAddressLine2" class="form-control" id="PresentAddressLine2" name="PresentAddressLine2" placeholder="Address line 2" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="PresentcountryId" class="col-md-4 control-label required">Country</label>
+                                        <div class="col-md-8 select-box">
+                                        	<select ng-change="countryChangePre()" ng-model="workerVo.presentcountryId" name="PresentcountryId" ng-options="item.id as item.name for item in list_Country" class="form-control"  id="PresentcountryId">
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="City" class="col-md-4 control-label ">City</label>
+                                        <div class="col-md-8">                              
+                                             <input type="text" ng-model="workerVo.presentCity" class="form-control" id="city" placeholder="City Name" name="city" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                	 
+                <div class="modal-footer">
+	                <button type="button"  class="btn btn-primary" ng-click="savePresent()">Save changes</button>
+	                <button type="button" class="btn btn-warning" data-dismiss="modal" ng-click = "fun_close()">Close</button>
+            	</div>
+            </div>
+        </div>
+	</div>
+</form>
+
+
+
+
+
+
+
+<form id="identificationTypeForm">
+<!-- Modal -->
+	<div class="modal fade" id="identificationType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Identification Details</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="Country" class="col-md-5 control-label required">Country</label>
+                                        <div class="col-md-7 select-box">
+                                        	<select ng-change="countryChange()" ng-model="identity.country" name="country" ng-options="item.id as item.name for item in countriesList" class="form-control"  id="country" required>
+                                           		<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+                                        </div>
+                                    </div>
+                                     <div>
+                                    	<label for="file" class="col-md-5 control-label required">Attachment</label>
+                                        <div class="col-md-7">
+                                          <input type ="file" file-model ="myFile"  name="fileName" id ="fileName" ng-model="identity.fileName" onchange="angular.element(this).scope().getFileDetails(this)" />
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-md-6">                          
+                                                                  
+                                    <div class="form-group">
+                                        <label for="idType" class="col-md-5 control-label required">Identification Type</label>
+                                        <div class="col-md-7 select-box">
+                                        	<select ng-model="identity.identificationType" name="idType" ng-options="item.id as item.name for item in id_types" class="form-control"  id="idType" required>
+                                           		<option value="">Select</option>
+                                           	</select>
+                                           	<span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label for="IdentificationNumber" class="col-md-5 control-label required">Identification Number</label>
+                                        <div class="col-md-7">
+                                            <input type="text"  ng-model="identity.identificationNumber" class="form-control" id="IdentificationNumber" name="IdentificationNumber" placeholder="Identification Number" minlength="2" maxlength="45" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                             <br/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+	                <button type="button"  class="btn btn-primary"  ng-click="saveChanges()" ng-show ="popUpSave">Save Changes</button>
+ 	                <button type="button"  class="btn btn-primary"  ng-click="updateChanges($event)"  ng-show ="popUpUpdate">Update Changes</button>
+ 	                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            	</div>
+            </div>
+        </div>
+	</div>
+</form>
+
+			                             

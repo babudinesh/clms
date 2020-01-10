@@ -1,0 +1,243 @@
+
+<form id="timeExceptionForm">
+	<div class="container-fluid">
+		<div class="col-md-12 well">
+			<h3 class="cls_plainheader">Time Rules</h3>
+			<div class="col-md-12">
+				<ul class="nav nav-tabs">
+		            <li><a ng-href="#/timeRules/{{exceptionRule.timeRulesInfoId}}">Time Rules</a></li>
+		            <li  class="active"><a>Exception Rules</a></li>
+		        </ul>
+				<br />
+				<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">
+						<h5>Search :</h5>
+					</div>
+					<div class="container">
+
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-6 select-box">
+										<select ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"> </label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="custName" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 ">
+										<!-- <select ng-change="customerChange()" ng-model="timeRule.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="Select1" ng-disabled="true" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="customerId" class="fa fa-caret-down"></label>
+										</span> -->
+										<input type="text" class="form-control"placeholder="Customer Name"  ng-model="customerName" name="customerName" id="customerName" ng-disabled="true" required>
+									</div>
+								</div>
+								
+								<div class="form-group is-empty">
+									<label for="countryId" class="col-md-4 control-label required">Country Name</label>
+									<div class="col-md-8 ">
+										<!-- <select ng-model="timeRule.countryId" ng-options="item.id as item.name for item in countriesList" class="form-control" id="countryId" ng-disabled="true" name="countryId" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="countryId" class="fa fa-caret-down"></label>
+										</span> -->
+										<input type="text" class="form-control" placeholder="Country Name" ng-model="countryName" name="countryName" id="countryName" ng-disabled="true" required>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<!-- <select ng-change="companyChange()" ng-model="timeRule.companyId" name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control" id="companyId" ng-disabled="true" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="companyId" class="fa fa-caret-down"></label>
+										</span> -->
+										<input type="text" class="form-control" placeholder="Company Name" ng-model="companyName" name="companyName" id="companyName" ng-disabled="true" required>
+									</div>
+								</div>
+
+								<div class="form-group is-empty">
+									<label for="timeCode" class="col-md-4 control-label required">Time Rule Code</label>
+									<div class="col-md-8">
+										<input class="form-control" ng-model="timeRuleCode" placeholder="Time Rule Code" type="text" name="timeRuleCode" id = "timeRuleCode" ng-disabled="true"   required/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+					
+				<!-- <div class="col-md-12"> -->
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Define Exception Rules</h5>
+					</div>
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" ng-model="transactionDate" placeholder="Effective From Date" id="transactionDate" name="transactionDate" ng-disabled="readOnly" required>
+									</div>
+								</div>
+								<div class="form-group is-empty">
+									<label for="limitForCorrection" class="col-md-4 control-label ">Set the Limit For Time Exception Correction</label>
+									<div class="col-md-4">
+										<input type="text" class="form-control" ng-model="exceptionRule.limitForExceptionCorrection"placeholder="Limit For Correction"  name="limitForCorrection" ng-disabled="readOnly" minlength="1" maxlength="5">
+									</div>
+									<div class="col-md-4 select-box">
+										<select id="periodType" class="form-control" name="periodType" ng-model="exceptionRule.periodType" ng-options="item.id as item.name for item in list_periodTypes" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+											<label for="periodType" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="limitForCorrection" class="col-md-4 control-label "></label>
+									<div class="col-md-8">
+										<input type="hidden" ">
+									</div>
+								</div>
+							
+								<div class="form-group is-empty">
+									<label for="limitForCorrection" class="col-md-4 control-label ">No Of Exceptions</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control onlyNumbersWithZero" ng-model="exceptionRule.numberOfExceptions"placeholder="No Of Exceptions"  name="noOfExceptions" ng-disabled="readOnly" minlength="1" maxlength="10">
+									</div>
+								</div>
+								
+							</div>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-md-6">
+							<div class=" panel panel-primary">
+				                <div class="sepr">
+				                    <div class="row">
+				                        <div  style="padding:0px;">
+				                        	<div class="panel-heading" style="color:white">
+				                            	<h5 >Exceptions</h5>
+				                            </div>
+											<table class="table table-striped">
+												<thead>
+													<tr>
+														<th>Exception Code</th>
+														<th>Exception Name</th>
+														<th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#exception" ng-click="plusIconAction()" ng-show="gridButtons"> </i></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng:repeat="i in exceptionRule.exceptionsList">
+														<td>{{i.exceptionCode}}</td>
+														<td>{{i.exceptionName}}</td>
+														<td><i ng-click="deleteException($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>			 
+									</div>
+								</div>
+							</div>
+							</div>
+						</div>
+						<br/>
+					</div>
+				</div>
+				<div class="btn-group btn-group-right pull-right">
+					<a href="javascript:void(0)" class="btn btn-danger" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction($event)"> Update </a> 
+					<a class="btn  btn-primary " ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || saveExceptionRules($event)"">Save</a> 
+					<a class="btn  btn-primary " ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" type="submit" ng-click="enable || saveTimeRuleDetails($event)"> Correct History </a>
+					<button class="btn  btn-danger  " ng-show="resetBtn" type="reset"> Reset</button> 
+					<a class="btn  btn-danger" ng-show="cancelBtn" ng-click="cancelButnAction()"> Cancel </a> 
+					<a href="javascript:void(0)" class="btn  btn-info" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')" ng-click="viewOrEditHistory()"> View Or Update History </a>
+				    <a href="#/searchTimeRules"  class="btn btn-default">Return to Search</a> 
+				</div>
+				<!-- </div> -->
+				<div class="container-fluid">
+					<div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+						<div class="container text-right" style="">
+							<label class="control-label text-center"
+								style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+
+<form id="exceptionForm">
+	<!-- Modal -->
+	<div class="modal fade" id="exception" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Exception Code</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="exceptionId" class="col-md-4 control-label required">Exception Code</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="exception" name="exceptionId" ng-options="item as item.desc+' ('+item.name+' )' for item in exceptionList" class="form-control" id="exceptionId" ng-disabled="readOnly" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="exceptionId" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+									
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="saveException($event)" onclick="return false;" ng-show="popUpSave">Save</button>
+					<button class="btn btn-primary" ng-click="updateException($event)" onclick="return false;" ng-show="popUpUpdate">Update</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal" ng-show="popUpSave">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>

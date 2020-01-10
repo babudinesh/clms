@@ -1,0 +1,566 @@
+<form id="timeForm">
+	<div class="container-fluid">
+		<div class="col-md-12 well">
+			<h3 class="cls_plainheader">Time Rules</h3>
+			<div class="col-md-12">
+				<ul class="nav nav-tabs">
+		            <li class="active"><a>Time Rules</a></li>
+		            <li><a ng-click="exceptionRules()" >Exception Rules</a></li>
+		        </ul>
+				<br />
+				<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">
+						<h5>Search :</h5>
+					</div>
+					<div class="container">
+
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-6 select-box">
+										<select ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"> </label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="custName" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="timeRule.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="customerId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="customerId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group is-empty">
+									<label for="countryId" class="col-md-4 control-label required">Country Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="timeRule.countryId" ng-options="item.id as item.name for item in countriesList" class="form-control" id="countryId" ng-disabled="true" name="countryId" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="countryId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<!-- <div class="form-group is-empty">
+									<label for="timeRuleCode1" class="col-md-7 control-label ">Available
+										Time Rule Codes</label>
+									<div class="col-md-5 select-box">
+										<select ng-change="CodeChange()" ng-model="timeRulesInfoId"
+											name="timeRuleCode1"
+											ng-options="item.id as item.name for item in ruleCodesList"
+											class="form-control" id="timeRuleCode1"
+											ng-disabled="readOnly">
+											<option value="">New Code</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div> -->
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="companyChange()" ng-model="timeRule.companyId" name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control" id="companyId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="companyId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group is-empty">
+									<label for="timeCode" class="col-md-4 control-label required">Time Rule Code</label>
+									<div class="col-md-8">
+										<input class="form-control" ng-model="timeRule.timeRuleCode" placeholder="Time Rule Code" type="text" name="timeRuleCode" id = "timeRuleCode" ng-disabled="readOnly"  minlength="2" onchange="angular.element(this).scope().validateCode()" maxlength="20" required/>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Define Time Rules</h5>
+					</div>
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+									<div class="col-md-8">
+										<input data-dtp="dtp_cdo8l" class="form-control" ng-model="transactionDate" placeholder="Effective From Date" type="text" id="transactionDate" name="transactionDate" ng-disabled="readOnly" required>
+									</div>
+								</div>
+
+								<div class="form-group is-empty">
+									<label for="timeRulesDescription" class="col-md-4 control-label required">Time Rule Description</label>
+									<div class="col-md-8">
+										<input class="form-control" ng-model="timeRule.timeRulesDescription" placeholder="Time Rule Description" type="text" name="timeRulesDescription" ng-disabled="readOnly" required minlength="2" maxlength="45">
+									</div>
+								</div>
+								
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="status" class="col-md-4 control-label required">Status</label>
+									<div class="col-md-8 select-box">
+										<select class="form-control" ng-model="timeRule.isActive" name="isActive" ng-disabled="readOnly" required>
+											<option value="Y">Active</option>
+											<option value="N">Inactive</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<!-- <label class="col-md-4 control-label "></label> -->
+									<div class="checkbox col-md-8" >
+										<label > 
+											<input type="checkbox" id="followFirstInLastOut" ng-model="timeRule.followFirstInLastOut" name="followFirstInLastOut" ng-true-value="'Y'" ng-false-value="'N'" ng-disabled="readOnly" ng-click="fun_renderTable()" /> Consider First In Last Out
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<br/>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-primary">
+									 <div class="sepr">
+										<div class="row"> 
+											<div class="col-md-6" style="padding:0px;">
+												<div class="panel-heading" style="color:white">
+													<h5>Standard Work Week Days</h5>
+												</div>
+												<div class="sepr">
+													<div class="row">
+														<div class="col-md-12">
+															<div class="form-group is-empty">
+																<label for="weekStartDay" class="col-md-4 control-label required">Work Week Start Day</label>
+																<div class="col-md-8 select-box">
+																	<select ng-model="timeRule.weekStartDay" ng-options="item.id as item.name for item in weekDays" ng-disabled="readOnly" class="form-control" id="weekStartDay" name="weekStartDay" required>
+																		<option value="">Select</option>
+																	</select> 
+																	<span class="input-group-btn"> 
+																		<label for="Select1" class="fa fa-caret-down"></label>
+																	</span>
+																</div>
+															</div>
+															<div class="form-group">
+																<label for="weekEndDay" class="col-md-4 control-label required">Work Week End Day</label>
+																<div class="col-md-8 select-box">
+																	<select ng-model="timeRule.weekEndDay" ng-disabled="readOnly" ng-options="item.id as item.name for item in weekDays" class="form-control" id="weekEndDay" name="weekEndDay" required>
+																		<option value="">Select</option>
+																	</select> 
+																	<span class="input-group-btn"> 
+																		<label for="Select1" class="fa fa-caret-down"></label>
+																	</span>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6" style="padding:0px;">
+												<div class="panel-heading" style="color:white">
+													<h5>Standard Working Hours Limit</h5>
+												</div>
+												<div class="sepr">
+													<div class="row">
+														<div class="col-md-6">
+															<div class="form-group"> 
+																<label for="hoursDay" class="col-md-6 control-label required">Hours/Day</label>
+																<div class="col-md-6">
+																	<input type="text onlyNumbersWithZero" ng-model="timeRule.hoursDay" ng-disabled="readOnly" class="form-control" id="hoursDay" name="hoursDay" placeholder="In Hours" maxlength="2"  required/>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="form-group">
+																<label for="hoursWeek" class="col-md-6 control-label required">Hours/Week</label>
+																<div class="col-md-6">
+																	<input type="text onlyNumbersWithZero" ng-model="timeRule.hoursWeek" ng-disabled="readOnly" class="form-control" id="hoursWeek" name="hoursWeek" placeholder="In Hours" maxlength="3" required/>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-primary">
+									 <div class="sepr">
+										<div class="row"> 
+											<div class="col-md-6" style="padding:0px;">
+												<div class="panel-heading" style="color:white">
+													<h5>Weekly Off Difference</h5>
+												</div>
+												<!-- <div class="sepr"> -->
+													<div class="row">
+														<div class="col-md-12">
+															<div class="form-group">
+																<label for="minimumDays" class="col-md-6 control-label required">Minimum
+																	Days</label>
+																<div class="col-md-6">
+																	<input type="text" ng-model="timeRule.minimumDays" ng-disabled="readOnly" class="form-control onlyNumbers" id="minimumDays" name="minimumDays" placeholder="Minimum Days" maxlength="12" required/>
+																</div>
+															</div>
+															<div class="form-group">
+																<label for="maximumDays" class="col-md-6 control-label required">Maximum
+																	Days</label>
+																<div class="col-md-6">
+																	<input type="text" ng-model="timeRule.maximumDays" ng-disabled="readOnly" class="form-control onlyNumbers" id="maximumDays" placeholder="Maximum Days" maxlength="12" required name="maximumDays"/>
+																</div>
+															</div>
+														</div>
+													</div>
+												<!-- </div> -->
+											</div>			
+											<div class="col-md-6" style="padding:0px;">
+												<div class="panel-heading" style="color:white">
+													<h5>Work Day Status Control</h5>
+												</div>
+												<div class="sepr">
+													<div class="row">
+														<div class="col-md-6">
+															<div class="checkbox " >
+																<label > 
+																	<input type="checkbox" id="isMultinaional" ng-model="timeRule.showWo" name="multinational" ng-true-value="'Y'" ng-false-value="'N'" ng-disabled="readOnly" /> Show WO
+																</label>
+															</div>
+															<br/>
+															<div class="checkbox " ">
+																<label > 
+																	<input type="checkbox" id="showLeaves" ng-model="timeRule.showLeaves" name="showLeaves" ng-true-value="'Y'" ng-false-value="'N'"  ng-disabled="readOnly" /> Show Leaves
+																</label>
+															</div>
+														</div>
+														<div class = "col-md-6">
+															<div class="checkbox " >
+																<label > 
+																	<input type="checkbox" id="showPh" ng-model="timeRule.showPh" name="showPh" ng-true-value="'Y'" ng-false-value="'N'" ng-disabled="readOnly" /> Show PH
+																</label>
+															</div>
+															<br/>
+															<div class="checkbox" >
+																<label > 
+																	<input type="checkbox" id="showOd" ng-model="timeRule.showOd" name="showOd" ng-true-value="'Y'" ng-false-value="'N'" ng-disabled="readOnly" /> Show OD
+																</label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+				
+						 <div class = "row">
+						 	<div class="col-md-12">
+								<div class="panel panel-primary">
+									<div class="sepr">
+										<div class="row">
+											<div class="col-md-12" style="padding:0px;">
+												<div class="panel-heading" style="color:white">
+													<h5>Penalization Rules</h5>
+												</div>
+												<div class="sepr">
+													<div class="row">
+														<div class="panel panel-primary" style="margin: 15px">
+															<table class="table table-striped">
+																<thead>
+																	<tr>
+																		<th>From Hours</th>
+																		<th>To Hours</th>
+																		<th>Status Code</th>
+																		<th>Status Description</th>
+																		<th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#penalization" ng-click="plusIconAction()" ng-show="gridButtons"> </i></th>
+																	</tr>
+																</thead>
+																<tbody>
+																	<tr ng:repeat="i in timeRule.workDayStatusList"
+																		on-last-repeat>
+																		<td>{{i.fromHours}}</td>
+																		<td>{{i.toHours}}</td>
+																		<td>{{i.statusCode}}</td>
+																		<td>{{i.statusDescription}}</td>
+																		<td><i ng-click="DeleteWorkDayStatus($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+																		<td><i ng-click="EditWorkDayStatus($event)" class="fa fa-edit" data-toggle="modal" data-target="#penalization" ng-show="gridButtons"></i></td>
+																	</tr>
+																</tbody>
+															</table>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-12">
+								<div class="panel panel-primary">
+									 <div class="sepr">
+										<div class="row"> 
+											<div class="panel-heading" style="color:white">
+												<h5>Define Buffer Time</h5>
+											</div>
+											<div class="sepr">
+												<div class="row">
+													<div class="panel panel-primary" style="margin: 15px">
+					
+														<table class="table table-striped">
+															<thead>
+																<tr>
+																	<th>Time Event</th>
+																	<th>Buffer Time(M)</th>
+																	<th>Exempted Occurrence</th>
+																	<th> > Exempted Occurrence</th>
+																	<th>From Hours</th>
+																	<th>To Hours</th>
+																	<th>Penality</th>
+					
+																	<th><i class="fa fa-plus addrow " data-toggle="modal" data-target="#bufferTime" ng-click="bufferTimePlusIconAction()" ng-show="gridButtons">
+																	</i></th>
+																</tr>
+															</thead>
+															<tbody>
+																<tr ng:repeat="i in timeRule.bufferTimeLsit" on-last-repeat>
+																	<td>{{i.timeEvent}}</td>
+																	<td>{{i.bufferTime}}</td>
+																	<td>{{i.exemptedOccurrence}}</td>
+																	<td>{{i.greaterExemptedOccurrence}}</td>
+																	<td>{{i.fromHours}}</td>
+																	<td>{{i.toHours}}</td>
+																	<td>{{i.penality}}</td>
+																	<td><i ng-click="DeleteBufferTime($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+																	<td><i ng-click="EditBufferTime($event)" class="fa fa-edit" data-toggle="modal" data-target="#bufferTime" ng-show="gridButtons"></i></td>
+					
+																</tr>
+															</tbody>
+														</table>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						 </div>
+					</div>
+				</div>
+			<div class="btn-group btn-group-right pull-right">
+				<a href="javascript:void(0)" class="btn btn-danger" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction($event)"> Update</a> 
+				<a class="btn  btn-primary " ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || saveTimeRuleDetails($event)"">Save</a>
+				<a class="btn  btn-primary " ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" type="submit" ng-click="enable || saveTimeRuleDetails($event)"> Correct History </a>
+				<button class="btn  btn-danger  " ng-show="resetBtn" type="reset"> Reset</button> 
+				<a class="btn  btn-danger" ng-show="cancelBtn" ng-click="cancelButnAction()"> Cancel </a> 
+				<a href="javascript:void(0)" class="btn  btn-info" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')" ng-click="viewOrEditHistory($event)"> View Or Update History </a>
+			    <a href="#/searchTimeRules"  class="btn btn-default">Return to Search</a> 
+			</div>
+			
+			<div class="container-fluid">
+				<div class="navbar navbar-default navbar-fixed-bottom text-center"
+					style="min-height: 15px; padding: 0px;">
+					<div class="container text-right" style="">
+						<label class="control-label text-center"
+							style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</form>
+
+<form id="penalizationForm">
+	<!-- Modal -->
+	<div class="modal fade" id="penalization" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close"  aria-label="Close" ng-click = "closeWorkDayStatus()">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Define Penalization Rule</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="fromHours" class="col-md-4 control-label required">From Hours</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="workDayStatusVar.fromHours" name="fromHours" class="form-control onlyNumbers" id="fromHours" placeholder="From Hours"  minlength="1" maxlength="4" required/>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="statusCode" class="col-md-4 control-label required">Status Code</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="workDayStatusVar.statusCode" name="statusCode" class="form-control" id="statusCode" placeholder="Status Code" required minlength="1" maxlength="3" />
+										</div>
+									</div>
+								</div>
+								<div class = "col-md-6">
+									<div class="form-group">
+										<label for="toHours" class="col-md-4 control-label required">To Hours</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="workDayStatusVar.toHours" name="To Hours" class="form-control onlyNumbers" id="toHours" placeholder="To Hours" minlength="1" maxlength="4"  required/>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="statusDescription" class="col-md-4 control-label required">Status Description</label>
+										<div class="col-md-8 ">
+											<input type="text" ng-model="workDayStatusVar.statusDescription" name="statusDescription" class="form-control" id="statusDescription" placeholder="Status Description" minlength="1" maxlength="45" required/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="saveWorkDayStatus($event)"  ng-show="popUpSave">Save</button>
+					<button class="btn btn-primary" ng-click="updateWorkDayStatus($event)"  ng-show="popUpUpdate">Update</button>
+					<button type="button" class="btn btn-warning" ng-click = "closeWorkDayStatus()" >Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</form>
+
+
+
+
+
+
+
+
+<form id="bufferTimeForm">
+	<!-- Modal -->
+	<div class="modal fade" id="bufferTime" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					 <button type="button" class="close" aria-label="Close" ng-click = "closeBuffer()">
+						<span aria-hidden="true">&times;</span>
+					</button> 
+					<h4 class="modal-title">Define Buffer Time</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="timeEvent" class="col-md-4 control-label required">Time Event</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="buferTimeVar.timeEvent" name="timeEvent" ng-options="item.id as item.name for item in timeEventList" class="form-control" id="timeEvent" ng-disabled="diableTimeEvent" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="bufferTime" class="col-md-4 control-label required"> Exempted Occurrence</label>
+										<div class="col-md-8">
+											<input type="text onlyNumbers" ng-model="buferTimeVar.exemptedOccurrence" name="exemptedOccurrence" class="form-control onlyNumbers" id="exemptedOccurrence" placeholder="Exempted Occurrence"  minlength="1" maxlength="2" required />
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="fromHours" class="col-md-4 control-label">From Hours</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="buferTimeVar.fromHours" name="fromHours" class="form-control onlyNumbers" id="fromHours" placeholder="From Hours" minlength="1" maxlength="2" />
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="penality" class="col-md-4 control-label required"> Penality</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="buferTimeVar.penality" name="penality" ng-options="item.id as item.name for item in penalityList" class="form-control" id="penality" ng-disabled="readOnly" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="penality" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="bufferTime" class="col-md-4 control-label required">Buffer Time(In Minutes)</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="buferTimeVar.bufferTime" name="bufferTime" class="form-control onlyNumbers" id="bufferTime" placeholder="Buffer Time" required minlength="1" maxlength="2" required />
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="bufferTime" class="col-md-4 control-label required"> > Exempted Occurrence</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="buferTimeVar.greaterExemptedOccurrence" name="greaterExemptedOccurrence" class="form-control onlyNumbers" id="greaterExemptedOccurrence" placeholder="> Exempted Occurrence" required minlength="1" maxlength="3" required />
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="toHours" class="col-md-4 control-label">To Hours</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="buferTimeVar.toHours" name="To Hours" class="form-control onlyNumbers" id="toHours" placeholder="To Hours" minlength="1" maxlength="2"  />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" ng-click="saveBufferTime($event)"  ng-show="popUpSave1">Save</button>
+					<button class="btn btn-primary" ng-click="updateBufferTime($event)"  ng-show="popUpUpdate1">Update</button>
+					<button type="button" class="btn btn-warning" ng-click = "closeBuffer()" >Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,357 @@
+<form id="vendorComplianceForm" ng-submit="submit"> 
+<div class="container-fluid">
+    <div class="col-md-12 well">
+         <h3 class="cls_plainheader">Vendor Document</h3>
+        <div class="col-md-12">
+			<div class="panel panel-default">
+               	<div class="sepr">
+                       <div class="row">
+                           <div class="col-md-6">
+                               <div class="form-group is-empty">
+                                   <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                   <div class="col-md-8 select-box">
+                                        <select  ng-change="customerChange()"  ng-model="vCompliance.customerId" ng-options="item.customerId as item.customerName for item in vComplianceList.customerList" class="form-control" id="custName" name="custName()" ng-disabled="readOnly || onlyRead" required>
+									 		<option value="">Select</option>
+                                          </select> 
+                                         <span class="input-group-btn">
+									 		<label for="Select1" class="fa fa-caret-down"></label>
+									 	 </span>
+                                   </div>
+                               </div>
+							
+								<div class="form-group is-empty">
+                                   <label for="locationName" class="col-md-4 control-label required">Country Name</label>
+                                   <div class="col-md-8 select-box">
+									<select  ng-model="vCompliance.countryId"   ng-options="item.id as item.name for item in vComplianceList.countryList" class="form-control" id="countryName" name="countryId" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+                                          </select> 	  
+                                          <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                  
+                                  	</div>
+                                </div>     
+                                <div class="form-group">
+	                                <label for="locaname" class="col-md-4 control-label required">Location Name</label>
+	                                <div class="col-md-8 select-box">
+		                                <select  ng-model="vCompliance.locationId"  ng-change ="locationChange()" name="locationId"  class="form-control" id="locationId" ng-change="locationChange()" ng-disabled="readOnly"  required>	                                          
+		                                	<option value="">Select</option>
+		                                	<option value="1">London</option>
+		                                </select>    
+		                                <span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                 
+	                                </div>
+                               </div>      
+						</div>
+
+						<div class="col-md-6">
+                               <div class="form-group is-empty">
+                                   <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                   <div class="col-md-8 select-box">
+									<select ng-change="companyChange()"  ng-model="vCompliance.companyId" ng-options="item.id as item.name for item in vComplianceList.companyList" class="form-control" id="companyName" name= "companyName"ng-disabled="readOnly || onlyRead" required>
+									 	<option value="">Select</option>
+                                          </select>
+                                          <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                               	</div>
+
+							</div>
+							
+							<div class="form-group is-empty">
+                            	<label for="vendorName" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-model="vCompliance.vendorId" ng-change="VendorChange()" ng-options="item.id as item.name for item in vComplianceList.vendorList" class="form-control" id="locatonName" name="locationName"  ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+                                   	</select> 
+                                   	<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>	                                    
+                                </div>
+                           </div>
+						</div>
+					</div>
+				</div>
+			</div>
+           	<div class="panel panel-primary" ng-show ="listPanel" >
+	             <div class="panel-heading">
+	             	<h5>Vendor Documents List</h5>
+	             </div>
+                <div class="sepr">
+                    <div>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                   <!-- <th> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" ng-disabled="readOnly" /></th> -->							
+                                    <th>Vendor Name</th>
+                                    <th>Document Name </th>
+                                    <th>Issue Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Due Date</th>
+                                     <th>Document Status</th> 
+                                   	<th><i class="fa fa-plus" ng-click="plusIconAction()" ng-show="gridButtons"> </i></th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                	<!-- <td><input type="checkbox" ng-model="i.Selected" ng-disabled="readOnly"  /></td> -->
+                                    <td>{{i.vendorName}}</td>
+                                    <td>{{i.complianceName}}</td>
+                                    <td>{{i.issueDt}}</td>
+                                    <td>{{i.expiryDt}}</td>
+                                    <td>{{i.dueDate}}</td>
+                                    <td>{{i.status}}</td>
+                                    <!-- <td><a ng-href="#/VendorComplianceAdd/{{i.vendorComplianceId}}">Details</td> -->
+                                 <!--  <td> a {{vendorAdmin && i.status == 'Saved'}} </td> -->
+
+                                    <td><i ng-click="Edit(i.vendorComplianceId)"  class="fa fa-edit"  ng-show="{{ vendorAdmin && (i.status == 'Verified')}} ? false : gridButtons "><input type="hidden" ng-model="vendorComplianceId" value="{{i.vendorComplianceId}}"></i></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>		
+           
+            <div class="panel panel-primary" >
+	            <div class="panel-heading">
+	             	<h5>Define Vendor Document</h5>
+	            </div>
+	            <br/>
+	            <div class="panel panel-default" ng-show="transactionList">
+					<div class="container">
+						<h5 class="cls_plainheader"> Search : </h5>
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-8 select-box">
+		                                <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+		                                	<option value="">Select</option>
+		                                </select>   
+	                                    <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                        											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr class="pull-left" style="width: 100%" />
+				</div>
+				
+                <div class="sepr">
+                    <div class="row">
+                    
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactiondate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="vCompliance.transactionDate" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly"  required/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="Status" class="form-control" ng-model="vCompliance.status" name="status" ng-options="item.id as item.name for item in documentStatus_list"  required>
+                                       <!--  <option value="">Select</option> ng-change="buttonChange()" -->
+                                        
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                            
+                           <!--  <div class="form-group" ng-show="vCompliance.status == 'N'">
+                                <label for="reason" class="col-md-4 control-label required">Reason for Status Change</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="Status" class="form-control" ng-model="vCompliance.reason" name="reason" ng-disabled="readOnly" required>
+                                        <option value="">Select</option>
+                                        <option>Suspended</option>
+                                        <option>Expired</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div> -->
+                            
+                        </div>
+                    </div>
+             		<br/>
+            
+		            <div class="panel panel-primary">
+			            <div class="panel-heading">
+			             	<h5>Add Document</h5>
+			            </div>
+		                <div class="sepr">
+		                    <div class="row">
+		                    	<div class="col-md-6">
+			                    	<div class="form-group is-empty">
+			                        	<label for="complianceType" class="col-md-4 control-label required">Document Type</label>			                        				                        
+			                            <div class="col-md-8 select-box">
+											<select  ng-model="vCompliance.defineComplianceTypeId" ng-change="validateCompliance()"  ng-options="item.complianceUniqueId as item.doccumentName for item in vComplianceList.complianceTypesList" class="form-control" id="documentName" name="documentName"  ng-disabled=" disableDocument" required>
+												<option value="">Select</option>
+			                               	</select> 
+			                                <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>	                               	
+										</div>
+								    </div>
+		                        
+		                            <div class="form-group">
+		                                <label for="licensePolicyNumber" class="col-md-4 control-label required">Policy Number</label>
+		                                <div class="col-md-8">
+		                                    <input type="text" class="form-control"ng-model="vCompliance.licensePolicyNumber" id="licensePolicyNumber" maxlength="45" name="licensePolicyNumber" placeholder="Policy Number" ng-disabled="readOnly"  required/>
+		                                </div>
+		                            </div>
+		                            
+		                            <div class="form-group">
+		                                <label for="issueDate" class="col-md-4 control-label required required">Issue Date</label>
+		                                <div class="col-md-8">
+		                                    <input type="text" class="form-control" ng-model="vCompliance.issueDate" id="issueDate" readonly="true" name="issueDate"   placeholder="Issue Date &#xf073;" ng-disabled="readOnly"  required/>
+		                                </div><!--  onchange="angular.element(this).scope().fun_checkErr(this)" -->
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="renewalDate" class="col-md-4 control-label">Renewal Date</label>
+		                                <div class="col-md-8">
+		                                    <input type="text" class="form-control" ng-model="vCompliance.renewalDate"  id="renewalDate" readonly="true" name="renewalDate" placeholder="Renewal Date &#xf073;"  ng-disabled="readOnly"  />
+		                                </div>
+		                            </div>
+		                           
+		                            <div class="form-group">
+				                        <label for="remarks" class="col-md-4 control-label">Remark/Comment</label>
+				                        <div class="col-md-8">
+				                            <textarea class="form-control" ng-model="vCompliance.remarks" id="remarks" name="remarks" placeholder="Remarks" ng-disabled="readOnly" maxlength="255" ></textarea>
+				                        </div>
+		                    		</div>
+		                    		<br/>
+		                    		<div >
+		                                 <label for="attachFile" class="col-md-4 control-label">Attach File</label>
+		                                <div class="col-md-8">
+		                                	<input type="file" file-model="myFile" ng-model="myFile" id="upload" ng-disabled="readOnly" />
+<!-- 		                                			                                	<div file-select="myFile" content="content" path="url" class="hide"  ng-model="myFile" id="upload" required/>
+ -->		                                	
+		                                	<div ng-show="vCompliance.documentPath != null && myFile == null" ng-disabled="readOnly">
+		                                		<a href ng-click="fun_download()" >{{vCompliance.documentPath}}</a>
+		                                	</div>
+		                                </div>
+		                            </div>
+		                        </div>
+		                        <div class="col-md-6">
+		                             <div class="form-group">
+		                            	<label class="col-md-4"> </label>
+		                                
+		                                <br/>
+		                            </div> 
+		                            
+		                            <div class="form-group">
+		                                <label for="registeredState" class="col-md-4 control-label required">Registered Location</label>
+		                                <div class="col-md-8 select-box">
+												<select ng-model="vCompliance.registeredState" ng-options="item.id as item.name for item in vComplianceList.statesList" class="form-control"  id="state" name="state" ng-disabled="readOnly" required>
+													<option value="">Select</option>
+												</select>
+												<span class="input-group-btn">
+                                     				<label for="registeredState" class="fa fa-caret-down"></label>
+                                        		</span>		                                
+                                        </div>
+		                            </div>
+		                            <div class="form-group">
+		                                <label for="expirydate" class="col-md-4 control-label required">Expiry Date</label>
+		                                <div class="col-md-8">
+		                                    <input type="text" class="form-control"   ng-model="vCompliance.expiryDate"   id="expiryDate" readonly="true" name="expiryDate" placeholder="Expiry Date &#xf073"  ng-disabled="readOnly"  required/>
+		                                </div><!--  onchange="angular.element(this).scope().fun_checkErr(this)" -->
+		                            </div>
+		                             <div class="form-group">
+		                                 <label for="numberOfWorkersCovered" class="col-md-4 control-label required">Number Of Workers Covered </label>
+		                                <div class="col-md-8">
+		                                    <input type="text" class="form-control onlyNumbers" ng-model="vCompliance.numberOfWorkersCovered" id="numberOfWorkersCovered" name="numberOfWorkersCovered" placeholder="Number Of Workers Covered" ng-disabled="readOnly"  maxlength="6" required/>
+		                                    
+		                                </div>
+		                            </div>
+		                            
+		                            <div class="form-group">
+		                                <label for="transactionAmount" class="col-md-4 control-label ">Transaction Amount</label>
+		                                <div class="col-md-4">
+		                                    <input type="text" class="form-control onlyNumbers"  ng-model="vCompliance.transactionAmount" id="transactionAmount" name="transactionAmount" placeholder="Transaction Amount" maxlength="10" ng-disabled="readOnly" />
+		                                </div>
+		                                <div class="col-md-4 select-box">
+		 									<select  ng-model="vCompliance.amountType" ng-options="item.id as item.name for item in vComplianceList.currencyList" class="form-control" name="amountType" id="amountType" ng-disabled="readOnly">
+                                         		 	<option value="">Select</option>
+                                          	</select>
+                                          	<span class="input-group-btn">
+												<label for="amountType" class="fa fa-caret-down"></label>
+											</span>                               
+										</div>
+		                            </div>
+		                            
+		                            
+		                        </div>
+		                        
+		                    </div>
+		                    <br/>
+		                </div>
+		                <div class="pull-right">
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show=" buttonArray.includes('SAVE')" ng-click="enable || save(0)">Save</a>
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="verifyButton && buttonArray.includes('APPROVE')" ng-click="save(1)"> Verify & Validate </a>
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')" ng-click="viewOrEditHistory()" >View Or Update History</a>
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave($event)">Correct History</a>
+							 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+							 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+							 <a href="#/VendorComplianceSearch" class="btn btn-primary">Return to search</a>
+				 
+						</div>
+					
+            		</div>
+            		<br/>
+            		<br/>
+            		 
+        		</div>
+        		
+        		
+        		
+			</div>
+			<br/>
+			<div class="pull-right" ng-hide="disableDiv">
+			 <!-- <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn" ng-click="enable || save($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn" ng-click="updateBtnAction()">Update</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="verifyButton" ng-click="save()"> Verify & Validate </a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn" ng-click="enable || correctHistorySave($event)">Correct History</a>
+		 -->	 <!-- <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+ -->			 <a href="#/VendorComplianceSearch"   class="btn btn-primary">Return to search</a>
+			 
+		</div>
+		 </div>
+         <!-- <div class="btn-group btn-group-right pull-right button panel">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn" ng-click="enable || save($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn" ng-click="updateBtnAction()">Update</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="verifyButton" ng-click="verify()"> Verify & Validate </a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn" ng-click="enable || correctHistorySave($event)">Correct History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+			 <a href="#/VendorComplianceSearch" class="btn btn-primary">Return to search</a>
+			 
+		</div> -->
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+</form>

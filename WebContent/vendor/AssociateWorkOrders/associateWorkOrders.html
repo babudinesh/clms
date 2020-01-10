@@ -1,0 +1,164 @@
+	<div class="container-fluid">
+        <div class="col-md-12 well">
+         <h3 class="cls_plainheader">Associate Work Order </h3>
+            <form class="associateWorkOrederForm" id="associateWorkOrederForm"  name="associateWorkOrederForm">
+	            <div class="col-md-12">
+					<div class="panel panel-primary">
+	                	<div class="sepr">
+	                        <div class="row">
+	                            <div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+	                                    <div class="col-md-8">
+	                                        <input class="form-control" ng-model="workOrder.customerName" placeholder="Customer Name"  type="text" name="customerName"  required disabled="disabled">
+	                                    </div>	                                    
+	                                </div>
+
+									<div class="form-group is-empty">
+	                                    <label for="vendorName" class="col-md-4 control-label required"> Vendor Name</label>
+	                                    <div class="col-md-8">
+	                                        <input class="form-control" ng-model="workOrder.vendorName" placeholder="Vendor Name"  type="text" name="vendorName"  required disabled="disabled">
+	                                    </div>
+	                                </div>
+								</div>
+
+								<div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                                    <div class="col-md-8">
+											<input class="form-control" ng-model="workOrder.companyName" placeholder="Company Name"  type="text" name="companyName"  required disabled="disabled">
+	                                </div>	                          
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <div class="panel panel-primary">
+                 <div class="panel-heading">
+	                 <h5> Associate Work Order</h5>
+	                 </div>
+                    <div class="sepr">                       
+                        <div class="row">
+                            <div class="panel panel-primary" style="margin: 15px">
+										<div class="panel-heading">
+											<h5> Work Order Details </h5>
+										</div>
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th> SNO</th>
+													<!-- <th> Work Order Code </th> -->
+													<th> Work Order Name </th>
+													<th> From Date </th>
+													<th> To Date </th>																													
+													<th><i class="fa fa-plus addrow " data-toggle="modal"
+														data-target="#myModal" ng-click="add_workOrderRecord($event)" ng-disabled="readonly"> </i></th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng:repeat="i in workOrderList">
+													<td>{{$index+1}}</td>																					
+													<td>{{i.workOrderCode}}</td>
+													<td>{{i.orderPeriodFrom}}</td>
+													<td>{{i.orderPeriodTo}}</td>																																		
+													<td><i ng-click="edit_workOrderRecord($event)" class="fa fa-edit " ng-disabled="readonly"></i></td>
+													<td><i ng-click="delete_workOrderRecord($event)" class="fa fa-trash" ng-disabled="readonly"></i>
+													</td>
+													
+												</tr>
+											</tbody>
+										</table>
+									</div>
+                        </div>
+                    </div>
+                    <br/>
+                </div>
+
+                 <div class="btn-group btn-group-right pull-right">
+                     <!--  <a href="javascript:void(0)" class="btn btn-primary" ng-show="saveBtn"  ng-click="enable || saveAssociateWorkOrderDetails($event)">Save</a>
+                     <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn" ng-click="updateDeptBtnAction()">Update</a>
+                     <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn">View Or Update History</a>
+                     <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn" ng-click="enable || correctHistorySave()">Correct History</a>
+                     <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+                     <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button> -->
+                     <a href="#/associateWorkOrdersearch" class="btn btn-primary">Return to search</a>
+                </div>
+                </div>
+                </form>
+            </div>
+<form id="workOrderPopUp" name="workOrderPopUp" novalidate ng-submit="submit"> 
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+				aria-labelledby="myModalLabel">
+				<div class="modal-dialog modal-lg" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+							<h4 class="modal-title">  Associate Work Order Details </h4>
+						</div>
+						<div class="modal-body">
+							<div class="panel panel-default">
+								<div class="sepr">
+									<div class="row">
+										<div class="col-md-12">													
+											<div class="form-group">
+												<label for="workrorderDetailId" class="col-md-4 control-label required">Work Order Code </label>
+												<div class="col-md-5 select-box">
+													<select ng-model="workrorderDetailId" name="workrorderDetailId" ng-change="fun_workorderChangeListener()"
+														ng-options="item.workrorderDetailId as item.workOrderName for item in list_workrorderDetails"
+														class="form-control" id="workrorderDetailId" required>
+														<option value="">Select</option>
+													</select> <span class="input-group-btn"> <label for="Select1"
+														class="fa fa-caret-down"></label>
+													</span>
+												</div>
+											</div>
+
+											<div class="form-group">
+												<label for="orderPeriodFrom" class="col-md-4 control-label required"> From Date </label>
+												<div class="col-md-5">
+													<input type="text" ng-model="orderPeriodFrom" name="orderPeriodFrom" disabled="disabled"
+														 class="form-control" id="orderPeriodFrom" required/>
+												</div>
+											</div>
+											<div class="form-group">
+												<label for="orderPeriodTo" class="col-md-4 control-label required"> To Date</label>
+												<div class="col-md-5 select-box">
+													<input type="text" ng-model="orderPeriodTo" name="orderPeriodTo" disabled="disabled"
+														class="form-control onlyNumbers" id="orderPeriodTo" required/>												
+												</div>
+											</div>											
+										</div>										
+									</div>
+								</div>
+							</div>
+							
+							<div class="modal-footer">
+								<button type="button" ng-click="save_workOrderRecord($event)" 
+									class="btn btn-primary"
+									ng-show="popUpSave">Save changes</button>
+								<button type="button" ng-click="update_workOrderRecord($event)"
+									class="btn btn-primary" 
+									ng-show="popUpUpdate">Update changes</button>
+								<button type="button" class="btn btn-warning"
+									data-dismiss="modal">Close</button>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</form>
+		
+            </div>
+            <div class="container-fluid">
+                <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+                    <div class="container text-right" style="">
+                        <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+                    </div>
+                </div>
+            </div>
+

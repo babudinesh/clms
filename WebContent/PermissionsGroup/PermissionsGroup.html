@@ -1,0 +1,79 @@
+<form id="permissionsGroupForm" name="permissionsGroupForm" novalidate >
+	<div class="container-fluid">
+    	<div class="col-md-12 well">
+	    	<h3 class="cls_plainheader">Define Group Permissions For Screen </h3>
+        	<br />
+        	
+        	<input type="hidden" ng-model="groupPermission.permissionsGroupId">
+        	
+        	<div class="col-md-12">
+				<div class="panel panel-default">
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+									<label for="permissionsGroupName" class="col-md-4 control-label required">Permissions Group Name</label>
+									<div class="col-md-8">
+										<input id="permissionsGroupName" name="permissionsGroupName" type="text" class="form-control" ng-model="groupPermission.permissionsGroupName" maxlength="85" required /> 
+									</div>
+								</div>								
+	                        </div>
+	
+	                        <div class="col-md-6">	
+	                        	<div class="form-group">
+									<label for="permissionsGroupDesc" class="col-md-4 control-label required">Permissions Group Description</label>
+									<div class="col-md-8">
+										<textarea id="permissionsGroupDesc" name="permissionsGroupDesc" class="form-control" ng-model="groupPermission.permissionsGroupDesc" maxlength="85" required > </textarea>
+									</div>
+								</div>
+							</div>
+	                	</div>
+	            	</div>
+				</div>
+				
+				
+				<div class="panel panel-default">
+	                <div class="sepr">
+	                    <div class="row">
+	                    	<div class="col-md-12 well grouptableView" ng-repeat=" (key, value) in screenList track by $index">
+	                    		<h3> Group Name : <b> {{key}} </b></h3>  Select Screen By Group: <input id="GroupLevelIndex{{$index}}" type="checkbox" name="GroupLevelIndex{{$index}}" ng-click="fun_checkALLScreenActionInGroup( key, $index)"> 
+	                    		<table  id="actionResults{{$index}}" class="table table-striped" border="1"> 
+	                    			<tr style="font-size: xx-small;"> 
+	                    				<th> Select By Screen </th>
+	                    				<th> Screen Name  </th>
+	                    				<th> VIEW </th>
+	                    				<th ng-repeat=" action in actionsList track by $index" > {{action}} </th>
+	                    			</tr>
+	                    			<tr id="{{'screenId'+screen.screenActionId}}" ng-repeat=" screen in value "   ng-init="parentIndex = $parent.$index " style="font-size: x-small;">
+	                    				<td> <input type= "checkbox" id="{{'screenwiseCheck'+screen.screenActionId}}" ng-click="fun_checkAllScreenActions(key,screen.screenActionId);"></td>
+	                    				<td style="font-weight:bold;"> {{screen.screenName}}  </td>
+	                    				<td> <input type= "checkbox" ng-model="screen.viewScreenActions" ng-init="screen.viewScreenActions = screen.actionsArray.length > 0" ng-checked="{{screen.actionsArray.length > 0}}" ng-click="fun_viewScreenAction( parentIndex , screen.viewScreenActions, key, screen.screenName)"/> </td> 
+	                    				<td ng-repeat=" action in actionsList track by $index" ng-init="screenIndex = $parent.$index " > 
+	                    					<input type= "checkbox" class="{{screenIndex}}" ng-show="{{screen.actions.includes(action)}}" name="{{action + parentIndex + $index}}"  ng-model="actionsMap[$index]" ng-checked="{{screen.actionsArray.includes(action) && screen.viewScreenActions}}" ng-click="fun_checkScreenAction( $event, screenIndex, key, actionsMap[$index],action)" ng-disabled="!screen.viewScreenActions"> <!-- ng-true-value="'{{action}}'" ng-false-value="''" id="{{action + parentIndex + $index}}" --> 
+                    					</td>
+	                    			</tr>
+	                    		</table>
+	                    	</div>	
+	                    	                    		                    	
+	                    </div>
+                    </div>
+                </div>
+				
+          	 	<div class="btn-group btn-group-right pull-right">
+                  	<a href="javascript:void(0)" class="btn btn-primary" ng-click="enable || saveOrUpdateDetails($event)"> {{saveOrUpdate}}</a>
+                   	<a href="#/permissionsGroup" class="btn btn-default">Return to search</a>
+               	</div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+</form>
+
+
+

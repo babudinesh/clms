@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Labour License Utilization Report" language="groovy" pageWidth="434" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="394" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df78115e-a15c-4d9f-93d2-205b8705d59c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="fromDate" class="java.lang.String"/>
+	<parameter name="toDate" class="java.lang.String"/>
+	<parameter name="locationId" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyName" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[Select * from
+(SELECT issue_date,Expiry_Date,dc.Doccument_Name,vc.vendor_id,
+sum( vc.number_of_workers_covered) AS WorkerCount, group_concat(distinct License_Policy_Number) AS License_Policy_Number
+FROM vendor_compliance vc
+INNER JOIN define_compliance_types dc ON (dc.location_id = vc.location_id AND dc.Compliance_Unique_Id = vc.Compliance_Unique_Id)
+
+WHERE
+CONCAT(DATE_FORMAT(vc.transaction_date, '%Y%m%d'), LPAD(vc.Vendor_Compliance_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vc1.transaction_date, '%Y%m%d'), LPAD(vc1.Vendor_Compliance_sequence_id, 2, '0')))
+FROM vendor_compliance vc1
+WHERE  vc.Vendor_compliance_id = vc1.Vendor_compliance_id
+AND vc1.transaction_date <= CURRENT_DATE()  GROUP BY Vendor_compliance_id
+)
+AND
+CONCAT(DATE_FORMAT(dc.transaction_date, '%Y%m%d'), LPAD(dc.Sequence_Id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM define_compliance_types vdi1
+WHERE  dc.compliance_unique_id = vdi1.compliance_unique_id
+AND vdi1.transaction_date <= CURRENT_DATE()  GROUP BY compliance_unique_id
+)
+AND
+vc.customer_id = $P{customerId}
+AND
+vc.company_id = $P{companyId}
+AND
+vc.location_id = $P{locationId}
+AND
+(vc.vendor_id =  $P{vendorId} or '-1' = $P{vendorId})
+AND
+($P{fromDate}  between issue_date AND  Expiry_Date
+or $P{toDate}  between issue_date AND  Expiry_Date )
+AND
+dc.Doccument_Name = 'Labour License'
+group by vc.vendor_id) a
+
+JOIN
+
+(Select Count(vendor_id) AS UtilizedWorkerCount,vendor_id,ContractorName,Business_date
+from labor_time_report l
+where
+l.customer_id = $P{customerId}
+AND
+l.company_id = $P{companyId}
+AND
+l.location_id = $P{locationId}
+AND
+(l.vendor_id = $P{vendorId} or '-1' = $P{vendorId})
+AND
+l.Business_date between $P{fromDate} AND $P{toDate}
+AND
+Attendance = 'Present'
+group by vendor_id) b
+ON (a.vendor_id = b.vendor_id);]]>
+	</queryString>
+	<field name="issue_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Expiry_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Doccument_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendor_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WorkerCount" class="java.math.BigDecimal"/>
+	<field name="License_Policy_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="UtilizedWorkerCount" class="java.lang.Long"/>
+	<field name="ContractorName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Business_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement x="72" y="0" width="251" height="22" uuid="4e4e67b0-09f0-45ee-b242-ea8092e90832"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Labour License Utilization Report]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="156" height="16" uuid="34f10305-3795-4f24-9d1b-10184c4cf33e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vendor Name (Code) :" + '  ' + ($P{vendorId}.equals ("-1") ? "All" : ($F{ContractorName}+"("+$F{vendor_id}+")"))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="0" width="87" height="16" uuid="c2ecea33-6bef-4586-b5be-d679679990b5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="47" height="20" backcolor="#BFE1FF" uuid="c25b97da-ebfb-44f3-86ee-34dbf52e26d4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Business Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="156" y="0" width="123" height="20" backcolor="#BFE1FF" uuid="fec6f9f9-5402-4cef-b435-deb193e58e28"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Labour License Number]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="279" y="0" width="47" height="20" backcolor="#BFE1FF" uuid="8099b3ca-4170-4c5e-be1c-0fcced30f414"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Worker Limit]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="326" y="0" width="67" height="20" backcolor="#BFE1FF" uuid="9f933873-2e9b-496f-b06a-044268376796"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Utilized Worker Count]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="86" y="0" width="70" height="20" forecolor="#000000" backcolor="#BFE1FF" uuid="c7431c2b-50c5-4246-8093-e6381c703330"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Vendor Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="47" y="0" width="39" height="20" forecolor="#000000" backcolor="#BFE1FF" uuid="6ce354af-0f05-4a43-a64e-957172bdd9f7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Vendor Code]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="0" y="0" width="47" height="20" uuid="ad25a4c2-b8e1-4ea3-a4f9-c8f41a507e91"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Business_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="156" y="0" width="123" height="20" uuid="6b3caf98-2b1c-4fbd-abcf-d85e8f48341f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{License_Policy_Number}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="0" width="47" height="20" uuid="5169a448-ecb3-4b7c-ba9a-2943fc5e2219"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{WorkerCount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="326" y="0" width="67" height="20" uuid="ce794808-1313-495d-8b82-dc2ae2da937f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{UtilizedWorkerCount}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="86" y="0" width="70" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="b8e2e00a-8c58-4f26-ad5d-ce81a68a91c5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ContractorName}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="47" y="0" width="39" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="2eee2906-072b-443d-ad0b-a0db73983e87"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendor_id}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -1,0 +1,140 @@
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Worker Badge Generation</h3>
+		<form name="companySearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<!-- <a ng-href="#/workerBadgeGeneration/0" class="btn btn-primary pull-right">Add New Worker Badge Generation <i class="fa fa-plus-circle"></i></a> <br /> <br /> <br /> -->
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Search Worker</h5>
+					</div>
+					<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerDetailsId" class="col-md-4 control-label">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="workerbadgeVo.customerName" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerDetailsId" ng-disabled="dropdownDisable" required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="vendorDetailsId" class="col-md-4 control-label">Vendor Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="workerbadgeVo.vendorName"  name="workerbadgeVo.vendorName" ng-options="item.id as item.name for item in vendorList" class="form-control"  id="vendorDetailsId" ng-disabled="dropdownDisable"  required>
+                                        	<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+                                	<label for="WorkerName" class="col-md-4 control-label ">Worker Name</label>
+                                	<div class="col-md-8">                                    
+                                    	<input type="text" class="form-control" ng-model="workerbadgeVo.workerName"  placeholder="Worker Name" id="WorkerName" > 
+ 	                              	</div>
+                                </div>
+								<!-- <div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="workerbadgeVo.isActive" class="form-control">
+											<option value="Y">Active</option>
+											<option value="N">In-Active</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div> -->
+															                               
+							</div>		
+											
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyDetailsId" class="col-md-4 control-label">Company Name</label>
+									<div class="col-md-8 select-box">
+										 <select  ng-change="companyChange()"  ng-model="workerbadgeVo.companyName"  name="companyDetailsId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyDetailsId" ng-disabled="dropdownDisable"  required>
+                                            <option value="">Select</option>
+                                         </select>
+                                         <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+                                	<label for="employeeCode" class="col-md-4 control-label ">Worker Code</label>
+                                	<div class="col-md-8">                                    
+                                    	<input type="text" class="form-control" ng-model="workerbadgeVo.workerCode"  placeholder="Worker Code" id="employeeCode" >
+ 	                               	</div>
+                                </div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="col-md-6">
+								</div>
+								<div class="col-md-5 col-md-offset-1">
+									<button class="btn btn-warning col-md-3 pull-right" type="reset">Clear <i class="fa fa-times"></i></button>
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right" ng-click="search()" onclick="return false;">Search <i class="fa fa-search"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary" ng-show="badgeTableView">
+					<div class="panel-heading">
+						<h5>Search Results</h5>
+					</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="badgeTable">
+								<thead>
+									<tr>									
+										<th>Customer Name</th>
+										<th>Company Name</th>
+										<th>Vendor Name</th>
+										<th>Badge ID</th>                                       
+                                        <th>Worker Name</th>
+									</tr>
+								</thead>
+								<!-- <tbody ng:repeat="i in result" on-last-repeat>
+									<tr>									
+										<td>{{i.customerName}}</td>
+										<td>{{i.companyName}}</td>
+										<td>{{i.vendorName}}</td>
+										<td><a ng-href="#/workerBadgeGeneration/{{i.workerBadgeId}}"> {{i.badgeCode}} </a></td>
+										<td>{{i.workerName}}</td>										
+										<td>{{i.isActive}}</td>
+										
+										
+									</tr>
+								</tbody> -->
+							</table>
+						</div>
+					</div>
+				</div>
+				<br />
+			</div>
+		</form>
+	</div>
+	<div class="container-fluid">
+		<div class="navbar navbar-default navbar-fixed-bottom text-center"
+			style="min-height: 15px; padding: 0px;">
+			<div class="container text-right" style="">
+				<label class="control-label text-center"
+					style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,780 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RegisterofOvertime" language="groovy" pageWidth="1000" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7d58e705-db10-4ad9-8b19-e524aa190dbb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="257"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="workerId" class="java.lang.String"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="todate" class="java.lang.String"/>
+	<parameter name="schemaName" class="java.lang.String"/>
+	<parameter name="workerCode" class="java.lang.String"/>
+	<parameter name="workerName" class="java.lang.String"/>
+	<parameter name="departmentId" class="java.lang.String"/>
+	<parameter name="locationId" class="java.lang.String"/>
+	<parameter name="plantId" class="java.lang.String"/>
+	<parameter name="sectionId" class="java.lang.String"/>
+	<parameter name="workAreaId" class="java.lang.String"/>
+	<parameter name="plantName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT ltr.department_name,ltr.section_name,ltr.work_area_name,vdi.vendor_name as ContractorName,emp, REPLACE((CONCAT(RTRIM(wdi.first_name), ' ',CASE WHEN (wdi.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wdi.middle_name),' ') END, wdi.last_name)),'  ',' ') AS Emp_Name,COALESCE(wdi.`Father_Spouse_name`,'') AS fatherName, wdi.gender,jc.`Job_Name`, DATE_FORMAT(`Business_Date`,'%d/%m/%Y') AS Business_Date,`OTHours`,COALESCE(`Base_Rate`,0) AS Base_Rate,COALESCE(`Overtime_Rate`,0) AS OvertimeRate,(`OTHours`*COALESCE(`Overtime_Rate`,0)) AS otTotal,
+
+CONCAT(COALESCE(CASE WHEN ca.address_1 IS NOT NULL THEN CONCAT(ca.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN ca.address_2 IS NOT NULL THEN CONCAT(ca.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.address_3 IS NOT NULL THEN CONCAT(ca.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.city_name  IS NOT NULL THEN CONCAT(ca.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.state_name  IS NOT NULL THEN CONCAT(ca.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN ca.country_name  IS NOT NULL THEN CONCAT(ca.country_name,', ') ELSE '' END ,'' ),COALESCE(ca.pincode,''),'') AS companyAddr
+
+,CONCAT(COALESCE(CASE WHEN vv.address_1 IS NOT NULL THEN CONCAT(vv.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN vv.address_2 IS NOT NULL THEN CONCAT(vv.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.address_3 IS NOT NULL THEN CONCAT(vv.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.city_name IS NOT NULL THEN CONCAT(vv.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.state_name  IS NOT NULL THEN CONCAT(vv.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN vv.country_name  IS NOT NULL THEN CONCAT(vv.country_name,', ') ELSE '' END ,'' ),COALESCE(vv.pincode,''),'') AS vendorAddr,
+
+CONCAT(COALESCE(CASE WHEN  cav.address_1 IS NOT NULL THEN CONCAT(cav.address_1,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.address_2 IS NOT NULL THEN CONCAT(cav.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.address_3 IS NOT NULL THEN CONCAT(cav.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.city_name  IS NOT NULL THEN CONCAT(cav.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.state_name  IS NOT NULL THEN CONCAT(cav.state_name,', ') ELSE '' END ,''  ),COALESCE(CASE WHEN cav.country_name  IS NOT NULL THEN CONCAT(cav.country_name,', ') ELSE '' END ,'' ),COALESCE(cav.pincode,''),'') AS customerAddr,
+
+CASE WHEN (vdi.Nature_Of_Work IS NOT NULL AND ldi.Location_Name IS NOT NULL) THEN CONCAT(vdi.Nature_Of_Work,', ',ldi.Location_Name) ELSE COALESCE(vdi.Nature_Of_Work,ldi.Location_Name,'') END AS Location_Name,cdi.customer_name,cmpdi.company_name
+FROM $P!{schemaName}.`labor_time_report` ltr
+INNER JOIN worker_details wd ON (ltr.emp = wd.worker_code AND ltr.OTHours > 0)
+INNER JOIN worker_details_info wdi ON (wd.worker_id = wdi.worker_id)
+INNER JOIN customer_details_info cdi ON (cdi.customer_id = wd.customer_id)
+INNER JOIN company_details_info cmpdi ON (cmpdi.company_id = wd.company_id)
+
+LEFT JOIN `company_AddressView` ca ON (wd.`Company_Id` = ca.`Company_Id` AND ca.address_type_id = 2)
+
+INNER JOIN `vendor_details_info` vdi ON (wd.vendor_id = vdi.vendor_id)
+LEFT JOIN `vendor_addressview` vv ON (vv.`vendor_id` = vdi.vendor_id)
+LEFT JOIN `customer_addressview` cav ON (cav.`Customer_Id` = wd.`Customer_Id` AND cav.address_type_id = 2)
+LEFT JOIN work_job_details wjd ON (wjd.worker_id = wdi.worker_id AND CONCAT(DATE_FORMAT(wjd.transaction_date, '%Y%m%d'), LPAD(wjd.sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM work_job_details vdi1
+WHERE  wjd.worker_id = vdi1.worker_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+))
+
+LEFT JOIN job_code_details_info jc ON (jc.job_code_id = wjd.job_name AND
+CONCAT(DATE_FORMAT(jc.transaction_date, '%Y%m%d'), LPAD(jc.job_code_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.job_code_sequence_id, 2, '0')))
+FROM job_code_details_info vdi1
+WHERE  jc.job_code_id = vdi1.job_code_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+))
+
+LEFT JOIN location_details_info ldi ON (ldi.location_id = vdi.location_id AND CONCAT(DATE_FORMAT(ldi.transaction_date, '%Y%m%d'), LPAD(ldi.`Location_Sequence_Id`, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(li1.transaction_date, '%Y%m%d'), LPAD(li1.`Location_Sequence_Id`, 2, '0'))) FROM `location_details_info` li1
+WHERE (ldi.Location_Id=li1.Location_Id AND li1.transaction_date <= CURRENT_DATE()) GROUP BY Location_Id))
+
+
+LEFT JOIN `wage_rate_details_info` wrdi ON (wjd.`Wage_Rate_Id` = wrdi.`Wage_Rate_Id` AND CONCAT(DATE_FORMAT(wrdi.transaction_date, '%Y%m%d'), LPAD(wrdi.`Wage_Rate_Sequence_Id`, 2, '0')) =(SELECT MAX(CONCAT(DATE_FORMAT(wrdi1.transaction_date, '%Y%m%d'), LPAD(wrdi1.`Wage_Rate_Sequence_Id`, 2, '0'))) FROM wage_rate_details_info wrdi1
+WHERE (wrdi.Wage_Rate_Id=wrdi1.Wage_Rate_Id AND wrdi1.transaction_date <= CURRENT_DATE()) GROUP BY Wage_Rate_Id))
+
+WHERE CONCAT(DATE_FORMAT(wdi.transaction_date, '%Y%m%d'), LPAD(wdi.Sequence_Id, 2, '0')) =(SELECT MAX(CONCAT(DATE_FORMAT(wdi1.transaction_date, '%Y%m%d'), LPAD(wdi1.Sequence_Id, 2, '0'))) FROM worker_details_info wdi1
+WHERE (wdi.worker_id=wdi1.worker_id AND wdi1.transaction_date <= CURRENT_DATE()) GROUP BY worker_id)
+
+AND CONCAT(DATE_FORMAT(vdi.transaction_date, '%Y%m%d'), LPAD(vdi.Sequence_Id, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.Sequence_Id, 2, '0'))) FROM vendor_details_info vdi1
+WHERE (vdi.vendor_id=vdi1.vendor_id AND vdi1.transaction_date <= CURRENT_DATE()) GROUP BY vendor_id)
+
+AND CONCAT(DATE_FORMAT(cdi.transaction_date, '%Y%m%d'), LPAD(cdi.customer_Sequence_Id, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(cdi1.transaction_date, '%Y%m%d'), LPAD(cdi1.customer_Sequence_Id, 2, '0'))) FROM customer_details_info cdi1
+WHERE (cdi.customer_id=cdi1.customer_id AND cdi1.transaction_date <= CURRENT_DATE()) GROUP BY customer_id)
+
+AND CONCAT(DATE_FORMAT(cmpdi.transaction_date, '%Y%m%d'), LPAD(cmpdi.company_Sequence_Id, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(cmpdi1.transaction_date, '%Y%m%d'), LPAD(cmpdi1.company_Sequence_Id, 2, '0'))) FROM company_details_info cmpdi1
+WHERE (cmpdi.company_id = cmpdi1.company_id AND cmpdi1.transaction_date <= CURRENT_DATE()) GROUP BY company_id)
+
+
+AND wd.customer_id = $P{customerId}
+AND wd.company_id = $P{companyId}
+AND (wd.vendor_id= $P{vendorId}  OR $P{vendorId} = -1)
+AND (wd.worker_code = $P{workerCode} OR $P{workerCode} = -1)
+AND (REPLACE((CONCAT(RTRIM(wdi.first_name), ' ',CASE WHEN (wdi.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wdi.middle_name),' ') END, wdi.last_name)),'  ',' ')  LIKE  '%$P!{workerName}%' )
+AND (wd.worker_id = $P{workerId} OR $P{workerId} = -1)
+AND (ltr.department_id =  $P{departmentId} or  $P{departmentId} = '-1')
+and
+ltr.Location_id =  $P{locationId}
+and
+ltr.plant_id =  $P{plantId}
+and
+(ltr.section_id =  $P{sectionId} or $P{sectionId} = '-1')
+and
+(ltr.work_area_id = $P{workAreaId} or $P{workAreaId}= -1)
+AND (Business_Date BETWEEN $P{fromdate} AND $P{todate})]]>
+	</queryString>
+	<field name="department_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="section_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="work_area_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ContractorName" class="java.lang.String"/>
+	<field name="emp" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emp_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fatherName" class="java.lang.String"/>
+	<field name="gender" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Job_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Business_Date" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OTHours" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Base_Rate" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="OvertimeRate" class="java.lang.Float"/>
+	<field name="otTotal" class="java.lang.Double"/>
+	<field name="companyAddr" class="java.lang.String"/>
+	<field name="vendorAddr" class="java.lang.String"/>
+	<field name="customerAddr" class="java.lang.String"/>
+	<field name="Location_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="customer_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="62" splitType="Stretch">
+			<staticText>
+				<reportElement x="430" y="0" width="100" height="20" uuid="41d999af-b9e9-4548-ad20-c2072c7047e4"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORM XXIII]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="20" width="200" height="18" uuid="7965e7dc-9159-4f51-ba20-9597dd843c48"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGSITER OF OVERTIME]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="38" width="141" height="20" uuid="7f490c70-7b16-4868-9f98-028a37d255bd"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[[SEE RULE 78(2) (E)]]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="61" width="959" height="1" uuid="0d0d4fa4-14a8-4828-bb13-064e17a36fef"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="55" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="112" height="13" uuid="ef6b33a7-260a-4ca9-8a8b-36496d01016e"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name and Address of the Contractor :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="28" width="102" height="10" uuid="cacbb624-51c7-4c92-b297-90fa11012117"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nature and location of work :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="54" width="960" height="1" uuid="bd80d00a-1a8c-4e8f-bf9c-ba242d593838"/>
+			</line>
+			<staticText>
+				<reportElement x="644" y="0" width="170" height="20" uuid="2d194f8d-3fac-4cba-8d5f-65a281f977c8"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Name and address of Establishment in /under which contract is carried on :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="644" y="30" width="170" height="10" uuid="46cc09c1-a89c-4f01-96bb-970c668c3d1b"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Name and Address of the Principal Employer :
+]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="114" y="0" width="164" height="20" uuid="25d5d310-adce-4049-aab0-78c02a213db5"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{ContractorName} == null ? '' : $F{ContractorName}+", ") +" "+($F{vendorAddr} == null ? '' : $F{vendorAddr})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="102" y="28" width="180" height="10" uuid="0d307314-dbde-4658-85d5-1164bbb71d6c"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Location_Name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="818" y="29" width="141" height="20" uuid="7c1feb37-8230-4ae6-995f-e7c77812af60"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{customer_name} == null ? '' :$F{customer_name}+", ") +" "+($F{customerAddr} == null ? '' : $F{customerAddr} )]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="819" y="0" width="140" height="20" uuid="4c88dba8-be99-4c25-aeb9-9aecd39dbb72"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{company_name} == null ? '' : $F{company_name}+", ")+" "+($F{companyAddr}  == null ? '' : $F{companyAddr})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="37" width="45" height="10" uuid="9be0777a-7763-4c8b-aa3c-a6f8c7f83b4e"/>
+				<textElement>
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plant Name    :   ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="46" y="37" width="236" height="10" uuid="fa46a570-15cf-40a1-b214-6d6d51adb068"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{plantName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="39" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="18" height="39" uuid="5ba5f093-30b8-4a4f-baee-6a0518dc4436"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[S.NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="515" y="0" width="18" height="39" uuid="1ac077b5-0019-4947-92f8-c33076237b59"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sex]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="533" y="0" width="71" height="39" uuid="2633c368-170a-45fc-970d-c03bcb6189d7"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Designation/ Nature of Employement]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="604" y="0" width="50" height="39" uuid="f4d96805-88b0-45e6-a736-5091bb13a211"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dates on which overtime worked]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="654" y="0" width="67" height="39" uuid="1bca79df-2e4b-44aa-8002-cd15a6b8ed63"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total overtime worked or production in case of piece-rated]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="721" y="0" width="40" height="39" uuid="969b721b-82fd-4196-80b2-ee5d125d42b9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Normal rates of Wages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="761" y="0" width="40" height="39" uuid="ffb5fca7-800a-4b49-a24c-61d4cb23be39"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Overtime rates of Wages]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="801" y="0" width="40" height="39" uuid="74d90d87-e969-45d5-bf22-bd6670bf4514"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Overtime earnings]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="841" y="0" width="50" height="39" uuid="db548045-499c-4274-a96f-83975dc4d897"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date on which overtime wages paid]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="891" y="0" width="69" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="c7ef9755-8703-4e04-b421-0937e03c2cdd"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Remarks]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="402" y="0" width="113" height="39" uuid="684b70c0-8dde-45af-9d4c-5d03b86bec1d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name of Workman]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="18" y="0" width="73" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="2e61da89-a6ea-4901-8460-b9518430955c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="91" y="0" width="100" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="157da400-5d09-47af-bc25-dc5966f92dc5"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="191" y="0" width="60" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="751871da-d209-487f-b50d-422db12ee1c2"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Work Area]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="251" y="0" width="115" height="39" forecolor="#000000" backcolor="#FFFFFF" uuid="a334cb78-8165-4a5f-8539-09d9a9ceb121"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Vendor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="366" y="0" width="36" height="39" uuid="e09cb576-5806-4629-a8de-fec1fb0c7bcc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Workman ID No]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="18" height="26" uuid="9c161b5a-6793-41ad-94f2-0394976dde1e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{COLUMN_COUNT}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="604" y="0" width="50" height="26" uuid="5386797f-1f91-410e-840a-301fa62d970e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="761" y="0" width="40" height="26" uuid="47f4d4a9-0f75-47ce-8742-fff6694a9f25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="801" y="0" width="40" height="26" uuid="5f300a80-a185-4354-85e1-da64ea5664af"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="891" y="0" width="69" height="26" uuid="4c3b8ed8-e1e4-4e89-aa11-bf7b12095cbe"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="515" y="0" width="18" height="26" uuid="c9097044-6558-4b66-a881-f56eb6bad7a0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="533" y="0" width="71" height="26" uuid="1ee5c5f9-4757-47a6-b65b-fdfa91b3a0a1"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Job_Name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="654" y="0" width="67" height="26" uuid="1885c9c0-f1a2-42a8-a7ef-8593392b386d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OTHours}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="721" y="0" width="40" height="26" uuid="e8f2daca-a43c-4c3c-b8d2-cd24e39f2b8c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Base_Rate}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="761" y="0" width="40" height="26" uuid="82cac797-3dcf-4aa9-81bc-8cfa73bc9956"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OvertimeRate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement x="841" y="0" width="50" height="26" uuid="d7d6cc80-19d3-4079-b375-982e23d4ee98"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("dd/MM/yyyy")
+    .parse($F{Business_Date}))]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement x="604" y="0" width="50" height="26" uuid="b57daac0-6c26-48c8-82ff-4a4dbf8ca8a6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("dd/MM/yyyy")
+    .parse($F{Business_Date}))]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="801" y="0" width="40" height="26" uuid="f26c9dcc-4c0f-4250-babb-fbb6085c523a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{otTotal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="402" y="0" width="113" height="26" uuid="39bab950-db93-41e3-897d-3522975967ed"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Emp_Name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="18" y="0" width="73" height="26" forecolor="#000000" backcolor="#FFFFFF" uuid="907ad8a8-cf1f-471a-97b9-27a24c2cd53a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{department_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="91" y="0" width="100" height="26" forecolor="#000000" backcolor="#FFFFFF" uuid="5f4ce9f3-1541-4940-8639-c72c099201a6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{section_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="191" y="0" width="60" height="26" forecolor="#000000" backcolor="#FFFFFF" uuid="7e26b6d0-c725-4e4b-8fad-0a4388ce0093"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_area_name}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement mode="Transparent" x="251" y="0" width="115" height="26" forecolor="#000000" backcolor="#FFFFFF" uuid="9ef969f5-3b9e-4e96-bbb4-c6f978bd868b"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ContractorName}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="366" y="0" width="36" height="26" uuid="87c1acff-71dd-4af3-8edf-e157faf96440"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="9" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="891" y="0" width="42" height="9" uuid="002bf7bc-e1f8-47ab-9a13-f70196999568"/>
+				<textElement textAlignment="Right">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report" isBlankWhenNull="true">
+				<reportElement x="935" y="0" width="25" height="9" uuid="fb4e35a7-7927-4a8f-961c-0a48c3016d1e"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

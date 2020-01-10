@@ -1,0 +1,211 @@
+<!-- <link rel="stylesheet" href="/company/list/all.css" /> -->
+
+
+<!-- <div class="container-fluid" style="margin-bottom: 35px;">
+	<div style="display: inline-block">
+	
+	</div>
+	<div class="pull-right">
+		<span style="padding-top: 10px; cursor: pointer;"><i
+			class="fa fa-question-circle fa-3x clsicon_help" aria-hidden="true"
+			title="Help"></i></span>
+	</div>
+
+
+
+</div> -->
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Search & Schedule  Workers</h3>
+		<form name="companySearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<!-- a ng-href="#/companyDetails/create"
+					class="btn btn-primary pull-right">Add New Company <i
+					class="fa fa-plus-circle"></i></a> <br /> <br /> <br /> -->
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+				<h5>Search Duty </h5>
+				</div>
+					<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<!-- <div class="form-group">
+									<label for="customerName" class="col-md-4 control-label">Customer
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-change="fun_customerNameChange()"  ng-required="true"  ng-model="Assign.search.customer_id"											
+											class="form-control" >
+											<option ng:repeat="i in customers" value="{{i.Customer_Id}}"> {{i.Customer_name}}</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>-->
+								<div class="form-group">
+									<label for="countryName" class="col-md-4 control-label">Country
+										Name</label>
+									<div class="col-md-8">
+									<input type="hidden" ng-model="Assign.search.country_id" class="form-control"/> 
+										<input type="text" ng-model="Assign.CompanyAddress.Country_Name" class="form-control"/> 
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Work Order</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="Assign.search.workorder_id" class="form-control">
+											<option ng:repeat="i in Assign.WorkOrderDetail" value="{{i.workorder_id}}"> {{i.work_order_name}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="Department Name" class="col-md-4 control-label">Department Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="Assign.department" class="form-control" ng-change="fun_departmentChange()">
+											<option ng:repeat="i in Assign.DepartmentDetail" value="{{i}}"> {{i.Department_Name}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="Department Name" class="col-md-4 control-label">Work Area</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="Assign.workarea" class="form-control" ng-change="fun_workAreaChange()">
+											<option ng:repeat="i in Assign.WorkAreaDetail" value="{{i}}"> {{i.Work_Area_Name}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+							</div>
+							<!--  ng-change="fun_customerNameChange()" ng-change="fun_companyNameChange()"-->
+							<div class="col-md-6">
+							<!-- 	<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Company
+										Name</label>
+									<div class="col-md-8">
+										
+											<select   ng-change="fun_companyChange()"  ng-required="true"  ng-model="Assign.search.company_id"											
+											class="form-control" >
+											<option ng:repeat="i in company" value="{{i.Company_id}}"> {{i.Company_name}}</option>
+										</select>
+									</div>
+								</div>-->
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Vendor Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="Assign.search.VendorId" class="form-control">
+											<option ng:repeat="i in Assign.VendorDetails" value="{{i.Vendor_id}}"> {{i.vendor_name}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Worker Code</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="fun_workerCodeChange()" ng-model="Assign.worker"  class="form-control">
+											<option ng:repeat="i in Assign.WorkerDetail" value="{{i}}"> {{i.worker_code}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Worker Name</label>
+									<div class="col-md-8 ">
+										<input disabled ng-model="Assign.workerName"  class="form-control"/>
+											
+										
+										
+									</div>
+								</div>
+							</div>
+
+							</div>
+							<div class="col-md-12">
+								<div class="col-md-6"></div>
+								<div class="col-md-5 col-md-offset-1">
+								<a class="btn btn-warning col-md-3 pull-right"
+										ng-click="initSearch();Assign.search=Assign.department=Assign.worker=Assign.workarea=Assign.workerName=Assign.CompanyAddress.Country_Name=[];">Clear <i
+										class="fa fa-times"></i></a>
+										
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right"
+										ng-click="fun_searchGridData()"
+										onclick="return false;">Search <i class="fa fa-search"></i></a>
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+				
+				<div class="panel-heading">
+				
+				<h5>Search Results</h5>
+				
+				</div>
+					<div class="sepr">	
+										<a class="btn btn-primary col-md-2 col-md-offset-5 pull-left"
+										ng-click="editPattern();"  
+										onclick="return false;">Assign Pattern </i></a>
+						<div>
+							<table class="table table-striped" id="companyDetailsTable">
+								<thead>
+									<tr><th> <input type="checkbox" ng-model="selectedAll" ng-click="checkAll()" /></th>							
+										<th>Worker Code</th>
+										<th>Worker Name</th>
+										<th>Vendor Name</th>
+										<th>Work Order</th>
+									</tr>
+								</thead>
+								<tbody ng:repeat="i in searchResult">
+									<tr>		<td><input type="checkbox" ng-model="i.Selected"  /></td>						
+										<td>{{i.worker_code}}</td>
+										<td>{{i.First_name}}</td>
+										<td>{{i.vendor_name}}</td>
+										<td>{{i.workorder_code}}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div></div>
+
+
+			</div>
+
+			<br />
+	</div>
+	</form>
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+</div>

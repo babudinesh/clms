@@ -1,0 +1,196 @@
+<!-- <link href="vendor/locationsearch/VendorLocationSearch.css" rel="stylesheet" />
+<div id="quota_loader" class="t_width t_display_none">
+</div>
+ -->
+
+<form id="attendanceSearchForm" name="attendanceSearchForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader">Vendor Register Types</h3>         
+        <br />
+        <div class="col-md-12">           
+            <div class="panel panel-default">
+                <div class="sepr">
+                   <!--  <h5 class="cls_plainheader">Search Attendance Report</h5> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group">
+                                <label for="countryName" class="col-md-4 control-label required">Country Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select ng-change = "fun_CountryChangeListener()" ng-model="countryName" name="countryName" ng-options="item.id as item.name for item in list_countries " class="form-control" id="countryName"  required >
+                                    	<option value="">Select</option>
+                                    </select> 
+                                    <span class="input-group-btn">
+                                    	<label for="countryName" class="fa fa-caret-down"></label>
+                                    </span>                                     
+                                </div>
+                            </div> 
+                            <div class="form-group">
+                                <label for="employeeCode" class="col-md-4 control-label">Worker Code</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeCode" maxlength = "45" placeholder="Worker Code" id="employeeCode" >
+ 	                               </div>
+                                </div> 
+                           <!-- <div class="form-group" >			               		
+			                   <label for="searchBy" class="col-md-4 control-label"> Search Period  </label>
+                                <div class="col-md-8 select-box">
+                                         <select ng-model="monthYear" name="monthYear" class="form-control" ng-change="fun_date_year_Listener()" id="searchBy">
+                                  			<option value="Y"> By Date  </option>
+											<option value="N">By Month & Year</option>											
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+								</div>
+		            		</div>  -->
+                                
+                           <!--      
+                                <div class="form-group"  ng-show="byDateShow">
+                                <label for="todate" class="col-md-4 control-label required"> By Date  </label>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="fromdate" readonly="true" placeholder=" From Date &#xf073;" ng-model="fromdate" name="fromdate" date-change-picker required/>                                                                                                     
+                                </div>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="todate" readonly="true" placeholder=" To Date &#xf073;" ng-model="todate" name="todate" date-change-picker required/>                                                                                                     
+                                </div>
+                            </div> -->
+                                                        
+                             <div class="form-group " >
+                                <label for="year" class="col-md-4 control-label"> Select Month  </label>
+                                <div class="col-md-4 select-box">
+                                         <select ng-model="year" class="form-control" id="year" name="year">
+                                  			<option value="">Select</option>
+                                  			<option value="2015">2015</option>
+											<option value="2016">2016</option>
+											<option value="2017">2017</option>
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+										  </div>
+								 <div class="col-md-4 select-box">                                                                                                                               
+                                           <select  ng-model="month" ng-options="item.id as item.name for item in list_months " name="month" class="form-control" id="month"> 
+                                            	<option value="">Select</option>
+                                           </select>   
+                                           <span class="input-group-btn">
+                                     <label for="month" class="fa fa-caret-down"></label>
+                                        </span>                                                                                             
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="companyName" class="fa fa-caret-down"></label>
+                                        </span>                                   
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label for="vendorName" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorName" ng-options="item.id as item.name for item in list_vendors " class="form-control" id="vendorName" name="vendorName" required> 
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label for="employeeName" class="col-md-4 control-label">Worker Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeName" maxlength = 45 placeholder="Worker Name" id="employeeName" >
+ 	                               </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                <label for="RegisterTypes" class="col-md-4 control-label required">Register Types </label>
+                                <div class="col-md-8 select-box">                                    
+                                   <select  ng-model="registerType" ng-options="item.id as item.name for item in list_RegisterTypes " class="form-control" id="RegisterTypes" name="RegisterTypes" required> 
+                                            <option value=""> Select </option>                                           
+                                   </select>
+	                                 <span class="input-group-btn">
+	                         		 <label for="RegisterTypes" class="fa fa-caret-down"></label>
+	                             	</span> 
+ 	                               </div>
+                                </div>
+
+
+                        </div>
+                      
+                        <div class="col-md-6 pull-right">                        	
+                            <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="fun_searchGridData()"> Search <i class="fa fa-search"></i></a>                            
+                           <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear <i class="fa fa-times"></i></button>               
+                              
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            
+            <div class="panel panel-primary">
+				
+				<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+				<div  id="workerDiv"> 
+				<div class="panel-heading">
+				<h5>Search Results</h5>
+				</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="attendanceReportTables">
+								<thead>
+									<tr >									
+										<th> Vendor Code </th>
+										<th> Vendor Name </th>
+										<th> Worker Code</th>
+										<th> Worker Name </th>
+										<th> Register Type </th>
+										<th> Details </th>
+									</tr>
+								</thead>								
+							</table>
+						</div>
+
+					</div>
+				</div>
+				</div>
+				
+            <br />
+        </div>
+</div>
+</div>
+</form>        
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

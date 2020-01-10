@@ -1,0 +1,156 @@
+<!-- <link rel="stylesheet" href="/company/list/all.css" /> -->
+
+
+<!-- <div class="container-fluid" style="margin-bottom: 35px;">
+	<div style="display: inline-block">
+	
+	</div>
+	<div class="pull-right">
+		<span style="padding-top: 10px; cursor: pointer;"><i
+			class="fa fa-question-circle fa-3x clsicon_help" aria-hidden="true"
+			title="Help"></i></span>
+	</div>
+
+
+
+</div> -->
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Company Details</h3>
+		<form name="companySearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<a href="#/companyDetails/create" ng-show="buttonArray.includes('ADD')" class="btn btn-primary pull-right"> Add New Company <i class="fa fa-plus-circle"></i></a> 
+				<br /> <br /> <br />
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Search Company</h5>
+					</div>
+					<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="customerName" ng-options="item as item.customerName for item in customerList " class="form-control" id="customerName" ng-disabled="render || readOnly" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="countryName" ng-options="item as item.name for item in countryList " class="form-control" id="countryName" ng-disabled="render" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+										<!-- <input type="text" ng-model="countryName" class="form-control"
+											id="countryName"  /> </select> -->
+									</div>
+								</div>
+							</div>
+							<!--  ng-change="fun_customerNameChange()" ng-change="fun_companyNameChange()"-->
+							<div class="col-md-6">
+								<div class="form-group">
+									<label  for="companyName" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<!-- <input type="text" ng-model="companyName" class="form-control"
+											id="companyName" ng-disabled="render"/> -->
+										<select  ng-change="companyChange()" ng-model="companyName" ng-options="item as item.name for item in companyList " class="form-control" id="companyName" ng-disabled="render" required>
+											<option value="0">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="status" class="col-md-4 control-label required">Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="status" class="form-control" name="status" id = "status" required>
+											<option value="Y">Active</option>
+											<option value="N">In-Active</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="col-md-12">
+								<div class="col-md-6"></div>
+								<div class="col-md-5 col-md-offset-1">
+								<a class="btn btn-warning col-md-3 pull-right"
+										ng-click="fun_clearSearchFields($event)">Clear <i
+										class="fa fa-times"></i></a>
+										
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right"
+										ng-click=" fun_searchGridData($event)"
+										onclick="return false;">Search <i class="fa fa-search"></i></a>
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary" ng-show="companyDetailsTableView">
+				<div class="panel-heading">
+				<h5>Search Results</h5>
+				</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="companyDetailsTable">
+								<thead>
+									<tr>		
+										<th>Customer Code</th>
+										<th>Customer Name</th>							
+										<th>Company Code</th>
+										<th>Company Name</th>
+										<th>Country Name</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<!-- <tbody ng:repeat="i in result">
+									<tr>									
+										<td>{{i.companyCode}}</td>
+										<td><a ng-href="#/companyDetails/{{i.companyId}}">{{i.companyName}}</a></td>
+										<td>{{i.countryName}}</td>
+										<td>{{i.isActive}}</td>
+									</tr>
+								</tbody> -->
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div></div>
+
+
+			</div>
+
+			<br />
+			</form>
+	</div>
+	
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+

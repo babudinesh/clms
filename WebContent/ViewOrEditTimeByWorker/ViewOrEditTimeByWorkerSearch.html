@@ -1,0 +1,154 @@
+<form id="viewOrEditWorkerTimeForm" name="viewOrEditWorkerTimeForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader">Manage Shifts and Time</h3>         
+        <br />
+        <div class="col-md-12">           
+            <div class="panel panel-default">
+            
+                <div class="sepr">
+                   <!--  <h5 class="cls_plainheader">Search Attendance Report</h5> -->
+                   <div class="panel-heading">
+					<h5>Search Worker</h5>
+					</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="workerVo.customerId" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="customerChange()" required >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group ">
+                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="workerVo.vendorId" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorId" name="vendorId"  ng-change="vendorChange()"  required> 
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>
+                                
+                           <div class="form-group" >			               		
+			                   <label for="searchBy" class="col-md-4 control-label"> Search Period  </label>
+                                <div class="col-md-8 select-box">
+                                         <select ng-model="monthYear" class="form-control" ng-change="fun_date_year_Listener()" id="searchBy">
+                                  			<option value="Y"> By Date  </option>
+											<option value="N">By Month & Year</option>											
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+								</div>
+		            		</div> 
+                                
+                                
+                                <div class="form-group"  ng-show="byDateShow">
+                                <label for="todate" class="col-md-4 control-label required"> By Date  </label>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="fromdate" readonly="true" placeholder=" From Date &#xf073;" ng-model="fromdate" name="fromdate" date-change-picker required/>                                                                                                     
+                                </div>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="todate" readonly="true" placeholder=" To Date &#xf073;" ng-model="todate" name="todate" date-change-picker required/>                                                                                                     
+                                </div>
+                            </div>
+                                                        
+                             <div class="form-group " ng-show="ByMonthYearShow ">
+                                <label for="year" class="col-md-4 control-label required"> Month & Year  </label>
+                                <div class="col-md-4 select-box">
+                                         <select ng-model="workerVo.year" class="form-control" id="year" name="year" required>
+                                  			<option value="">Select</option>
+											<option value="2018">2018</option>
+											<option value="2019">2019</option>
+											<option value="2020">2020</option>
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+										  </div>
+								 <div class="col-md-4 select-box">                                                                                                                               
+                                           <select  ng-model="workerVo.month" ng-options="item.id as item.name for item in list_months " name="month" class="form-control" id="month" required> 
+                                            	<option value="">Select</option>
+                                           </select>   
+                                           <span class="input-group-btn">
+                                     <label for="month" class="fa fa-caret-down"></label>
+                                        </span>                                                                                             
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="workerVo.companyId" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="companyChange()" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="companyName" class="fa fa-caret-down"></label>
+                                        </span>                                   
+                                </div>
+                            </div>
+							    <div class="form-group">
+                                <label for="employeeName" class="col-md-4 control-label required">Workmen Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="workerVo.firstName"  placeholder="Workmen Name" id="employeeName" > (OR)
+ 	                              </div>
+ 	                             
+                                </div>
+                                <div class="form-group">
+                                <label for="employeeCode" class="col-md-4 control-label required">Workmen ID No</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="workerVo.workerCode"  placeholder="Workmen ID No" id="employeeCode" >
+ 	                               </div>
+                                </div>
+
+
+                        </div>
+                      
+                        <div class="col-md-6 pull-right">
+                        <button class="btn btn-warning col-md-3 pull-right"
+										ng-click="clear()">Clear <i
+										class="fa fa-times"></i></button>
+										
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right"
+										ng-click="search($event)"
+										onclick="return false;">Search <i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>           
+            <div class="panel panel-default">
+            	<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+                
+            </div>
+            <br />
+        </div>
+</div>
+</div>
+</form>        
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

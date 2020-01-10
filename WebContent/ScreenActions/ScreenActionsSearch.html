@@ -1,0 +1,78 @@
+
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader"> Screen Actions </h3>
+		<div class="col-md-12">
+			<a class="btn btn-primary pull-right" 
+				href="#/screenActions/0">Add New Action for Screen <i
+				class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+			<div class="panel panel-primary">	
+				<div class="panel-heading">
+					<h5>Search Screen Actions</h5>
+				</div>	
+				<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="groupName" class="col-md-4 control-label ">Group Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="sreenActions.groupName" ng-options="item as item for item in groupNames " class="form-control" id="groupName" >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="screenName" class="col-md-4 control-label ">Screen Name</label>
+									<div class="col-md-8">										
+										 <input type="text" ng-model="sreenActions.screenName" class="form-control" id="screenName"  /> 
+									</div>
+								</div>
+						</div>
+						<div class="col-md-12 pull-right">
+							<a class="btn btn-warning col-md-2 pull-right"
+										ng-click="fun_clearSearchFields($event)">Clear <i
+										class="fa fa-times"></i></a>
+										
+							<a class="btn btn-primary col-md-2 col-md-offset-2 pull-right"
+										ng-click="fun_search($event)"
+										onclick="return false;">Search <i class="fa fa-search"></i></a>
+										
+							
+						</div>
+					</div>
+				</div>
+			</div>
+				
+			<div class="panel panel-default" ng-show="tableView">
+				<br />
+				<div class="sepr">
+					<table id="searchResults" class="table table-striped">
+						<thead>
+							<tr>
+								<th>Group Name</th>
+								<th>Screen Name</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
+			<br />
+		</div>
+		<div class="container-fluid">
+			<div class="navbar navbar-default navbar-fixed-bottom text-center"
+				style="min-height: 15px; padding: 0px;">
+				<div class="container text-right" style="">
+					<label class="control-label text-center"
+						style="color: white !important; margin: 0px; font-size: 14px;">@Copyright</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report4" columnCount="31" printOrder="Horizontal" pageWidth="800" pageHeight="595" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="24" leftMargin="20" rightMargin="10" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="dcfac574-60df-4224-b4e1-97656bbcf5ff">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="employeeCode" class="java.lang.String"/>
+	<parameter name="employeeName" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="todate" class="java.lang.String"/>
+	<parameter name="schemaName" class="java.lang.String"/>
+	<parameter name="DepartmentId" class="java.lang.String"/>
+	<parameter name="LocationId" class="java.lang.String"/>
+	<parameter name="PlantId" class="java.lang.String"/>
+	<parameter name="SectionId" class="java.lang.String"/>
+	<parameter name="WorkAreaId" class="java.lang.String"/>
+	<parameter name="Shift" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="WorkSkill" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT Emp,REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ') AS Emp_Name,CASE WHEN a.Shift IS NULL THEN '' ELSE a.Shift END AS Shift,(CASE WHEN a.shift NOT IN('AB','WO','PH') AND ((a.business_Date != CURRENT_DATE() AND intime IS NOT NULL ) OR (a.business_Date = CURRENT_DATE() AND intime IS NOT NULL) ) THEN 1 ELSE 0 END)+(CASE WHEN a.shift IN ('PH') THEN 1 ELSE 0 END)+(CASE WHEN a.shift IN ('AB') THEN 1 ELSE 0 END)+(CASE WHEN a.shift IN ('WO') THEN 1 ELSE 0 END) AS TotalDays,SUBSTRING(a.Business_Date, 9) AS DATE,
+CASE WHEN intime  IS NULL THEN '' ELSE SUBSTRING(SUBSTRING(intime, 12),1,5) END  AS intime,
+CASE WHEN outtime  IS NULL THEN '' ELSE SUBSTRING(SUBSTRING(outtime, 12),1,5) END AS outtime,
+CASE WHEN a.shift NOT IN('AB','WO','PH') AND ((a.business_Date != CURRENT_DATE() AND intime IS NOT NULL ) OR (a.business_Date = CURRENT_DATE() AND intime IS NOT NULL) )  THEN 1 ELSE 0 END AS Wdays,
+CASE WHEN a.shift IN ('WO') THEN 1 ELSE 0 END AS weeklyOff,
+CASE WHEN a.shift IN ('AB') THEN 1 ELSE 0 END AS absent,
+CONCAT(MONTHNAME(a.business_Date),'-',YEAR(a.business_Date)) AS monthYear,OTHours ,
+vendorDtls.vendor_name as contractorName,
+CONCAT( cdi.company_name,', ',(SELECT li.location_name FROM `location_details_info` li
+WHERE  location_id =$P{LocationId} AND CONCAT(DATE_FORMAT(li.transaction_date, '%Y%m%d'), LPAD(li.`Location_Sequence_Id`, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(li1.transaction_date, '%Y%m%d'), LPAD(li1.`Location_Sequence_Id`, 2, '0'))) FROM `location_details_info` li1
+WHERE (li.Location_Id=li1.Location_Id AND li1.transaction_date <= CURRENT_DATE()) GROUP BY Location_Id))) AS CompayName,
+CASE WHEN a.shift IN ('PH') THEN 1 ELSE 0 END AS PaidHoliday
+FROM  $P!{schemaName}.labor_time_report a
+INNER JOIN v_worker_details vw ON (vw.Worker_code = a.Emp)
+INNER JOIN vendor_view vendorDtls ON (vendorDtls.vendor_code=a.contractorCode)
+INNER JOIN company_details_info cdi ON (vendorDtls.company_id = cdi.company_id)
+WHERE
+CONCAT(DATE_FORMAT(cdi.transaction_date, '%Y%m%d'), LPAD(cdi.company_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.company_sequence_id, 2, '0')))
+FROM company_details_info vdi1
+WHERE  cdi.company_id = vdi1.company_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+)
+AND
+(a.department_id = $P{DepartmentId} or '-1' = $P{DepartmentId})
+AND (a.location_id = $P{LocationId} or '-1' = $P{LocationId})
+AND (a.plant_id = $P{PlantId} or '-1' = $P{PlantId})
+AND (a.section_id = $P{SectionId} or '-1' = $P{SectionId})
+AND (a.Work_Area_id = $P{WorkAreaId} or '-1' = $P{WorkAreaId})
+AND (a.Shift = $P{Shift} or '-1' = $P{Shift})
+AND (a.Work_skill = $P{WorkSkill} or '-1' = $P{WorkSkill})
+AND  vendorDtls.customer_id=$P{customerId}
+AND  vendorDtls.company_id= $P{companyId}
+AND  (vendorDtls.vendor_id=$P{vendorId}  OR '-1' = $P{vendorId})
+AND  a.Business_Date BETWEEN STR_TO_DATE($P{fromdate},'%d/%m/%Y') AND STR_TO_DATE($P{todate},'%d/%m/%Y')
+AND  (a.Emp LIKE '%$P!{employeeCode}%' )
+AND  (REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ')  LIKE '%$P!{employeeName}%' )
+GROUP BY emp ,a.business_Date;]]>
+	</queryString>
+	<field name="Emp" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emp_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shift" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TotalDays" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DATE" class="java.lang.String"/>
+	<field name="intime" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="outtime" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Wdays" class="java.lang.Long"/>
+	<field name="weeklyOff" class="java.lang.Long"/>
+	<field name="absent" class="java.lang.Long"/>
+	<field name="monthYear" class="java.lang.String"/>
+	<field name="OTHours" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="contractorName" class="java.lang.String"/>
+	<field name="CompayName" class="java.lang.String"/>
+	<field name="PaidHoliday" class="java.lang.Long"/>
+	<variable name="Wdays_1" class="java.lang.Long" resetType="Group" resetGroup="Emp_Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{Wdays}]]></variableExpression>
+	</variable>
+	<variable name="TotalDays" class="java.lang.Integer" resetType="Group" resetGroup="Emp_Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{TotalDays}]]></variableExpression>
+	</variable>
+	<variable name="WeeklyOff" class="java.lang.Integer" resetType="Group" resetGroup="Emp_Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{weeklyOff}]]></variableExpression>
+	</variable>
+	<variable name="Absent" class="java.lang.Integer" resetType="Group" resetGroup="Emp_Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{absent}]]></variableExpression>
+	</variable>
+	<variable name="PaidHoliday" class="java.lang.Integer" resetType="Group" resetGroup="Emp_Name" calculation="Sum">
+		<variableExpression><![CDATA[$F{PaidHoliday}]]></variableExpression>
+	</variable>
+	<group name="VendorName" isReprintHeaderOnEachPage="true" keepTogether="true">
+		<groupExpression><![CDATA[$F{contractorName}]]></groupExpression>
+		<groupHeader>
+			<band height="25">
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="11" y="5" width="223" height="20" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" uuid="6c1e5336-b6ae-40b9-b611-5dc910ed2002"/>
+					<textElement>
+						<font fontName="SansSerif"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{contractorName}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="55"/>
+		</groupFooter>
+	</group>
+	<group name="Emp_Name" keepTogether="true">
+		<groupExpression><![CDATA[$F{Emp_Name}]]></groupExpression>
+		<groupHeader>
+			<band height="13">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="0" width="770" height="13" forecolor="#B89F7D" backcolor="#009999" uuid="768a57d1-a73d-4e60-8378-10c110e44975"/>
+					<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+						<reportElement style="SubTitle" x="1" y="1" width="361" height="12" isPrintInFirstWholeBand="true" forecolor="#FFFFFF" uuid="d9f6f0e9-33b0-419a-a508-9f5f6c23b59e"/>
+						<textElement rotation="None">
+							<font fontName="SansSerif" size="10" isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{Emp_Name}]]></textFieldExpression>
+					</textField>
+				</frame>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="21">
+				<textField isBlankWhenNull="true">
+					<reportElement x="76" y="-2" width="100" height="17" isPrintInFirstWholeBand="true" uuid="a4a8026a-f267-4c05-be78-ed2500b0bd3f"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Wdays_1}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="-2" width="93" height="17" isPrintInFirstWholeBand="true" uuid="6c04c3e7-3649-4aae-9e4d-ab55b0258ee3"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Total Days Worked  - ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="8" width="30" height="13" isPrintInFirstWholeBand="true" uuid="7cc6f06f-98c9-4376-9ad2-bf6e9c5d08e3"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[Total -]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="48" y="8" width="13" height="13" isPrintInFirstWholeBand="true" uuid="9a01d1cd-c542-43f5-8477-26616c4679d9"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[PH-]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="77" y="8" width="20" height="13" isPrintInFirstWholeBand="true" uuid="f2118368-6420-4537-8218-95a39283cf16"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[AA -]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="111" y="8" width="21" height="13" isPrintInFirstWholeBand="true" uuid="e5377ba9-c789-44ec-ab4c-2cdf663e0980"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[WO -]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="151" y="8" width="25" height="13" isPrintInFirstWholeBand="true" uuid="29366bed-883e-407b-bd35-71394bd4e63d"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[LL-0]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="180" y="8" width="25" height="13" isPrintInFirstWholeBand="true" uuid="68a5925a-2a93-40a7-8dde-74ae8e8ff4c1"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[CL-0]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="209" y="8" width="25" height="13" isPrintInFirstWholeBand="true" uuid="31c7a6db-baa6-4f9a-a45f-0643bb9c7387"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[SL-0]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="238" y="8" width="25" height="13" isPrintInFirstWholeBand="true" uuid="a0f53f4c-d773-4477-afd7-0f807b5c857d"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[ML-0]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="205" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="c2084aa8-350b-410c-90b5-f5e9f07f721d"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="43" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="4ea9154f-a5b5-45e3-af9e-9c808b1726e5"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="145" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="8fdd93f0-dbf4-40a3-82f9-8f604687aa8b"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="234" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="bd4383fc-d86e-462a-b2e0-e6b679b109f3"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="108" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="98b87edc-99c9-47f8-a905-d7eb44544948"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="29" y="8" width="15" height="13" isPrintInFirstWholeBand="true" uuid="cb4441a9-1e07-447d-a96a-b6d1ed9cc1d0"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{TotalDays}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="73" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="408dbc2c-123d-4486-818f-07679a190ff0"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="132" y="8" width="15" height="13" isPrintInFirstWholeBand="true" uuid="3f35ad65-c6e2-46ab-a247-8a671f1cc82f"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{WeeklyOff}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="96" y="8" width="12" height="13" isPrintInFirstWholeBand="true" uuid="effd2601-a5fb-45d5-b284-720b3c9b4d77"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{Absent}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="176" y="8" width="3" height="13" isPrintInFirstWholeBand="true" uuid="27778dfc-d408-4d42-94a6-931f373fc1bc"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<text><![CDATA[/]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="60" y="8" width="12" height="13" isPrintInFirstWholeBand="true" uuid="f07b89e4-bff6-47a3-a66e-e19fc77ddfad"/>
+					<textElement>
+						<font fontName="SansSerif" size="7" isItalic="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{PaidHoliday}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="311" y="7" width="162" height="20" uuid="59558ad7-580d-438a-ba80-2a57caf9e196"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORM NO - 16]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="656" y="7" width="100" height="20" uuid="75ee86fb-2efa-4aa5-b2d5-c0153a5e1e20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monthYear}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="11" y="7" width="252" height="20" uuid="6356bde4-0434-4bd1-bcaf-449e24ae7d81"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CompayName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="11" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="77" splitType="Stretch">
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="19" width="49" height="18" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Emp_Name" uuid="a41010e1-351b-4c40-a69d-e5905aeb1d40"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Date       ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="30" width="49" height="18" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="58b81c15-9781-4a47-81ae-900062c60919"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Shift       ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="41" width="49" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="876a3615-1b10-4745-9468-9aa4ffdceedc"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[In Time  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="53" width="51" height="13" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="33fc83df-9031-4680-8b67-2d3091c61e00"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Out Tme ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="38" y="42" width="40" height="20" isPrintInFirstWholeBand="true" uuid="501ad2a4-5731-4cb7-8012-2049ad84dbea"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{intime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="38" y="54" width="40" height="20" isPrintInFirstWholeBand="true" uuid="4bb14585-f864-4138-91dd-7cf0108f1942"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outtime}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="38" y="18" width="40" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="81b89a90-1e53-4e53-90a3-86b80a686c7e"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{DATE}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="38" y="29" width="40" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="e558ed18-1a75-44e3-999e-e39e2e208be0"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Shift}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="33" y="18" width="4" height="16" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="e91e4fca-2ad8-4c33-bbc3-d7de4692f6c9"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="33" y="30" width="4" height="16" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="7ae1008f-6dde-4489-b0f8-9459414bab56"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="33" y="39" width="4" height="16" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="b44b2ca3-c1ec-422a-a840-7b9c6359a927"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="33" y="53" width="4" height="13" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="f46be410-93d7-448c-8f24-ee100b18d6e3"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement isPrintRepeatedValues="false" x="38" y="5" width="55" height="16" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="baa6d31e-3384-4ade-ac36-d1a334832168"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Emp}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="3" width="49" height="15" isPrintInFirstWholeBand="true" isPrintWhenDetailOverflows="true" printWhenGroupChanges="Emp_Name" uuid="9cad1cff-2724-47d1-9807-501869cc399f"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Card No   --]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="38" y="64" width="40" height="13" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="bbf222f7-30f8-40d9-8285-14dc261b58d3"/>
+				<textElement textAlignment="Left">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{OTHours}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="33" y="62" width="4" height="13" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="9788d416-e0d0-48f9-9291-712f82d1ef23"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="0" y="63" width="51" height="13" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="6181adee-347f-4b63-af13-004639ce97f2"/>
+				<textElement textAlignment="Left" verticalAlignment="Top">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[OT Hours]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="19" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="770" height="20" forecolor="#D0B48E" backcolor="#009999" uuid="a6f3345e-4a42-4b4b-bdc9-26a0e3936b3e"/>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,673 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Employee Registration</h3>
+		<div class="col-md-12">
+			<form id="employeeEntryForm" name="employeeEntryForm" novalidate ng-submit="submit">
+				<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">
+						<h5>Search :</h5>
+					</div>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="transactionModel"
+											ng-change="transactionDatesListChnage()"
+											ng-options="item.id as item.name for item in list_transactionDatesList "
+											class="form-control" id="transactionModel"
+											ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr class="pull-left" style="width: 105%" />
+				</div>
+				<br />
+				
+				<div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-4">
+								<div>
+									<label for="custName" class=" control-label">Customer Name</label>
+									<div>
+										{{employeeVo.customerName}}
+										<!-- <select ng-change="customerChange()" ng-model="employeeVo.customerId" ng-options="item.customerId as item.customerName for item in vendorList.customerList" class="form-control"  id="Select1">
+                                            <option value="">Select</option>
+                                            </select> -->
+									</div>
+								</div>
+
+								<div>
+									<label for="venName" class="control-label">Job Type</label>
+									<div>
+										{{employeeVo.jobType}}
+										<!--  <input type="text" class="form-control" id="locName"
+                                          ng-model="employeeVo.vendorCode"     placeholder="Job Type" /> -->
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-4">
+								<div>
+									<label for="cmpName" class="control-label">Company Name</label>
+									<div>
+										{{employeeVo.companyName}}
+										<!--  <select    ng-model="employeeVo.companyId" ng-options="item.id as item.name for item in employeeVo.companyList" class="form-control"  id="sa">
+                                            <option value="">Select</option>
+                                            </select> -->
+									</div>
+								</div>
+
+								<div>
+									<label for="locName" class=" control-label">Job Status</label>
+									<div>
+										{{employeeVo.jobStatus}}
+										<!-- <input type="text" class="form-control" id="locName" placeholder="Job Status" /> -->
+									</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div>
+									<label for="locName" class="control-label">Country Name</label>
+									<div>
+										{{employeeVo.employeeCountryName}}
+										<!--  <input type="text" class="form-control" id="locName" placeholder="Country Name" /> -->
+									</div>
+								</div>
+								<div>
+									<label for="cmpName" class="control-label">Employee
+										Code</label>
+									<div>
+										{{employeeVo.employeeCode}}
+										<!--  <input type="text" class="form-control" id="locName" placeholder="Employee Code" /> -->
+
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Employee Information</h5>
+					</div>
+					<div class="sepr">
+						<input type="hidden" ng-model="employeeVo.uniqueId">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="transactionDate" class="form-control" id="transactionDate" readonly="true"
+											name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readonly" required />
+									</div>
+								</div>
+
+								<!-- <div class="form-group">
+									<label for="status" class="col-md-4 control-label required">Status</label>
+
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.isActive" class="form-control"
+											id="status" ng-disabled="readonly" name="status" required>
+											<option value="">Select</option>
+											<option value="Y">Active</option>
+											<option value="N">Inactive</option>
+										</select> 
+										<span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div> -->
+								
+								<div class="form-group">
+									<label for="firstName" class="col-md-4 control-label required">First Name</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.firstName" class="form-control" id="firstName" name="firstName" placeholder="First Name" minlength="2" maxlength="45"
+											ng-disabled="readonly" required />
+									</div>
+								</div>
+								
+								<!-- <div class="form-group">
+									<label for="middleName" class="col-md-4 control-label ">Middle Name</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.middleName"
+											class="form-control" id="middleName" name="middleName"
+											placeholder="Middle Name" minlength="2" maxlength="45"
+											ng-disabled="readonly" />
+									</div>
+								</div> -->
+								
+								<div class="form-group">
+									<label for="lastName" class="col-md-4 control-label required">Last
+										Name</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.lastName"
+											class="form-control" id="lastName" name="lastName"
+											placeholder="Last Name" minlength="2" maxlength="45"
+											ng-disabled="readonly" required />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="dateOfBirth" class="col-md-4 control-label">Date Of Birth (DD/MM/YYYY)</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="dateOfBirth" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Date Of Birth (DD/MM/YYYY) &#xf073;"  onchange="angular.element(this).scope().dateOfBirthValidaton(this)" ng-disabled="readonly" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="gender" class="col-md-4 control-label required">Gender</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.gender" class="form-control"
+											id="gender" ng-disabled="readonly" name="gender" required>
+											<option value="">Select</option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Unknown">Unknown</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+				
+				
+								<div class="form-group">
+									<label class="col-md-4"></label>
+									<div class="col-md-8">
+										<a class="btn btn-primary addressAdd" data-toggle="modal" data-target="#myModal" ng-disabled="readonly">{{label}} Address
+											<i class="fa fa-plus-circle"></i>
+										</a>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="address" class="col-md-4 control-label">Address</label>
+									<div class="col-md-8">
+										<textarea id="address" ng-disabled="true" ng-model="EmpAdders" name="Address" class="form-control "></textarea>
+									</div>
+								</div>
+								
+							</div>
+
+							<!-- <div class="col-md-6">
+                              <label for="status"  class="col-md-6 control-label" ng-disabled="readonly">Add Photo</label>
+                              
+                               <input type="file" ng-model="employeeVo.photo" class="form-control" id="photo" placeholder="photo" ng-disabled="readonly"/>
+                             </div> -->
+
+							<!-- <div class="form-group">
+      <label for="inputFile" class="col-md-2 control-label">File</label>
+
+      <div class="col-md-6">
+        <input  type="text" readonly="" class="form-control" placeholder="Browse...">
+        <input ng-model="employeeVo.fileName" fileread="employeeVo.fileName" type="file" id="inputFile" >
+      </div>
+      <div class="col-md-6">
+      {{employeeVo.fileName}}
+     {{ employeeVo.photo }}
+      <img src="{{employeeVo.photo}}" alt="img" />
+      </div>
+    </div> -->
+
+							<!-- 	<div id="image-preview form-group" class="col-md-6">
+								<label for="image-upload" id="image-label">Choose File</label> <input ng-model="employeeVo.photo"
+									type="file" name="image" id="image-upload" class="form-control" ng-disabled="readonly"/>
+							</div> -->
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="status" class="col-md-4 control-label required">Status</label>
+
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.isActive" class="form-control"
+											id="status" ng-disabled="readonly" name="status" required>
+											<option value="">Select</option>
+											<option value="Y">Active</option>
+											<option value="N">Inactive</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="middleName" class="col-md-4 control-label ">Middle Name</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.middleName"
+											class="form-control" id="middleName" name="middleName"
+											placeholder="Middle Name" minlength="2" maxlength="45"
+											ng-disabled="readonly" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="fatherOrSpouseName" class="col-md-4 control-label">Father/Spouse Name</label>
+									<div class="col-md-2 select-box">
+										<select ng-model="employeeVo.fatherOrSpouse" class="form-control" id="fatherOrSpouse" ng-disabled="readonly">
+											<option value="">Select</option>
+											<option value="Father">Father</option>
+											<option value="Spouse">Spouse</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+
+									<div class="col-md-6">
+										<input type="text" ng-model="employeeVo.fatherOrSpouseName" class="form-control" id="fatherOrSpouseName" placeholder="Father / Spouse" ng-disabled="readonly" minlength="2" maxlength="45" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="panNumber" class="col-md-4 control-label">PAN Number</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.panNumber" class="form-control" id="panNumber" name="panNumber" placeholder="PAN Number" ng-disabled="readonly"  minlength="2" maxlength="12" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="maritalStatus" class="col-md-4 control-label">Marital Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.maritalStatus" class="form-control" ng-options="item.id as item.name for item in marital_status_list" id="maritalStatus" name="maritalStatus" ng-disabled="readonly">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+										<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="bloodGroup" class="col-md-4 control-label">Blood Group</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.bloodGroup" ng-options="item.id as item.name for item in blood_group_list" class="form-control" id="bloodGroup"  name="bloodGroup">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="phoneNumber" class="col-md-4 control-label">Telephone</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.phoneNumber" class="form-control onlyNumbers" id="tel" placeholder="Telephone Number" ng-disabled="readonly" minlength="2" maxlength="15" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="email" class="col-md-4 control-label required">Email</label>
+									<div class="col-md-8">
+										<input type="email" ng-model="employeeVo.email" class="form-control" id="email" name="email" placeholder="Email" ng-disabled="readonly" minlength="2" maxlength="45" required/>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- <div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Add Contact Details</h5>
+					</div>
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<a class="btn btn-primary addressAdd" data-toggle="modal"
+										data-target="#myModal" ng-disabled="readonly">Add Address
+										<i class="fa fa-plus-circle"></i>
+									</a>
+								</div>
+
+								<div class="form-group">
+									<label for="address" class="col-md-4 control-label required">Address</label>
+									<div class="col-md-8">
+										<textarea id="address" ng-disabled="true" ng-model="EmpAdders" name="Address" class="form-control " required></textarea>
+									</div>
+								</div>
+								
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="phoneNumber" class="col-md-4 control-label">Telephone</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.phoneNumber" class="form-control" id="tel" placeholder="Telephone Number" ng-disabled="readonly" minlength="2" maxlength="15" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="email" class="col-md-4 control-label">Email</label>
+									<div class="col-md-8">
+										<input type="email" ng-model="employeeVo.email" class="form-control" id="email" placeholder="Email" ng-disabled="readonly" minlength="2" maxlength="45" />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="panNumber" class="col-md-4 control-label required">PAN Number</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="employeeVo.panNumber" class="form-control" id="panNumber" name="panNumber" placeholder="PAN Number" ng-disabled="readonly" required minlength="2" maxlength="12" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="gender" class="col-md-4 control-label required">Gender</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.gender" class="form-control"
+											id="gender" ng-disabled="readonly" name="gender" required>
+											<option value="">Select</option>
+											<option value="Male">Male</option>
+											<option value="Female">Female</option>
+											<option value="Unknown">Unknown</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+							</div>
+							
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="maritalStatus" class="col-md-4 control-label required">Marital Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.maritalStatus" class="form-control" ng-options="item.id as item.name for item in marital_status_list" id="maritalStatus" name="maritalStatus" ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+										<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="email" class="col-md-4 control-label">Blood Group</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.bloodGroup" ng-options="item.id as item.name for item in blood_group_list" class="form-control" id="bloodGroup"  name="bloodGroup">
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="fatherOrSpouseName" class="col-md-4 control-label">Father/Spouse Name</label>
+									<div class="col-md-2 select-box">
+										<select ng-model="employeeVo.fatherOrSpouse" class="form-control" id="fatherOrSpouse" ng-disabled="readonly">
+											<option value="">Select</option>
+											<option value="Father">Father</option>
+											<option value="Spouse">Spouse</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+
+									<div class="col-md-6">
+										<input type="text" ng-model="employeeVo.fatherOrSpouseName" class="form-control" id="fatherOrSpouseName" placeholder="Father / Spouse" ng-disabled="readonly" minlength="2" maxlength="45" />
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="dateOfBirth" class="col-md-4 control-label required">Date Of Birth</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="dateOfBirth" class="form-control" id="dateOfBirth" name="dateOfBirth" placeholder="Date Of Birth  &#xf073;" ng-disabled="readonly" required />
+									</div>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</div> -->
+
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Job Details</h5>
+					</div>
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="jobId" class="col-md-4 control-label required">Designation</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.jobId" ng-options="item.id as item.name for item in jobCodesList" class="form-control" id="jobId" name="" ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="locationId" class="col-md-4 control-label required">Location </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.locationId" ng-options="item.id as item.name for item in locationList" class="form-control" id="locationId" name="locationId" ng-change="locationChange()" ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="tanno" class="col-md-4 control-label required">Department</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.departmentId" ng-options="item.departmentId as item.departmentName for item in departmentsList" class="form-control" id="departmentId" name="departmentId" ng-change="departmentChange()" ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+								<label for="workAreaName" class="col-md-4 control-label">Work Area</label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="employeeVo.workAreaId"  ng-change="workAreaChange()" name="workAreaId" ng-options="item.id as item.name for item in workAreasList" class="form-control"  id="workAreaId"   >
+                                           <option value="">Select</option>
+                                       </select>
+                                       <span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+								</div>
+							</div>
+								
+
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="startDate" class="col-md-4 control-label required">Date Of Joining</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="startDate" class="form-control date" id="startDate" readonly="true" placeholder="Date of Joining &#xf073;"  name="startDate" ng-disabled="readonly" required/>
+									</div>
+								</div>
+								<div class="form-group">
+								<label for="plantName" class="col-md-4 control-label required">Plant</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="plantChange()" ng-model="employeeVo.plantId" name="plant" ng-options="item.id as item.name for item in plantsList" class="form-control"  id="plantId"  required>
+                                           <option value="">Select</option>
+                                       </select>
+									<span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+								</div>
+							</div>
+								
+								
+								 
+							
+							<div class="form-group">
+								<label for="sectionName" class="col-md-4 control-label">Section</label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="employeeVo.sectionId"  ng-change="sectionChange()" name="sectionId" ng-options="item.id as item.name for item in sectionesList" class="form-control"  id="sectionId"   >
+                                           <option value="">Select</option>
+                                       </select>
+                                       <span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+								</div>
+							</div>
+							<div class="form-group">
+									<label for="managerList" class="col-md-4 control-label">Reporting Manager </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="employeeVo.reportingMangerId" ng-options="item.id as item.name for item in managerList" class="form-control" id="managerList" name="reportingMangerId" ng-disabled="readonly" >
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							
+							
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+
+				<div class="btn-group btn-group-right pull-right">
+					<div class="btn-group btn-group-right">
+						<a href="javascript:void(0)" class="btn btn-danger"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateEmployeeBtnAction($event)"> Update </a> 
+						<a class="btn  btn-primary" ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event) ">Save</a>
+						<a class="btn  btn-primary" ng-show="currentHistoryBtn && buttonArray.includes('CORRECT HISTORY')" type="submit" ng-click="enable || fun_CorrectHistory($event)"> Correct History </a> 
+						<!-- <a class="btn  btn-danger"  ng-show="resetBtn" ng-click="clearFun()"> Reset </a>  -->
+						<a class="btn  btn-danger"  ng-show="cancelBtn" ng-click="fun_cancelBtnCLick()"> Cancel </a>
+						<a href="javascript:void(0)" class="btn  btn-info" ng-show="addrHistory && buttonArray.includes('VIEW HISTORY')" ng-click="historyBtnAction($event)"> View or Update History </a> 
+						<a href="#/EmployeeInformation" class="btn  btn-default">Return to search</a>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<!-- Button trigger modal -->
+
+<form id="employeePopupForm" name="employeePopupForm" novalidate ng-submit="submit">>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Address Information</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="aal1" class="col-md-4 control-label required">Address Line 1</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="employeeVo.address1"
+												class="form-control" id="aal1"
+												placeholder="Address Line 1" required minlength="2"
+												maxlength="45" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="aal3" class="col-md-4 control-label">Address Line 3</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="employeeVo.address3"
+												class="form-control" id="aal3"
+												placeholder="Address Line 3" minlength="2" maxlength="45" />
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="state" class="col-md-4 control-label">State</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="stateChange()" ng-model="employeeVo.state" ng-options="item.id as item.name for item in statesList" class="form-control" id="state">
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+
+									<div class="form-group">
+										<label for="pincode" class="col-md-4 control-label">Pincode</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="employeeVo.pincode"
+												class="form-control onlyNumbersWithZero" id="pincode" placeholder="Pincode"
+												minlength="2" maxlength="6" />
+										</div>
+									</div>
+								</div>
+								
+								<div class="col-md-6">
+
+									<div class="form-group">
+										<label for="addl2" class="col-md-4 control-label">Address Line 2</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="employeeVo.address2"
+												class="form-control" id="addl2"
+												placeholder="Address line 2" minlength="2" maxlength="45" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="countryIds" class="col-md-4 control-label required">Country</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="fun_Countrychange()" ng-model="employeeVo.country" ng-options="item.id as item.name for item in countryList" class="form-control" id="countryIds" name="countryIds" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="City" class="col-md-4 control-label">City</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="employeeVo.city" class="form-control" id="City" placeholder="City" minlength="2" maxlength="45" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" ng-click="saveAddress()" class="btn btn-primary"  ng-show="label=='Add'">Save changes</button>
+					<button type="button" ng-click="saveAddress()" class="btn btn-primary" ng-show="label=='View/Edit'">Update changes</button>
+					<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>

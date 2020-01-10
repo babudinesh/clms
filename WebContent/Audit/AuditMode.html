@@ -1,0 +1,226 @@
+
+<form id="auditModeForm">
+<div class="container-fluid">
+	<div class="col-md-12 well">
+			<h3 class="cls_plainheader">Audit Mode Control</h3>
+			<div class="col-md-12">
+
+				<div class="panel panel-primary">
+
+
+					<div class="sepr">
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group is-empty">
+									<label for="custName" class="col-md-6 control-label required">Customer
+										Name</label>
+									<div class="col-md-6 select-box">
+										<select ng-change="customerChange()"
+											ng-model="customerId" name="customerId"
+											ng-options="item.customerId as item.customerName for item in customerList"
+											class="form-control" id="Select1" 
+											required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group is-empty">
+									<label for="countryId" class="col-md-6 control-label required">Country
+										Name</label>
+									<div class="col-md-6 select-box">
+										<select ng-model="countryId"
+											ng-options="item.id as item.name for item in countriesList"
+											class="form-control" id="countryId" 
+											name="countryId" required>											
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+
+
+							</div>
+
+							<div class="col-md-4">
+								<div class="form-group is-empty">
+									<label for="cmpName" class="col-md-6 control-label required">Company
+										Name</label>
+									<div class="col-md-6 select-box">
+										<select ng-change="companyChange()"
+											ng-model="companyId" name="companyId" 
+											ng-options="item.id as item.name for item in companyList"
+											class="form-control" id="companyId" 
+											required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group is-empty">
+									<label for="locName" class="col-md-6 control-label required">Location
+										Name</label>
+									<div class="col-md-6 select-box">
+										<select ng-model="locationId" name="locationId"
+											ng-options="item.id as item.name for item in locationList"
+											class="form-control" id="locationId" 
+											required ng-change="getAuditList()">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+
+							</div>
+
+							
+
+
+
+
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Define Audit</h5>
+					</div>
+					<div class="sepr">
+
+						<div class="row">
+						<div class="col-md-12">
+						<div class="form-group is-empty">
+							
+									<div class="checkbox col-md-12">
+									  <label style="margin-top: 15px">
+									<!--   {{audit.auditStatus }} -->
+										<input type="checkbox" id="auditStatus"  ng-model="audit.auditStatus" name="auditStatus" 
+										ng-true-value="'Y'" ng-false-value="'N'"  ng-click="fun_renderTable()" />
+                                  			  Activate Audit Mode
+                                  		 </label>
+									</div>
+						</div>
+						
+						
+						</div>
+						
+							<div class="col-md-6" ng-show="renderTable">
+								<div class="form-group is-empty">
+									<label for="startDate"
+										class="col-md-6 control-label required">Actual Start Date</label>
+									<div class="col-md-6">
+										<input data-dtp="dtp_cdo8l" class="form-control"
+											ng-model="startDate" placeholder="Actual Start Date"
+											type="text" id="startDate" name="startDate" readonly="true"
+											 required />
+									</div>
+								</div>
+								
+
+								<div class="form-group is-empty">
+									 <label for="days" id = "days"class="col-md-6 control-label" >Duration </label> 
+									
+									<label id= "duration"  class="col-md-6 control-label">	{{duration}} </label> 
+									
+									
+								</div>
+
+							</div>
+							<div class="col-md-6" ng-show="renderTable">
+								<div class="form-group is-empty">
+									<label for="endDate"
+										class="col-md-6 control-label ">Actual End Date</label>
+									<div class="col-md-6">
+										<input data-dtp="dtp_cdo8l" class="form-control"
+											ng-model="endDate" placeholder="Actual End Date"
+											type="text" id="endDate" name="endDate" readonly="true"
+											 />
+									</div>
+								</div>
+								
+								<div class="form-group is-empty">
+									<label for="comments" class="col-md-6 control-label ">Comments </label>
+									<div class="col-md-6">
+										<input class="form-control" ng-model="audit.comments"
+											placeholder="Comments" name="comments" type="text"
+											 minlength="2" maxlength="500" />
+									</div>
+								</div>
+								</div>
+							
+
+						</div>
+						
+
+
+					</div>
+
+					<br>
+
+
+				</div>
+				<div class="btn-group btn-group-right pull-right">
+					 <a class="btn  btn-primary "
+						ng-click=" enable || saveAudit($event)"">Save</a> 			
+					
+				</div>
+				
+				 <br />
+				 
+				 <div class="form-group is-empty" id="history">
+							
+									<div class="checkbox col-md-12">
+									  <label style="margin-top: 15px">									
+										<input type="checkbox" id="history"  ng-model="history" name="history" 
+										ng-true-value="'Y'" ng-false-value="'N'"  ng-click="fun_ShowHistory()" />
+                                  			  Show History<h5>(Note: Click here if you want to see previous Audit Details)</h5>
+                                  		 </label>
+									</div>
+						</div>
+						
+						
+                <br />
+                 <br />
+                  
+                
+				
+				<h3 class="cls_plainheader" ng-show="history =='Y' || history=='true'" id="auditHistory">Audit History</h3>
+                 <div class="panel panel-default" >
+                    <div class="sepr"  ng-show="history =='Y' || history=='true'" id="auditHistory">
+                          <table id="searchResults" class="table table-striped" style="width:100%">
+                            <thead>
+                                <tr>                                        
+                                    <th>Start Date</th>    
+                                    <th>End Date</th>                                                         
+                                    <th>Comments</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        </div>
+                     <div></div>
+			  </div>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar navbar-default navbar-fixed-bottom text-center"
+					style="min-height: 15px; padding: 0px;">
+					<div class="container text-right" style="">
+						<label class="control-label text-center"
+							style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+
+
+</form>

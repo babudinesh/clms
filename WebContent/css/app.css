@@ -1,0 +1,296 @@
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th
+{
+	padding:4px !important;
+}
+
+
+.pvtTotalLabel,.pvtTotal,.pvtGrandTotal{
+	display:none!important;
+}
+.pvtColLabel{
+	min-width:80px;
+}
+/* app css stylesheet */
+thead th {
+	color: grey !important;
+}
+
+.btn-group .btn {
+    margin: 5px !important;
+}
+
+.select-box {
+	display: table !important;
+}
+
+.cls_plainheader, .clsicon_help, .control-label {
+	font-weight: bold;
+	color: #00bcd4;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus
+	{
+	border-color: #347ab6 !important;
+	border-bottom-color: transparent !important;
+	color: #347ab6 !important;
+}
+
+.nav-tabs {
+	background-color: transparent !important;
+	border-bottom-color: #347ab6 !important;
+	margin-bottom: 5px !important;
+}
+
+.nav-tabs>li>a, .nav-tabs>li>a:hover, .nav-tabs>li>a:focus {
+	background-color: transparent !important;
+	border: 0 !important;
+	color: #347ab6 !important;
+	font-weight: 500;
+}
+
+.row {
+	margin: 0px !important;
+}
+
+.navbar-primary, .navbar-default {
+	border: 0;
+	background-color: #347ab6;
+	background-image: -webkit-linear-gradient(left, #347AB6, #51c6ea)
+		!important;
+	background-image: linear-gradient(90deg, #347AB6 0, #347AB6) !important;
+	background-repeat: repeat-x !important;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#347AB6',
+		endColorstr='#347AB6', GradientType=1) !important;
+}
+
+.cls_plainheader {
+	
+}
+
+.control-label, .form-group .checkbox label, .form-group .radio label,
+	.form-group label {
+	color: grey !important;
+	font-weight: bold !important;
+}
+
+.panel.panel-primary>.panel-heading, .panel-heading {
+	/*background-color: #FFC300 !important;*/
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f1da36+51,fefcea+98,fefcea+98,fefcea+98,fefcea+98 */
+	background: #b3dced; /* Old browsers */
+	background: -moz-linear-gradient(left, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced',
+		endColorstr='#bce0ee', GradientType=1); /* IE6-9 */
+}
+.navbar .navbar-nav > li > a {
+	padding-right: 2px !important;
+}
+.panel-primary .panel
+{
+margin-left:15px;
+margin-right:15px;
+}
+
+.panel-primary .panel-primary .panel-heading {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#b3dced+0,29b8e5+0,bce0ee+100 */
+	background: #b3dced; /* Old browsers */
+	background: -moz-linear-gradient(left, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #b3dced 0%, #29b8e5 0%, #bce0ee 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b3dced',
+		endColorstr='#bce0ee', GradientType=1); /* IE6-9 */
+}
+
+.panel {
+	box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.5), 0 1px 6px 0
+		rgba(0, 0, 0, 0.5) !important;
+	-webkit-box-shadow:  0 1px 6px 0  rgba(0, 0, 0, 0.5), 0 1px 6px 0
+		 rgba(0, 0, 0, 0.5) !important;
+}
+
+.panel-heading h5 {
+	padding-left: 5px !important;
+	font-weight: bold;
+}
+
+.panel-heading {
+	padding: 2px !important;
+}
+
+body {
+	padding-top: 75px;
+}
+
+body, input, label, h1, h2, h3, h4, h5, li {
+	body: 'Roboto', 'Helvetica', 'Arial', sans-serif !important;
+}
+
+.input-group-btn {
+	padding: 0px !important;
+}
+
+input {
+	font-family: FontAwesome, 'Roboto', 'Helvetica', 'Arial', sans-serif;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+}
+
+label.error {
+	color: red !important;
+	font-size: 12px !important;
+}
+
+label.required:after { 
+	content: " *";
+	color: red;
+}
+
+td .checkbox, td .radio, th .checkbox, th .radio {
+	padding: 0px !important;
+	margin: 0px !important;
+}
+
+.btn {
+	text-transform: capitalize !important;
+	    border-bottom: 4px solid #2980b9 !important;
+    border-color: #3498db !important;
+    background-color: #3498db !important;
+    border: 1px solid #3498db !important;
+    color: white !important;
+    /* border-radius: 7%; */
+    padding: 6px 12px !important;
+    border-radius: 4px !important;
+}
+
+.navbar-brand {
+	font-weight: bold !important;
+}
+.capitalize {
+    text-transform: uppercase;
+}
+.overridefont{
+	font-size:10px !important;
+}
+.hideMenu {
+	display:none !important;
+}
+.showMenu {
+	display:block !important;
+}
+.navbar.navbar-primary .dropdown-menu li > a{	
+     font-size: 12px !important;
+     padding: 7px 7px !important;
+    /*  margin-left: -300px;
+    overflow-y: scroll;
+    float: left;
+    height: 500px;
+    width: 120;    
+    margin-bottom: 25px;  */   
+}
+
+.menu {
+  list-style: none;
+  border-bottom: 0.1em solid black;
+  margin-bottom: 2em;
+  padding: 0 0 0.5em;
+}
+
+.menu:before {
+  content: "[";
+}
+
+.menu:after {
+  content: "]";
+}
+
+.menu > li {
+  display: inline;
+}
+
+.menu > li:before {
+  content: "|";
+  padding-right: 0.3em;
+}
+
+.menu > li:nth-child(1):before {
+  content: "";
+  padding: 0;
+}
+.dropdown-menu > li > a > img {
+    margin-right: 8px;
+    vertical-align: -35%;
+    width: 24px;
+    padding-right: 0;
+    margin-top: 0;
+}
+.header img {
+    width: 215px;
+    margin-top: 15px;
+}
+.navbar img {
+    max-height: 40px;
+    padding-right: 20px;
+}
+img {
+    width: auto\9;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+
+.dropdown{
+	font-size:10px;
+}
+
+.time-control {
+            border: 0px !important;
+            border-bottom: 1px solid grey !important;
+              
+        }
+ 
+ .time-control:focus {
+     border: 0px !important;
+     border-bottom: 2px solid #3f51b5 !important;
+     
+ }
+
+.chartdiv {
+  width: 100%;
+  height: 500px;
+}
+.amcharts-export-menu-top-right {
+  top: 10px;
+  right: 0;
+}
+
+.letterForPolice{
+	margin:2px !important;
+	font-size:12px;
+	
+	
+}
+
+.form-group > div > input > .letterForPolice{
+    padding-bottom: 2px;
+    margin: 2px 0 0 0;
+}
+
+.dropdownScrollBar{
+	    margin-left: -300px;
+    overflow-y: scroll;
+    float: left;
+    height: 500px;
+    width: 120;    
+    margin-bottom: 25px;
+}
+            

@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Department Wise OT Report" language="groovy" pageWidth="560" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="520" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c1b2bca6-3584-483d-b53d-9ca8ca91414d">
+	<property name="ireport.zoom" value="3.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="workerId" class="java.lang.String"/>
+	<parameter name="departmentId" class="java.lang.String"/>
+	<parameter name="fromdate" class="java.lang.String"/>
+	<parameter name="todate" class="java.lang.String"/>
+	<parameter name="status" class="java.lang.String"/>
+	<parameter name="workerCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="workerName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT vi.vendor_name,vd.vendor_code,wd.worker_id,
+REPLACE((CONCAT(RTRIM(wdi.first_name), ' ',CASE WHEN (wdi.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wdi.middle_name),' ') END, wdi.last_name)),'  ',' ')  AS worker_name,
+
+wsd.department_id, CASE WHEN dd.department_code IS NOT NULL THEN CONCAT( ddi.department_name, ' (',dd.department_code,')') ELSE '' END AS dept
+,COALESCE(dd.department_code,'') AS department_code, COALESCE(ddi.department_name,'') AS department_name ,wdi.date_of_joining,wdi.date_of_leaving,wjd.work_skill,jdi.job_name,CASE wdi.is_active WHEN 'N' THEN 'InActive' ELSE 'Active' END AS vendor_status,wd.worker_code
+FROM vendor_details_info vi
+INNER JOIN vendor_details vd ON (vd.vendor_id = vi.vendor_id)
+INNER JOIN worker_details wd ON (wd.vendor_id = vd.vendor_id)
+INNER JOIN worker_details_info wdi ON (wdi.worker_id = wd.worker_id)
+LEFT JOIN labor_scheduled_shifts wsd ON (wsd.emp_code = wd.worker_code)
+LEFT JOIN department_details dd ON (dd.department_id = wsd.department_id )
+LEFT JOIN department_details_info ddi ON (ddi.department_id = dd.department_id AND
+CONCAT(DATE_FORMAT(ddi.transaction_date, '%Y%m%d'), LPAD(ddi.department_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.department_sequence_id, 2, '0')))
+FROM department_details_info vdi1
+WHERE  ddi.department_id = vdi1.department_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+))
+
+LEFT JOIN work_job_details wjd ON (wjd.worker_id = wdi.worker_id AND CONCAT(DATE_FORMAT(wjd.transaction_date, '%Y%m%d'), LPAD(wjd.sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM work_job_details vdi1
+WHERE  wjd.worker_id = vdi1.worker_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+))
+LEFT JOIN job_code_details_info jdi ON (jdi.job_code_id = wjd.job_name AND
+CONCAT(DATE_FORMAT(jdi.transaction_date, '%Y%m%d'), LPAD(jdi.job_code_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.job_code_sequence_id, 2, '0')))
+FROM job_code_details_info vdi1
+WHERE  jdi.job_code_id = vdi1.job_code_id
+AND vdi1.transaction_date <= CURRENT_DATE()
+))
+
+WHERE
+CONCAT(vi.transaction_date, vi.sequence_id) =(SELECT MAX(CONCAT(transaction_date, sequence_id)) FROM vendor_details_info vdi
+WHERE vi.vendor_id = vdi.vendor_id GROUP BY vendor_id)
+AND
+CONCAT(wdi.transaction_date, wdi.sequence_id) =(SELECT MAX(CONCAT(transaction_date, sequence_id)) FROM worker_details_info vdi
+WHERE wdi.worker_id = vdi.worker_id GROUP BY worker_id)
+
+AND vd.customer_id = $P{customerId}
+AND vd.company_id = $P{companyId}
+AND (vd.vendor_id = $P{vendorId} OR $P{vendorId}='-1')
+AND (wd.worker_id= $P{workerId}  OR $P{workerId}='-1')
+AND (wsd.department_id=$P{departmentId} OR $P{departmentId}='-1')
+AND (wd.worker_code = $P{workerCode} OR $P{workerCode} = -1)
+AND (REPLACE((CONCAT(RTRIM(wdi.first_name), ' ',CASE WHEN (wdi.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wdi.middle_name),' ') END, wdi.last_name)),'  ',' ')  LIKE '%$P!{workerName}%'  )
+
+AND  ($P{fromdate} between wdi.Date_Of_joining and wdi.Date_Of_Leaving
+OR $P{todate} between wdi.Date_Of_joining and wdi.Date_Of_Leaving)
+AND wdi.is_active=$P{status}
+
+GROUP BY vi.vendor_name,vd.vendor_code,wd.worker_id,CONCAT(wdi.first_name," ",wdi.last_name) ,wsd.department_id
+,dd.department_code,ddi.department_name,wdi.date_of_joining,wdi.date_of_leaving,wjd.work_skill,jdi.job_name
+ORDER BY vi.vendor_name]]>
+	</queryString>
+	<field name="vendor_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendor_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="worker_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="worker_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dept" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_of_joining" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="date_of_leaving" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="work_skill" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="job_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendor_status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="worker_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="Joining" class="java.lang.Integer" resetType="Group" resetGroup="Vendor Name" calculation="Count">
+		<variableExpression><![CDATA[$F{date_of_joining}]]></variableExpression>
+	</variable>
+	<variable name="Leaving" class="java.lang.Integer" resetType="Group" resetGroup="Vendor Name" calculation="Count">
+		<variableExpression><![CDATA[$F{date_of_leaving}]]></variableExpression>
+	</variable>
+	<group name="Vendor Name" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{vendor_name}]]></groupExpression>
+		<groupHeader>
+			<band height="33">
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" x="202" y="11" width="28" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" uuid="ef1cf9bd-201b-4d02-bb49-98076db4a1ff"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Workmen ID No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="421" y="11" width="27" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="d391ef8c-a2f6-4a21-8f54-bc2bd732d0f6"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Date of Joining]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="18" y="11" width="115" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="4329a095-b487-40ca-9ff9-edd6b4c75eef"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Fixed" tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Vendor Name (Code)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="133" y="11" width="69" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="52a1fbce-8a06-4dfd-97c6-d79fea391e23"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Department Name (Code)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="230" y="11" width="117" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="cd58ffb4-fdcb-4de0-a47a-5ed49cc4ead2"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Proportional"/>
+					</textElement>
+					<text><![CDATA[Workmen Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="370" y="11" width="51" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="632d855b-11f9-47a4-8537-65def645259e"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Job Name]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="347" y="11" width="23" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="ea20e82b-e423-46a2-bc29-1a1bff4d9d2d"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Work Skill]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="448" y="11" width="27" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="9c223412-ba95-4ffc-9111-e47bcc929f92"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Date of Leaving]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+					<reportElement x="0" y="0" width="520" height="11" uuid="c144d0ea-8392-4c07-b1ff-0dbf0cfe2f6b"/>
+					<textElement>
+						<font size="6" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{vendor_name} == null ? '' : $F{vendor_name})  + " " +"- Vendor"]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="475" y="11" width="45" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="81092896-2361-4c64-97af-dc9fa08973ce"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<text><![CDATA[Status]]></text>
+				</staticText>
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" mode="Transparent" x="0" y="11" width="18" height="22" isPrintInFirstWholeBand="true" printWhenGroupChanges="Vendor Name" forecolor="#000000" backcolor="#FFFFFF" uuid="f0f4198f-a013-4a96-bff2-981a2725163f"/>
+					<box>
+						<pen lineWidth="0.5"/>
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="0.5"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Fixed" tabStopWidth="20"/>
+					</textElement>
+					<text><![CDATA[Sl No]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="24">
+				<textField pattern="" isBlankWhenNull="false">
+					<reportElement mode="Transparent" x="447" y="12" width="48" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="4d6e065a-723f-48ac-9bd0-77b848b5a5bd"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{status}.equalsIgnoreCase("Y")? "Joining Count:" : "")]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement mode="Transparent" x="447" y="0" width="48" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="b3e0841d-0be5-458c-b1ca-f86db181dd71"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{status}.equalsIgnoreCase("N")? "Leaving Count:" : "")]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement mode="Transparent" x="493" y="12" width="20" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="f1f54e8b-1ca7-447a-8b20-f627fb02b98b"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{status}.equalsIgnoreCase("Y")? $V{Joining} : "")]]></textFieldExpression>
+				</textField>
+				<textField pattern="" isBlankWhenNull="true">
+					<reportElement mode="Transparent" x="493" y="0" width="20" height="12" forecolor="#000000" backcolor="#FFFFFF" uuid="be5bfd00-47fa-4fc6-8bec-9f90a2f301c5"/>
+					<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+						<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+						<paragraph lineSpacing="Single"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($P{status}.equalsIgnoreCase("N")? $V{Leaving} : "")]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="50">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="133" y="3" width="257" height="16" uuid="aac0c207-95a0-4a37-abc0-64f30f17ecd5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($P{status}.equalsIgnoreCase("Y") ? "Contractor Wise Joining Report" : "Contractor Wise Leaving Report")]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="445" y="30" width="17" height="15" uuid="e8541b79-bfc1-48b4-b907-eaa296ae75b9"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["To :"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="45" width="520" height="1" uuid="2496beac-006e-40bf-8552-b5b1737f3111"/>
+			</line>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="463" y="30" width="38" height="15" uuid="7e91f843-1c3a-4206-834a-368e68318470"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse($P{todate})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="28" width="236" height="15" printWhenGroupChanges="Vendor Name" uuid="f5eda682-2226-4da0-80ec-38b6ce08ae7d"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vendor Name (Code) :" + '  ' + ($P{vendorId}.equals ("-1") ? "All" : (($F{vendor_code} == null) ? '' : ($F{vendor_name}+"("+$F{vendor_code}+")") ))]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="368" y="30" width="37" height="15" uuid="e750ca30-ecfe-4eb4-ae11-e8659f0694da"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Period From :"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="406" y="30" width="39" height="15" uuid="7dc204a7-fec0-430a-9dd1-3de7abaa574e"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse($P{fromdate})]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="202" y="0" width="28" height="10" uuid="19324927-5395-4418-b619-ce90dcad8ec9"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{worker_code}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="230" y="0" width="117" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="c9b7b698-67ce-4d60-b7ca-a70f5eb014f3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Proportional"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{worker_name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="421" y="0" width="27" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="de524f53-91ce-4d81-bf26-230262b3a7ea"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_joining}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="448" y="0" width="27" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="c25525b3-d490-4c42-8f6d-22bbfcbd6037"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date_of_leaving}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="133" y="0" width="69" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="e0ce0721-f559-41f3-ae6f-fe3199abc3a6"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dept}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" mode="Transparent" x="18" y="0" width="115" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="c38fef8d-cb05-48c0-b6dd-b390807dbb18"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Proportional" tabStopWidth="20"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendor_name} +"  "+"("+ $F{vendor_code} +")"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="347" y="0" width="23" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="3bbe0cb0-2cb1-494d-a15f-61bc0944fa65"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_skill}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="370" y="0" width="51" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="d2e51931-f859-4420-b1e6-cf20bcc18ac4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="5" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{job_name}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="475" y="0" width="45" height="10" uuid="e2ff9e9d-2bb6-407a-ae0d-89b017ea245a"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vendor_status}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="18" height="10" uuid="f1ae95b3-55aa-4d64-bba9-934e5e1b4621"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

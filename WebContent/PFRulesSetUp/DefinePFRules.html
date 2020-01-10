@@ -1,0 +1,390 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">PF Rules</h3>
+		<form id="wageDeductionForm">
+
+			<br />
+
+			<div class="panel panel-primary" ng-show="transactionList">
+				<div class="panel-heading">
+					<h5 class="cls_plainheader">Search :</h5>
+				</div>
+				<div class="container">
+
+					<div class="row">
+						<div class="col-md-6 transactionList">
+							<div class="form-group">
+								<label for="transactionList" class="col-md-4 control-label">Transaction
+									Date's :</label>
+								<div class="col-md-6 select-box">
+									<select ng-model="transactionModel"
+										ng-change="transactionDatesListChange()"
+										ng-options="item.id as item.name for item in transactionDatesList "
+										class="form-control" name="transactionModel"
+										id="transactionModel" ng-disabled="readOnly">
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr class="pull-left" style="width: 105%" />
+			</div>
+			<br />
+
+			<div class="panel panel-primary">
+
+				<div class="sepr">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="custName" class="col-md-4 control-label required">Customer
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="customerChange()"
+										ng-model="wageDeduction.customerId"
+										ng-options="item.customerId as item.customerName for item in customerList"
+										class="form-control" id="custName" ng-disabled="readOnlyVar"
+										required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="status" class="col-md-4 control-label required">Country</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="wageDeduction.countryId" name="countryId"
+										ng-options="item.id as item.name for item in countriesList"
+										class="form-control" id="countryId" ng-disabled="readOnlyVar"
+										required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+
+								</div>
+							</div>
+
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="wageCode" class="col-md-4 control-label required">Company
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="companyChange()"
+										ng-model="wageDeduction.companyId"
+										ng-options="item.id as item.name for item in companyList"
+										class="form-control" id="compName" name="compName"
+										ng-disabled="readOnlyVar" required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+
+
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<br />
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h5>Define PF Rules</h5>
+				</div>
+				<div class="sepr">
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="transactionDate"
+									class="col-md-4 control-label required">Effective From
+									Date</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control"
+										ng-model="transactionDate" id="transactionDate"
+										readonly="true" name="transactionDate"
+										placeholder="Effective From Date &#xf073;"
+										ng-disabled="readOnly" required />
+								</div>
+							</div>
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="isActive" class="col-md-4 control-label required">Status</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="wageDeduction.isActive"
+										ng-options="item.id as item.name for item in list_status"
+										class="form-control" id="isActive" ng-disabled="readOnly"
+										name="isActive" title="Please select  status" required>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+
+
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label></label>
+								<div class="col-md-8 select-box"></div>
+							</div>
+
+
+						</div>
+
+						<div class="col-md-12">
+							<div class="form-group cls_divradios">
+								<!-- <label class="col-md-4  control-label cls_lblradios required">Status</label> -->
+
+								<div class="col-lg-12 ">
+									<div class="radio radio-primary" style="display: inline-block">
+										<label class="col-md-12 control-labe"> <input
+											type="radio" name="fixedAmountOrPercentage"
+											id="fixedAmountOrPercentage1" value="Fixed Amount"
+											ng-model="wageDeduction.fixedAmountOrPercentage"
+											ng-checked="wageDeduction.fixedAmountOrPercentage == 'Fixed Amount'"
+											ng-change="amountOrPercentageChange()" ng-disabled="readOnly">Fixed
+											Amount
+										</label>
+									</div>
+									<div class="radio radio-primary" style="display: inline-block">
+										<label class="col-md-12  control-labe"> <input
+											type="radio" name="fixedAmountOrPercentage"
+											id="fixedAmountOrPercentage2" value="By Percentage"
+											ng-model="wageDeduction.fixedAmountOrPercentage"
+											ng-checked="wageDeduction.fixedAmountOrPercentage == 'By Percentage'"
+											ng-change="amountOrPercentageChange()" ng-disabled="readOnly">
+											By Percentage
+										</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<div class="col-md-12"
+							ng-show="wageDeduction.fixedAmountOrPercentage == 'Fixed Amount'">
+							<div class="col-md-6">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h5>Employer Contribution</h5>
+									</div>
+									<div class="sepr">
+
+										<div class="row">
+
+
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="employerAmount"
+														class="col-md-4 control-label required">Enter the
+														Amount</label>
+													<div class="col-md-4">
+														<input type="text" ng-model="wageDeduction.employerAmount"
+															ng-disabled="readOnly" class="form-control onlyNumbers"
+															id="employerAmount" name="employerAmount"
+															placeholder="Enter Amount" maxlength="5" required />
+													</div>
+													<div class="col-md-4 select-box">
+														<select ng-model="wageDeduction.employerAmountType"
+															ng-options="item.id as item.name for item in currencyList"
+															class="form-control" id="employerAmountType"
+															ng-disabled="readOnly" name="employerAmountType"
+															title="Please select  Amount Type" required>
+															<option value="">Select</option>
+														</select> <span class="input-group-btn"> <label
+															for="Select1" class="fa fa-caret-down"></label>
+														</span>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-primary">
+
+									<div class="panel-heading">
+										<h5>Employee Contribution</h5>
+									</div>
+									<div class="sepr">
+
+										<div class="row">
+
+
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="employeeAmount"
+														class="col-md-4 control-label required">Enter the
+														Amount</label>
+													<div class="col-md-4">
+														<input type="text" ng-model="wageDeduction.employeeAmount"
+															ng-disabled="readOnly" class="form-control onlyNumbers"
+															id="employeeAmount" name="employeeAmount"
+															placeholder="Enter Amount" maxlength="5" required />
+													</div>
+													<div class="col-md-4 select-box">
+														<select ng-model="wageDeduction.employeeAmountType"
+															ng-options="item.id as item.name for item in currencyList"
+															class="form-control" id="employeeAmountType"
+															ng-disabled="readOnly" name="employeeAmountType"
+															title="Please select  Amount Type" required>
+															<option value="">Select</option>
+														</select> <span class="input-group-btn"> <label
+															for="Select1" class="fa fa-caret-down"></label>
+														</span>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-12"
+							ng-show="wageDeduction.fixedAmountOrPercentage =='By Percentage'">
+							<div class="col-md-6">
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h5>Employer Contribution</h5>
+									</div>
+									<div class="sepr">
+
+										<div class="row">
+
+
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="employerPercentage"
+														class="col-md-4 control-label required">Define the
+														%</label>
+													<div class="col-md-4">
+														<input type="text"
+															ng-model="wageDeduction.employerPercentage"
+															ng-disabled="readOnly" class="form-control onlyNumbers"
+															id="employerPercentage" name="employerPercentage"
+															placeholder="Enter Percentage" maxlength="5" required />
+													</div>
+													<div class="col-md-4 select-box">
+														<select ng-model="wageDeduction.employerPercentageType"
+															ng-options="item.id as item.name for item in PercentageBy_List"
+															class="form-control" id="employerPercentageType"
+															ng-disabled="readOnly" name="employerPercentageType"
+															title="Please select Amount Type" required>
+															<option value="">Select</option>
+														</select> <span class="input-group-btn"> <label
+															for="Select1" class="fa fa-caret-down"></label>
+														</span>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="panel panel-primary">
+
+									<div class="panel-heading">
+										<h5>Employee Contribution</h5>
+									</div>
+									<div class="sepr">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="employeePercentage"
+														class="col-md-4 control-label required">Define the
+														%</label>
+													<div class="col-md-4">
+														<input type="text"
+															ng-model="wageDeduction.employeePercentage"
+															ng-disabled="readOnly" class="form-control onlyNumbers"
+															id="employeePercentage" name="employeePercentage"
+															placeholder="Enter Percentage" maxlength="5" required />
+													</div>
+													<div class="col-md-4 select-box">
+														<select ng-model="wageDeduction.employeePercentageType"
+															ng-options="item.id as item.name for item in PercentageBy_List"
+															class="form-control" id="employeePercentageType"
+															ng-disabled="readOnly" name="employeePercentageType"
+															title="Please select Percentage Type" required>
+															<option value="">Select</option>
+														</select> <span class="input-group-btn"> <label
+															for="Select1" class="fa fa-caret-down"></label>
+														</span>
+													</div>
+												</div>
+											</div>
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+
+
+
+
+				</div>
+
+			</div>
+
+
+		</form>
+		<div class="btn-group btn-group-right pull-right">
+			<a href="javascript:void(0)" class="btn btn-primary"
+				ng-show="saveBtn && buttonArray.includes('ADD')" ng-click="enable || save($event)">Save</a> <a
+				href="javascript:void(0)" class="btn btn-primary"
+				ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a> <a
+				href="javascript:void(0)" class="btn btn-primary"
+				ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or
+				Update History</a> <a href="javascript:void(0)" class="btn btn-primary"
+				ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click=" enable || save($event)">Correct
+				History</a> <a href="javascript:void(0)" class="btn btn-primary"
+				ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			<button class="btn btn-primary" ng-show="resetBtn" type="reset">
+				Reset</button>
+			<!--  <a href="#/WageDeductionSearch" class="btn btn-primary">Return to search</a> -->
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="navbar navbar-default navbar-fixed-bottom text-center"
+			style="min-height: 15px; padding: 0px;">
+			<div class="container text-right" style="">
+				<label class="control-label text-center"
+					style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+

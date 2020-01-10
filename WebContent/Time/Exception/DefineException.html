@@ -1,0 +1,147 @@
+<form id="exceptionForm" name="exceptionForm" novalidate ng-submit="submit"> 
+<div class="container-fluid">
+    <div class="col-md-12 well">
+         <h3 class="cls_plainheader">Add Exception Details</h3>
+        <div class="col-md-12">
+	                <br>
+	                 <div class="panel panel-default" ng-show="transactionList">
+						<div class="container">
+							<h5 class="cls_plainheader"> Search : </h5>
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6 select-box">
+                                            <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                            	<option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>                        											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr class="pull-left" style="width: 105%" />
+					</div>
+                    
+					<div class="panel panel-default">
+	                	<div class="sepr">
+	                        <div class="row">
+	                            <div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+	                                    <div class="col-md-8 select-box">
+	                                         <select  ng-change="customerChange()"  ng-model="exception.customerId" ng-options="item.customerId as item.customerName for item in exceptionList.customerList" class="form-control" id="custName" name="custName()" ng-disabled="readOnly || onlyRead" required>
+											 	<option value="">Select</option>
+                                             </select> 
+                                             <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+	                                    </div>
+	                                </div>
+									
+									<div class="form-group is-empty">
+	                                    <label for="locationName" class="col-md-4 control-label required">Country Name</label>
+	                                    <div class="col-md-8 select-box">
+											<select ng-change="countryChange()" ng-model="exception.countryId" ng-options="item.id as item.name for item in exceptionList.countryList" class="form-control" id="countryName" name="countryId" ng-disabled="readOnly || onlyRead" required>
+												<option value="">Select</option>
+                                            </select> 	  
+                                            <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>                                  
+                                    	</div>
+                                  	</div>
+                                    
+								</div>
+
+								<div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                                    <div class="col-md-8 select-box">
+											<select ng-change="companyChange()"  ng-model="exception.companyId" ng-options="item.id as item.name for item in exceptionList.companyList" class="form-control" id="companyName" name= "companyName"ng-disabled="readOnly || onlyRead" required>
+											 	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+	                                	</div>
+
+									</div>
+									
+									<div class="form-group is-empty">
+	                                    <label for="exceptionCode" class="col-md-4 control-label required">Exception Code</label>
+	                                    <div class="col-md-8">
+											<input type="text" ng-model="exception.exceptionCode" placeholder="Exception Code" class="form-control capitalize" name="exceptionCode" id="exceptionCode" ng-disabled="readOnly || onlyRead" onchange="angular.element(this).scope().fun_checkExceptionCode()" maxlength="20" required>
+	                                	</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+           			
+           
+            <div class="panel panel-primary">
+	            <div class="panel-heading">
+	            	 <h5>Define Exception</h5>
+	            </div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactiondate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control"ng-model="exception.transactionDate" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly"  required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exceptionName" class="col-md-4 control-label required">Exception Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="exception.exceptionName" id="exceptionName"  name="exceptionName" placeholder="Exception Name" maxlength ="45" ng-disabled="readOnly" required />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="effectiveStatus" class="col-md-4 control-label required">Effective Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="effectiveStatus" class="form-control" ng-model="exception.effectiveStatus" name="effectiveStatus" ng-disabled="readOnly" required>
+                                        <option value="Y">Active</option>
+                                        <option value="N">Inactive</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <div class="btn-group btn-group-right pull-right">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave($event)">Correct History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+			 <a href="#/searchException" class="btn btn-primary">Return to search</a>
+		</div>
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+</form>

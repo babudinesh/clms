@@ -1,0 +1,147 @@
+<div id="searchPage"> 
+	<form name="manpowerReport" id="manpowerReport" novalidate ng-submit="submit">
+		<div class="container-fluid">
+			<div class="col-md-12 well">
+				<h3 class="cls_plainheader">Manpower Approved VS Actual</h3>
+				<div class="col-md-12">
+					<br />
+					<div class="panel panel-primary">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+		                            <div class="form-group">
+		                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+		                                <div class="col-md-8 select-box">
+		                                	<select ng-change = "customerChange()" ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-disabled="dropdownDisableCustomer" required >
+		                                    	<option value="">Select</option> 
+		                                    </select> 
+		                                    <span class="input-group-btn">
+		                                     	<label for="customerName" class="fa fa-caret-down"></label>
+		                                    </span>                                     
+		                                </div>
+		                            </div>                           
+		                            <div class="form-group ">
+		                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+		                                <div class="col-md-8 select-box">                                    
+		                                    <select  ng-model="vendorName" ng-change="vendorChange()" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorId" name="vendorId" ng-disabled="dropdownDisableVendor"> 
+	                                        <!--     <option value="">ALL</option>   -->                                        
+	                                        </select>
+	                                        <span class="input-group-btn">
+		                                     	<label for="vendorId" class="fa fa-caret-down"></label>
+		                                    </span> 
+		                                </div>
+		                            </div>
+									
+									<div class="form-group">
+										<label for="plantName" class="col-md-4 control-label required">Plant</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="plantChange()" ng-model="plantId" name="plant" ng-options="item.id as item.name for item in plantsList" class="form-control"  id="plantId"  required>
+	                                            <option value="">Select</option>
+	                                        </select>
+											<span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>					
+									
+				            		<div class="form-group" >
+		                                <label for="businessDate" class="col-md-4 control-label required"> Business Date  </label>
+		                                <div class="col-md-8">
+		                                     <input type="text" class="form-control" id="businessDate" readonly="true" placeholder=" Business Date &#xf073;" ng-model="businessDate" name="businessDate" date-change-picker required/>                                                                                                     
+		                                </div>
+		                            </div>
+		                                                        
+								</div>
+		
+								<div class="col-md-6">
+									<div class="form-group">
+		                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+		                                <div class="col-md-8 select-box">
+		                                	<select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="companyChange()" ng-disabled="dropdownDisableCompany" required>
+		                                    	<option value="">Select</option>
+		                                   	</select>   
+		                                    <span class="input-group-btn">
+		                                    	<label for="companyName" class="fa fa-caret-down"></label>
+		                                    </span>                                   
+		                                </div>
+		                            </div>
+		                           
+									<div class="form-group">
+										<label for="locationFor" class="col-md-4 control-label required">Location</label>
+										<div class="col-md-8 select-box">
+											<select   ng-model="locationId"  ng-change="locationChange()" name="location" ng-options="item.id as item.name for item in locationsList" class="form-control"  id="locationId" required>
+	                                            <option value="">Select</option>
+	                                        </select>
+	                                        <span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="departmentFor" class="col-md-4 control-label required">Department</label>
+										<div class="col-md-8 select-box">
+											<select   ng-model="departmentId"  ng-change="departmentChange()" name="department" ng-options="item.departmentId as item.departmentName for item in departmentsList" class="form-control"   id="departmentId">
+	                                            <option value="">ALL</option>
+	                                        </select>
+	                                        <span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+		                                <label for="shift" class="col-md-4 control-label">Shift</label>
+		                                <div class="col-md-8 select-box">
+		                                    <select   ng-model="shift"  name="shift" ng-options="item.shiftName as item.shiftName for item in shiftsList" class="form-control"  id="shift">
+		                                     	<option value="">ALL</option>
+		                                    </select>
+		                                    <span class="input-group-btn">
+		                                			<label for="shift" class="fa fa-caret-down"></label>
+		                                   	</span>
+		                                </div>
+		                            </div>
+									
+									<div class="col-md-12 pull-right ">
+			             				<!-- <a class="btn btn-primary col-md-2 " ng-click="fun_previewGridData('DailyContractorManpowerReport')"> View <i class="fa fa-search"></i></a> -->
+			             				<a class="btn btn-primary col-md-3 " ng-click="fun_Excel_Download('Manpower Approved VS Actual')" ng-show="buttonArray.includes('DOWNLOAD')" > Download Excel<i class="fa fa-file-excel-o" aria-hidden="true"> </i></a>
+				                       <!--  <a class="btn btn-primary col-md-3 " ng-click="fun_PDFDownload('DailyContractorManpowerReport')" ng-show="buttonArray.includes('DOWNLOAD')" > Download PDF<i class="fa fa-file-pdf-o" aria-hidden="true"> </i></a> -->
+				                        <a class="btn btn-warning col-md-2" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+		                    		</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        	<img src="images/loader.gif" alt="loading..."  width="214" height="138" />  	
+					</div> 
+					<div id="data_container" class="sepr">
+	                    <h5 class="cls_plainheader panhead"> Result </h5>                   
+	                    <div class="col-md-12" style="height: 500px !important;">
+	                    <!-- <embed src="{{content}}" type="application/pdf" style="text-align: center; width:100%; height:100%; background-color:transparent;"></embed> -->
+	                    	<object  ng-show="content"  data="{{content}}" type="application/pdf"  style="text-align: center; width:100%; height:100%; background-color:transparent;"></object>                    
+	                    </div>
+                 	</div> 
+		
+					
+					<br />
+				</div>
+			</div>
+		</div>
+	</form>
+ </div>
+
+ 
+ 
+ 
+ 
+<div class="container-fluid">
+				<div class="navbar navbar-default navbar-fixed-bottom text-center"
+					style="min-height: 15px; padding: 0px;">
+					<div class="container text-right" style="">
+						<label class="control-label text-center"
+							style="color: white !important; margin: 0px; font-size: 14px;">@Copyright</label>
+					</div>
+				</div>
+	</div>

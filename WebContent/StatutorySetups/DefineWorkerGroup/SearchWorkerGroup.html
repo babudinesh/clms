@@ -1,0 +1,116 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Worker Group</h3>
+		<form name="workerGroupSearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<a href="#/addWorkerGroup/0"  class="btn btn-primary pull-right"  ng-show="buttonArray.includes('ADD')">> Define Worker Group <i class="fa fa-plus-circle"></i></a> 
+				<br /> <br /> <br />
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Search Existing Worker Groups</h5>
+					</div>
+					<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="customerName" ng-options="item as item.customerName for item in customerList " class="form-control" id="customerName" ng-disabled="render || readOnly" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="groupCode" class="col-md-4 control-label required">Group ID</label>
+									<div class="col-md-8 select-box">
+										<input type="text" ng-model="groupCode" class="form-control capitalize" id="groupCode" placeholder="Group ID " ng-maxlength=20 /> </select> 
+									</div>
+								</div>
+								
+								<div class="form-group">
+	                                <label for="status" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select id="status" class="form-control" ng-model="status" ng-options="item.id as item.name for item in list_Status" name="status"  required>
+	                                    </select>
+	                                    <span class="input-group-btn">
+											<label for = "status" class="fa fa-caret-down"></label>
+										</span>
+	                                </div>
+	                            </div>
+							</div>
+							
+							<div class="col-md-6">
+								<div class="form-group">
+									<label  for="companyName" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="companyName" ng-options="item as item.name for item in companyList " class="form-control" id="companyName" ng-disabled="render" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                    		<label for="companyName" class="fa fa-caret-down"></label>
+                                       </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="groupName" class="col-md-4 control-label required">Group Name</label>
+									<div class="col-md-8 select-box">
+										<input type="text" ng-model="groupName" class="form-control" id="groupName" placeholder="Group Name " ng-maxlength="45" /> </select> 
+									</div>
+								</div>
+								
+							</div>
+
+							<div class="col-md-12">
+								<div class="col-md-6"></div>
+								<div class="col-md-5 col-md-offset-1">
+									<a class="btn btn-warning col-md-3 pull-right" ng-click="fun_clearSearchFields($event)">Clear <i class="fa fa-times"></i></a>
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right" ng-click=" fun_searchGridData($event)" onclick="return false;">Search <i class="fa fa-search"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary" ng-show="workerGroupTableView">
+					<div class="panel-heading">
+						<h5>Search Results</h5>
+					</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="workerGroupTable">
+								<thead>
+									<tr>		
+										<th>Customer Name</th>
+										<th>Company Name</th>
+										<th>Country Name</th>
+										<th>Group Id</th>
+										<th>Group Name</th>
+										<th>Staus</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div></div>
+
+			</div>
+
+			<br />
+		</form>
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>

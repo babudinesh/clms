@@ -1,0 +1,357 @@
+
+
+<div class="container-fluid">
+ <form id="workerMedicalExaminationForm" name="workerMedicalExaminationForm" novalidate ng-submit="submit" >
+ 	 <div id="wizard" class="swMain">
+        <ul class="anchor">
+          <li >
+            <a ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}" class="disabled" isdone="0" rel="1">
+                <label class="stepNumber">1</label>
+                <span class="stepDesc">Worker<br>
+                   <!--  <small>Create a layout</small> -->
+                </span>
+            </a>
+            <i class="fa fa-play pull-right disabled"  aria-hidden="true"></i>
+            </li>
+              <li >
+            <a ng-click="workerFamilyDetails($event) || enable" class="disabled" isdone="0" rel="2">
+                <label class="stepNumber">2</label>
+                <span class="stepDesc">Family Details<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+              <li>
+            <a ng-click="workerMedicalExamination($event) || enable" class="selected" isdone="1" rel="3">
+                <label class="stepNumber">3</label>
+                <span class="stepDesc">Medical Safety<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+             <li>
+            <a ng-click="workerPoliceVerification($event) || enable" class="disabled" isdone="0" rel="4">
+                <label class="stepNumber">4</label>
+                <span class="stepDesc">Police Verification<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+             
+             <li><a ng-click="workerVerification($event)" class="disabled" isdone="0" rel="5">
+                <label class="stepNumber">5</label>
+                <span class="stepDesc">Verification<br>                   
+                </span>
+            </a><i class="fa fa-play pull-right disabled"  aria-hidden="true"></i>
+            </li>
+             <li>
+             <a ng-click="workerJobDetails($event)" class="disabled" isdone="0" rel="6">
+                <label class="stepNumber">6</label>
+                <span class="stepDesc"> Job Details                    
+                </span>
+            </a>
+              <i class="fa fa-play pull-right selected"  aria-hidden="true"></i>
+            </li>
+            <li >
+            <a ng-click="workerbadgeGeneration($event)" class="disabled" isdone="0" rel="7">
+                <label class="stepNumber">7</label>
+                <span class="stepDesc">Badge Generation<br>                   
+                </span>
+            </a>
+            </li>
+        </ul>
+		
+		</div> 
+    <div class="col-md-12 well">
+		<h3 class="cls_plainheader"> Medical Safety Details </h3>
+     	<br />
+     		
+        <div class="panel panel-primary">
+        	<div class="sepr">
+            	<div class="row">
+                	<div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+                                    <div class="col-md-8">
+                                         <input class="form-control" ng-model="customerName" placeholder="Customer Name" type="text"  name="workerCode" ng-disabled="true" required/>
+                                    </div>
+                                </div>
+								<div class="form-group is-empty">
+                                    <label for="countryId" class="col-md-4 control-label required">Country Name</label>
+                                    <div class="col-md-8">
+                                         <input class="form-control" ng-model="countryName" placeholder="Country Name" type="text"  name="workerCode" ng-disabled="true" required/> 
+                                    </div>
+                                </div>
+                                
+                                 <div class="form-group is-empty">
+                                    <label for="workerCode" class="col-md-4 control-label required">Worker Code</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="workerCode" placeholder="Worker Code" type="text"  name="workerCode" ng-disabled="true" required/>
+                                    </div>
+                                </div>                           
+                                
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                    <div class="col-md-8">
+                                       <input class="form-control" ng-model="companyName" placeholder="Company Name" type="text"  name="workerCode" ng-disabled="true" required/>  
+                                    </div>
+                                </div>
+								
+                               <div class="form-group is-empty">
+                                    <label for="venName" class="col-md-4 control-label required">Vendor Name</label>
+                                    <div class="col-md-8">
+                                         <input class="form-control" ng-model="vendorName" placeholder="Vendor Name" type="text"  name="workerCode" ng-disabled="true" required />
+                                    </div>
+                               </div>
+                                
+                               <div class="form-group is-empty">
+                                    <label for="WorkerName" class="col-md-4 control-label required">Worker Name</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="firstName" placeholder="Worker Name" type="text"  name="WorkerName" ng-disabled="true" required/>
+                                    </div>
+                               </div>
+                            </div>
+						</div>
+
+                                          
+                </div>
+            </div>
+		
+            
+        <div class="panel panel-primary">
+	        <div class="panel-heading">
+	       		<h5>Enter Medical Information</h5>
+	       	</div>
+            <div class="sepr">
+                <div class="row">
+                    <div class="col-md-6">                           
+                            <div class="form-group">
+                                <label for="Heightlabel" class="col-md-4 control-label required">Height</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="workerMedicalExamination.height" id="Height" name="Height"  placeholder="Height" ng-disabled="readOnly" maxlength=50 required />
+                                </div>
+                                <div class="col-md-2 select-box">
+		                             	<select   ng-model="workerMedicalExamination.heightType"   name="heightType" ng-options="item.id as item.name for item in heightList" class="form-control"  id="heightType"  ng-disabled="readOnly"  required>
+		                                 	<option value="">Select</option>
+		                                </select>
+		                                <span class="input-group-btn">
+                                    			<label for="Select1" class="fa fa-caret-down"></label>
+                                       	</span>
+			                    </div>
+                            </div>
+							<div class="form-group">
+                                <label for="PulseName" class="col-md-4 control-label ">Pulse</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.pulse" class="form-control " placeholder="Pulse" name="Pulse" id="Pulse" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="hearingName" class="col-md-4 control-label ">Hearing</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.hearing" class="form-control " placeholder="Hearing" name="Hearing" id="Hearing" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="eyeVisionName" class="col-md-4 control-label ">Eye Vision</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.eyeVision" class="form-control " placeholder="Eye Vision" name="eyeVision" id="eyeVision" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="ansAutonomousName" class="col-md-4 control-label ">A N S Autonomous Nerves System</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.ansAutonomousNervesSystem" class="form-control " placeholder="A N S Autonomous Nerves System" name="ansAutonomous" id="ansAutonomous" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="liverOrSpleenName" class="col-md-4 control-label ">Liver/Spleen</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.liverOrSpleen" class="form-control" name="liverOrSpleen" id="liverOrSpleen" placeholder="Liver/Spleen" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="cunosisName" class="col-md-4 control-label ">CUNOSIS</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.cunosis" class="form-control " placeholder="CUNOSIS" name="cunosis" id="cunosis" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            
+                            </div>
+                             
+                       	
+                        
+                        <div class="col-md-6">
+                            
+                            <div class="form-group">
+                                <label for="WeightName" class="col-md-4 control-label ">Weight</label>
+                                <div class="col-md-6">
+                                	<input type="text" ng-model="workerMedicalExamination.weight" class="form-control" name="Weight" id="Weight" placeholder="Weight" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                                <div class="col-md-2 select-box">
+		                             	<select   ng-model="workerMedicalExamination.weightType"   name="weightType" ng-options="item.id as item.name for item in weightList" class="form-control"  id="weightType"  ng-disabled="readOnly">
+		                                 	<option value="">Select</option>
+		                                </select>
+		                                <span class="input-group-btn">
+                                    			<label for="Select1" class="fa fa-caret-down"></label>
+                                       	</span>
+			                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bpName" class="col-md-4 control-label ">BP</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.bloodPressure" class="form-control" name="bp" id="bp" placeholder="BP" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="colorBlindnessName" class="col-md-4 control-label ">Color Blindness</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.colorBlindness" class="form-control" name="colorBlindness" id="colorBlindness" placeholder="Color Blindness" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="rName" class="col-md-4 control-label ">R</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.r" class="form-control" name="r" id="r" placeholder="R" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="bloodGroupName" class="col-md-4 control-label ">Blood Group</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.bloodGroup" class="form-control " placeholder="Blood Group" name="bloodGroup" id="bloodGroup" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="respiratorySystemName" class="col-md-4 control-label ">Respiratory System</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.respiratorySystem" class="form-control" name="respiratorySystem" id="respiratorySystem" placeholder="Respiratory System" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div>
+                            
+                           
+                             <div class="form-group">
+                                <label for="oeemaName" class="col-md-4 control-label ">OEEMA</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.oeema" class="form-control" placeholder="OEEMA" name="oeema" id="oeema" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            
+                            </div>
+                            
+                            
+                            
+                        
+                        <div class="col-md-12">   
+                            <div class="form-group" style ="margin-top: 5px;">
+                                <label for="pastHistory" class="col-md-2 control-label ">Past History</label>
+                                <div class="col-md-10">
+                                	<input type="text" ng-model="workerMedicalExamination.pastHistory" class="form-control " placeholder="Past History" name="pastHistory" id="pastHistory" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                         </div>
+                         
+                        <div class="col-md-6">     
+                            <div class="form-group" style ="margin-top: 5px;">
+                                <label for="anyOtherPhysicalDisabilityName" class="col-md-4 control-label ">Any Other Physical Disability</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.anyOtherPhysicalDisability" class="form-control " placeholder="Any Other Physical Disability" name="anyOtherPhysicalDisability" id="anyOtherPhysicalDisability" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                       </div>
+                           
+                           <div class="col-md-6">
+                            <div class="form-group" style ="margin-top: 5px;">
+                                <label for="anyOperationDoneInPastName" class="col-md-4 control-label ">Any Operation Done In Past</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.anyOperationDoneInPast" class="form-control" name="anyOperationDoneInPast" id="anyOperationDoneInPast" placeholder="Any Operation Done In Past" ng-disabled="readOnly"  minlength="2" maxlength="15" >
+                                </div>
+                            </div>
+                           </div>
+                           
+                       
+                           <div class="col-md-10 form-group cls_divradios" style ="margin-top: 5px;">						               	
+						                   
+												<div class="radio radio-primary" >
+													<label class="col-md-4  control-labe"> <input type="radio" name="medicallyFit"  id="optionsRadios1" value="Medically Fit"  ng-model="workerMedicalExamination.medicallyFit"  name="medicallyFit"  ng-checked="workerMedicalExamination.medicallyFit == 'Medically Fit'">Medically Fit </label>
+												</div>
+												<div class="radio radio-primary" >
+													<label class="col-md-6 col-offset-3  control-labe"> <input type="radio" name="medicallyFit"  id="optionsRadios2" value="Medically Unfit" ng-model="workerMedicalExamination.medicallyFit"  name="medicallyFit" ng-checked="workerMedicalExamination.medicallyFit == 'Medically Un Fit'"> Medically Unfit </label>
+																							
+											</div>
+                           </div>
+                           
+                           <div class="col-md-12">   
+                            <div class="form-group" style ="margin-top: 5px;">
+                                <label for="medicalOfficerCommentsName" class="col-md-2 control-label ">Medical Officer Comments</label>
+                                <div class="col-md-10">
+                                	<input type="text" ng-model="workerMedicalExamination.medicalOfficerComment" class="form-control " placeholder="Medical Officer Comments" name="medicalOfficerComments" id="medicalOfficerComments" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+	                             <div class="form-group" style ="margin-top: 5px;">
+	                            <label for="reviewDateName" class="col-md-4 control-label required">Date</label>
+	                            <div class="col-md-8">
+	                                <input type="text" class="form-control" id="reviewDate" name="reviewDateNameID"  placeholder="Date &#xf073;" ng-model="reviewDate" ng-disabled="readonly" required/>
+	                            </div>
+	                        </div>
+                            </div>
+                            <div class="col-md-6">
+                            <div style="margin-top: 20px;">
+										<label for="Currency" class="col-md-4 control-label">Attachment</label>
+										<div class="col-md-8">                  
+                                          	<input type ="file" file-verifyexamin ="myFile"  name="fileName" id ="fileName" ng-model="workerMedicalExamination.fileName" onchange="angular.element(this).scope().getFileDetails(this)" />
+                                        <div ng-show="workerMedicalExamination.fileName != null && myFile == null">
+		                                		<a href ng-click="fun_download(workerMedicalExamination.filePath, workerMedicalExamination.fileName, '')" >{{workerMedicalExamination.fileName}}</a>
+		                                </div>
+										</div>
+							</div>
+						
+							
+							 <!-- <div class="form-group">
+                                <label for="signatureOfDoctorName" class="col-md-12 control-label">Sign And Stamp Of Doctor</label>
+                                <div class="col-md-8">
+                                	<input type="text" ng-model="workerMedicalExamination.signatureOfDoctor" class="form-control " placeholder="Sign And Stamp Of Doctor" name="signatureOfDoctor" id="signatureOfDoctor" ng-disabled="readOnly" maxlength=50 >
+                                </div>
+                            </div> -->
+                            
+                        </div>
+                            
+                            
+                            
+                    <br/>
+                </div>
+            </div>
+        </div>
+
+      
+      
+         <div class="btn-group btn-group-right pull-right">        	
+        	 <a href="javascript:void(0)" class="btn btn-danger" ng-click="callingUrl($event)" > Proceed </a> 
+            <a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('SAVE')" ng-click="fun_Save($event,true)">Save & Proceed</a>
+            <a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('SAVE')" ng-click="fun_Save($event,false)">Save</a>  
+            <button class="btn" ng-show="resetBtn" type="reset"> Reset </button>   
+        </div>
+     
+        </div>
+ 
+  
+        
+ 
+     
+ </form>
+    </div>
+
+
+
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+

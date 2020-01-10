@@ -1,0 +1,278 @@
+<form id="flowForm" name="flowForm" novalidate ng-submit="submit"> 
+<div class="container-fluid">
+    <div class="col-md-12 well">
+         <h3 class="cls_plainheader">Add Application Approval Flow </h3>
+        <div class="col-md-12">
+					<div class="panel panel-default">
+	                	<div class="sepr">
+	                        <div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="customerId" class="col-md-4 control-label required"> Customer Name</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="customerChange()" ng-model="pathflow.customerId" ng-options="item.customerId as item.customerName for item in customerList "  class="form-control" id="customerId" required name="customerId">
+												<option value="">Select</option>
+											</select>
+											<span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="approvalPathModuleId" class="col-md-4 control-label required"> Module Code</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="moduleChange()" ng-model="pathflow.approvalPathModuleId" ng-options='item.approvalPathModuleId as (item.moduleCode+ " (" +item.moduleName+ ")") for item in moduleList '  class="form-control" id="approvalPathModuleId" required name="approvalPathModuleId">
+												<option value="">Select</option>
+											</select>
+											<span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="pathCode" class="col-md-4 control-label required"> Approval Path Code</label>
+										<div class="col-md-8 select-box">
+											<input type="text" class="form-control" ng-model="pathflow.pathCode" name="pathCode" id="pathCode" maxlength="25" required>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6">	
+									<div class="form-group">
+										<label for="companyId" class="col-md-4 control-label required"> Company Name</label>
+										<div class="col-md-8 select-box ">
+											<select ng-change="companyChange()" ng-model="pathflow.companyId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyId" required name="companyId">
+												<option value="">Select</option>
+											</select>
+											<span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="approvalPathTransactionId" class="col-md-4 control-label required"> Transaction Code</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="pathflow.approvalPathTransactionId" ng-options='item.approvalPathTransactionId as (item.transactionCode+ " (" +item.transactionName+ ")") for item in transactionList '  class="form-control" id="approvalPathTransactionId" name="approvalPathTransactionId" required>
+												<option value="">Select</option>
+											</select>
+											<span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+           			
+           
+            <div class="panel panel-primary">
+	            <div class="panel-heading">
+	            	 <h5>Approval Details </h5>
+	            </div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                           <div class="form-group">
+								<label for="pathName" class="col-md-4 control-label required"> Approval Path Name</label>
+								<div class="col-md-8 select-box">
+									<input type="text" class="form-control" ng-model="pathflow.pathName" name="pathName" id="pathName" maxlength="45" required>
+								</div>
+							</div>	
+							<div class="checkbox col-md-8" style="margin-top:10px;">
+                                	<label style="margin-top: 15px">
+                                    <input type="checkbox" id="noApprovalRequired"  ng-model="pathflow.noApprovalRequired" name="noApprovalRequired" ng-checked="pathflow.noApprovalRequired == 'Y'" ng-true-value="'Y'" ng-false-value="'N'"   ng-change="fun_renderTable()"/>
+                                    No Approval Required
+                                </label>
+                            </div>
+	                            
+							<!-- <div class="form-group">
+								<label for="noApprovalRequired" class="col-md-4 control-label "> No Approval Required </label>
+								<div class="col-md-8 checkbox">
+									<input type="checkbox" class="form-control" ng-model="pathflow.noApprovalRequired" name="noApprovalRequired" id="noApprovalRequired" maxlength="25">
+								</div>
+							</div>	 -->
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="Status" class="form-control" ng-model="pathflow.isActive" name="status"  required>
+                                        <option value="Y">Active</option>
+                                        <option value="N">Inactive</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+								<label for="noOfApprovalLevels" class="col-md-4 control-label "> No Of Approval Levels </label>
+								<div class="col-md-6 select-box">
+									<input type="text" class="form-control onlyNumbers" ng-model="pathflow.noOfApprovalLevels" name="noOfApprovalLevels" id="noOfApprovalLevels" maxlength="25">
+								</div>
+							</div>	
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="renderTable">
+               		  <div class="sepr">
+                   		<div id="flowListTable"  > 
+	                        <table class="table table-striped table-hover" >
+	                            <thead>
+	                                <tr>                                    
+	                                    <th> S No </th>
+	                                    <th> Approver Role </th>
+	                                    <th> Associate User</th>
+	                                    <th> Approver To Role </th>
+	                                    <th> Associate To User</th>
+	                                    <th> Approver Status </th>
+	                                    <td>
+	                                        <i class="fa fa-plus addrow " data-toggle="modal" data-target="#myModal"  ng-click="plusIconAction()"> </i>
+	                                    </td>
+	                                    <td></td>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr  ng:repeat="i in pathflow.flowList track by $index">                                                        
+	                                    <td>{{$index+1}}</td>
+	                                    <td>{{i.fromRoleName}}</td>
+	                                    <td>{{i.fromUserName}}</td>
+	                                    <td>{{i.toRoleName}}</td>
+	                                    <td>{{i.toUserName}}</td>
+	                                    <td>{{i.approverStatus}}</td>
+	                                    <td> <i ng-click="Delete($event)" class="fa fa-trash" ></i></td>
+	                                    <td>
+	                                       <i ng-click="Edit($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal"></i>
+	                                    </td>
+	                                </tr>
+	                            </tbody>
+	                        </table>
+                   		</div>
+               		</div>
+            	</div> 
+        </div>
+
+         <div class="btn-group btn-group-right pull-right">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="enable || save($event)"> {{saveOrUpdate}} </a>
+			 <a href="#/applicationApprovalPathFlow" class="btn btn-primary">Return to search</a>
+		</div>
+
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+</form>
+
+
+<form id="flowLstPopup" name="flowLstPopup">    
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ 		<div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"> Add User </h4>
+                </div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<!-- <div class="form-group">                               
+                                        <label for="flowNo"  class="col-md-4 control-label required"> Level </label>
+                                        <div class="col-md-8 select-box">
+	                                        <input ng-model="user.flowNo" type="number" name="flowNo" id="flowNo" class="form-control" required > 
+                                        </div>
+                                      </div> -->
+									<div class="form-group">
+										<label for="fromRoleId" class="col-md-4 control-label required">
+											Approver  Role </label>
+										<div class="col-md-8 select-box">
+											<select ng-change="fromRoleChange()" ng-model="user.fromRoleId"
+												ng-options="item.id as item.name for item in rolesList"
+												class="form-control" id="fromRoleId" name="fromRoleId" required>
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="toRoleId" class="col-md-4 control-label ">
+											Approver To Role </label>
+										<div class="col-md-8 select-box">
+											<select ng-change="toRoleChange()" ng-model="user.toRoleId"
+												ng-options="item.id as item.name for item in rolesList"
+												class="form-control" id="toRoleId" name="toRoleId" >
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="approverStatus" class="col-md-4 control-label required">
+											Approver status </label>
+										<div class="col-md-8 select-box">
+											<select ng-change="roleChange()" ng-model="user.approverStatus"
+												ng-options="item.id as item.name for item in approverStatusList"
+												class="form-control" id="approverStatus" name="approverStatus" required>
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="fromUserId" class="col-md-4 control-label">
+											Associate User</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="user.fromUserId"
+												ng-options="item.id as item.name for item in fromUsersList"
+												class="form-control" id="fromUserId" name="fromUserId">
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="toUserId" class="col-md-4 control-label">
+											Associate To User</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="user.toUserId"
+												ng-options="item.id as item.name for item in toUsersList"
+												class="form-control" id="toUserId" name="toUserId">
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+                	<button type="button" ng-click="saveUserDetails()" class="btn btn-primary"  ng-show="popUpSave">Save changes</button>
+                	<button type="button" ng-click="updateUserDetails($event)" class="btn btn-primary"  ng-show="popUpUpdate">Update changes</button>
+                	<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            	</div>
+            </div>
+        </div>
+	</div>
+</form>

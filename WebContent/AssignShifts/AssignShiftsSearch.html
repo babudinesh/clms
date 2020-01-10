@@ -1,0 +1,380 @@
+
+
+<div id="searchPage"> 
+<form name="assignShiftsSearchForm" id="assignShiftsSearchForm" novalidate ng-submit="submit">
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Assigning Duty and Schedule to Worker</h3>
+		<div class="col-md-12">
+			<br />
+			<div class="panel panel-primary">
+				<div class="sepr">
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="custName" class="col-md-4 control-label required">Customer
+									Name</label>
+								<div class="col-md-8 select-box">
+
+									<select ng-change="customerChange()" ng-model="customerName"
+										ng-options="item.customerId as item.customerName for item in customerList"
+										class="form-control" id="custName" name="custName" ng-disabled="dropdownDisable"  required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="venCode" class="col-md-4 control-label required">Vendor
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-model="vendorName"
+										ng-options="item.id as item.name for item in vendorList"
+										class="form-control" id="venName" name="venName" ng-disabled="dropdownDisable" required>   <!--  ng-change="vendorChange()" -->
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+							
+							<!-- <div class="form-group">
+								<label for="departmentName" class="col-md-4 control-label"> Department Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="departmentName"
+										ng-options="item.id as item.name for item in departmentNameList"
+										class="form-control" id="departmentName">
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div> -->
+							
+							<div class="form-group">
+										<label for="workOrderCode"
+											class="col-md-4 control-label">Worker
+											Code </label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="workerCode"
+												placeholder="Worker Code" maxlength="45"
+												ng-model="workerCode"
+												name="workerCode" />
+										</div>
+							</div>
+
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cmpName" class="col-md-4 control-label required">Company
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="companyChange()" ng-model="companyName"
+										ng-options="item.id as item.name for item in companyList "
+										class="form-control" id="compName" name="compName" ng-disabled="dropdownDisable" required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+							<!-- <div class="form-group">
+								<label for="workOrderName" class="col-md-4 control-label required">Work
+									Order Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="workOrderChange()" ng-model="workOrderName" name="workOrderName"
+										ng-options="item.workrorderDetailId as item.workOrderName for item in workOrderNamesList"
+										class="form-control" id="workOrderName" required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="workAreaName" class="col-md-4 control-label"> Work Area</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="workAreaName"
+										ng-options="item.id as item.name for item in workAreaNamesList"
+										class="form-control" id="workAreaName">
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div> -->
+							
+							<div class="form-group">
+										<label for="workerName"
+											class="col-md-4 control-label">Worker
+											Name </label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="workerName"
+												placeholder="Worker Name" maxlength="45"
+												ng-model="workerName"
+												name="workerName" />
+										</div>
+									</div>
+							<div class="col-md-8 col-md-offset-4">
+								<a class="btn btn-primary col-md-6 col-md-offset-5"
+									ng-click="search()">Search <i class="fa fa-search"></i></a> <a
+									class="btn btn-warning col-md-3" ng-click="clear()">Clear <i
+									class="fa fa-times"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div id="loader"
+				style="display: none; text-align: center; width: 100%; height: 100%; background-color: transparent;">
+				<img src="images/loader.gif" alt="loading..." width="214"
+					height="138" />
+			</div>
+			<div class="panel panel-primary" id="shiftDetailsDiv">
+				<div class="panel-heading">
+					<h5>Shift Results</h5>
+				</div>
+				<div class="sepr">
+					<a class="btn btn-primary pull-left"  ng-click="isChecked()"> Assign Pattern <i class="fa fa-plus-circle"></i></a>
+					<div> 
+					<table id="shiftDetailsTable" class="table table-striped">
+						<thead>
+							<tr>
+								<th style="text-align:center;">Select All <input type="checkbox"  ng-model="selectAll" ng-click="checkAll()" ></th>
+								<th>Worker Code</th>
+								<th>Worker Name</th>
+								<th>Vendor Name</th>
+								<!-- <th>Work Order Name</th>
+								 <th>Validity Date</th>
+								<th>Department</th>
+								<th>Work Area</th>  -->
+							</tr>
+						</thead>
+						<tbody>
+								   <tr  ng-repeat="i in shiftResults">
+										<td style="text-align:center;"><input type="checkbox"  ng-model="i.selected"  /></td>						
+										<td>{{i.workerCode}}</td>
+										<td> <a ng-href="#/AssignShiftsPatternUpdate/{{i.workerId}}"> {{i.workerName}} </a></td>
+										<td>{{i.vendorName}}</td>
+										<!-- <td>{{i.workOrderName}}</td>
+										 <td>{{i.validityDate}}</td>
+										<td>{{i.departmentName}}</td>
+										<td>{{i.workAreaName}}</td>	 -->																			
+									</tr>
+								</tbody>
+					</table>
+					</div>
+				</div>
+			</div>			
+			<br />
+		</div>
+
+	</div>
+</div>
+ </form>
+ </div>
+ 
+ <div id="contentPage"> 
+ <div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Assigning Duty and Schedule to Workers</h3>
+		<form name="assignShiftsForm" id="assignShiftsForm" novalidate ng-submit="previewDetails()">
+			<div class="col-md-12" >				
+				<div class="panel panel-primary">					
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6"> 
+							<!-- <input type="hidden" ng-model="shift.departmentId">
+							<input type="hidden" ng-model="shift.locationId"> -->
+							
+							
+							 	<div class="form-group" >			               		
+			                   		<label for="searchBy" class="col-md-4 control-label"> Pattern Period  </label>
+                                	<div class="col-md-8 select-box">
+                                         <select ng-model="monthYear" class="form-control" ng-change="fun_date_year_Listener()" id="searchBy">
+                                  			<option value=""> Select  </option>
+                                  			<option value="Y"> By Date  </option>
+											<option value="N"> By Month & Year</option>											
+										 </select>  
+										 <span class="input-group-btn">
+                                     		<label for="searchBy" class="fa fa-caret-down"></label>
+                                        </span> 
+									</div>
+		            			</div>
+								
+								<div class="form-group">
+									<label for="locationId" class="col-md-4 control-label required"> Location Name</label>
+									<div class="col-md-8 select-box">
+									<select ng-change="fun_getPlantsByLocationId()" ng-model="shift.locationId" ng-options="item.locationId as item.locationName  for item in locationList "  
+										class="form-control" id="locationId" name="locationId" required >
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> <label for="locationId"
+											class="fa fa-caret-down"></label>
+										</span>
+										
+										<!-- <input type="text" class="form-control" ng-model="shift.locationName" id="locName" name="locName"  required  disabled="disabled"> -->
+									</div>
+								</div>
+																
+								<div class="form-group" ng-class="{'has-error': assignShiftsForm.$submitted && (assignShiftsForm.departmentId.$invalid && !assignShiftsForm.departmentId.$pristine)}">
+									<label for="departmentId" class="col-md-4 control-label required"> Department Name </label>
+									<div class="col-md-8 select-box">
+									<select ng-change="fun_getSectionsByDepartmentId()" ng-model="shift.departmentId" ng-options="item.departmentId as item.departmentName for item in departmentList "  
+										class="form-control" id="departmentId" name="departmentId" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> <label for="departmentId"
+											class="fa fa-caret-down"></label>
+										</span>
+										<!-- <input type="text" class="form-control" ng-model="shift.departmentName" id="deptName" name="deptName"  required disabled="disabled"> -->
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="workAreaId" class="col-md-4 control-label required"> Work Area</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="shift.workAreaId" required ng-options="item.id as item.name for item in workAreaList" class="form-control" id="workAreaId" name="workAreaId">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="workAreaId"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+
+								<button  type="submit"  class="btn btn-success" > Preview </button>
+								&nbsp;&nbsp;
+								<a class="btn btn-primary" ng-click="showSearchPage()"  >Return to Search</a> <!-- onclick="location.reload();" -->
+							</div>	
+												
+							<div class="col-md-6">
+								<div class="form-group"  ng-hide="byDateShow || ByMonthYearShow">
+									<label for="patternDate" class="col-md-4 control-label "> </label>
+                                	<div class="col-md-8">
+                                     	<input type="hidden"/>                                                                                                     
+                                	</div>     
+                                	                          
+                            	</div>
+                            	
+							
+								<div class="form-group"  ng-show="byDateShow">
+                                	<label for="patternDate" class="col-md-4 control-label required"> Pattern As of Date  </label>
+                                	<div class="col-md-8">
+                                     	<input type="text" class="form-control" id="patternDate" placeholder=" Pattern As of Date &#xf073;" ng-model="patternDate"  name="patternDate" readonly="true" required/>                                                                                                     
+                                	</div>                                
+                            	</div>
+								<div class="form-group" ng-show="ByMonthYearShow">
+									<label for="month" class="col-md-4 control-label required">Pattern As of Month & Year</label>
+									<div class="col-md-4 select-box">                            	
+										<select ng-model="month" ng-options="item.id as item.name for item in monthList" class="form-control" id="month" name="month" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                    		<label for="month" class="fa fa-caret-down"></label>
+                                       	</span>   
+									</div>
+									<div class="col-md-4 select-box">                            	
+										<select  ng-model="year" ng-options="item.id as item.name for item in yearList" class="form-control" id="year" name="year" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="year" class="fa fa-caret-down"></label>
+                                        </span>   
+									</div>
+									<!-- <div class="col-md-8 ">
+									 <input type="text" class="form-control" ng-model="patternDate" name="patternDate" id="patternDate" placeholder="Pattern Date  &#xf073;" required/>										
+									</div> -->
+								</div>
+								
+								<div class="form-group">
+									<label for="plantId" class="col-md-4 control-label required">Plant Name</label>
+									<div class="col-md-8 select-box">								
+										<select  ng-change=" fun_getPatterCodes()" ng-model="shift.plantId" ng-options="item.id as item.name for item in plantList" 
+										class="form-control" id="plantId" name="plantId" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> <label for="plantId"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+																								
+								<div class="form-group">
+									<label for="sectionId" class="col-md-4 control-label required"> Section </label>
+									<div class="col-md-8 select-box">
+										<select ng-change="fun_getWorkAreaBySectionId()" ng-model="shift.sectionId" required ng-options="item.id as item.name for item in sectionsList" class="form-control" id="sectionId" name="sectionId">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="sectionId"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div> 
+								<div class="form-group">
+									<label for="shiftCode" class="col-md-4 control-label required"> Pattern Code </label>
+									<div class="col-md-8 select-box">								
+										<select ng-model="shift.shiftCode" ng-options="item.name as item.desc for item in shiftPatternList "  
+										class="form-control" id="shiftCode" name="shiftCode" required> <!--   ng-change="fun_getWorkerShiftDetails()" -->
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> <label for="shiftCode"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<!-- <div class="form-group">
+									<a href="#/calandershiftAssignment/{{encruptParams}}">View
+										and Assign Schedule</a>
+								</div> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<br/>
+		<br/>
+		 <div id="workerShifthiftPatternDetailsDiv" ng-show="saveShiftDetailsButtonRender">
+		 <div class="sepr">					
+					<table id="workerShifthiftPatternDetails" class="table table-striped" border="0">
+						<thead>
+							<tr>
+								 <th ng-repeat="dates in workerShifthiftPatternDatesList track by $index">{{dates}}</th>		<!--   style="transform: rotate(90deg) !important;" -->						
+							</tr>
+						</thead>
+						<tbody>
+									<tr ng-repeat="i in workerShifthiftPatternDetails"  ng-init="parentIndex = $index ">
+										<td ng-repeat="v in i track by $index" ><i ng-if="$index == 0">{{parentIndex + 1}} </i> <i ng-if="$index > 0"> {{v}} </i> </td>																																										
+									</tr>
+						</tbody>
+					</table>					
+				</div>
+				<div class="btn-group btn-group-right pull-right" > 
+		 		<button ng-click="saveShiftPatternDetails()" class="btn btn-success" >Save Changes</button>
+				&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-primary" ng-click="showSearchPage()"  >Return to Search</a> <!-- onclick="location.reload();" -->
+				</div>
+		 </div>
+	</div>
+
+	<br />
+
+</div>
+ </div>
+ 
+ 
+<div class="container-fluid">
+				<div class="navbar navbar-default navbar-fixed-bottom text-center"
+					style="min-height: 15px; padding: 0px;">
+					<div class="container text-right" style="">
+						<label class="control-label text-center"
+							style="color: white !important; margin: 0px; font-size: 14px;">@Copyright</label>
+					</div>
+				</div>
+	</div>

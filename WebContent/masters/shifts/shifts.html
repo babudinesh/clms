@@ -1,0 +1,73 @@
+<!-- <link href="vendor/locationadd/AddVendorLocation.css" rel="stylesheet" /> -->
+
+<div class="container-fluid" style="margin-bottom: 35px;">
+    <div style="display: inline-block">
+        <h3 class="cls_plainheader"> Vendor Branches </h3>
+    </div>
+    <div class="pull-right">
+        <span style="padding-top: 10px; cursor: pointer;"><i class="fa fa-question-circle fa-3x clsicon_help" aria-hidden="true" title="Help"></i></span>
+    </div>
+
+
+
+</div>
+
+<div class="container-fluid">
+ <form name="vendorBranchDetails" novalidate ng-submit="submit" > 
+    <div class="col-md-10 col-md-offset-1 well">
+        <br />         
+			 <input type="hidden"  ng-model="vendor.vendorBranchesId" /> 
+			 <input type="hidden"  ng-model="vendor.vendorBranchDetailsInfoId"/>			
+        <div class="panel panel-default">
+                <div class="sepr">
+                    <h5 class="cls_plainheader">Search Existing Vendor Branch</h5>
+                    
+                        <div class="col-md-12">
+                        	<div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label">Customer Name</label>
+                                <div class="col-md-8">
+                                <select  ng-model="vendor.customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" >
+                                            <option value="">Select</option>
+                                            </select>                                     
+                                </div>
+                            </div> 
+                            </div> 
+                             <div class="col-md-6">                                                                      
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8">
+                                <select  ng-model="vendor.companyDetailsId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()">
+                                            <option value="">Select</option>
+                                            </select>                                     
+                                </div>
+                            </div>  
+                            </div>                         
+                        </div>                                          
+                </div>
+            </div>
+            
+        
+ 
+        <div class="btn-group btn-group-right pull-right">
+            <a href="javascript:void(0)" class="btn btn-primary" ng-show="saveBtn" ng-click="fun_vendorBranchSaveBtn()">Save</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn" ng-click="fun_updateActionBtn()">Update</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="correctHistoryBtn" ng-click="fun_vendorBranchSaveBtn()"> Correct History</a>
+            <button class="btn" ng-show="resetBtn" type="reset"> Reset </button>
+            <a href="javascript:void(0)" class="btn btn-info" ng-show="viewHistoryBtn" ng-click="fun_viewHistoryBtn()">View History</a>
+            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelBtn" ng-click="fun_vendorBranchCancelBtn()" > Cancel </a>
+            <a ng-href="#/vendorBranchesSearch" class="btn btn-warning" ng-show="returnTOSearchBtn" >Return to search </a>
+        </div>
+
+    </div>
+</form>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+

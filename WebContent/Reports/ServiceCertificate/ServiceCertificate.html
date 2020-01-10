@@ -1,0 +1,104 @@
+<form id="OverTimeReportForm" name="OverTimeReportForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader"> Service Certificate ( Form XV ) </h3>         
+        <br />
+        <div class="col-md-12">           
+            <div class="panel panel-default">
+                <div class="sepr">                  
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group ">
+                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorId" ng-options="item.id as item.name for item in list_vendors " class="form-control" id="vendorId" name="vendorId" required>   <!-- ng-change="fun_VendorChangeListener()"   -->
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>                                                            
+                             <div class="form-group">
+                           <label for="workerName" class="col-md-4 control-label ">Workmen Name</label>
+                           <div class="col-md-8 ">   
+                           	<input ng-model="workerName" class="form-control" id="workerName" placeholder="Workmen Name">                                                                                         
+                            </div>
+                           </div>                                  
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="companyName" class="fa fa-caret-down"></label>
+                                        </span>                                   
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label for="workerCode" class="col-md-4 control-label ">Workmen ID No </label>
+                                <div class="col-md-8 ">   
+                                	<input ng-model="workerCode" class="form-control" id="workerCode" placeholder="Workmen ID No ">
+                               <!--  <select  ng-model="workerName" name="workerName" ng-options="item.id as item.name for item in list_workers " class="form-control" id="workerName" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="workerName" class="fa fa-caret-down"></label>
+                                        </span>   -->                                                                   
+ 	                               </div>
+                                </div>  
+                                                                                                               
+                        </div>
+                      <input type="hidden" ng-model="reportName" ng-init="reportName='ServiceCertificate'">
+                        <div class="col-md-6 pull-right">
+                        	<a class="btn btn-primary col-md-2 " ng-click="fun_previewGridData()"> View <i class="fa fa-search"></i></a>
+                             <span class="btn btn-primary col-md-3"  ng-click="fun_pdf_Download()" ng-show="buttonArray.includes('DOWNLOAD')" > Download <i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                              <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear <i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>                      
+            	<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div>                 
+            <div id="data_container" class="sepr">
+                    <h5 class="cls_plainheader panhead"> Result </h5>                   
+                    <div class="col-md-12" style="height: 500px !important;">
+                    <!-- <embed src="{{content}}" type="application/pdf" style="text-align: center; width:100%; height:100%; background-color:transparent;"></embed> -->
+                    <object  ng-show="content"  data="{{content}}" type="application/pdf"  style="text-align: center; width:100%; height:100%; background-color:transparent;"></object>                    
+                    </div>
+                    </div>
+            <br />
+        </div>
+</div>
+</div>
+</form>        
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

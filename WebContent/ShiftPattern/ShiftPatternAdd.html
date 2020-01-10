@@ -1,0 +1,294 @@
+<form id="shiftPatternForm" novalidate="" ng-submit="submit">
+<div class="container-fluid">
+    <div class="col-md-12  well">
+    <h3 class="cls_plainheader">Define Shift Pattern</h3>   
+        	          <div class="col-md-12">       
+	                 <div class="panel panel-primary" ng-show="transactionList">
+						
+							<div class="panel-heading"> 
+							<h5> Search : </h5></div>
+							<div class="container">
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6">
+                                            <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                            <option value="">Select</option>
+                                            </select>   
+                                                                        											
+										</div>
+									</div>
+								</div>
+							</div>	
+							</div>											
+					</div>
+					
+             		<br/>
+                    
+					<div class="panel panel-primary">
+	                	<div class="sepr">
+	                        <div class="row">
+	                            <div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+	                                    <div class="col-md-8 select-box">
+	                                         <select  ng-change="customerChange()"  ng-model="pattern.customerId" ng-options="item.customerId as item.customerName for item in patternList.customerList" class="form-control" id="custName" name="custName" ng-disabled="readOnly" required>
+											 	<option value="">Select</option>
+                                             </select> 
+                                             <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+	                                    </div>
+	                                </div>
+									 <div class="form-group">
+	                                <label for="locationDetailsId" class="col-md-4 control-label required"> Location Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="pattern.locationDetailsId" name="locationDetailsId" ng-options="item.locationId as item.locationName for item in patternList.locationList " class="form-control" id="locationDetailsId"  ng-change="fun_locationChangeListener()" ng-disabled="readOnly" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                  
+	                                </div>
+                               </div>
+									<div class="form-group is-empty">
+	                                    <label for="locationName" class="col-md-4 control-label required">Country Name</label>
+	                                    <div class="col-md-8 select-box">
+											<select ng-change="countryChange()" ng-model="pattern.countryId" ng-options="item.id as item.name for item in patternList.countryList" class="form-control" id="countryName" name="countryId" ng-disabled="readOnly" required>
+												<option value="">Select</option>
+                                            </select> 	
+                                            <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                     
+                                    	</div>
+                                  	</div>
+                                  	
+                                  	
+                                        
+                                    
+								</div>
+
+								<div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                                    <div class="col-md-8 select-box">
+											<select ng-change="companyChange()" ng-model="pattern.companyId" ng-options="item.id as item.name for item in patternList.companyList" class="form-control" id="companyName" name= "companyName"ng-disabled="readOnly" required>
+											 	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+	                                	</div>
+
+									</div>
+									<div class="form-group">
+	                                <label for="plantDetailsId" class="col-md-4 control-label required"> Plant Name </label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="pattern.plantDetailsId" name="plantDetailsId" ng-options="item.plantId as item.plantName for item in patternList.plantList " class="form-control" id="plantDetailsId" ng-disabled="readOnly" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                  
+	                                </div>
+                               </div>  
+									<div class="form-group is-empty">
+	                                    <label for="patternCode" class="col-md-4 control-label required">Pattern Code</label>
+	                                    <div class="col-md-8">
+											<input type="text" ng-model="pattern.shiftPatternCode" placeholder = "Pattern Code" class="form-control" name="patternCode" maxlength= "20" id="patternCode" ng-disabled="readOnly" required>
+	                                	</div>
+									</div>
+									
+								</div>
+								
+							</div>
+						</div>
+					</div>
+            		<br />
+            
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+        	 		<h5 >Define Shift Pattern</h5>
+        	 	</div>            	
+                <div class="sepr">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactiondate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="transactionDate" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;"   date-change-picker" ng-disabled="readOnly"  required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="shiftPatternName" class="col-md-4 control-label required">Shift Pattern Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="pattern.shiftPatternName" id="shiftPatternName"  name="shiftPatternName" placeholder="Shift Pattern Name" maxlength ="50" ng-disabled="readOnly" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="defaultPatternBy" class="col-md-4 control-label">Define Pattern By</label>
+                                <div class="col-md-8">
+										<select id="defaultPatternBy" class="form-control" ng-model="definePatternBy" name="defaultPatternBy" ng-options="item.id  as item.name for item in list_defaultPatternType "    ng-change="patternChange()" ng-disabled="readOnly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>                                    
+                               	</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8">
+                                    <select id="Status" class="form-control" ng-model="pattern.status" name="status" ng-disabled="readOnly" required>
+                                        <option value="Y">Active</option>
+                                        <option value="N">In Active</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="totalPatternHours" class="col-md-4 control-label">Total Pattern Hours</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="totalPatternHours"  ng-model="pattern.totalPatternHours" ng-disabled="true" placeholder="00:00" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-8 checkbox">
+                                	<label style="margin-left: 30px; margin-top: 30px">
+                                        <input type="checkbox" ng-model="pattern.hasAdditionalRules"   ng-disabled="readOnly" ng-change="additionalRulesChnage()"/>
+                                       Define Additional Shift Rules
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+           <div class="panel panel-primary">
+                <div class="panel-heading">
+        	 		<h5 >Assign Shifts</h5>
+        	 	</div>     
+                <div class="sepr">
+                    <div class="row">                    	 
+                            <table class="table table-striped patternTable" id="patternTable"  ng-disabled="readOnly" width="350px" border="1" required>
+                                <thead>
+                                    <tr>
+                                        <!--<td data-type="id">SNo</td>-->
+                                        <th data-type="text">Sl No </th>
+                                        <th data-type="text"> Week Day Name </th>
+                                        <th data-type="text-multi">Shift Code </th>
+                                        <th data-type="text">Shift Name</th>
+                                        <th data-type="text">off Shift</th>
+                                        <th data-type="text">Start Time</th>
+                                        <th data-type="text">End Time</th>
+                                        <th data-type="text">Scheduled Hours</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="myRow" ng:repeat="i in patternValue track by $index"  >
+                                    
+                                    	<td ng-model="assign.daySequence"> {{$index+1}} </td> <!-- {{i.id}}</td> -->
+                                    	<td>{{i}}</td>
+                                    <!--  <td><input type="text" id="daySequence" ng-model="i.daySequence" ></td -->
+                                        
+                                         <td>
+                                      		
+                                        	<select ng-change="shiftChange(($index),value[$index])" id="shiftCode{{$index}}"  ng-model="value[$index]" name="shiftCode{{$index}}" ng-options="item.shiftDefineId as item.shiftCode for item in patternList.shiftCodeList "  ng-disabled="readOnly" required>
+                                            	<option value=""> Select </option>                                           
+                                        	</select>
+                                        </td>
+                                        <td><input type="text" 	   id="shift.shiftName"  ng-model="shift[$index].shiftName"  ng-disabled="true"></td>
+                                        <td><div class="checkbox"><label><input type="checkbox"  ng-model="shift[$index].offShift"  id="OffShift"	ng-disabled="true"></label></div> </td>
+	                                    <td><input type="text" 	   id="startTime"  	ng-model="shift[$index].startTime" 	ng-disabled="true"></td>
+	                                    <td><input type="text" 	   id="endTime"    	ng-model="shift[$index].endTime" 	ng-disabled="true"></td>
+										<td><input type="text"    id="totalHours"   ng-model="shift[$index].totalHours"     ng-disabled="true"></td>								
+                                    </tr>
+                                </tbody>
+                            </table>
+                        
+            		</div>
+            	</div>
+            </div>
+            
+            <div class="panel panel-primary" ng-show="pattern.hasAdditionalRules == true">
+                       
+                <div class="panel-heading">
+        	 		<h5 >Additional Shift Rules</h5>
+        	 	</div>  
+                <div class="sepr">
+                    <div class="row">  
+                    <br/>       
+                     	 
+                            <table  class="additionalTable"  id="additionalTable"  ng-disabled="readOnly" width="60%" style="align:center" required>
+                                <thead>
+                                    <tr>
+                                        <!--<td data-type="id">SNo</td>-->
+                                        <th style="width: 300px;" >Week Day </th>
+                                        <th  style="width: 300px;">Occurrence </th>
+                                        <th style="width: 300px;">Select Shift</th>
+                                        <th ></th>
+                                        <th style="width: 100px;"><i class="fa fa-plus"  ng-show="gridButtons" ng-click="plusIconAction()"> </i></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="abc" >
+                                         <!-- <tr id="myrow2" ng:repeat="i in patternList.patternAdditionalList track by $index" >
+                                    
+                                    	<td> 
+	                                    	<select id="weekDay"  name="weekDay" class="form-control" ng-model="rule[$index].shiftWeekDay" name="weekDay"  ng-options="item.id as item.name for item in Week_Days "  ng-disabled="readOnly" >
+	                                            <option value=""> Select </option>                                           
+	                                    	</select>	
+                                    	</td>
+                                    	
+                                    	<td> 
+	                                    	<select id="occurrence"  name="occurrence" class="form-control" ng-model="rule[$index].shiftOccurrence" name="weekDay"  ng-options="item.id as item.name for item in list_Of_Occurences "  ng-disabled="readOnly" >
+	                                            <option value=""> Select </option>                                           
+	                                    	</select>	
+                                    	</td>
+                                        
+                                         <td>
+                                        	<select  id="shiftCode"  ng-model="rule[$index].shiftDefineId"  class="form-control" name="shiftDefineId" ng-options="item.shiftDefineId as item.shiftCode for item in patternList.shiftCodeList "  ng-disabled="readOnly">
+                                            	<option value=""> Select </option>                                           
+                                        	</select>
+                                        </td>
+                                        <td></td>
+                                        <td> <i ng-click="Delete($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+
+                                          </tr>     -->
+                                </tbody>
+                            </table>
+                        
+            			</div>
+            		</div>
+            	</div>
+            
+            
+            
+	        </div>
+	
+	         <div class="btn-group btn-group-right pull-right">
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+				 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn  && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave($event)">Correct History</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+				 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+				 <a href="#/ShiftPatternSearch" class="btn btn-primary">Return to search</a>
+			</div>
+	</div>
+	    </div>
+	
+	<div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+
+</form>

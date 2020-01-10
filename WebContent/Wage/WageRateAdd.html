@@ -1,0 +1,493 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Define Wage Rates</h3>
+		<form id="wageRateForm" novalidate ng-submit="submit">
+     		<div class="col-md-12">
+        	<br/>
+        	
+        		<div class="panel panel-primary" ng-show="transactionList">
+        			<div  class="panel-heading">
+        				<h5 class="cls_plainheader"> Search : </h5>
+        			</div>
+					<div class="container">
+					
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-6 select-box">
+	                                    <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" name="transactionModel"  id="transactionModel">
+	                                    	<option value="">Select</option>
+	                                    </select>    
+	                                    <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                      											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			  		<hr class="pull-left" style="width: 105%" />
+				</div>
+            	<br/>
+            
+	            <div class="panel panel-primary">
+	            
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select  ng-change="customerChange()"  ng-model="wage.customerId" ng-options="item.customerId as item.customerName for item in wageList.customerList" class="form-control" id="customerName" name="customerName" ng-disabled="readOnlyEdit" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+									</div>
+								</div>
+								<div class="form-group is-empty">
+									<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="countryChange()" ng-model="wage.countryId" ng-options="item.id as item.name for item in wageList.countryList" class="form-control" name="countryName" id="countryName" disabled="disabled" required>
+											<option value="">Select</option>
+										</select>
+										 <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+									</div>
+								</div>
+								 <div class="form-group">
+                                <label for="vendorName" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select ng-change="vendorChange()"  ng-model="wage.vendorId" ng-options="item.id as item.name for item in wageList.vendorList " class="form-control" id="vendorName" name="vendorName"  ng-disabled="readOnlyEdit" required>
+                                            <option value="">Select</option>
+                                     </select>                                           
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                         </div>
+	
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="companyName" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="companyChange()" ng-model="wage.companyId" ng-options="item.id as item.name for item in wageList.companyList" class="form-control" name="companyName" id="cmpName" ng-disabled="readOnlyEdit" required>
+											<option value="">Select</option>
+										</select>
+										 <span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+									</div>
+								</div>
+								
+                            <div class="form-group is-empty">
+									<label for="wageScaleId" class="col-md-4 control-label required">Wage Scale Name</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="wage.wageScaleId" ng-options="item.name as item.desc for item in wageList.wageScaleList" class="form-control" name="wageScaleId" id="wageScaleId" ng-disabled="readOnlyEdit" required>
+											<option value="">Select</option>
+										</select>
+										 <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+									</div>
+								</div>
+									 
+								<div class="form-group is-empty">
+									<label for="wagecode" class="col-md-4 control-label required">Wage Rate Code</label>
+									<div class="col-md-8">
+										<input class="form-control capitalize" ng-model="wage.wageRateCode" placeholder="Wage Rate Code" id="wage Code" name="wageCode" type="text" ng-disabled="readOnlyEdit" required>
+									</div>
+								</div>
+								
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+		   		<br />
+		   		
+            	<div class="panel panel-primary">
+           			<div  class="panel-heading">
+        	 			<h5>Define Wage Rates</h5>
+        			</div>
+             			<div class="sepr">
+                  
+                    	<div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control" ng-model="wage.transactionDate" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required />
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group">
+	                                <label for="wageRateName" class="col-md-4 control-label required">Wage Rate Name</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control" ng-model="wage.wageRateName" id="wageName" placeholder="Wage Rate Name" name="wageName" maxlength="45" ng-disabled="readOnly" required/>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="jobCategory" class="col-md-4 control-label required">Work Skill</label>
+	                                <div class="col-md-8 select-box">
+										<select  ng-model="wage.jobCategory" name="JobCategory" ng-options="item.id as item.name for item in list_jobCategory" class="form-control" id="JobCategory"  ng-disabled="readOnly"  title="Please select  Job Category" required>
+                                 			<option value="">Select</option>
+                                 		</select> 	 
+                                 		<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                
+	                                </div>
+	                            </div>
+	 							<div class="form-group">
+	                                <label for="jobCode" class="col-md-4 control-label required">Job Code</label>
+	                                <div class="col-md-8 select-box">
+ 										<select  ng-model="wage.jobCodeId" ng-options="item.jobCodeId as item.jobCode+' {{jobCodeId == 0 ? '' : '-' }} '+item.jobName for item in wageList.jobCodeList | orderBy:'jobName':false" class="form-control" id="jobCode" name="jobCode" ng-disabled="readOnly" required> 
+										 	<option value="">Select</option>
+	                                     </select>	 
+	                                     <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										 </span>                                
+	                                </div>
+	                            </div>
+	
+	                        </div>
+
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="Status" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select  ng-model="wage.status" ng-options="item.id as item.name for item in list_status" class="form-control" id="status"  ng-disabled="readOnly"  title="Please select  status" required>                                 	
+                                 		</select>
+                                 		<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+                                <label for="workOrderName" class="col-md-4 control-label ">Work Order Name </label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="wage.workOrderId" ng-options="item.id as item.name for item in wageList.workOrderList" class="form-control" id="workOrderName" name="workOrderName" ng-disabled="readOnlyEdit" >
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+	                             <div class="form-group">
+	                                <label for="jobType" class="col-md-4 control-label required">Job Type</label>
+	                                <div class="col-md-8 select-box">
+	                                	<select  ng-model="wage.jobType" name="jobType" ng-options="item.id as item.name for item in list_jobType" class="form-control" id="jobType" name="jobType"  ng-disabled="readOnly"  title="Please select  JobType" required>
+                                 			<option value="">Select</option>
+                                 		</select> 
+                                 		 <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+	                                </div>
+	                            </div>
+	                            
+	                            
+	                           
+	                            
+	                        </div>
+                    	</div>
+               		</div>
+           	 	</div>
+            
+        		<br />
+        	    	<div>
+        	 			<h5><b>Define Base Wage Rate Or Work/Piece Rate</b></h5>
+        			</div>
+	            <div class="panel panel-primary">
+	            	
+	                <div class="sepr">
+	                    <div id="wageRatesTable" >
+	                    	<table class="table table-striped table-hover" >
+	                        	<thead>
+	                                <tr>
+	                                    <th >Base Rate  </th>
+	                                    <th >Currency</th>
+	                                    <th >  Frequency</th>
+	                                     <th>  Margin (%) </th>	  
+	                                    <th >Overtime Rate</th>
+	                                    <th >Currency</th>
+	                                    <th >Frequency</th>
+	                                     <th>  Margin (%) </th>	   
+	                                    <th><i class="fa fa-plus addrow" data-toggle="modal" data-target="#myModal" ng-show="gridButtons" ng-click="plusIconAction()"> </i></th>
+	                                    <th></th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr  ng:repeat="i in wageList.wageRateCurrency" on-last-repeat>
+	                                    <td>{{i.baseRate}}</td>
+	                                    <td>{{i.baseRateCurrency}}</td>
+	                                    <td>{{i.baseRateFrequency}}</td>
+	                                    <td> {{i.baseRateMargin}} </td>	
+	                                    <td>{{i.overtimeRate}}</td>
+	                                    <td>{{i.overtimeCurrency}}</td>
+	                                    <td>{{i.overtimeFrequency}}</td>
+	                                    <td> {{i.overtimeRateMargin}} </td>	   
+	                                    <td> <i ng-click="Delete($event)" class="fa fa-trash"  ng-show="gridButtons"></i></td>
+	                                    <td><i ng-click="Edit($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal" ng-show="gridButtons"></i></td>
+	                                    <td></td>
+	                                </tr>
+	                            </tbody>
+                        	</table>
+                    	</div>
+	            	</div>
+	            </div>
+	            
+        		<b>OR</b>
+        		<div></div>
+	            <div class="panel panel-primary">
+	                <div class="sepr">
+	                    <div id="wageRatesTable" >
+	                    	<table class="table table-striped table-hover" >
+	                        	<thead>
+	                                <tr>
+	                                    <th> Work/Piece Rate </th>
+	                                    <th> Currency </th>
+	                                    <th>  Unit </th>	
+	                                     <th>  Margin (%) </th>	                                   
+	                                    <th><i class="fa fa-plus addrow1" data-toggle="modal" data-target="#myModal1" ng-show="gridButtons" ng-click="plusIconAction1()"> </i></th>
+	                                    <th></th>
+	                                </tr>
+	                            </thead>
+	                            <tbody>
+	                                <tr  ng:repeat="i in wageList.workPeiceList" on-last-repeat>
+	                                    <td>{{i.workPieceRate}}</td>
+	                                    <td>{{i.workPieceCurrencyName}}</td>
+	                                    <td>{{i.workPieceUnit}}</td>
+	                                    <td>{{i.workPieceUnit}}</td>	    
+	                                    <td>{{i.workRateMargin}}</td>  	                                 
+	                                    <td> <i ng-click="Delete1($event)" class="fa fa-trash"  ng-show="gridButtons"></i></td>
+	                                    <td><i ng-click="Edit1($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal1" ng-show="gridButtons"></i></td>
+	                                    <td></td>
+	                                </tr>
+	                            </tbody>
+                        	</table>
+                    	</div>
+	            	</div>
+	            </div>
+       		</div>
+		</form>
+        <div class="btn-group btn-group-right pull-right">
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+			 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave($event)">Correct History</a>
+			 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+			 <a href="#/WageRateSearch" class="btn btn-primary">Return to search</a>
+		</div>
+	</div>
+	 
+	<div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+</div>
+
+<form id="wageRateCurrencyForm" novalidate ng-submit="submit">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+       	<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Enter Wage Rates</h4>
+            </div>
+              
+           	<div class="modal-body">
+               	<div class="panel panel-default">
+                   	<div class="sepr">
+                       	<div class="row">
+                           	<div class="col-md-6">     
+                           	<br/>
+                           	<h4 class="modal-title">Base Rate</h4>
+                           		<div class="panel panel-default">
+                   					<div class="sepr">
+                       					<div class="row">                             
+                                   <div class="form-group">
+                                       <label for="baseRate"  class="col-md-4 control-label required">Base Rate</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="currency.baseRate"  maxlength="45" class="form-control onlyNumbers" id="baseRate" name="baseRate" placeholder="Base Rate" required />                                            
+                                       </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                       <label for="baseRateCurrency"  class="col-md-4 control-label required">Currency</label>
+                                       <div class="col-md-8 select-box">
+											<select  ng-model="currency.baseRateCurrencyId" ng-options="item.id as item.name for item in wageList.currencyList" class="form-control" name="baseCurrency" id="baseCurrency" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                       </div>
+                                   </div>
+                                
+                                   <div class="form-group">
+                                       <label for="baseFrequency"  class="col-md-4 control-label required">Frequency</label>
+                                       <div class="col-md-8 select-box">
+										<select  ng-model="currency.baseRateFrequency" name="baseFrequency" ng-options="item.id as item.name for item in list_frequency" class="form-control" name="baseFrequency" id="baseFrequency" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>	 
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                        
+                                          </div>
+                                   </div>
+                                  <div class="form-group">
+                                       <label for="baseRateMargin"  class="col-md-4 control-label">Margin Percentage</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="currency.baseRateMargin"  maxlength="45" class="form-control onlyNumbers" id="baseRateMargin" name="baseRateMargin" placeholder="Margin (%)" />                                            
+                                       </div>
+                                   </div>
+                          	 				</div>
+                           			</div>
+                           		</div>
+                           	</div>
+                           
+                           	<div class="col-md-6">   
+                           	<br/>
+                           	<h4 class="modal-title">Overtime Rate</h4>
+                           		<div class="panel panel-default">
+                   					<div class="sepr">
+                       					<div class="row">                                   
+                                			<div class="form-group">
+                                       <label for="overtimeRate"  class="col-md-4 control-label required">OverTime Rate</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="currency.overtimeRate"  maxlength="45" class="form-control onlyNumbers" id="overtimeRate" name="overtimeRate" placeholder="Overtime Rate" required />                                            
+                                       </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                       <label for="overtimeCurrency"  class="col-md-4 control-label required">Currency</label>
+                                       <div class="col-md-8 select-box">
+											<select  ng-model="currency.overtimeCurrencyId" ng-options="item.id as item.name for item in wageList.currencyList" class="form-control" name="OvertimeCurrency" id="overtimeCurrency" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                       </div>
+                                   </div>
+                                
+                                   <div class="form-group">
+                                       <label for="overtimeRateFrequency"  class="col-md-4 control-label required">Frequency</label>
+                                       <div class="col-md-8 select-box">
+										<select  ng-model="currency.overtimeFrequency" name="overtimeFrequency" ng-options="item.id as item.name for item in list_frequency" class="form-control"  id="overtimeFrequency" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>	  
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                       
+                                          </div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label for="overtimeRateMargin"  class="col-md-4 control-label">Margin Percentage</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="currency.overtimeRateMargin"  maxlength="45" class="form-control onlyNumbers" id="overtimeRateMargin" name="overtimeRateMargin" placeholder="Margin (%)" />                                            
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                   	</div>
+                          	 	</div>
+                      	 	</div>
+                   	</div>
+               	</div>
+           	</div>
+            <div class="modal-footer">
+	            <button type="button" ng-click="saveDetails()" class="btn btn-primary" ng-show="popUpSave">Save changes</button>
+	            <button type="button" ng-click="updateDetails($event)" class="btn btn-primary" ng-show="popUpUpdate">Update changes</button>
+	            <button type="button" class="btn btn-warning"ng-click="close()">Close</button>
+	            
+      		</div>
+         </div>
+     </div>
+</div>
+</form>
+<form id="wageRatePerPieceForm" novalidate ng-submit="submit"> 
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+       	<div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Enter Work Rates per Piece and currency</h4>
+            </div>
+              
+           	<div class="modal-body">
+               	<div class="panel panel-default">
+                   	<div class="sepr">
+                       	<div class="row">
+                           	<div class="col-md-12">     
+                           	<br/>                                             		
+                   					<div class="sepr">
+                       					<div class="row">                             
+                                   <div class="form-group">
+                                       <label for="workPieceRate"  class="col-md-4 control-label required">Work/Piece Rate</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="workPeice.workPieceRate"  maxlength="5" class="form-control onlyNumbers" id="workPieceRate" name="workPieceRate" placeholder="Work/Piece Rate" required />                                            
+                                       </div>
+                                   </div>
+
+                                   <div class="form-group">
+                                       <label for="workPieceCurrency"  class="col-md-4 control-label required">Currency</label>
+                                       <div class="col-md-8 select-box">
+											<select  ng-model="workPeice.workPieceCurrency" ng-options="item.id as item.name for item in wageList.currencyList" class="form-control" name="workPieceCurrency" id="workPieceCurrency" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                       </div>
+                                   </div>
+                                
+                                   <div class="form-group">
+                                       <label for="workPieceUnit"  class="col-md-4 control-label required"> Unit </label>
+                                       <div class="col-md-8 select-box">
+										<select  ng-model="workPeice.workPieceUnit" ng-options="item.id as item.name for item in list_frequency" class="form-control" name="workPieceUnit" id="workPieceUnit" required>
+                                         		 	<option value="">Select</option>
+                                          	</select>	 
+                                          	<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                        
+                                          </div>
+                                   </div>
+                                   <div class="form-group">
+                                       <label for="workRateMargin"  class="col-md-4 control-label">Margin Percentage</label>
+                                       <div class="col-md-8">
+                                            <input type="text" ng-model="currency.workRateMargin"  maxlength="45" class="form-control onlyNumbers" id="workRateMargin" name="workRateMargin" placeholder="Margin (%)" />                                            
+                                       </div>
+                                   </div>
+                          	 				</div>
+                           			</div>
+                           		
+                           	</div>                                                      	
+                      	 	</div>
+                   	</div>
+               	</div>
+           	</div>
+            <div class="modal-footer">
+	            <button type="button" ng-click="saveDetails1()" class="btn btn-primary" ng-show="popUpSave1">Save changes</button>
+	            <button type="button" ng-click="updateDetails1($event)" class="btn btn-primary"  ng-show="popUpUpdate1">Update changes</button>
+	       		<button type="button" class="btn btn-warning"ng-click="close()">Close</button>
+      		</div>
+         </div>
+     </div>
+</div>
+</form>
+		                            

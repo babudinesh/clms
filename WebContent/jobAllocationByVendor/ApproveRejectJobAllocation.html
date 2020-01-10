@@ -1,0 +1,167 @@
+<div id="searchPage"> 
+	<form name="assignShiftsSearchForm" id="assignShiftsSearchForm" novalidate ng-submit="submit">
+		<div class="container-fluid">
+			<div class="col-md-12 well">
+				<h3 class="cls_plainheader">Approve/Reject - Job Allocation</h3>
+				<div class="col-md-12">
+					<br />
+					<div class="panel panel-primary">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+		                            <div class="form-group">
+		                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+		                                <div class="col-md-8 select-box">
+		                                <select ng-change = "customerChange()" ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-disabled="dropdownDisableCustomer" required >
+		                                            <option value="">Select</option>
+		                                            </select> 
+		                                            <span class="input-group-btn">
+		                                     <label for="customerName" class="fa fa-caret-down"></label>
+		                                        </span>                                     
+		                                </div>
+		                            </div>                           
+		                            <div class="form-group ">
+		                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+		                                <div class="col-md-8 select-box">                                    
+		                                    <select  ng-model="vendorName" ng-change="vendorChange()" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorId" name="vendorId" ng-disabled="dropdownDisableVendor" required> 
+		                                            <option value=""> Select </option>                                           
+		                                            </select>
+		                                            <span class="input-group-btn">
+		                                     <label for="vendorId" class="fa fa-caret-down"></label>
+		                                        </span> 
+		                                </div>
+		                            </div>
+									<div class="form-group">
+										<label for="workerName" class="col-md-4 control-label">Worker Name </label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="workerName" placeholder="Worker Name" maxlength="45" ng-model="workerName" name="workerName" />
+										</div>
+									</div>					
+									
+									<div class="form-group">
+										<label for="selectDate" class="col-md-4 control-label required">Select Date</label>									
+											<div class="col-md-8">
+			                                    <input type="text" class="form-control" id="selectedDate"  placeholder="Select Date &#xf073;" ng-model="selectedDate" name="selectedDate"  required/>                                      											
+											</div>									
+									</div>
+								</div>
+		
+								<div class="col-md-6">
+									<div class="form-group">
+		                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+		                                <div class="col-md-8 select-box">
+		                                	<select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="companyChange()" ng-disabled="dropdownDisableCompany" required>
+		                                    	<option value="">Select</option>
+		                                   	</select>   
+		                                    <span class="input-group-btn">
+		                                    	<label for="companyName" class="fa fa-caret-down"></label>
+		                                    </span>                                   
+		                                </div>
+		                            </div>
+		                           <!--  <div class="form-group">
+										<label for="workerId" class="col-md-4 control-label">Worker Code</label>
+										<div class="col-md-8 select-box">
+											<select  ng-model="workerId" ng-options="item.id as item.name for item in workerList " class="form-control" id="workerId" name="workerId" >										
+												<option value="">ALL</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="workerId" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div> -->
+									<div class="form-group">
+										<label for="workOrderCode" class="col-md-4 control-label">Worker Code </label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="workerCode" placeholder="Worker Code" maxlength="45" ng-model="workerCode" name="workerCode" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="status" class="col-md-4 control-label required">Status</label>
+										<div class="col-md-8 select-box">
+											<select ng-change="statusChange()" ng-model="status"  class="form-control" id="status" name="status"  ng-options="item.id as item.name for item in list_status" required>										
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="status" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									<div class="col-md-8 col-md-offset-6">
+										<a class="btn btn-primary col-md-4 col-md-offset-4" ng-click="search()">Search <i class="fa fa-search"></i></a> 
+										<a class="btn btn-warning col-md-3" ng-click="searchClear()">Clear <i class="fa fa-times"></i></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		
+		
+					<div id="loader"
+						style="display: none; text-align: center; width: 100%; height: 100%; background-color: transparent;">
+						<img src="images/loader.gif" alt="loading..." width="214"
+							height="138" />
+					</div>
+					<div class="panel panel-primary" id="shiftDetailsDiv">
+						<div class="panel-heading">
+							<h5>Shift Result</h5>
+						</div>
+						<div class="sepr">
+							<a class="btn btn-primary pull-left"  ng-click="approve($event)"> Approve </a><!-- <i class="fa fa-plus-circle"></i> -->
+							<a class="btn btn-primary pull-left"   ng-click="reject($event)" > Reject </a>
+							
+							<div> 
+							<table id="PreviewFormTable" class="table table-striped">
+								<thead>
+									<tr>
+										<th ng-show="status == 'Assigned'" >Select All <input type="checkbox"  ng-model="selectAll" ng-click="checkAll()" style="width: 60px;height:20px;"></th>
+										<th>Worker Code</th>
+										<th>Worker Name</th>
+										<th>Shift Name</th>
+										<th>Designation</th>
+										<th>Job Skill </th>
+										<th>Location</th>
+										<th>Plant</th>
+										<th>Department</th>
+										<th>Section</th>
+										<th>Work Area</th>
+									</tr>
+								</thead>
+								<tbody>
+								   <tr  ng-repeat="i in workerGridList">
+								   		<td ng-show="status == 'Assigned'"><input type="checkbox"  ng-model="i.selected"  style="width: 60px;height:20px;" /></td>
+										<td>{{i.workerCode}}</td>
+										<td>{{i.workerName}}</td>
+										 <td>{{i.shiftName}}</td>
+										 <td>{{i.jobName}}</td>
+										 <td>{{i.workSkill}}</td>
+										 <td>{{i.locationName}}</td>
+										 <td>{{i.plantName}}</td>
+										 <td>{{i.departmentName}}</td>
+										 <td>{{i.sectionName}}</td>
+										 <td>{{i.workAreaName}}</td>
+									</tr>
+								</tbody>
+							</table>
+							</div>
+						</div>
+					</div>			
+					<br />
+				</div>
+			</div>
+		</div>
+	</form>
+ </div>
+
+ 
+ 
+ 
+ 
+<div class="container-fluid">
+				<div class="navbar navbar-default navbar-fixed-bottom text-center"
+					style="min-height: 15px; padding: 0px;">
+					<div class="container text-right" style="">
+						<label class="control-label text-center"
+							style="color: white !important; margin: 0px; font-size: 14px;">@Copyright</label>
+					</div>
+				</div>
+	</div>

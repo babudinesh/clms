@@ -1,0 +1,192 @@
+<!-- <link rel="stylesheet" href="/company/create/all.css"/> -->
+<div class="body">	
+    <div class="container-fluid  childGrid">
+    	<form id="companyContact" name="companyContact" novalidate ng-submit="submit" >
+        	<div class="col-md-12 well">
+         		<h3 class="cls_plainheader">Company Contact</h3>
+                           
+            	<br />
+            
+            	<div class="col-md-12">
+            		<ul class="nav nav-tabs">
+	                    <li><a href="#/companyDetails/{{companyInfoId}}">Company</a></li>
+	                    <li><a href="#/companyProfile">Profile</a></li>
+	                    <li class="active"><a href="#/companyContctsSearch" ng-click="">Contacts</a></li>  
+	                </ul> 
+            
+            
+					<div class="col-md- 8 container">
+	                    <div class="col-md-6"> <b>Company Code :</b>  {{companyCode}} </div>
+	                    <div class="col-md-6"> <b>Company Name :</b>  {{companyName}} </div>
+             		</div>
+                	
+                	<br />
+                	
+              		<input type="hidden" value="0" ng-model="company.customerId" >
+					<input type="hidden" value="0" ng-model="company.companyId" >
+					<input type="hidden" value="0" ng-model="company.contactUniqueId">
+		            <input type="hidden" value="0" ng-model="company.contactId">
+                
+					<div class="container-fluid" ng-show="transactionList"> 
+						<div class="col-md-6">
+							<div class="form-group">
+								<label class="col-md-4  control-label required" for="transactionList"> Transaction Date's: </label>
+								<div class="col-md-8 select-box">
+                                                 <select  ng-model="company.contactId" ng-options="item.id as item.name for item in transactionDatesListForContact" class="form-control" id="addressId"  ng-disabled="readonly"  title="Please select Address "  ng-change="fun_Contact_Trans_Change()" >
+                                                     <option value="">Select</option>
+                                                </select>  
+                                                <span class="input-group-btn">
+                                 					<label for="Select1" class="fa fa-caret-down"></label>
+                                    			</span>
+								</div>					
+							</div>
+						</div>
+					</div>								
+								
+						
+               		<div class="panel panel-default">
+                 		<div class="sepr">
+                    			<div class="row"> 
+                       			 	<div class="col-md-6">
+                            			<div class="form-group ">	
+               				 				<label class="col-md-4  control-label required" for="transactionDate" style="color: black;">Effective From Date </label>
+                		 	 				<div class="col-md-8">
+			                					<input class="form-control" id="transactionDate"  readonly="true" type="text" placeholder="Effective From Date &#xf073;" style="color: black;" ng-model="transactionDate" name="transactionDate"  ng-disabled="readonly" required/>				                					
+			                				</div>
+			                			</div>
+			                		</div>
+                		
+			                		<div class="col-md-6">
+			                			<div class="form-group">
+			                                <label for="Status" class="col-md-4 control-label required" >Status</label>
+			                                <div class="col-md-8 select-box">
+			                                    <select  ng-model="company.isActive" class="form-control" ng-disabled="readOnly"  name="Status" id="Status" required>
+			                                    	<option value="">Select</option>
+			                                        <option value="Y">Active</option>
+			                                        <option value="N">Inactive</option>
+			                                    </select>
+			                                    <span class="input-group-btn">
+			                                     	<label for="Select1" class="fa fa-caret-down"></label>
+			                                    </span> 
+			                                </div>
+			                            </div>
+			                		</div>
+			   					</div> 
+				   			</div>
+	   					</div>	
+	   						
+				   		<div class="panel panel-default">
+                    		<div class="sepr">			
+				   				<div class="row"> 	
+				   					 <div class="col-md-6">
+				   					 	<div class="form-group">
+						                    <label class="col-md-4 control-label required" for="ddlAddress">Address </label>
+						                    <div class="col-md-8 select-box">
+                                                   <select  ng-model="company.addressId" name="addressId" ng-options="item.id as item.name for item in addressListData" class="form-control" id="ddlAddress"  ng-disabled="readonly"  title="Please select Address " required>
+                                                    	<option value="">Select</option>
+                                                   </select>
+						                   		<span class="input-group-btn">
+                                    					<label for="Select1" class="fa fa-caret-down"></label>
+                                      				</span>
+							                    
+											</div>
+						                </div>
+				   					 	<div class="form-group" >
+							            	<label class="col-md-4 control-label required" for="txtContactName">Contact Name </label>
+							                <div class="col-md-8">
+							                    <input class="form-control onlyAlphabets" id="txtContactName" placeholder ="Contact Name"  ng-model="company.contactName" name="contactName" type="text" style="width:100%"  ng-readonly="readonly"  maxlength="45" required/>									                
+								      		</div>
+							      		</div>
+							      		
+							      		<div class="form-group">
+						                    <label class="col-md-4 control-label" for="txtBusinessPhoneNumber">Business Phone</label>
+						                    <div class="col-md-8">
+						                    	<input class="form-control " id="txtBusinessPhoneNumber" ng-model="company.businessPhoneNumber" placeholder = "Business Phone  &#xf095;" name="businessPhoneNumber" ng-required="!mobileNumber" ng-readonly="readonly" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength ="12" style="width:100%" />								                	 
+							    			</div>							    				
+						                </div>
+						                
+						                <div class="form-group" >
+						                    <label class=" col-md-4 control-label" for="txtMobileNumber required">Mobile Number</label>
+						                    <div class="col-md-8">
+						                    	<input class="form-control " id="txtMobileNumber" placeholder = "Mobile Number  &#xf10b;" ng-model="company.mobileNumber" type="text" name="mobileNumber" ng-readonly="readonly"  onkeypress='return event.charCode >= 48 && event.charCode <= 57' minlength ="10" maxlength="12"  style="width:100%" ng-required="!businessPhoneNumber" />
+							                     
+							      			</div>							      				
+						                </div>
+				               			
+						            </div> 
+						             
+				 					<div class="col-md-6">
+		         					 	<div class="form-group" >
+		                   					<label class="col-md-4 control-label required" for="contactTypeId">Contact Type </label>
+	                    					<div class="col-md-8 select-box">
+                                               	<select  ng-model="company.contactTypeId" name="contactTypeId" ng-options="item.id as item.name for item in list_contactTypes" class="form-control" id="contactTypeId"  ng-disabled="readonly"  title="Please select Address " required>
+                                                	<option value="">Select</option>
+                                           		</select>
+                                            	<span class="input-group-btn">
+                                					<label for="Select1" class="fa fa-caret-down"></label>
+                                   				</span>
+											</div>   
+		               		 			</div>
+		               		 			
+		               		 			<div class="form-group">
+					               		 	<label class="col-md-4 control-label" for="txtExtensionNumber"></label>
+						                    <div class="col-md-8">
+						                    	<input class="form-control"  type="hidden"  />
+						                    </div>
+					               		</div>
+					               		<br/>	
+					               		 
+					               		<div class="form-group">
+						                	<label class="col-md-4 control-label" for="txtExtensionNumber">Extension</label>
+						                    <div class="col-md-8">
+						                    	<input class="form-control" id="txtExtensionNumber" ng-model="company.extensionNumber" placeholder= "Extension Number  &#xf095;" name="extensionNumber" ng-readonly="readonly" type="text" onkeypress='return event.charCode >= 48 && event.charCode <= 57' maxlength ="5" style="width:100%" />
+						                    </div>
+						                </div>
+						                
+						                <div class="form-group" >
+						                    <label class="col-md-4 control-label required" for="txtEmailId">Email Id </label>
+						                    <div class="col-md-8">
+						                   		<input class="form-control" id="txtEmailId" placeholder= "Email Id &#xf003;" ng-model="company.emailId"  name="emailId" ng-readonly="readonly"  type="email" style="width:100%" ng-maxlength="45" required />							                    	
+						                    </div>
+						                </div>
+						            </div>
+						        </div> 
+						    </div>
+						</div>            
+					                  <!-- <div class="col-md-6">
+				                				<div class="form-group cls_divradios" >
+							               			<label class="col-md-4  control-label cls_lblradios required">Status</label>
+							                    	<div class="col-lg-8 ">
+														<div class="radio radio-primary" style="display: inline-block">
+															<label class="col-md-4  control-labe"> <input type="radio" name="isActive"   id="optionsRadios1" value="Y"  ng-model="company.isActive"  name="isActive"  ng-checked="isActive == 'Y'">Active
+															</label>
+														</div>
+														<div class="radio radio-primary" style="display: inline-block">
+															<label class="col-md-4  control-labe"> <input type="radio" name="isActive"   id="optionsRadios2" value="N" ng-model="company.isActive"  name="isActive" ng-checked="isActive == 'N'">Inactive
+															</label>
+														</div>													
+													</div>
+						            			</div>
+						            		</div> -->
+	
+					 <div class="btn-group btn-group-right pull-right">
+	                 	<a href="javascript:void(0)" class="btn  btn-danger" ng-click="updateContactBtnAction($event)"  ng-show="updateBtn"> Update </a>
+                       	<button class="btn  btn-primary"  ng-show="saveBtn" type="submit" ng-click="enable ||  fun_savecompanycontactdetails($event)" onclick="return false;">Save</button>
+                       	<button class="btn  btn-primary"  ng-show="currentHistoryBtn" type="submit" ng-click="enable ||  fun_savecompanycontactdetails($event)" onclick="return false;"> Correct History </button>
+                       	<button class="btn  btn-danger"  ng-show="resetBtn" type="reset"> Reset </button> 
+                       	<a href="javascript:void(0)" class="btn  btn-danger" ng-show="cancelBtn"  ng-click="cancelContactBtnAction($event)"  > Cancel </a>
+                       	<a href="javascript:void(0)" class="btn  btn-info"  ng-click="historyContactBtnAction($event)" ng-show="addrHistory"> View Or Update History </a>
+                       	<a href="#/companyContctsSearch" class="btn  btn-danger" ng-show="returnToSearchhBtn"> Return To Search </a>
+					</div>
+					<div class="container-fluid">
+			            <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+			                <div class="container text-right">
+			                    <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+			                </div>
+			            </div>
+        			</div>						   
+				</div>
+			</div>	      		                                                                                                     
+        </form>
+    </div>
+</div>

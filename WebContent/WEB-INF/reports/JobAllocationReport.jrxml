@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job_Allocation_Report" language="groovy" pageWidth="1000" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="960" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7916d99f-fec9-4d9e-b3d6-d6b0ca6015cc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="305"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="fromDate" class="java.lang.String"/>
+	<parameter name="departmentId" class="java.lang.String"/>
+	<parameter name="locationId" class="java.lang.String"/>
+	<parameter name="plantId" class="java.lang.String"/>
+	<parameter name="sectionId" class="java.lang.String"/>
+	<parameter name="workAreaId" class="java.lang.String"/>
+	<parameter name="workerName" class="java.lang.String"/>
+	<parameter name="workerCode" class="java.lang.String"/>
+	<parameter name="status" class="java.lang.String"/>
+	<parameter name="toDate" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="schemaName" class="java.lang.String"/>
+	<parameter name="JOBTYPE" class="java.lang.String"/>
+	<parameter name="companyName" class="java.lang.String"/>
+	<parameter name="location" class="java.lang.String"/>
+	<parameter name="plant" class="java.lang.String"/>
+	<parameter name="workSkill" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$P{workSkill}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Shift" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[$P{Shift}]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  ltr.contractorname,ltr.ContractorCode AS code,ltr.emp AS emp_code,ltr.emp_name,COALESCE(ltr.work_skill,'') AS work_skill , COALESCE(ltr.Designation,'') As Job_name,COALESCE(ltr.shift,'') AS shift, COALESCE(ltr.Department_Name,'') AS Department_Name, COALESCE(ltr.Location_name, '') AS Location_name, COALESCE(ltr.Work_Area_Name, '') AS Work_Area_Name, COALESCE(ltr.Plant_Name, '') AS Plant_Name , COALESCE(ltr.Section_Name, '') AS Section_Name, ltr.business_date,substring(ltr.intime,11) intime, coalesce(substring(ltr.outtime,11),'') AS outtime,ltr.Allocation_Status as Allocation
+        FROM
+        $P!{schemaName}.labor_time_report ltr
+WHERE
+ltr.Intime IS NOT NULL AND
+
+ltr.business_date between $P{fromDate} and $P{toDate}
+and
+
+ltr.customer_id =  $P{customerId}
+and
+ltr.company_id = $P{companyId}
+and
+(ltr.vendor_id = $P{vendorId} or $P{vendorId} = '-1')
+and
+(ltr.department_id =  $P{departmentId} or  $P{departmentId} = '-1')
+and
+ltr.Location_id =  $P{locationId}
+and
+ltr.plant_id =  $P{plantId}
+and
+(ltr.section_id =  $P{sectionId} or $P{sectionId} = '-1')
+and
+(ltr.work_area_id = $P{workAreaId} or $P{workAreaId}= -1)
+and
+(ltr.emp_name LIKE  '$P!{workerName}%' )
+and
+(ltr.emp LIKE  '$P!{workerCode}%' )
+and ((CASE when $P{JOBTYPE} = 'Supervisor' then ltr.Designation = 'Supervisor' ELSE case when $P{JOBTYPE} = 'Others' then ltr.Designation in (select distinct Designation from labor_time_report where Designation <> 'Supervisor')end  end)OR $P{JOBTYPE} = '-1')
+
+and ( ltr.Allocation_Status = $P{status} or $P{status} = '-1')
+and ( ltr.Work_Skill = $P{workSkill} or $P{workSkill}  = '-1')
+and ( ltr.Shift = $P{Shift} or $P{Shift} = '-1')
+Group By ltr.business_date,ltr.contractorname,ltr.emp_name
+order by ltr.business_date,ltr.contractorname,ltr.emp_name]]>
+	</queryString>
+	<field name="contractorname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="code" class="java.lang.Integer"/>
+	<field name="emp_code" class="java.lang.Long"/>
+	<field name="emp_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="work_skill" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Job_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="shift" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Department_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Work_Area_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Plant_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Section_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="business_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="intime" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="outtime" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Allocation" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="39">
+			<staticText>
+				<reportElement x="386" y="0" width="188" height="20" uuid="c8da02a6-11e0-46b0-9611-362c2c0ee355"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Daily Job Allocation]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="792" y="29" width="64" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="722ed60b-68d4-4416-afbc-77e022d13b25"/>
+				<textElement verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse($P{fromDate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="751" y="29" width="46" height="10" uuid="a44cfb1c-795b-4acd-94fa-b3cc925349d3"/>
+				<textElement verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["From Date :"]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="856" y="29" width="38" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="3d0a0dc5-46f3-443b-b48b-40da21294782"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["To Date :"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="894" y="29" width="66" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="2a4c4b59-80f3-4c58-b68c-693fcad2aee6"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy-MM-dd").parse( $P{toDate})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="0" y="29" width="74" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="558c8fc3-f2ff-4688-b5eb-8b8d251a22f3"/>
+				<textElement verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Location :"+ $P{location}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="76" y="29" width="100" height="10" forecolor="#000000" backcolor="#FFFFFF" uuid="6891afaf-50a8-4bad-a9ca-7eb74f44f0d4"/>
+				<textElement verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Plant :" + $P{plant}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="751" y="0" width="209" height="8" forecolor="#000000" backcolor="#FFFFFF" uuid="b7e22f25-7521-4d5f-8da5-5039427bae19"/>
+				<textElement textAlignment="Left" verticalAlignment="Bottom" rotation="None" markup="none">
+					<font fontName="SansSerif" size="7" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Company :"+ $P{companyName}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="51" height="20" backcolor="#BFE1FF" uuid="8df1c60b-29d6-4314-8cc8-dc7a14d89cac"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Business Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="51" y="0" width="69" height="20" backcolor="#BFE1FF" uuid="e0401e19-93ac-4bdd-a1e6-2f74a29f7a24"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Department]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="120" y="0" width="68" height="20" backcolor="#BFE1FF" uuid="76da05b8-afd5-47eb-8f88-f687300b5b4c"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Section]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="188" y="0" width="71" height="20" backcolor="#BFE1FF" uuid="cdadf4d5-ac50-4f93-8c87-b5a02eef3dcc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Work Area]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="359" y="0" width="64" height="20" backcolor="#BFE1FF" uuid="5f5c059f-f943-48bd-9087-31910576cfe4"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Worker Code]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="423" y="0" width="141" height="20" backcolor="#BFE1FF" uuid="1ed60152-08b8-48ad-8d4e-3275159c2d61"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Worker name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="564" y="0" width="100" height="20" backcolor="#BFE1FF" uuid="1c70490b-d81d-4478-9681-2787ea5887b3"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Skill Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="664" y="0" width="94" height="20" backcolor="#BFE1FF" uuid="cde026c8-6964-4866-81dc-306f7ee9c89e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Job Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="758" y="0" width="27" height="20" backcolor="#BFE1FF" uuid="153f3f9e-c513-494b-adb9-deb872302bb0"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Shift]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="785" y="0" width="57" height="20" backcolor="#BFE1FF" uuid="a5a4fde0-7e67-4dee-a565-3e15c1e1b427"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Intime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="842" y="0" width="52" height="20" backcolor="#BFE1FF" uuid="02daa52d-46a6-4081-b09d-79618eb5f132"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[outtime]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="894" y="0" width="66" height="20" backcolor="#BFE1FF" uuid="086991c1-70ef-466a-8664-01c9c2f50bbc"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[Allocation]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="259" y="0" width="100" height="20" forecolor="#000000" backcolor="#BFE1FF" uuid="79f8dc22-1889-4ae6-bb7e-78d10e859ede"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Vendor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="0" y="0" width="51" height="20" uuid="ee826f8a-2ab9-4d8a-9552-2dc5989fed97"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{business_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="0" width="69" height="20" uuid="4fce0ccf-c35f-442a-988d-5ed28f7106ed"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Department_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="68" height="20" uuid="bbe83123-4ee5-4f71-8d65-8fe01ce55b0d"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Section_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="188" y="0" width="71" height="20" uuid="4f829456-e880-442e-ae06-b2003d0cae20"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Work_Area_Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="359" y="0" width="64" height="20" uuid="ec06eb79-c0ff-4930-a412-753080938965"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="423" y="0" width="141" height="20" uuid="5ba46022-4b46-46fd-b9dc-cef5969129b8"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="564" y="0" width="100" height="20" uuid="3cf41dd0-d40d-4696-8654-28c8bbfbc645"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{work_skill}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="664" y="0" width="94" height="20" uuid="41ed68a7-5231-4a0f-aa9a-c39f1cf80f7f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Job_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="758" y="0" width="27" height="20" uuid="144646fb-b4ca-4e43-9def-5d8e79c37aed"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="785" y="0" width="57" height="20" uuid="64a7628a-6b95-4ddc-8553-760788950499"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{intime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="842" y="0" width="52" height="20" uuid="bbb1a70c-51b1-4df7-936f-a7fd5218beba"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{outtime}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="894" y="0" width="66" height="20" uuid="3027db29-7ebe-4401-8017-9c7a71bb307f"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Allocation}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false">
+				<reportElement mode="Transparent" x="259" y="0" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="028d522d-d102-4667-b85b-d14600cf8c8e"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+					<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{contractorname}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

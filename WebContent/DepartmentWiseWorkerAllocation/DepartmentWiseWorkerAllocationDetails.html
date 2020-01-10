@@ -1,0 +1,397 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Department Wise Worker Allocation</h3>
+		<br />
+		<br />
+		<form name="deptWiseDtlsForm" id="deptWiseDtlsForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label required">Customer
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="departmentWisellocation.customerId"
+											name="customerId"
+											ng-options="item.customerId as item.customerName for item in customerList"
+											class="form-control" id="customerId" ng-disabled="readOnly"
+											required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="countryName" class="col-md-4 control-label required">Country
+									</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentWisellocation.countryId" name="countryId"
+											ng-options="item.id as item.name for item in countriesList"
+											class="form-control" id="countryId" name="countryId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="workerCode" class="col-md-4 control-label required">Department</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentWisellocation.departmentId" name="departmentId"
+											ng-options="item.id as item.name for item in departmentsList"
+											class="form-control" id="departmentId" ng-disabled="dropdownDisable" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label required">Company
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="companyChange()" ng-model="departmentWisellocation.companyId"
+											name="companyId"
+											ng-options="item.id as item.name for item in companyList"
+											class="form-control" id="companyId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="locationName" class="col-md-4 control-label required">Location</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentWisellocation.locationId" name="loctionId"
+											ng-change="locationChange()"
+											ng-options="item.id as item.name for item in locationsList"
+											class="form-control" id="loctionId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="fromDateMain"
+										class="col-md-5 control-label required" 
+										style="margin-left: -8px;" >From Date</label>
+									<div class="col-md-7">
+										<input type="text" style="margin-top: 3px;" name="fromDate"
+											ng-model="departmentWisellocation.fromDate" class="form-control" id="fromDate"
+											placeholder="From Date" ng-disabled="readOnly" required/>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="toDateMain"
+										style="margin-left: -58px; margin-top: 18px;"
+										class="col-md-4 control-label required" >To Date</label>
+									<div class="col-md-8">
+										<input type="text" style="margin-top: 6px;" name="toDate"
+											ng-model="departmentWisellocation.toDate" class="form-control" id="toDate"
+											placeholder="To Date"  ng-disabled="readOnly" required/>
+									</div>
+								</div>
+
+							</div>
+
+							<div class=" form-group col-md-12">
+								<div class="col-md-2" style ="width: 13%">
+									<label> <input type="radio" name="optionsRadios"
+										id="optionsRadios123" value="Planned"
+										ng-model="departmentWisellocation.plannedOrAdhoc" ng-disabled="readOnly"> Planned
+									</label>
+								</div>
+								<div class="col-md-5">
+									<label> <input type="radio" name="optionsRadios"
+										id="optionsRadios123" value="AdHoc" ng-model="departmentWisellocation.plannedOrAdhoc" ng-disabled="readOnly">
+										Ad Hoc
+									</label>
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>Requirement Details</h5>
+					</div>
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="transactionID"
+										class="col-md-4 control-label">Transaction ID</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="departmentWisellocation.transactionId"
+											class="form-control" id="transactionID" name="transactionID"
+											placeholder="Transaction ID" ng-disabled="true" />
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="transactionDateFor"
+										class="col-md-4 control-label required">Request Date</label>										
+									<div class="col-md-8">
+										<input type="text" name="transactionDate"
+											ng-model="transactionDate"
+											class="form-control" id="transactionDate" 
+											placeholder="Request Date" ng-disabled="readOnly"
+											required />
+									</div>
+								</div>
+								
+									<div class="form-group">
+									<label for="requestNameFor" class="col-md-4 control-label required">Request Status</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="departmentWisellocation.requestStatus"
+											name="requestStatus"
+											ng-options="item.id as item.name for item in RequestType_List"
+											class="form-control" id="requestStatus" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="Comments"
+										class="col-md-4 control-label" ng-show="readOnly">Comments</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="departmentWisellocation.comments"
+											class="form-control" id="Comments" name="Comments"
+											placeholder="Comments" ng-show="readOnly" />
+									</div>
+								</div>
+
+							</div>
+							<div class="col-md-6">
+									<div class="form-group">
+									<label for="plantName" class="col-md-4 control-label">Plant</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="plantChange()" ng-model="departmentWisellocation.plantId"
+											name="plant"
+											ng-options="item.id as item.name for item in plantsList"
+											class="form-control" id="plant" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="sectionName" class="col-md-4 control-label">Section</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentWisellocation.sectionId" ng-change="sectionChange()"
+											name="sectionId"
+											ng-options="item.id as item.name for item in sectionesList"
+											class="form-control" id="sectionId" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="workAreaName" class="col-md-4 control-label">Work
+										Area</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentWisellocation.workAreaId" ng-change="workAreaChange()"
+											name="workAreaId"
+											ng-options="item.id as item.name for item in workAreasList"
+											class="form-control" id="workAreaId" ng-disabled="readOnly">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="sepr">
+						<div id="countryTable">
+							<table class="table table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Work Skill</th>
+										<!--  <th>Base Company</th> -->
+										<th>From Date</th>
+										<th>To Date</th>
+										<th>No Of Workers</th>
+										<th>Rate/Day  {{defaultCurrency != '' ? '('+defaultCurrency+')' : ''}} </th>
+										<td><i class="fa fa-plus addrow " data-toggle="modal"
+											data-target="#myModal" ng-click="plusIconAction()" ng-disabled="readOnly"> </i></td>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng:repeat="i in workerAllocationReqList">
+										<td>{{i.workSkill}}</td>									
+										 <td>{{i.fromDate}}</td>
+										<td>{{i.toDate}}</td> 
+										<td>{{i.noOfWorkers}}</td>
+										<td>{{i.rateOrDay}}</td>
+										<td><i  class="fa fa-trash"
+											 ng-disabled="readOnly" ng-click="Delete($event)" id="forDelete" name="forDelete" ></i></td>
+										<td><i ng-click="Edit($event)" class="fa fa-edit"
+											data-toggle="modal" data-target="#myModal" ng-disabled="readOnly"></i></td>
+										<td></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<br />
+			
+			 <div class="btn-group btn-group-right pull-right">
+			 	<a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('SAVE')"  ng-click="enable || saveDetails($event,'save')">Save</a>		 	
+			 	<a href="javascript:void(0)" class="btn btn-primary" ng-show="approvalButton && buttonArray.includes('APPROVE')" ng-click="enable || saveDetails($event,'approve')">{{approvalLabelName}}</a>
+			  	<a href="javascript:void(0)" class="btn btn-primary" ng-show="rejectButton && buttonArray.includes('REJECT')"  ng-click="enable || saveDetails($event,'reject')">Reject</a>
+			 	<button class="btn btn-primary" ng-show="resetBtn" ng-click="reset()"> Reset </button>
+				<a href="#/departmentWiseWorkAllocationSearch" class="btn btn-primary">Return to search</a>
+		</div>
+		</form>
+	</div>
+
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+
+
+<form id="workSkillForm" name="workSkillForm">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Enter Requirement Details</h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+
+									<div class="form-group">
+										<label for="workSkillNames"
+											class="col-md-4 control-label required">Work Skill</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="workSkill.workSkill"
+												ng-options="item.id as item.name for item in list_workSkill"
+												class="form-control" id="workSkill" name="workSkill"
+												required>
+												<option value="">Select</option>
+											</select> <span class="input-group-btn"> <label for="Select1"
+												class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+
+
+									<div class="form-group">
+										<label for="noOfWorkersFor"
+											class="col-md-4 control-label required">No of Workers</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="workSkill.noOfWorkers"
+												minlength="1" maxlength="5"
+												class="form-control onlyNumbersWithZero" id="noOfWorkers"
+												name="noOfWorkers" placeholder="No of Workers" required />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="rateOrDayFor"
+											class="col-md-4 control-label required">Rate / Day</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="workSkill.rateOrDay"
+												minlength="1" maxlength="5"
+												class="form-control onlyNumbersWithZero" id="rateOrDay"
+												name="rateOrDay" placeholder="Rate Or Day" required />
+										</div>
+									</div>
+								</div>
+
+
+								<div class="col-md-6">
+
+									<div class="form-group">
+										<label for="workSkillFromDateFor"
+											class="col-md-4 control-label required">From Date</label>
+										<div class="col-md-8">
+											<input type="text" name="workSkillFromDate" ng-model="workSkill.fromDate"
+												class="form-control" id="workSkillFromDate" placeholder="From Date" required />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="workSkillToDateFor"
+											class="col-md-4 control-label required">To Date</label>
+										<div class="col-md-8">
+											<input type="text" name="workskillToDate" ng-model="workSkill.toDate"
+												class="form-control" id="workskillToDate" placeholder="To Date" required />
+										</div>
+									</div>
+
+								</div>
+									<div class="col-md-6">
+									<br/><br/>
+								<div class="modal-footer">
+									<button type="button"
+										ng-click="saveDepartmentWisellocationDetails()"
+										class="btn btn-primary" ng-show="popUpSave">Save
+										changes</button>
+									<button type="button"
+										ng-click="updatedepartmentWisellocationDetails($event)"
+										class="btn btn-primary" ng-show="popUpUpdate">Update
+										changes</button>
+									<button type="button" class="btn btn-warning"
+										data-dismiss="modal">Close</button>
+								</div>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+</form>
+

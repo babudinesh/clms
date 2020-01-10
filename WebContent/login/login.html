@@ -1,0 +1,32 @@
+
+<link rel="stylesheet" href="login/login.css"/>
+<div class="body">
+<form class="form1" id="form1" ng-submit="login()"  novalidate>
+
+<header style="background:#347AB6;height:80px;">
+<img alt="" src="images/clms.png"  style="width: 80px;margin-top: -26px;margin-left: -7px;height: 72px;border-radius: 70%;">
+&#160;&#160;{{ 'user.login' | translate }}
+   </header>
+
+
+<br>
+  <div style="margin-bottom: 25px" class="input-group">
+ <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+  <input name="j_username" style="margin-left: 0%;margin-top: 2%;"  placeholder="{{ 'user.name' | translate }}" value=""  ng-model="user.name" class="form-control" type="text"  onchange="document.getElementById('j_password').value = ''" required autoComplete = "off"> 
+<br/><br/><div class="help" style="margin-left: 0%;margin-top: 2%;">{{ 'user.userMessage' | translate }}</div> 
+ </div>
+ <div style="margin-bottom: 25px" class="input-group">
+<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+  <input name="j_password" style="margin-left: 0%;margin-top: 2%;" id ="j_password" placeholder="{{ 'user.password' | translate }}" value=""  ng-model="user.password" class="form-control" type="password" required>
+<br/><br/><div class="help" style="margin-left: 0%;margin-top: 2%;">{{ 'user.passwordMessage' | translate }}</div> 
+<!-- <center> <strong style="color: red;font-weight: bold;font-size: 16px;">   </strong> </center>  -->
+</div>
+
+
+            <button type="submit" class="" style="background:#347AB6;">Sign In</button>
+     
+              
+ <br>
+   <div ng-show="isError" class="alert alert-danger">{{error}}</div>
+
+        </form></div>

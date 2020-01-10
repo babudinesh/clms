@@ -1,0 +1,103 @@
+
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+      <h3 class="cls_plainheader">Professional Tax</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" href="#/defineProfessionalTax/0" ng-show="buttonArray.includes('ADD')">Define New Professional Tax <i class="fa fa-plus-circle"></i></a>
+            <br/>
+            <br/>
+            <br/>
+            <div class="panel panel-primary">
+	            <div class="panel-heading">
+	              <h5 >Search Existing Professional Tax</h5>
+	            </div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="custName" class="col-md-4 control-label">Customer Name</label>
+								  <div class="col-md-8 select-box">
+										<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList track by item.customerId" class="form-control" id="custName">
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>   
+								</div>
+                            </div>
+                            
+                            <div class="form-group">
+                            	<label for="countryId" class="col-md-4 control-label "> Country Name</label>
+                            	<div class="col-md-8 select-box">
+                                	<select ng-change="countryChange()"  ng-model="countryName" name="countryId" ng-options="item as item.name for item in countryList track by item.id" class="form-control" id="countryId" title="Please Select Country"  >
+                                    	<option value="">Select</option>
+                                    </select>           
+                                                
+                                    <span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                   	</span>                                                                      
+                                </div>
+                          	</div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cmpName" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 select-box">
+										<select ng-change="companyChange()"  ng-model="companyName" ng-options="item as item.name for item in companyList" class="form-control" id="compName">
+											<option value="">Select</option>
+									</select>     
+									<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>                             
+								</div>
+                            </div>
+
+                            <div class="form-group">
+								<label for="location"  class="col-md-4 control-label">Location Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="locationName" ng-options="item.locationId as item.locationName for item in locationList" class="form-control"  id="location" name="location" >
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                  		<label for="location1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+
+                        </div>
+
+                        <div class="col-md-6 col-md-offset-2 pull-right">
+                            <a class="btn btn-primary col-md-3 " ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary" id="searchPanel">
+	            <div class="panel-heading">
+	            	<h5>Search Result</h5>
+	            </div>
+                <div class="sepr">
+                    <div>
+                        <table class="table table-striped" id="pTaxTable">
+                            <thead>
+                                <tr>                                   
+                                    <th>Customer Name</th>
+                                    <th>Company Name</th>
+                                    <th>Country Name</th>
+                                    <th>Location Name</th>                                   
+                                </tr>
+                            </thead>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+

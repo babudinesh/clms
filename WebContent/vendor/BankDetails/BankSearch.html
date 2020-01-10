@@ -1,0 +1,139 @@
+
+
+    <div class="container-fluid">
+        <div class="col-md-12 well">
+             <h3 class="cls_plainheader">Bank Details</h3>
+            <div class="col-md-12">
+               <a class="btn btn-primary pull-right" href="#/vendorBankDetails/create" ng-show="buttonArray.includes('ADD')">Add New Bank Details <i class="fa fa-plus-circle"></i></a>
+                <br />
+                <br />
+                <br />
+                <div class="panel panel-primary">
+                	<div class="panel-heading">
+                 		<h5>Search Banks</h5>
+                	</div>
+                	
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-change="customerChange()"  ng-model="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="custName" ng-disabled="vendorAdmin"  required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="venCode" class="col-md-4 control-label">Vendor Code</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control onlyNumbersWithZero" ng-model="vendorCode" placeholder="Vendor Code" name="vendorCode" id="vendorCode" ng-disabled="vendorAdmin" maxlength="3" />
+                                    </div>
+                                </div>
+
+                                 <!-- <div class="form-group">
+                                    <label for="venCode" class="col-md-4 control-label">Vendor Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="venName">
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-change="companyChange()" ng-model="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="compName" ng-disabled="vendorAdmin" required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="venName" class="col-md-4 control-label">Vendor Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="vendorName" placeholder="Vendor Name" name="vendorName" id="vendorName" ng-disabled="vendorAdmin" maxlength="45" />
+                                    </div>
+                                </div>
+
+                                <!-- <div class="form-group">
+                                    <label for="locName" class="col-md-4 control-label">Location</label>
+                                    <div class="col-md-8 select-box">
+                                       <select   ng-model="locationName" ng-options="item.id as item.name for item in locationList track by item.id" class="form-control" id="locName">
+                                            <option value="">Select</option>
+                                       </select>
+                                       
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                    </div>
+                                </div> -->
+                                 <div class="col-md-8 col-md-offset-4">
+                            <a class="btn btn-primary col-md-6 col-md-offset-5"  ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3"  ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                                
+                                
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                 <div class="panel panel-primary" ng-show="vendorBankTableView">
+                  <div class="panel-heading">
+                  <h5>Search results</h5>
+                </div>
+                    <div class="sepr">                     
+
+                        <table  class="table table-striped" id="vendorBankTable">
+                            <thead>
+                                <tr>
+                                	<th>Bank Name</th> 
+                                	<th>Bank Code</th>  
+                                	<th>Company Name</th> 
+                                    <th>Vendor Name</th>                        
+                                    <th>Effective From Date</th>                                   
+                                    <th>Status</th>
+                                </tr>
+
+                            </thead>
+                           <!--  <tbody>
+                                 <tr ng:repeat="i in result" on-last-repeat>
+                                    <td><a ng-href="#/vendorBankDetails/{{i.vendorBankId}}">{{i.bankName}}</a></td>
+                                    <td>{{i.bankCode}}</td>
+                                    <td>{{i.companyName}}</td>
+                                    <td>{{i.vendorName}}</td>
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.isActive}}</td>                                   
+                                </tr>
+                            </tbody> -->
+
+                        </table>
+                        </div>
+                     <div></div>
+
+
+            </div>
+
+            <br />
+            
+          
+        </div>
+
+        </div>
+        </div>

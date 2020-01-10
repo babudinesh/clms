@@ -1,0 +1,247 @@
+
+<div class="container-fluid">
+	<div id="wizard" class="swMain">
+        <ul class="anchor">
+            <li >
+            <a ng-href="#/workerDetails/{{workerInfoId >0 ? workerInfoId : 'create'}}" class="disabled" isdone="1" rel="1">
+               <!--  <label class="stepNumber">1</label> -->
+                <span class="stepDesc">Worker<br>
+                   <!--  <small>Create a layout</small> -->
+
+                </span>
+            </a><i class="fa fa-play pull-right disabled"  aria-hidden="true"></i></li>
+             <li >
+            <a ng-click="workerFamilyDetails($event) || enable" class="disabled" isdone="0" rel="2">
+               <!--  <label class="stepNumber">2</label> -->
+                <span class="stepDesc">Family Details<br>                   
+                </span>
+            </a> 
+            <i class="fa fa-play pull-right disabled" aria-hidden="true" ></i>
+            </li>
+            <li ><a ng-click="workerMedicalExamination($event) || enable"
+					class="disabled" isdone="0" rel="3"> <!-- <label class="stepNumber">3</label> -->
+						<span class="stepDesc">Medical Safety<br>
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i>
+			</li>
+			
+			
+			 <li><a ng-click="policeVerification($event) || enable"
+					class="disabled" isdone="0" rel="4"> <!-- <label class="stepNumber">4</label> -->
+						<span class="stepDesc">Police Verification<br>
+					</span>
+				</a> <i class="fa fa-play pull-right disabled" aria-hidden="true"></i>
+				</li>
+            <li><a ng-click="workerVerification($event)" class="disabled" isdone="0" rel="5">
+                <label class="stepNumber">5</label>
+                <span class="stepDesc">Verification<br>
+                   
+                </span>
+            </a><i class="fa fa-play pull-right disabled"  aria-hidden="true"></i></li>
+            <li><a ng-click="workerJobDetails($event)" class="disabled" isdone="0" rel="6">
+                <label class="stepNumber">6</label>
+                <span class="stepDesc"> Job Details                    
+                </span>
+            </a><i class="fa fa-play pull-right disabled"  aria-hidden="true"></i></li>
+             <li ><a ng-click="workerbadgeGeneration($event)" class="selected" isdone="0" rel="7">
+                <label class="stepNumber">7</label>
+                <span class="stepDesc">Badge Generation<br>                   
+                </span>
+            </a></li>
+        </ul>
+		
+		</div>
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Worker Badge Generation</h3>
+		
+		<form  id="badgeForm" name="badgeForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				 <br /> <br />
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+				<h5>Worker Details</h5>
+				</div>
+					<div class="sepr">						
+						<div class="row">
+						<input type="hidden" ng-model="badge.workerBadgeId">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerDetailsId" class="col-md-4 control-label required">Customer
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="badge.customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerDetailsId" required ng-disabled="addDisabled">
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="vendorDetailsId" class="col-md-4 control-label required">Vendor
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="badge.vendorDetailsId"  ng-change="vendorChange()" name="vendorDetailsId" ng-options="item.id as item.name for item in vendorList" class="form-control"  id="vendorDetailsId"  required ng-disabled="addDisabled">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="country" class="col-md-4 control-label required">Country
+										</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="badge.country"  name="country" ng-options="item.id as item.name for item in countryList" class="form-control"  id="country"  required ng-disabled="addDisabled">                                          
+                                        <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+															                               
+							</div>						
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyDetailsId" class="col-md-4 control-label required">Company
+										Name</label>
+									<div class="col-md-8 select-box">
+										 <select  ng-change="companyChange()"  ng-model="badge.companyDetailsId"  name="companyDetailsId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyDetailsId"   required ng-disabled="addDisabled">
+                                         	<option value="">Select</option>
+                                         </select>
+                                         <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="workerDetailsId" class="col-md-4 control-label required">Worker
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="badge.workerDetailsId"  name="workerDetailsId" ng-options="item.id as item.name for item in workerList" class="form-control"  id="workerDetailsId"   required ng-disabled="addDisabled">
+                                    		<option value="">Select</option>
+                                     	</select>
+                                     	<span class="input-group-btn">
+                                   			<label for="Select1" class="fa fa-caret-down"></label>
+                                     	</span>
+									</div>
+								</div>	
+								
+								
+
+							</div>
+
+							<div class="col-md-12">
+								
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+				<h5>  Badge Details
+				</h5>
+				</div>
+					   
+					 <div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="cardType" class="col-md-4 control-label required"> Card Type
+										</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="badge.cardType"  name="cardType" ng-options="item.id as item.name for item in list_CardTypes" class="form-control"  id="cardType"   required ng-disabled="readOnly">
+                                            <option value="">Select</option>
+                                     	</select>
+                                     	<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+										
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="badgeCode" class="col-md-4 control-label required"> Badge ID</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="badge.badgeCode" placeholder="Badge ID" name="badgeCode" class="form-control"  id="badgeCode" required>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="description" class="col-md-4 control-label ">Description
+										</label>
+									<div class="col-md-8">
+										<input type="textarea" ng-model="badge.description"  placeholder="Description" name="description" class="form-control"  id="description" >
+									</div>
+								</div>	
+															                               
+							</div>						
+							<div class="col-md-6">								
+								<!-- <div class="form-group">
+									<label for="isActive" class="col-md-4 control-label required">Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="badge.isActive" class="form-control" required name="isActive">
+											<option value="Y">Active</option>
+											<option value="N">In-Active</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label for="ppeIssued" class="col-md-4 control-label">PPE Issued
+										</label>
+									<div class="col-md-1">
+										<input type="checkbox" ng-model="badge.ppeIssued" name="ppeIssued" class="form-control"  id="ppeIssued" >
+									</div>
+								</div>	
+								
+								
+
+							</div>
+
+							
+						</div>
+
+					</div>  
+					   
+					   
+					   
+					   
+				</div>
+				
+				<div class="btn-group btn-group-right pull-right">
+                     <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || validateWorkerBadgeCode($event)">Save</a>  
+                      <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="enable || save($event)"> Save </a>                     
+                     <a href="#/workerBadgeGeneration" class="btn btn-warning" >Return to search</a>
+                </div>
+                
+				<div></div>
+
+
+			</div>
+
+			<br />
+	</div>
+	</form>
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+</div>

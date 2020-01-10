@@ -1,0 +1,244 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+    <h3 class="cls_plainheader">Define Holiday Calendar</h3>
+    <br />
+    <div class="col-md-12">
+	    <br/>
+	    <form id="holidayForm">               
+			<div class="panel panel-default">
+	        	<div class="sepr">
+	            	<div class="row">
+	                	<div class="col-md-6">
+	                    	<div class="form-group is-empty">
+	                        	<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-change="customerChange()"  ng-model="calendar.customerId" ng-options="item.customerId as item.customerName for item in calendarList.customerList"  class="form-control" id="custName" name="custName()" ng-disabled="readOnly || onlyRead" required>
+					 					<option value="">Select</option>
+                                    </select> 
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                               	</div>
+	                        </div>
+							
+							<div class="form-group is-empty">
+                                 <label for="CountryName" class="col-md-4 control-label required">Country Name</label>
+                                 <div class="col-md-8 select-box">
+								 	<select ng-change="countryChange()" ng-model="calendar.countryId" ng-options="item.id as item.name for item in calendarList.countryList" class="form-control" id="countryName" name="countryId" ng-disabled="readOnly || onlyRead" required>
+								 		<option value="">Select</option>
+                                    </select> 	  
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                  
+                                </div>
+                            </div>
+	                               	
+                          	<div class="form-group is-empty">
+                            	<label for="CalendarCode" class="col-md-4 control-label required">Calendar Code</label>
+                             	<div class="col-md-8">
+									<input type="text" ng-model="calendar.holidayCalendarCode" placeholder="Calendar Code" class="form-control capitalize" name="CalendarCode" id="calendarCode" ng-disabled="readOnly || onlyRead" onchange="angular.element(this).scope().fun_checkCalendarCode()" required>
+                         		</div>
+							</div>
+	                                     
+						</div>
+	
+						<div class="col-md-6">
+	                        <div class="form-group is-empty">
+	                            <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                            <div class="col-md-8 select-box">
+									<select ng-change="companyChange()" ng-model="calendar.companyId" ng-options="item.id as item.name for item in calendarList.companyList" class="form-control" id="companyName" name= "companyName"ng-disabled="readOnly || onlyRead" required>
+									 	<option value="">Select</option>
+	                                </select>
+	                                <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+	                        	</div>
+	
+							</div>
+							
+							<div class="form-group is-empty">
+	                        	<label for="locationName" class="col-md-4 control-label required">Location Name</label>
+	                            <div class="col-md-8 select-box">
+									<select ng-change="locationChange()" ng-model="calendar.locationId" ng-options="item.locationId as item.locationName for item in calendarList.locationList" class="form-control" id="locatonName" name="locationName"  ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+	                                </select> 
+	                                <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>	                                    
+	                            </div>
+	                        </div>
+							
+						</div>
+						
+					</div>
+				</div>
+			</div>
+	        <br />
+	           			
+	           
+	     	<div class="panel panel-primary">
+	       		<div class="panel-heading">
+	        		 <h5>Create Holiday Calendar</h5>
+	       		</div>
+	       		<div class="sepr">
+	           		<div class="row">
+	               		<div class="col-md-6">
+	                     	<div class="form-group">
+	                        	<label for="year" class="col-md-4 control-label required">Year</label>
+	                        	<div class="col-md-8 select-box">
+	                          		<select  ng-change="fun_checkCalendarYear()" ng-model="calendar.year" ng-options="item.id as item.name for item in yearList" class="form-control" name="year" id="year" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+	                            	</select>
+	                              	<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+	                         	</div>
+	                     	</div>
+	
+		                     <div class="form-group">
+		                         <label for="calendarName" class="col-md-4 control-label required">Calendar Name</label>
+		                         <div class="col-md-8">
+		                             <input type="text" class="form-control" ng-model="calendar.calendarName" id="calendarName"  name="calendarName" placeholder="Calendar Name" maxlength ="50" ng-disabled="readOnly || onlyRead" required />
+		                         </div>
+		                     </div>
+						</div>
+	                        
+	                    <div class="col-md-6">
+	                        <div class="form-group">
+	                            <label for="status" class="col-md-4 control-label required">Status</label>
+	                            <div class="col-md-8 select-box">
+	                                <select ng-change="statusChange()" id="status" class="form-control" ng-model="calendar.status" name="status" ng-disabled="statusDisable" required>
+	                                    <option value="Y">Active</option>
+	                                    <option value="N">In Active</option>
+	                                </select>
+	                                <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>              
+	           </div>
+			</div>
+			            
+			<div class="panel panel-primary">
+	            
+		        <div class="sepr">
+		            <div class="row">
+		                <div class="panel-heading" style="color:white">
+		                   	<h5 >Holiday Names List</h5>
+		                </div>
+	                   <table class="table table-stiped table-striped " ng-disabled="readOnly" required>
+	                       <thead>
+	                           <tr>
+	                               <th data-type="id">Holiday ID</th>
+	                               <th data-type="text">Holiday Name</th>
+	                               <th data-type="text">From Date </th>
+	                               <th data-type="text">To Date </th>
+	                               <th data-type="text">Holiday Type </th>
+	                               <th></th>
+	                               <th><i class="fa fa-plus" data-toggle="modal" data-target="#myModal" ng-show="gridButtons" ng-click="plusIconAction()"> </i></th>
+	                               <th></th>
+	                           </tr>
+	                       </thead>
+	                       <tbody>
+	                           <tr ng-repeat="i in calendarList.holidayList" on-last-repeat>
+	                               <td>{{$index+1}}</td>
+	                               <td>{{i.holidayName}}</td>
+	                               <td>{{i.fromDate}}</td>
+	                               <td>{{i.toDate}}</td>
+	                               <td>{{i.holidayTypeName}}</td>
+	                               <td> <i ng-click="Delete($event)" class="fa fa-trash" ng-show="gridButtons && CheckDate(i.fromDate, i.toDate)"></i></td>
+	                               <td><input type="hidden"ng-model="i.holidayTypeId"></td>
+	                            <td>
+	                                <i ng-click="Edit($event)"  class="fa fa-edit" data-toggle="modal" data-target="#myModal" ng-show="gridButtons && CheckDate(i.fromDate, i.toDate)"></i>
+	                            </td>
+	                           <td></td>
+	                           </tr>
+	                       </tbody>
+	                   </table>
+		        	</div>
+		    	</div>
+			</div>             
+		</form>	             
+		<div class="btn-group btn-group-right pull-right">
+			<a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+			<a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+			<a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+			<button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+			<a href="#/HolidayCalendarSearch" class="btn btn-primary">Return to search</a>
+		</div>	       
+	</div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+<form id="holiday">
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	    <div class="modal-dialog modal-lg" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	                <h4 class="modal-title">Add Holiday Name</h4>
+	            </div>
+	            <div class="modal-body">
+	                <div class="panel panel-default">
+	                    <div class="sepr">
+	                        <div class="row">
+	                            <div class="col-md-6">
+	
+	                                <div class="form-group">
+	                                    <label for="holidayName" class="col-md-4 control-label required">Holiday Name</label>
+	                                    <div class="col-md-8">
+	                                        <input type="text" class="form-control" id="holidayName" ng-model="cal.holidayName" placeholder="Holiday Name" ng-disabled="readOnly" required />
+	                                    </div>
+	                                </div>
+	
+	                                <div class="form-group">
+	                                    <label for="fromDate" class="col-md-4 control-label required">From Date</label>
+	                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="fromDate" placeholder="From Date &#xf073;" onchange="angular.element(this).scope().fun_checkErr(this)" ng-model="cal.fromDate" name="fromDate" date-change-picker   ng-disabled="readOnly" required/>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="col-md-6">
+	                                <div class="form-group">
+	                                    <label for="holidayTypeId" class="col-md-4 control-label required">Holiday Type</label>
+	                                    <div class="col-md-8 select-box">
+											<select  ng-model="cal.holidayTypeId" ng-options="item.id as item.name for item in calendarList.holidayTypes" onchange="angular.element(this).scope().fun_checkErr(this)"  class="form-control" name="holidayTypeId" id="holidayTypeId" ng-disabled="readOnly" required>
+												<option value="">Select</option>
+	                                    	</select>
+		                                   	<span class="input-group-btn">
+		                                    	<label for="Select1" class="fa fa-caret-down"></label>
+		                                    </span>   	                                    </div>
+	                                </div>
+	                                <div class="form-group">
+	                                    <label for="toDate" class="col-md-4 control-label required">To Date</label>
+	                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="toDate" placeholder="To Date &#xf073;" ng-model="cal.toDate" onchange="angular.element(this).scope().fun_checkErr(this)" name="toDate" date-change-picker   ng-disabled="readOnly" required/>
+	                                    </div>
+	                                </div>
+	
+	
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-primary" ng-click="saveChanges()"  ng-show="popUpSave">Save changes</button>
+	                <button type="button" ng-click="updateDetails($event)" class="btn btn-primary"  ng-show="popUpUpdate">Update changes</button>
+	                <button type="button" class="btn btn-warning" ng-click="close()">Close</button>
+	            </div>
+	        </div>
+	
+	    </div>
+	</div>
+</form>

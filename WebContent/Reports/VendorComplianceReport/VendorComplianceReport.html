@@ -1,0 +1,143 @@
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Vendor Compliance Report </h3>
+      <form id="vendorComplianceReport" name="vendorComplianceReport" novalidate ng-submit="submit" >
+        <div class="col-md-12">           
+			<br/>
+	            		<!--  Sub panel 1 starts -->
+						<div class="panel panel-primary" >												
+							 <div class="sepr">
+	            				<div class="row">
+									<div class="col-md-6">
+					                    
+					                    <div class="form-group">
+			                               	<label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+										  	<div class="col-md-8 select-box">
+												<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="customerName" name="customerName" required>
+													<option value="">Select</option>
+												</select>
+												 <span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span> 
+											</div>
+			                           	</div>
+			                            <div class="form-group">
+			                                <label for="vendorName" class="col-md-4 control-label required">Vendor Name</label>
+			                                <div class="col-md-8 select-box">
+			                                	<select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorName" name="vendorName" required ng-change="vendorChange()">
+			                                    	<option value="">Select</option>
+			                                    </select>
+												<span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span> 
+			                                </div>
+			                            </div>
+			                            <div class="form-group">
+				                        	<label for="fromDate" class="col-md-4 control-label required">From Date</label>
+											<div class="col-md-8">
+												<input type="text" class="form-control" ng-model="fromDate" id="fromDate" readonly="true" name="fromDate"  placeholder="From Date &#xf073;" required/><!-- onchange="angular.element(this).scope().fun_checkErr(this)" -->
+											</div>
+					                	</div>
+			                           <!--  <div class="form-group">
+			                               	<label for="complianceType" class="col-md-4 control-label">Document Type</label>
+			                               	<div class="col-md-8 select-box">
+			                                	<select   ng-model="complianceType" name="complianceType" ng-options="item.defineComplianceTypeId as item.doccumentName for item in complianceTypeList" class="form-control" id="complianceType">
+													<option value="">Select</option>
+												</select>       
+												<span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span>
+			                               	</div>
+			                           	</div> -->
+			                            
+					            	</div>
+				                	<div class="col-md-6">
+				                    	
+				                    	<div class="form-group">
+			                               	<label for="wageCode" class="col-md-4 control-label required">Company Name</label>
+			                               	<div class="col-md-8 select-box">
+												<select  ng-change="companyChange()" ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList" class="form-control" id="compName" required>
+													<option value="">Select</option>
+												</select>       
+												<span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span>                         
+											</div>
+			                           	</div>
+			
+			                         	<!--	<div class="form-group">
+			                               	<label for="workOrderName" class="col-md-4 control-label">Work Order Name</label>
+			                               	<div class="col-md-8 select-box">
+			                                	<select   ng-model="workOrderName" name="workOrderName" ng-options="item.id as item.desc for item in workOrderNamesList" class="form-control" id="workOrderName">
+													<option value="">Select</option>
+												</select>       
+												<span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span>
+			                               	</div>
+			                           	</div>
+			                           	 <div class="form-group">
+			                           		<div class="col-md-12">
+				                                <div class="col-md-6 checkbox">
+				                                   <label style="margin-left:-14px" >
+				                                        <input type="checkbox" ng-model="saved"  id ="saved" /> Saved 
+				                                    </label>
+												</div>
+				                                <div class="col-md-6 checkbox">
+				                                    <label style="margin-top:15px;" >
+				                                    	<input type="checkbox" ng-model="validated" id="validated" name="validated"  /> Validated
+				                                    </label>
+				                            	</div>
+				                            </div>
+			
+				                		</div> -->
+				                		<div class="form-group">
+			                                <label for="status" class="col-md-4 control-label">Status</label>
+			                                <div class="col-md-8 select-box">
+			                                    <select class="form-control" id="status" ng-options="item.id as item.name for item in vendorStatus_list"  ng-model="status" name="status">		
+			                                    	<option value="">Select</option>	                                       
+			                                    </select>
+			                                     <span class="input-group-btn">
+													<label for="Select1" class="fa fa-caret-down"></label>
+												</span> 
+			                              	</div>
+				                       </div>
+				                       <div class="form-group">
+				                       		<label for="toDate" class="col-md-4 control-label required">To Date</label>
+									  		<div class="col-md-8">
+												<input type="text" class="form-control" ng-model="toDate" id="toDate" readonly="true" name="toDate" placeholder="To Date &#xf073;" required/>
+											</div>
+				                    	</div>
+			             			</div>
+			             			
+			             			<div class="col-md-4 col-md-offset-8 pull-right">
+			             				<a class="btn btn-primary col-md-3 " ng-click="fun_previewGridData()"> View <i class="fa fa-search"></i></a>
+				                        <a class="btn btn-primary col-md-4 " ng-click="search()" ng-show="buttonArray.includes('DOWNLOAD')" > Download <i class="fa fa-file-pdf-o" aria-hidden="true"> </i></a>
+				                        <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+		                    		</div>
+             					</div>
+             				</div>
+             				
+	             		</div><!--  sub panel ends -->					
+            <!--  panel 1 ends -->            
+            	<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+				<div id="data_container" class="sepr">
+                    <h5 class="cls_plainheader panhead"> Result </h5>                   
+                    <div class="col-md-12" style="height: 500px !important;">
+                    <!-- <embed src="{{content}}" type="application/pdf" style="text-align: center; width:100%; height:100%; background-color:transparent;"></embed> -->
+                    <object  ng-show="content"  data="{{content}}" type="application/pdf"  style="text-align: center; width:100%; height:100%; background-color:transparent;"></object>                    
+                    </div>
+                    </div> 
+    	</div>
+    	</form>
+    </div>
+</div>
+
+

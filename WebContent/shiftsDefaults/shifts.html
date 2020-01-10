@@ -1,0 +1,221 @@
+<!-- <link href="ShiftDefaults/ShiftsDefaults.css" rel="stylesheet" /> -->
+
+
+<div class="container-fluid">
+ <form id="shiftDefaultsDetails" name="shiftDefaultsDetails" novalidate ng-submit="submit" > 
+	 <div class="col-md-12 well">
+	 <h3 class="cls_plainheader">Define Shifts Defaults</h3>
+         <div class="panel panel-primary" ng-show="transactionList">
+         
+<div class="panel-heading">
+             <h5>Search :</h5>
+            </div>
+         
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="shiftId" class="col-md-4 control-label">Transaction Date's :</label>
+							<div class="col-md-6 select-box">
+                                         <select  ng-model="shifts.shiftId" ng-change="fun_transactionDatesListChnage()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="shiftId">
+                                         <option value="">Select</option>
+                                         </select>   
+                                         
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                      											
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<hr class="pull-left" style="width: 105%" />
+			</div>
+   
+        <br />
+        <div class="col-md-12">
+           <div class="panel panel-primary">
+           <div class="panel-heading">
+              <h5 >Define Shifts Defaults</h5>
+           </div>
+                <div class="sepr">
+                 
+                    <div class="row"> 
+						<div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" ng-disabled="readonlyEdit" required>
+	                                            <option value="">Select</option>
+	                                            </select>     
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                
+	                                </div>
+	                            </div> 
+	                           <div class="form-group">
+	                                <label for="customerName" class="col-md-4 control-label required">Country Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="countryId" name="countryId" ng-options="item.id as item.name for item in countriesList " class="form-control" id="countryName" ng-change="fun_CountryChangeListener()" ng-disabled="readonlyEdit" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                 
+	                                </div>
+                               </div>                     
+                        </div>                        
+                       	<div class="col-md-6">
+	                       	<div class="form-group">
+	                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="companyDetailsId" name="companyDetailsId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" ng-disabled="readonlyEdit" required>
+	                                            <option value="">Select</option>
+	                                            </select>  
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                   
+	                                </div>                          
+	                         </div>                                                        
+                        </div> 
+                   </div>
+              </div>
+                        
+            </div>
+            <br />
+            <br />
+            <input type="hidden" ng-model="shifts.shiftId" />
+            <div class="panel panel-primary">
+             <div class="panel-heading">
+              <h5 >Define Shifts Defaults</h5>
+           </div>
+                <div class="sepr">
+                  
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactionDate" class="col-md-6 control-label required">Effective From Date</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="transactionDate" data-dtp="dtp_cdo8l" placeholder="Effective From Date &#xf073;" ng-model="transactionDate" name="transactionDate" readonly="true" ng-disabled="readonly" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weekStartDay" class="col-md-6 control-label required">Start Day Of The Week</label>
+                                <div class="col-md-6 select-box">
+                                   <select id="weekStartDay" class="form-control" ng-model="shifts.weekStartDay" name="weekStartDay" ng-options="item.id as item.name for item in Week_Days "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="timeZone" class="col-md-6 control-label required">Time Zone</label>
+                                <div class="col-md-6 select-box">
+                                <select id="timeZone" class="form-control" ng-model="shifts.timeZone" name="timeZone" ng-options="item.id as item.name for item in list_time_Zones "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>   
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                                                       
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="currencyId" class="col-md-6 control-label required">Currency</label>
+                                <div class="col-md-6 select-box">
+                                <select id="currencyId" class="form-control" ng-model="shifts.currencyId" name="currencyId" ng-options="item.id as item.name for item in currencyList "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>  
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="isActive" class="col-md-6 control-label required">Status</label>
+                                <div class="col-md-6 select-box">  
+                                 <select id="isActive" class="form-control" ng-model="shifts.isActive" name="isActive" ng-options="item.id as item.name for item in list_status "  ng-disabled="readonly" required>
+                                                                                
+                                        </select>    
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                                                          
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="weekEndDay" class="col-md-6 control-label required">End Day Of The Week</label>
+                                <div class="col-md-6 select-box">
+                                <select id="weekEndDay" class="form-control" ng-model="shifts.weekEndDay" name="weekEndDay" ng-options="item.id as item.name for item in Week_Days "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>   
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                                                         
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="timeSetFormat" class="col-md-6 control-label required">Time Format</label>
+                                <div class="col-md-6 select-box">
+                                <select id="timeSetFormat" class="form-control" ng-model="shifts.timeSetFormat" name="timeSetFormat" ng-options="item.id as item.name for item in list_time_foramts "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>    
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="defaultPatternType" class="col-md-6 control-label required">Default Pattern Type</label>
+                                <div class="col-md-6 select-box">
+                                <select id="defaultPatternType" class="form-control" ng-model="shifts.defaultPatternType" name="defaultPatternType" ng-options="item.id as item.name for item in list_defaultPatternType "  ng-disabled="readonly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>    
+                                        
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	<div class="btn-group btn-group-right pull-right">
+            <a href="javascript:void(0)" class="btn btn-primary" ng-show="saveBtn  && buttonArray.includes('SAVE')" ng-click=" enable || fun_save_shift_Details($event)">Save</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="fun_updateActionBtn()">Update</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click=" enable || fun_save_shift_Details($event)"> Correct History</a>            
+            <a href="javascript:void(0)" class="btn btn-info" ng-show="viewHistoryBtn && buttonArray.includes('VIEW HISTORY')" ng-click="fun_viewHistoryBtn()">View Or Update History</a>
+            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelBtn" ng-click="fun_Shift_CancelBtn()" > Cancel </a>          
+            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelEditBtn" ng-click="fun_Shift_Cancel_Edit_Btn()" > Cancel </a>
+        </div>               
+    </div>
+    </form>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

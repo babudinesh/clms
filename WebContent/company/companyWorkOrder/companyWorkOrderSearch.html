@@ -1,0 +1,149 @@
+<!-- <link href="vendor/locationsearch/VendorLocationSearch.css" rel="stylesheet" />
+
+ -->
+
+<form name="vendorSearchForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12 well">
+      <h3 class="cls_plainheader"> Work Order </h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" ng-href="#/companyWorkOrder/create" ng-show="buttonArray.includes('ADD')" >Add New Work Order <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 >Search Existing Work Orders</h5>
+            </div>         
+                <div class="sepr">                
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label">Customer Name</label>
+                                <div class="col-md-8 select-box">
+	                                <select  ng-model="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" >
+	                                	<option value="">Select</option>
+	                                </select> 
+	                                <span class="input-group-btn"> 
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="locationName" class="col-md-4 control-label">Location Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="locationName" ng-options="item.id as item.name for item in list_locations " class="form-control" id="locationName" >  <!--  ng-change="fun_locationChangeListener()" -->
+                                    	<option value="">Select</option>
+                                    </select>
+                                    <span class="input-group-btn"> 
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="workOrderCode" class="col-md-4 control-label"> Work Order Code </label>
+                                <div class="col-md-8">
+                                	<input  ng-model="workOrderCode" class="form-control" id="workOrderCode" ng-model="workOrderCode" placeholder="Work Order Code"/>                                  
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="col-md-4 control-label"> Status </label>
+                                <div class="col-md-8 select-box">
+                                  	<select ng-model="status" class="form-control">
+                                		<option value=""> Select  </option>
+										<option value="Y">Active</option>
+										<option value="N">In-Active</option>
+								  	</select>
+								  	<span class="input-group-btn"> 
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()">
+                                		<option value="">Select</option>
+                                    </select>  
+                                    <span class="input-group-btn"> 
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                   
+                                </div>
+                            </div>
+							<div class="form-group">
+                                <label for="departmentName" class="col-md-4 control-label">Department Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="departmentName" ng-options="item.id as item.name for item in list_departments " class="form-control" id="departmentName" >
+                                   	 	<option value="">Select</option>
+                                    </select>
+                                    <span class="input-group-btn"> 
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="workOrderName" class="col-md-4 control-label"> Work Order Name </label>
+                                <div class="col-md-8">
+                                	<input  ng-model="workOrderName" class="form-control" id="workOrderName" ng-model="workOrderName" placeholder="Work Order Name" />                                  
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 pull-right">
+                            <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="fun_searchGridData()">Search <i class="fa fa-search"></i></a>
+                            <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear<i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" ng-show="companyWorkOrderTableView">
+                <div class="sepr">
+                    <h5 class="cls_plainheader panhead">Search Result</h5>
+                    <div>
+                        <table class="table table-striped" id="companyWorkOrderTable">
+                            <thead>
+                               <tr>									
+										<th> Customer Name </th>
+										<th> Company Name </th>
+										<th> Work Order Code </th>
+										<th> Work Order Name </th>
+										<th> Location </th>
+										<th> Department </th>
+										<th> Status </th>
+									</tr>
+								</thead>
+								<!-- <tbody ng:repeat="i in result"  on-last-repeat>
+									<tr>									
+										<td>{{i.customerName}}</td>
+										<td>{{i.companyName}}</td>
+										<td>{{i.workOrderCode}}</td>
+										<td><a ng-href="#/companyWorkOrder/{{i.workOrderInfoId}}">{{i.workOrderName}}</a></td>
+										<td>{{i.locationName}}</td>
+										<td>{{i.departmentName}}</td>
+										<td>{{i.isActive}}</td>
+									</tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+        
+        
+    </div>
+</div>
+</form>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

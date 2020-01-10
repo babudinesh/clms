@@ -1,0 +1,250 @@
+<!-- <link rel="stylesheet" href="/company/companyProfile/create/all.css"/> -->
+<div class="body">	      
+    <form id="CompanyProfile" name="CompanyProfile" novalidate ng-submit="submit">
+    	<div class="container-fluid">
+        	<div class="col-md-12 well">
+         		<h3 class="cls_plainheader">Company Profile</h3>
+           		<!-- <ul class="nav nav-pills">
+                    <li><a href="#/companyDetails/{{companyInfoId}}">Company</a></li>
+                    <li class="active"><a href="#/companyProfile">Profile</a></li>
+                    <li><a href="#/companyContctsSearch">Contacts</a></li>  
+                  </ul>  -->                      
+            	<br />
+           	 	<div class="col-md-12">
+                    <ul class="nav nav-tabs">
+	                    <li><a href="#/companyDetails/create" ng-show="newCompany" >Company</a></li>
+	                    <li><a href="#/companyDetails/{{companyInfoId}}" ng-show="editCompany">Company</a></li>                                      
+	                    <li class="active"><a  href="#/companyProfile">Profile</a></li>
+	                    <li><a href="#/companyContctsSearch" ng-click="">Contacts</a></li>  
+                  	</ul>
+
+                    <input type="hidden" ng-model="company.companyProfileId" />
+                    <input type="hidden" ng-model="company.customerDetailsId"/>
+                    <input type="hidden" ng-model="company.companyDetailsId"/>
+                    
+                    <div class="col-md-4">Company ID    <b>{{company.companyCode}}</b></div>
+                    <div class="col-md-4">Company Name  <b>{{company.companyName}}</b></div>
+                    <div class="col-md-4">Country Name  <b>{{company.countryName}}</b></div>
+               
+                	<br />
+                	<br/>
+                	<div class="panel panel-primary">
+                		<div class="panel-heading">
+                			<h5>Company Details</h5>
+                		</div>
+                    	<div class="sepr">
+                        
+                        	<div class="row">
+	                            <div class="col-md-6">
+	                                <div class="form-group">
+	                                    <label for="defaultCurrencyId" class="col-md-4 control-label required">Default Currency</label>
+	                                    <div class="col-md-8 select-box">
+	                                         <select  ng-model="company.defaultCurrencyId" ng-options="item.id as item.name for item in list_currency" class="form-control" id="defaultCurrencyId"  ng-disabled="readOnly"  title="Please select  currency" required>
+	                                            <option value="">Select</option>
+	                                            </select>   
+	                                            
+	                                            <span class="input-group-btn">
+	                                     <label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>                                                                           
+	                                    </div>
+	                                </div>
+	
+	                                <div class="form-group" style="margin-left: 30px">
+	                                    <div class="checkbox">
+	                                        <label>
+	                                            <input  id="isMultiCurrency" type="checkbox"  ng-model="company.isMultiCurrency" name="isMultiCurrency"  ng-disabled="readOnly" ng-change="fun_CurrencyChange()" />
+	                                            Multi Currency
+	                                        </label>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="form-group currencyDiv" ng-show="company.isMultiCurrency">
+	                                    <label for="currencys" class="col-md-4 control-label">Currency </label>
+	                                    <div class="col-md-8 select-box">
+	                                        
+	                                        <select  ng-model="company.currencys" ng-options="item.id as item.name for item in list_currency" class="form-control" id="currencys"  ng-disabled="readOnly" data-live-search="true" data-live-search-placeholder="Search" multiple title="Please select  currency" 
+											data-actions-box="true">
+	                                           <!--  <option value="">Select</option> -->
+	                                            </select>                       
+	                                            <span class="input-group-btn">
+	                                     <label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>                                              
+	                                    </div>
+	                                </div>
+	
+	                            </div>
+
+	                            <div class="col-md-6">
+	                                <div class="form-group">
+	                                    <label for="officialLanguageId" class="col-md-4 control-label required">Official Language</label>
+	                                    <div class="col-md-8 select-box">
+	                                        <select  ng-model="company.officialLanguageId" ng-options="item.id as item.name for item in list_languages" class="form-control" name="officialLanguageId" id="officialLanguageId"  ng-disabled="readOnly"  title="Please select  language" required>
+	                                             <option value="">Select</option>
+	                                            </select>
+	                                            <span class="input-group-btn">
+	                                     <label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+	                                    </div>
+	                                </div>
+	
+	                                <div class="form-group" style="margin-left: 30px">
+	                                    <div class="checkbox">
+	                                        <label>
+	                                            <input id="isMultiLanguage" type="checkbox" ng-model="company.isMultiLanguage" name="isMultiLanguage"  ng-disabled="readOnly" ng-change="fun_LanguageChange()" />
+	                                            Multi Language
+	                                        </label>
+	                                    </div>
+	                                </div>
+	
+	                               <div class="form-group langdiv" ng-show="company.isMultiLanguage">
+	                                    <label for="languages" class="col-md-4 control-label">Language </label>
+	                                    <div class="col-md-8 select-box">                                     
+	                                        
+	                                        <select  ng-model="company.languages" ng-options="item.id as item.name for item in list_languages" class="form-control" id="languages"  ng-disabled="readOnly" data-live-search="true" data-live-search-placeholder="Search" multiple title="Please select  languages"  data-actions-box="true">
+	                                            <!-- <option value="">Select</option> -->
+	                                        </select> 
+	                                        <span class="input-group-btn">
+	                                     		<label for="Select1" class="fa fa-caret-down"></label>
+	                                        </span>
+	                                    </div>
+	                            	</div>
+	                        	</div>
+                    		</div>
+                    		
+                   	 		<div class = "row">  
+                   	 			<div class="panel panel-primary">
+	                   	 			<div class="panel-heading">
+	                					<h5>Recruitment Age</h5>
+	                				</div>
+	                				<div class="row">      	
+	                    	<div class = "col-md-6">
+	                    	 	<div class="form-group">
+                                    <label for="minAge" class="col-md-4 control-label required">Minimum Age</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control onlyNumbersWithZero" id="minAge" placeholder="Minimum Age" ng-model="company.minAge" name="minAge" minlength="2" maxlength="2" multiple  ng-disabled="readOnly" required />
+                                    </div>
+                                </div>
+	                    	</div>
+	                    	<div class = "col-md-6">
+	                    		<div class="form-group">
+                                    <label for="maxAge" class="col-md-4 control-label required">Maximum Age</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control onlyNumbersWithZero" id="maxAge" placeholder="Maximum Age" ng-model="company.maxAge" name="maxAge" minlength="2" maxlength="3" ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>
+	                    	</div>
+                    	</div>
+                    	
+                    	</div>
+                    	</div>
+                    	<div class="row">
+                    		<div class="col-md-6">
+                    			<div class="form-group">
+                                    <label for="retireAge" class="col-md-4 control-label required">Retirement Age</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control onlyNumbersWithZero" id="retireAge" placeholder="Retirement Age" ng-model="company.retireAge" name="retireAge" minlength="2" maxlength="3" multiple  ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>
+                    		</div>
+                    	</div>
+                	</div>
+            	</div>
+
+            	<br />
+		          <div class="panel panel-primary">
+		          <div class="panel-heading">
+		           <h5>Standard Working Hours & Shift Details </h5>
+		          </div>
+          
+                              <div class="sepr">
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="workWeekStartId" class="col-md-4 control-label required">Work Week Start Day</label>
+                                    <div class="col-md-8 select-box">
+                                        <select ng-change="changeWeekEnd()" id="workWeekStartId" class="form-control" ng-model="company.workWeekStartId" name="workWeekStartId"  ng-options="item.id as item.name for item in Week_Days "  ng-disabled="readOnly" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>
+                                        <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="workWeekEndId" class="col-md-4  control-label required">Work Week End Day</label>
+                                    <div class="col-md-8 select-box">                                      
+                                        <select id="workWeekEndId" class="form-control" ng-model="company.workWeekEndId" name="workWeekEndId" ng-options="item.id as item.name for item in Week_Days "  ng-disabled="true" required>
+                                            <option value=""> Select </option>                                           
+                                        </select>
+                                        <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                    </div>
+                                </div>                                
+
+
+                                <div class="form-group">
+                                    <label for="bussinessHoursPerDay" class="col-md-4 control-label required">Business Hours/Day</label>
+                                    <div class="col-md-8">
+                                       <input type="text" class="form-control onlyNumbers" id="bussinessHoursPerDay" placeholder="Business Hours/Day(In Hours)  &#xf251;" ng-model="company.bussinessHoursPerDay" maxlength="3" name="bussinessHoursPerDay"  ng-disabled="readOnly" required />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="bussinessStartTime" class="col-md-4 control-label required">Business Start Time</label>
+                                    <div class="col-md-8">
+                                       <input type="text" class="form-control" id="businessStartTime" placeholder="Business Start Time  &#xf017;" ng-model="company.bussinessStartTime"  name="bussinessStartTime" ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>                            
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="numberOfWorkingDays" class="col-md-4 control-label required">No Of Working Days</label>
+                                    <div class="col-md-8">
+                                       <input type="text" class="form-control onlyNumbers" id="numberOfWorkingDays" placeholder="No Of Working Days" ng-model="company.numberOfWorkingDays" maxlength="3" name="numberOfWorkingDays" onchange="angular.element(this).scope().validateDays()" ng-disabled="readOnly" required />
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="standarHoursPerWeek" class="col-md-6 control-label"></label>
+                                    <div class="col-md-6">
+                                    </div>
+                                </div>
+								<br/>
+								
+                                <div class="form-group">
+                                    <label for="standarHoursPerWeek" class="col-md-4 control-label required">Standard Hours/Week</label>
+                                    <div class="col-md-8">
+                                       <input type="text" class="form-control onlyNumbers" id="standarHoursPerWeek" placeholder="Standard Hours/Week  &#xf251;" ng-model="company.standarHoursPerWeek" maxlength="3"  name="standarHoursPerWeek"  ng-disabled="readOnly" required />
+                                    </div>
+                                </div>
+
+                                 <div class="form-group">
+                                    <label for="bussinessEndTime" class="col-md-4 control-label required">Business End Time</label>
+                                    <div class="col-md-8">
+                                       <input type="text" class="form-control" id="businessEndTime" placeholder="Business End Time &#xf017;" ng-model="company.bussinessEndTime" name="bussinessEndTime" ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div class="btn-group btn-group-right pull-right">
+            	<a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn" ng-click="updateCompanyProfileBtnAction($event)"> Update </a>
+				<button class="btn btn-primary" ng-show="saveBtn"  ng-click=" enable ||  fun_savecompanyprofile($event)" onclick="return false;">Save</button> 				
+				<a href="#/companyDetailsSearch" class="btn btn-primary" >Return to Search</a>	
+            </div>
+
+        </div>
+
+</div>
+</div>
+</form>
+</div>

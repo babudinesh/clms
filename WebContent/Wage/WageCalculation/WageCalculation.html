@@ -1,0 +1,169 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Wage Calculation </h3>
+        <div class="col-md-12">           
+            <br />           
+             <form id="wageCalculatorForm" name="wageCalculatorForm" novalidate ng-submit="submit" >
+            <div class="panel panel-primary">
+            	<!-- <div class="panel-heading">
+            		<h5>Search Existing Wage Rate</h5>
+            	</div> -->
+                <div class="sepr">
+                    <div class="row">
+                       <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required>
+                                            <option value="">Select</option>
+                                   </select> 
+                                    <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                     
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="vendorName" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorName" name="vendorName" ng-change="fun_vendorChangeListener()" required>
+                                            <option value="">Select</option>
+                                    </select>                                            
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>                            
+                            <div class="form-group">
+                            <label for="month" class="col-md-4 control-label required"> Month & Year  </label>
+                            	<div class="col-md-4 select-box">                            	
+										<select ng-model="month" ng-options="item.id as item.name for item in monthList" class="form-control" id="month" name="month" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>   
+								</div>
+								<div class="col-md-4 select-box">                            	
+										<select  ng-model="year" ng-options="item.id as item.name for item in yearList" class="form-control" id="year" name="year" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>   
+								</div>
+                            </div>                      
+                                                                                                                               
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                 </select>                                                                                          
+									 <span class="input-group-btn">
+									<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                    
+                                </div>
+                            </div>
+                            
+							<div class="form-group">
+                                <label for="workerName" class="col-md-4 control-label">Worker Name </label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="workerName" ng-options="item.id as item.name for item in workerList" class="form-control" id="workerName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>                           
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-2 pull-right">
+                            <a class="btn btn-primary col-md-6 col-md-offset-5" ng-click="search()"> Continue  <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+             </form>
+            <div class="panel panel-primary" ng-show="wageCalculationTableView" >
+             	<div class="panel-heading">
+             		<h5>Search Result</h5>
+           		</div>
+                <div class="sepr">
+                  
+                        <table class="table table-striped table-bordered" id="wageRateTable" border="1" style="text-align:center;font-size: 12px !important;">
+                            <thead>
+                                <tr>
+	                              <!--   <th rowspan="2">Sl No </th> -->
+	                                <th rowspan="2">Worker Code</th>
+	                                <th rowspan="2">Worker Name</th>
+	                                <th rowspan="2">Work Skill</th>
+	                                <th rowspan="2">Job Code</th>
+	                                <th colspan="2">Work Days </th>
+	                                <th colspan="6">Earnings </th>
+	                                <th colspan="8">Deduction Details </th>
+	                                <th rowspan="2">Gross Salary</th>
+                                    <th rowspan="2">Net Salary</th> 
+                                </tr>
+                                <tr>                                	
+                                    
+                                    <th rowspan="1" colspan="1">Payable Days</th>
+                                    <th rowspan="1" colspan="1">Overtime Hours</th> 
+                                    <th rowspan="1" colspan="1">Daily Rate/ Day</th>                                    
+                                    <th rowspan="1" colspan="1">Base Rate/ Day</th>
+                                    <th rowspan="1" colspan="1">Overtime Rate/ Hour</th>  
+                                    <th rowspan="1" colspan="1">Additional Allowance</th>
+                                    <th rowspan="1" colspan="1">One Time Earnings</th>
+                                    <th rowspan="1" colspan="1">Total Earnings</th>
+                                    <th rowspan="1" colspan="1">Pension</th>
+                                    <th rowspan="1" colspan="1">Insurance</th>
+                                    <th rowspan="1" colspan="1">LWF</th>
+                                    <th rowspan="1" colspan="1">PT</th>
+                                    <th rowspan="1" colspan="1">Advance</th>
+                                    <th rowspan="1" colspan="1">Damage/ Loss</th>
+                                    <th rowspan="1" colspan="1">Fine</th>
+                                    <th rowspan="1" colspan="1">Total Deduction</th>                                                                                                                                                                                                                
+                                </tr>
+                            </thead>
+                              <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td colspan="1">{{i.workerCode}}</td>
+                                    <td colspan="0">{{i.workerName}}</td>
+                                    <td colspan="1">{{i.workerSkill}}</td>
+                                    <td colspan="1" >{{i.jobCode}}</td>
+                                    <td colspan="1">{{i.payableDays}}</td>                                                                      
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-model="result[$index].overTimeHours" disabled="disabled"/></td>
+                                    <td colspan="1"> <input type="text" class="form-control onlyNumbers" ng-change="totalEarningsCalculation($index)"  ng-model="result[$index].dailyRatePerDay"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalEarningsCalculation($index)"  ng-model="result[$index].baseRatePerDay"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalEarningsCalculation($index)"  ng-model="result[$index].overTimeRatePerHour"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalEarningsCalculation($index)"  ng-model="result[$index].additionalAllowance"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalEarningsCalculation($index)" ng-model="result[$index].oneTimeEarnings"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-model="result[$index].totalEarnings" disabled="disabled"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].pf"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].esi"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].lwf"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].pt"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].advance"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].damageOrLoss"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-change="totalDeductionsCalculation($index)" ng-model="result[$index].fines"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-model="result[$index].totalDeductions" disabled="disabled"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-model="result[$index].grossSalaray" disabled="disabled"/></td>
+                                    <td colspan="1"><input type="text" class="form-control onlyNumbers" ng-model="result[$index].netSalary" disabled="disabled"/></td>
+                                </tr>
+                            </tbody> 
+                        </table>
+                               
+                    	<div class="modal-footer pull-right">
+			                <button type="button" class="btn btn-primary" ng-click="fun_SaveCalculationDetails($event)" ng-show="result.length > 0 && buttonArray.includes('SAVE')"> Save Details </button>			               
+			            </div>                   
+                </div>
+            </div>          
+        </div>
+    </div>
+</div>
+
+

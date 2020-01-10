@@ -1,0 +1,201 @@
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Department Wise Worker Allocation</h3>
+		<form name="companySearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<a ng-href="#/departmentWiseWorkAllocationEdit/0"  ng-show="buttonArray.includes('ADD')"
+					class="btn btn-primary pull-right">Add New Requirement <i
+					class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+				<div class="panel panel-primary">
+					<!-- <div class="panel-heading">
+						<h5>Search Worker</h5>
+					</div> -->
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label required">Customer
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="customerId"
+											name="customerId"
+											ng-options="item.customerId as item.customerName for item in customerList"
+											class="form-control" id="customerId"
+											ng-disabled="dropdownDisable" required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="countryName" class="col-md-4 control-label">Country
+									</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="countryId" name="countryId"
+											ng-options="item.id as item.name for item in countriesList"
+											class="form-control" id="countryId" name="countryId" ng-disabled="dropdownDisable"  required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="workerCode" class="col-md-4 control-label">Department</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="departmentId" name="departmentId"
+											ng-options="item.id as item.name for item in departmentsList"
+											class="form-control" id="departmentId" name="departmentId" ng-disabled="dropdownDisable">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label required">Company
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="companyChange()"
+											ng-model="companyId" name="companyId"
+											ng-options="item.id as item.name for item in companyList"
+											class="form-control" id="companyId" ng-disabled="dropdownDisable"  required>
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="locationName" class="col-md-4 control-label">Location</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="locationId" name="loctionId"
+											ng-options="item.id as item.name for item in locationsList"
+											class="form-control" id="loctionId">
+											<option value="">Select</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="transactionDate"
+										class="col-md-4 control-label"
+										style="margin-left: -10px;">From Date</label>
+									<div class="col-md-8">
+										<input type="text" style="margin-top: 3px;" name="fromDate"
+											ng-model="fromDate1" class="form-control" id="fromDate"
+											placeholder="From Date" />
+									</div>
+								</div>
+
+								<div class="col-md-6">
+									<label for="transactionDate"
+										style="margin-left: -58px; margin-top: 18px;"
+										class="col-md-4 control-label">To Date</label>
+									<div class="col-md-8">
+										<input type="text" style="margin-top: 6px;" name="toDate"
+											ng-model="toDate1" class="form-control" id="toDate"
+											placeholder="To Date" />
+									</div>
+								</div>
+
+							</div>
+
+							<div class=" form-group col-md-12">
+								<div >
+									<label class="col-md-2" style ="width: 13%"> <input type="radio" name="optionsRadios"
+										id="optionsRadios123" value="Planned"
+										ng-model="plannedOrAdhoc"> Planned
+									</label>
+								</div>
+								<div >
+									<label class="col-md-5"> <input type="radio" name="optionsRadios"
+										id="optionsRadios123" value="AdHoc" ng-model="plannedOrAdhoc">
+										Ad Hoc
+									</label>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="col-md-6"></div>
+								<div class="col-md-5 col-md-offset-1">
+									<button class="btn btn-warning col-md-3 pull-right"
+										ng-click="clear()">
+										Clear <i class="fa fa-times"></i>
+									</button>
+
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right"
+										ng-click="search()" onclick="return false;">Search <i
+										class="fa fa-search"></i></a>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+
+					<div id="loader"
+						style="display: none; text-align: center; width: 100%; height: 100%; background-color: transparent;">
+						<img src="images/loader.gif" alt="loading..." width="214"
+							height="138" />
+					</div>
+					<div id="workerDiv">
+						<div class="panel-heading">
+							<h5>Search Results</h5>
+						</div>
+						<div class="sepr">
+							<div>
+								<table class="table table-striped" id="workerDetailsTable">
+									<thead>
+										<tr>
+											<th>Transaction Id</th>
+											<th>Request Date</th>
+											<th>Request Type</th>	
+											<th>Request Status</th>
+											<th>From Date</th>
+											<th>To Date</th>								
+											<th>Department</th>
+											<th>Location</th>											
+										</tr>
+									</thead>
+								</table>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div></div>
+
+
+			</div>
+
+			<br />
+		</form>
+	</div>
+
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+</div>

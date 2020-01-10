@@ -1,0 +1,87 @@
+<form id="screenActionForm" name="screenActionForm" novalidate >
+	<div class="container-fluid">
+    	<div class="col-md-12 well">
+	    	<h3 class="cls_plainheader">Define Screen Actions </h3>
+        	<br />
+        	
+        	<input type="hidden" ng-model="sreenActions.screenActionId"/>
+        	
+        	<div class="col-md-12">
+				<div class="panel panel-default">
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+									<label for="groupName" class="col-md-4 control-label required">Group Name </label>
+									<div class="col-md-8 select-box">
+										<input list="actionLists" type="text" class="form-control" ng-model="sreenActions.groupName" maxlength="85" required />  <!-- ng-change="LoadSessionData(SelectedDoctor)" -->
+										    <datalist id="actionLists">
+										        <option ng-repeat="item in groupNames " data-value="{{$index}}">{{item}}</option>
+										    </datalist>
+										     <!-- <span class="input-group-btn">
+	                                     	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>  -->
+										<!-- <input type="text" list="cars" class="form-control" />
+											<datalist id="cars">
+											  <option  ng-option="item in groupNames ">{{item}}</option>
+											</datalist> -->
+										
+										<!-- <select ng-model="sreenActions.groupName" ng-options="item as item for item in groupNames " class="form-control" id="groupName" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span> -->
+									</div>
+									<div class="form-group" >
+	                                <label for="actionsArray" class="col-md-4 control-label required" > Actions </label>
+	                                <div class="col-md-8">
+	                                    <select id="actionsArray" style="height:300px !important" multiple ng-model="sreenActions.actionsArray" ng-options="item.id as item.name for item in actionsList" class="form-control" ng-disabled="readOnly"  name="actionsArray" required>	                                    	
+	                                    </select>
+	                                   
+	                                </div>
+	                            </div>
+								</div>								
+	                        </div>
+	
+	                        <div class="col-md-6">	
+	                        	<div class="form-group">
+									<label for="screenName" class="col-md-4 control-label required ">Screen Name</label>
+									<div class="col-md-8">										
+										 <input type="text" ng-model="sreenActions.screenName" class="form-control" id="screenName" name="screenName" maxlength="85" required /> 
+									</div>
+								</div>
+	                           <!--  <div class="form-group">
+									<label for="newGroupName" class="col-md-4 control-label "> <i class="fa fa-plus-circle" ng-click="fun_ShowNewGroupName()"> Add New Group Name </i></label>
+									<div class="col-md-8">										
+										 <input type="text" ng-model="sreenActions.newGroupName" class="form-control" id="newGroupName" ng-show="showNewGroupName" /> 
+									</div>
+								</div> -->
+							</div>
+							<div class="col-md-6">	
+							 	
+	                         </div>  
+	                	</div>
+	            	</div>
+				</div>
+				
+
+            	
+          	 	<div class="btn-group btn-group-right pull-right">
+                  	<a href="javascript:void(0)" class="btn btn-primary" ng-click="enable || saveOrUpdateScreenActions($event)"> {{saveOrUpdate}}</a>
+                   	<a href="#/screenActions" class="btn btn-default">Return to search</a>
+               	</div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+</form>
+
+
+

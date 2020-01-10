@@ -1,0 +1,871 @@
+<!-- <link href="JobCode/AddJobCode/AddJobCode.css" rel="stylesheet" /> -->
+
+
+
+<form id="jobcodeForm"  novalidate ng-submit="submit" >
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+        <!--<ul class="nav nav-pills">
+                <li class="active"><a href="AddLocation.html">Define Location</a></li>
+                <li><a href="Characteristics.html">Characteristics</a></li>
+            </ul>-->
+             <h3 class="cls_plainheader"> {{pageTitle}}</h3>
+        <br />
+        <div class="col-md-12">
+           <!--  <h4 class="cls_plainheader"> Job Code Details </h4>
+	                <br> -->
+	                 <div class="panel panel-priamry" ng-show="transactionList">
+	                 <div class="panel-heading">
+          <h5 > Search : </h5>
+            </div>
+						<div class="container">
+							<h5 class="cls_plainheader"> Search : </h5>
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-8 select-box">
+                                            <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                            	<option value="">Select</option>
+                                            </select>   
+ 											<span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span> 
+                                                                        											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr class="pull-left" style="width: 105%" />
+					</div>
+                    
+                    
+					<div class="panel panel-primary">
+					
+	                	<div class="sepr">
+	                        <div class="row">
+	                            <div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+	                                    <div class="col-md-8 select-box">
+	                                         <select  ng-change="customerChange() &&  fun_checkJobCode()"  ng-model="jobcode.customerId" ng-options="item.customerId as item.customerName for item in jobcodeList.customerList" class="form-control" id="custName" name="custName" ng-disabled="readOnly || onlyRead" required>
+											      <option value="">Select</option>
+                                            </select> 
+ 											<span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>        
+	                                    </div>
+	                                </div>
+									
+									<div class="form-group is-empty">
+										<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+										<div class="col-md-8 select-box">
+											<select  ng-model="jobcode.countryId" ng-options="item.id as item.name for item in jobcodeList.countryList" class="form-control" name="countryName" id="countryName" ng-disabled="readOnly || onlyRead" required>
+													<option value="">Select</option>
+											</select>
+											
+ 											<span class="input-group-btn">
+                                    		 	<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span> 
+										</div>
+									</div>
+									
+								</div>
+
+								<div class="col-md-6">
+	                                <div class="form-group is-empty">
+	                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+	                                    <div class="col-md-8 select-box">
+											<select ng-change="companyChange()" ng-model="jobcode.companyId" ng-options="item.id as item.name for item in jobcodeList.companyList" class="form-control"name="cmpName" id="cmpName" ng-disabled="readOnly || onlyRead" required>
+											 	<option value="">Select</option>
+                                            </select>
+                                            
+											<span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span> 
+	                                </div>
+	                                
+	                                <div class="form-group is-empty">
+	                                    <label for="jobcode" class="col-md-4 control-label required">Job Code</label>
+	                                    <div class="col-md-8">
+	                                        <input class="form-control capitalize bothNumbersAndAlphabets" id="jobCode" ng-model="jobcode.jobCode" placeholder="Job Code" type="text" name="jobCode" ng-disabled="readOnly || onlyRead" maxLength="20" ng-change="fun_checkJobCode()" required>
+	                                    </div>
+	                                </div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+         
+            <div class="panel panel-primary">
+            	<div class="panel-heading">
+          			<h5>Job Code Details</h5>
+            	</div>
+                <div class="sepr">
+                   
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="date" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" ng-model="jobcode.transactionDate" class="form-control" id="transactionDate" readonly="true" name="transactionDate"  placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required>
+                                </div>
+                            </div>
+
+                            <!-- <div class="form-group">
+                                <label for="JobTitle" class="col-md-4 control-label required">Job Title</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="jobcode.jobTitle" name="JobTitle" id="JobTitle" placeholder="Job Title" maxlength="45" ng-disabled="readOnly" required/>
+                                </div>
+                            </div> -->
+
+                            <div class="form-group">
+                                <label for="JobName" class="col-md-4 control-label required">Designation </label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control bothNumbersAndAlphabets" name="JobName" ng-model="jobcode.jobName" id="JobName" maxlength="50" placeholder="Designation"  ng-disabled="readOnly" required/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="JobCategory" class="col-md-4 control-label required">Job Skill</label>
+                                <div class="col-md-8 select-box">
+	                                <select  ng-model="jobcode.jobCategory" name="JobCategory" ng-options="item.id as item.name for item in list_skills" class="form-control" id="JobCategory"  ng-disabled="readOnly"  title="Please select  Job Skill" required>
+	                                 	<option value="">Select</option>
+	                                 </select>
+	                                 
+									 <span class="input-group-btn">
+	                                     <label for="Select1" class="fa fa-caret-down"></label>
+	                                  </span>                                    									                           
+                                </div>
+                            </div>
+                           <!--  <div class="form-group">
+                                <label for="JobGrade" class="col-md-4 control-label required">Job Grade</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control"  ng-model="jobcode.jobGrade" id="JobGrade" name="jobGrade" ng-disabled="readOnly" placeholder="Job Grade" required/>
+                                </div>
+                                <div class="col-md-1" style="margin-top: 10px; margin-left: -10px;"><a style="cursor: pointer"><i class="fa fa-search"></i></a></div>
+                            </div> -->
+                            <div class="form-group">
+                                <div class="checkbox col-md-7">
+                                    <label style="margin-left: 30px; margin-top: 10px;">
+                                        <input type="checkbox" ng-model="jobcode.isTrainingRequired" id="TrainingRequired" ng-disabled="readOnly" ng-checked="jobcode.isTrainingRequired == 'Y'" />
+                                        Training Required
+                                    </label>
+                                </div>
+                                <div class="col-md-5" style="margin-top: 20px;"><a id="AddTypesofTraining"  ng-disabled="readOnly" style="cursor: pointer;text-decoration: underline;" ng-show="jobcode.isTrainingRequired == true"> <span ng-if="jobcodeList.trainingTypes.length <= 0"> Add </span> <span ng-if="jobcodeList.trainingTypes.length > 0"> View/Update </span> Training Types </a></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox col-md-7">
+                                    <label style="margin-left: 30px;">
+                                    <!-- ng-checked="jobcode.isPPERequired == 'Y'" --> 
+                                        <input type="checkbox"  ng-model="jobcode.isPPERequired" id="PPERequired" ng-disabled="readOnly" />
+                                        PPE Required
+                                    </label>
+                                </div>
+                                <div class="col-md-5" style="margin-top: 10px;"><a id="AddTypesofEquipment" style="cursor: pointer;text-decoration: underline;" ng-show="jobcode.isPPERequired == true"> <span ng-if="jobcodeList.equipmentTypes.length <= 0"> Add </span> <span ng-if="jobcodeList.equipmentTypes.length > 0"> View/Update </span> Equipment Types</a></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox col-md-7">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isSkillTesting" id="SkillTesting" ng-disabled="readOnly" />
+                                        Skill Testing
+                                    </label>
+                                </div>
+                                <div class="col-md-5" style="margin-top: 10px;"><a id="AddTypesofTesting"  ng-disabled="readOnly" style="cursor: pointer;text-decoration: underline;" ng-show="jobcode.isSkillTesting == true"><span ng-if="jobcodeList.skillTests.length <= 0"> Add </span> <span ng-if="jobcodeList.skillTests.length > 0"> View/Update </span> Testing Types</a></div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox col-md-7">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isHealthScreeningRequired" ng-disabled="readOnly" id="HealthScreeningrequired"  />
+                                        Health Screening Required
+                                    </label>
+                                </div>
+                                <div class="col-md-5" style="margin-top: 10px;"><a id="AddMedicalTests" ng-disabled="readOnly" style="cursor: pointer;text-decoration: underline;" ng-show="jobcode.isHealthScreeningRequired == true"><span ng-if="jobcodeList.medicalTests.length <= 0"> Add </span> <span ng-if="jobcodeList.medicalTests.length > 0"> View/Update </span> Medical Tests</a></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="jobcode.status" ng-options="item.id as item.name for item in list_status" class="form-control" id="status"  ng-disabled="readOnly"  title="Please select  status" required>                                 	
+                                 	</select>  
+                                 
+ 									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>                                               
+                                </div>
+                            </div>
+
+                           <!--  <div class="form-group">
+                                &nbsp;
+                                    <div class="col-md-8">
+                                        &nbsp;
+                                    </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label for="jobType" class="col-md-4 control-label required">Job Category </label>
+                                <div class="col-md-8 select-box">
+	                                <select  ng-model="jobcode.jobType" name="jobType" ng-options="item.id as item.name for item in list_jobType" class="form-control" id="jobType"  ng-disabled="readOnly"  title="Please select  Job Category " required>
+	                                 	<option value="">Select</option>
+	                                 </select>  
+                                 
+ 									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="managerLevel" class="col-md-4 control-label required">Manager Level</label>
+                                <div class="col-md-8 select-box">                                
+	                                <select  ng-model="jobcode.managerLevel" name="managerLevel" ng-options="item.id as item.name for item in list_managerLevel" class="form-control" id="managerLevel"  ng-disabled="readOnly"  title="Please select  Manager Level" required>
+	                                 	<option value="">Select</option>
+	                                 </select>  
+	                                 
+ 									 <span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                     </span> 
+                                </div>                                                                                                
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="JobLevel" class="col-md-4 control-label required">Job Level</label>
+                                <div class="col-md-7">
+                                    <input type="text" class="form-control" id="JobLevel" name="jobLevel" placeholder="Job Level" ng-model="jobcode.jobLevel" ng-disabled="readOnly" required/>
+                                </div>
+                                <div class="col-md-1" style="margin-top: 10px; margin-left: -10px;"><a style="cursor: pointer"><i class="fa fa-search"></i></a></i></div>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+	             <div class="panel-heading">
+	            <h5 data-toggle="collapse" data-target="#JobCodeProfile"> Job Code Profile
+	            </h5> 
+	            	
+	            	
+	            </div>
+            
+                <div class="sepr" id="JobCodeProfile">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-top: 20px">
+                                <div class="panel panel-primary">
+                                    
+	                                    <div class="panel-heading">
+	                                    	 <h5 >Weekly Operational Hours</h5>
+	                                    </div>
+                                       <div class="sepr">
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="StandardHours" class="col-md-6 control-label">Standard Hours</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control timeNumbers" id="StandardHours" name="StandardHours" placeholder="In Hours" ng-model="jobcode.standardHours" maxlength="3"  ng-disabled="readOnly" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="MinimumStandardHours" class="col-md-6 control-label">Minimum Standard Hours</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control timeNumbers" id="MinimumStandardHours" name="MinimumStandardHours" placeholder="In Hours" ng-model="jobcode.minimumStandardHours" maxlenth="3" ng-disabled="readOnly"  />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="MaximumStandardHours" class="col-md-6 control-label">Maximum Standard Hours</label>
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control timeNumbers" id="MaximumStandardHours" name="MaximumStandardHours" placeholder="In Hours" ng-model="jobcode.maximumStandardHours" maxlength="3"  ng-disabled="readOnly" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- <div class="form-group">
+                                <label for="JobTitle" class="col-md-4 control-label">Job Title</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="JobTitle" placeholder="Job Title" />
+                                </div>
+                            </div> -->
+                            <div class="form-group" style="margin-top: 20px">
+                                <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                <h5>Risk Profile</h5>
+                                </div>
+                                    <div class="sepr">
+                                        
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <label for="HazardousIndicator" class="col-md-4 control-label">Hazardous Indicator</label>
+			                                    <div class="col-md-8 select-box">
+			                                        <select id="Select7" ng-model="jobcode.hazardousIndicator" class="form-control" name="hazardousIndicator" id="hazardousIndicator" ng-disabled="readOnly">
+														<option value="">Select</option>
+			                                            <option value="Maximum Grade">Maximum Grade</option>
+			                                            <option value="Minimum Grade">Minimum Grade</option>
+			                                            <option value="Middle Grade">Middle Grade</option>
+			                                            <option value="Not Applicable">Not Applicable</option>
+			                                        </select>
+ 													<span class="input-group-btn">
+                                     					<label for="Select1" class="fa fa-caret-down"></label>
+                                        			</span> 
+			                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="RiskIndicator" class="col-md-4 control-label">Risk Indicator</label>
+			                                    <div class="col-md-8 select-box">
+			                                        <select id="Select8" ng-model="jobcode.riskIndicator" ng-disabled="readOnly" id="riskIndicator" name="riskIndicator" class="form-control" >
+			                                        	<option value="">Select</option>
+			                                            <option value="High">High</option>
+			                                            <option value="Medium">Medium</option>
+			                                            <option value="Low">Low</option>
+			                                            <option value="Not Applicable">Not Applicable</option>
+			                                        </select>
+ 													<span class="input-group-btn">
+                                    					 <label for="Select1" class="fa fa-caret-down"></label>
+                                        			</span> 
+			                                    </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="Description" class="col-md-4 control-label">Description</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" id="Description" placeholder="Description" ng-model="jobcode.riskDescription" ng-disabled="readOnly"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-primary" >
+            <div class="panel-heading" >
+             <h5 data-toggle="collapse" data-target="#JobCodeCharacteristics">Job Code Characteristics</h5>
+            </div>
+                <div class="sepr" >
+                   
+                    <div class="row" id="JobCodeCharacteristics">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isCriticalJob"  ng-disabled="readOnly"/>
+                                        Critical/Key Job
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isGazetteOfficer"  ng-disabled="readOnly || jobcode.managerLevel == 'None'"/>
+                                        Gazette officer 
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isHighlyCompensatedJob"  ng-disabled="readOnly"/>
+                                        Highly compensated job?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isProbationRequired"  ng-disabled="readOnly"/>
+                                        Probation required?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isHotSkillCategory"  ng-disabled="readOnly" />
+                                        Hot skill Category?
+                                    </label>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isUnionJob"  ng-disabled="readOnly"/>
+                                        Union Job
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" id="IsRestrictedJob" ng-model="jobcode.isRestrictedJob"  ng-disabled="readOnly"/>
+                                        Is Restricted Job?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isEligibleForPerks"  ng-disabled="readOnly"/>
+                                        Eligible for Perks
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isEligibleForOvertime" id="isEligibleForOvertime" name="isEligibleForOvertime"  ng-disabled="readOnly"/>
+                                        Eligible for Overtime
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isAllowsWorkFromHome" id="isAllowsWorkFromHome"  name="isAllowsWorkFromHome" ng-disabled="readOnly"/>
+                                        Allow work from Home?
+                                    </label>
+                                </div>
+                            </div>                            
+                        </div>
+                        <div class="col-md-4">                        
+                        	<div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isRoasterJob"  ng-disabled="readOnly"/>
+                                        Roster Job
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isEligibleForVariableCompensation"  ng-disabled="readOnly"/>
+                                        Eligible for Variable Compensation
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isCompensatoryJob"  ng-disabled="readOnly"/>
+                                        Compensatory Job
+                                    </label>
+                                </div>
+                            </div>                        
+                        	<div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isSportsManQuota" id="isSportsManQuota" name="isSportsManQuota" ng-disabled="readOnly"/>
+                                        Sportsman Quota
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isExServiceManJob"  ng-disabled="readOnly" />
+                                        Ex-Serviceman Job
+                                    </label>
+                                </div>
+                            </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group btn-group-right pull-right">
+                     <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn  && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+                     <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateJobcodeBtnAction()">Update</a>
+                     <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelBtn" ng-click="cancelBtnAction()"> Cancel </a>
+                     <a href="javascript:void(0)" class="btn btn-info"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+                     <a href="javascript:void(0)" class="btn btn-info"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave($event)">Correct History</a>
+                     <button class="btn btn-primary"  ng-show="resetBtn" type="reset">Reset</button>
+                     <a href="#/SearchJobCode" class="btn btn-warning" ng-show="returnToSearchBtn">Return to search</a>
+                </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade addrow-modal">
+    <div class="modal-dialog modal-mg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!--<h4 class="modal-title">Address Information</h4>-->
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isResidentOrdinarilyResident" ng-checked="jobcode.isResidentOrdinarilyResident == 'Y'"/>
+                                        Resident Ordinarily Resident
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isResidentButNotOrdinarilyResident" ng-checked="jobcode.isResidentButNotOrdinarilyResident == 'Y'"/>
+                                        Resident but not Ordinarily Resident
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isNonResident" ng-checked="jobcode.isNonResident == 'Y'"/>
+                                        Non Resident
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isPersonOfIndianOrigin" ng-checked="jobcode.isPersonOfIndianOrigin == 'Y'"/>
+                                        Person of Indian Origin
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label style="margin-left: 30px;">
+                                        <input type="checkbox" ng-model="jobcode.isExpatForeignNational" ng-checked="jobcode.isExpatForeignNational == 'Y'"/>
+                                        Expat – Foreign National 
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+               
+                <button type="button" class="btn btn-primary" ng-click="saveChanges()" >Save changes</button>
+                 <button type="button" class="btn btn-secondary" ng-click="saveChanges()">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<div class="modal fade TrainingRequired-modal" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Types Of Training</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="TrainingName" class="col-md-2 control-label">Training Name</label>
+                                <div class="col-md-5"> 
+                                    <input type="text" class="form-control"  id="TrainingName" ng-model= "job.name" placeholder="Training Name" />
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-primary col-md-2 add" ng-click="add($event)">Add</a>
+                                <a href="javascript:void(0)" class="btn btn-success col-md-2 sav"  ng-click="sav($event)"> Update </a>
+                            </div>
+                            <hr class="col-md-10" style="margin-left: 40px;" />
+                            <div class="form-group">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-7" id="trainingPanel">
+                                    <table class="TrainingName table table-striped table-hover" id="example">
+                                        <thead>
+                                            <tr>
+                                                <td data-type="number">Sno</td>
+                                                <td data-type="text-multi">Training Name
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                     
+                                            <tr ng:repeat="i in jobcodeList.trainingTypes"  onLastTrainingname>
+                                                <td >{{$index+1}}</td>
+                                                <td >{{i.name}}</td>
+                                                <td>
+                                                    <button class='" + "btn btn-raised " + "' ng-click="fun_edit($event)">Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>
+                                                    <button class='" + "btn btn-danger" + "' ng-click="fun_delete($event)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </td> 
+                                               <!--  <td> <i ng-click="fun_delete($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+                                    <td>
+                                       <i ng-click="fun_edit($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal" ng-show="gridButtons"></i>
+                                    </td> -->
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveChanges()">Save changes</button>
+                <button type="button" class="btn btn-secondary" ng-click="saveChanges()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade PPERequired-modal" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Types Of Equipment</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="EquipmentName" class="col-md-2 control-label" >Equipment Name</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="EquipmentName" ng-model="job.equipName" placeholder="Equipment Name" />
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-primary col-md-2 add" ng-click="add_equip($event)" >Add</a>
+                                <a href="javascript:void(0)" class="btn btn-success col-md-2 sav" ng-click="save_equip($event)">Update</a>
+                            </div>
+                            <hr class="col-md-10" style="margin-left: 40px;" />
+                            <div class="form-group">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-7" id="equipPanel">
+                                    <table class="EquipmentName table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td data-type="number">Sno</td>
+                                                <td data-type="text-multi">Equipment Name</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng:repeat="i in jobcodeList.equipmentTypes"  onLastEquipmentname>
+                                                <td>{{$index+1}}</td>
+                                                <td>{{i.name}}</td>
+                                                <td>
+                                                    <button class='" + "btn btn-raised" + "' ng-click="e_edit($event)">Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>
+                                                    <button class='" + "btn btn-danger" + "' ng-click="e_delete($event)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveChanges()">Save changes</button>
+                <button type="button" class="btn btn-secondary" ng-click="saveChanges()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade SkillTesting-modal" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Types Of Testing</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="TestNames" class="col-md-2 control-label" >Skill Name</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" id="TestNames" ng-model="job.skillName" placeholder="Skill Name" />
+                                </div>
+                                <a href="javascript:void(0)" class="btn btn-primary col-md-2 add" ng-click="add_skill($event)">Add</a>
+                                <a href="javascript:void(0)" class="btn btn-success col-md-2 sav" ng-click="save_skill($event)"> Update </a>
+                            </div>
+                            <hr class="col-md-10" style="margin-left: 40px;" />
+                            <div class="form-group">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-7" id="skillPanel">
+                                    <table class="Testname table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td data-type="number">Sno</td>
+                                                <td data-type="text-multi">Skill Name
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng:repeat="i in jobcodeList.skillTests"  onLastTestname>
+                                                <td>{{$index+1}}</td>
+                                                <td>{{i.name}}</td>
+                                                <td>
+                                                    <button class='" + "btn btn-raised" + "' ng-click="s_edit($event)">Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>
+                                                    <button class='" + "btn btn-danger" + "' ng-click="s_delete($event)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveChanges()">Save changes</button>
+                <button type="button" class="btn btn-secondary" ng-click="saveChanges()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade HealthScreeningrequired-modal" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Types Of Medical Tests</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="form-group">
+                            <div>
+                                <label for="TestName" class="col-md-2 control-label">Test Name</label>
+                                <div class="col-md-5">
+                                    <input type="text" class="form-control" ng-model="job.medicalName" id="TestName" placeholder="Test Name" />
+                                </div></div>
+                           <!--  </div>  
+                             <div class="form-group checkbox" >-->
+                             <div>
+                                 <label for="isOnBoard" class=" control-label"> On Board</label>
+                                 <div class="col-md-3">
+                                     <input type="checkbox" ng-model="job.isOnBoard" id="isOnBoard"/>
+                                 </div>
+                             </div>
+                              <div>
+                                  <label for="isPeriodic" class=" control-label">Periodic</label>
+                                  <div class="col-md-3">
+                                      <input type="checkbox" ng-model="job.isPeriodic" id="isPeriodic" />
+                                  </div>
+                               </div>
+                            <div>
+                                <a href="javascript:void(0)" class="btn btn-primary col-md-2 add" ng-click="add_medical()">Add</a>
+                                <a href="javascript:void(0)" class="btn btn-success col-md-2 sav" ng-click="save_medical()">Update</a>
+                             </div>  
+                            </div> 
+                          
+                            
+                            <hr class="col-md-10" style="margin-left: 40px;" />
+                            <div class="form-group">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8" id="medicalPanel">
+                                    <table class="Medicaltestname table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <td data-type="number">Sno</td>
+                                                <td data-type="text-multi">Medical Test Name</td>
+                                                <td data-type="checkbox">On Board</td>
+                                                <td data-type="checkbox">Periodic</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng:repeat="i in jobcodeList.medicalTests" onLastMedicaltestname>
+                                                <td>{{$index+1}}</td>
+                                                <td>{{i.name}}</td>
+                                                <td>
+                                                    <div class="checkbox" style="margin: 0px">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="i.isOnBoard" ng-checked="{{i.isOnBoard == true}}"/>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="checkbox" style="margin: 0px">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="i.isPeriodic" ng-checked="i.isPeriodic == true"/>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <button class='" + "btn btn-raised" + "' ng-click="m_edit($event)">Edit <i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+                                                </td>
+                                                <td>
+                                                    <button class='" + "btn btn-danger" + "' ng-click="m_delete($event)">Delete <i class="fa fa-trash" aria-hidden="true"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveChanges()">Save changes</button>
+                 <button type="button" class="btn btn-secondary" ng-click="saveChanges()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+

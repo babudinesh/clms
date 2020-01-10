@@ -1,0 +1,119 @@
+
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+      <h3 class="cls_plainheader">Department</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" href="#/addDepartment/0" ng-show="buttonArray.includes('ADD')">Add New Department <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h5 >Search Existing Department</h5>
+            </div>
+                <div class="sepr">
+                  
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="custName" class="col-md-4 control-label">Customer Name</label>
+								  <div class="col-md-8 select-box">
+										<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList track by item.customerId" class="form-control" id="custName">
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>   
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="deptid" class="col-md-4 control-label">Department Code</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control capitalize"  ng-model="departmentCode" id="deptid" maxlength="20" placeholder="Department Code" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="isActive" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select class="form-control" id="isActive" ng-model="isActive">
+                                        <option value="Y">Active</option>
+                                        <option value="N">Inactive</option>
+                                    </select>
+                                    <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="cmpName" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 select-box">
+										<select   ng-model="companyName" ng-options="item as item.name for item in companyList" class="form-control" id="compName">
+											<option value="">Select</option>
+									</select>     
+									<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>                             
+								</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="depName" class="col-md-4 control-label">Department Name</label>
+                                <div class="col-md-8">
+                                    <input type="text"  ng-model="departmentName" class="form-control" id="depName" maxlength="50" placeholder="Department Name" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-2">
+                            <a class="btn btn-primary col-md-6 col-md-offset-5" ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary" id="searchPanel">
+            <div class="panel-heading">
+              <h5>Search Result</h5>
+            </div>
+                <div class="sepr">
+                   
+                    <div>
+                        <table class="table table-striped" id="deptTable">
+                            <thead>
+                                <tr>    
+                                	<th>Customer Name</th>
+                                	<th>Company Name</th>                               
+                                    <th>Department Code</th>
+                                    <th>Department Name</th>
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>                                   
+                                </tr>
+                            </thead>
+
+                            <!-- <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td>{{i.departmentInfoId}}</a></td> 
+                                    <td><a ng-href="#/addDepartment/{{i.departmentInfoId}}">{{i.departmentCode}}</td>
+                                    <td>{{i.departmentName}}</td>
+                                    <td>{{i.transDate}}</td>
+                                    <td>{{i.isActive}}</td>
+                                   
+                                </tr>
+
+                            </tbody> -->
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+

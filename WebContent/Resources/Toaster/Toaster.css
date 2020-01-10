@@ -1,0 +1,25 @@
+﻿.alert {
+    padding: 15px !important;
+    margin-bottom: 30px !important;
+    border-radius: 4px !important;
+}
+
+.alert-danger {
+    border: 1px solid #dca7a7 !important;
+}
+
+.alert-success {
+    border-color: #b2dba1;
+}
+
+.alert-info {
+    border-color: #9acfea;
+}
+
+.alert-warning {
+    border-color: #f5e79e;
+}
+
+.alert-dismissable .close, .alert-dismissible .close {
+    right: 0px !important;
+}

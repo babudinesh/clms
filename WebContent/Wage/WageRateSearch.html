@@ -1,0 +1,147 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Wage Rate</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" href="#/WageRateAdd/0" ng-show="buttonArray.includes('ADD')">Add New Wage Rate <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+            	<div class="panel-heading">
+            		<h5>Search Existing Wage Rate</h5>
+            	</div>
+                <div class="sepr">
+                    <div class="row">
+                       <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label ">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" >
+                                    	<option value="">Select</option>
+                                    </select> 
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                     
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="vendorName" class="col-md-4 control-label">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorName" name="vendorName" ng-change="fun_vendorChangeListener()">
+                                    	<option value="">Select</option>
+                                    </select>
+                                            
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                                                                             
+                            <div class="form-group">
+                                <label for="wageScaleId" class="col-md-4 control-label">Wage Scale ID</label>
+                                <div class="col-md-8 select-box">
+                                    <select  ng-model="wageScaleId" ng-options="item.name as item.desc for item in wageScaleList " class="form-control" id="wageScaleId" name="wageScaleId" >
+                                   		<option value="">Select</option>
+                                    </select>
+                                            
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="col-md-4 control-label">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select class="form-control" id="status" ng-model="status">
+                                        <option value="Y">Active</option>
+                                        <option value="N">Inactive</option>
+                                    </select>
+                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label ">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                	<select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" >
+                                    	<option value="">Select</option>
+                                    </select>  
+                                                                                        
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                                    
+                                </div>
+                            </div>
+                            
+							<div class="form-group">
+                                <label for="workOrderName" class="col-md-4 control-label">Work Order Name </label>
+								<div class="col-md-8 select-box">
+									<select   ng-model="workOrderName" ng-options="item.id as item.name for item in workOrderList" class="form-control" id="workOrderName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="wageName" class="col-md-4 control-label">Wage Rate Name</label>
+                                <div class="col-md-8">
+                                    <input type="text"  ng-model="wageRateName" name="wageRateName" class="form-control" id="wageRateName" placeholder="Wage Rate Name" />
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-2">
+                            <a class="btn btn-primary col-md-6 col-md-offset-5" ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-primary" ng-show="wageRateTableView">
+             	<div class="panel-heading">
+             		<h5>Search Result</h5>
+           		</div>
+                <div class="sepr">
+                    <div>
+                        <table class="table table-striped" id="wageRateTable">
+                            <thead>
+                                <tr>
+                                    <th>WageRate Code</th>
+                                    <th>WageRate Name</th>
+                                    <th>CustomerName</th>
+                                    <th>Company Name</th>
+                                    <th>Vendor Name</th>
+                                    <th>Work Order</th> 
+                                    <th>WageScale Name</th>                                    
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>                                                                                                         
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td><a ng-href="#/WageRateAdd/{{i.wageRateDetailsId}}">{{i.wageRateCode}}</td>
+                                    <td>{{i.customerName}}</td>
+                                    <td>{{i.companyName}}</td>
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.status}}</td>
+                                    <td>{{i.wageRateName}}</td>
+                                </tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+

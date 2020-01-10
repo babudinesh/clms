@@ -1,0 +1,503 @@
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Define Overtime Control  </h3>
+		<form  id="overTimeForm" name="overTimeForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				 <br /> 
+				<div class="panel panel-primary">
+				
+				<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">
+					<h5 > Search : </h5>
+					</div>
+						<div class="container">
+							
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6 select-box">
+                                            <select  ng-model="transactionModel" ng-change="fun_Company_Trans_Change()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" >
+                                            	<option value="">Select</option>
+                                            </select>      
+                                            <span class="input-group-btn">
+                                     			<label for="Select1" class="fa fa-caret-down"></label>
+                                        	</span>                                   											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<hr class="pull-left" style="width: 105%" />
+					</div>
+					
+					<div class="sepr">						
+						<div class="row">
+						<input type="hidden" ng-model="overTime.workerBadgeId">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerDetailsId" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="overTime.customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerDetailsId" required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								
+								
+								<div class="form-group">
+									<label for="country" class="col-md-4 control-label required">Country
+										</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="overTime.country"  name="country" ng-options="item.id as item.name for item in countryList" class="form-control"  id="country"  required>                                          
+                                        	<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>
+									</div>
+								</div>
+								
+															                               
+							</div>						
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyDetailsId" class="col-md-4 control-label required">Company
+										Name</label>
+									<div class="col-md-8 select-box">
+										 <select  ng-change="companyChange()"  ng-model="overTime.companyDetailsId"  name="companyDetailsId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyDetailsId"   required>
+                                            <option value="">Select</option>
+                                         </select>
+                                         <span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>
+                                         
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="overTimeControlCode" class="col-md-4 control-label required"> Overtime Control Code
+										</label>
+									<div class="col-md-8 select-box">
+										<input type="text" ng-model="overTime.overTimeControlCode" name="overTimeControlCode" class="form-control" placeholder="Overtime Control Code" id="overTimeControlCode" required>										
+									</div>
+								</div>																							
+							</div>						
+						</div>
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h5>  Overtime Controls</h5>
+					</div>
+					   
+					 <div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+                                    <label for="transactionDate" class="col-md-4 control-label required">Effective From Date </label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="transactionDate" readonly="true" placeholder="Effective From Date &#xf073;" ng-model="transactionDate" name="transactionDate" date-change-picker   ng-disabled="readOnly" required/>
+                                    </div>
+                                </div>
+								
+								<div class="form-group">
+									<label for="overTimeControlName" class="col-md-4 control-label required"> Overtime Control Name
+										</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="overTime.overTimeControlName" name="overTimeControlName" placeholder="Overtime Control Name" class="form-control"  id="overTimeControlName" required>
+									</div>
+								</div>																						                              
+							</div>						
+							<div class="col-md-6">								
+								<div class="form-group">
+									<label for="isActive" class="col-md-4 control-label required">Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="overTime.isActive" class="form-control" required name="isActive">
+											<option value="Y">Active</option>
+											<option value="N">Inactive</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>								
+							</div>							
+						</div>
+					</div>  					   
+				</div>
+				
+				<!--  Start -->
+				<div class="panel panel-primary">
+                 <div class="panel-heading">
+                    <h5> Overtime Hours Limit </h5>
+                    </div>
+                    <div class="sepr">
+                       
+                        <div class="row">
+                            <div class="col-md-6">
+                               
+
+                                <div class="form-group">
+                                    <label for="compType" class="col-md-4 control-label required">Minimum OT Hours Per Day</label>
+                                    <div class="col-md-8 select-box">
+                                       <input type="text"  ng-model="overTime.minimumOTHoursPerDay" class="form-control onlyNumbers"placeholder="Minimum OT Hours Per Day"  name="minimumOTHoursPerDay" ng-disabled="readOnly"  id="minimumOTHoursPerDay" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-primary" style="margin: 15px;">
+	                    <div class="panel-heading">
+	                    	<h5> Minimum Overtime Limit </h5>
+	                    </div>
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="overtimeDurationDay" class="col-md-4 control-label required"> Overtime Per Day </label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="overTime.overtimeDurationDay" ng-disabled="readOnly" class="form-control onlyNumbers" id="overtimeDurationDay" name="overtimeDurationDay" placeholder="Overtime Duration Per Day"  maxlength="5" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="overtimeDurationWeek" class="col-md-4 control-label required"> Overtime Per Week</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="overTime.overtimeDurationWeek" ng-disabled="readOnly" class="form-control onlyNumbers" id="overtimeDurationWeek" name="overtimeDurationWeek" placeholder="Overtime Duration Per Week"  maxlength="5" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="overtimeDurationMonth" class="col-md-4 control-label required"> Overtime Per Month </label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="overTime.overtimeDurationMonth" ng-disabled="readOnly" class="form-control onlyNumbers" id="overtimeDurationMonth" name="overtimeDurationMonth" placeholder="Overtime Duration Per Month"  maxlength="5" required/>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                </div>
+
+                                <div class="col-md-6">
+									<div class="form-group">
+                                        <label for="overtimeDurationQuarter" class="col-md-4 control-label required"> Overtime Per Quarter </label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="overTime.overtimeDurationQuarter" ng-disabled="readOnly" class="form-control onlyNumbers" id="overtimeDurationQuarter"  name="overtimeDurationQuarter" placeholder="Overtime Duration Per Quarter"  maxlength="5" required/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="overtimeDurationYear" class="col-md-4 control-label required"> Overtime Per Year </label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="overTime.overtimeDurationYear" ng-disabled="readOnly" class="form-control onlyNumbers" id="overtimeDurationYear" name="overtimeDurationYear" placeholder="Overtime Duration Per Year"  maxlength="5" required/>
+                                        </div>
+                                    </div>
+                                    
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary" style="margin: 15px;">
+	                    <!-- <div class="panel-heading">
+	                     <h5> Consider OT Hours </h5>
+	                    </div> -->
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6" style="padding:0px;" >
+                                	<div class="panel-heading" style="color:white">
+	                     				<h5> Consider OT Hours </h5>
+	                    			</div>
+		                			<div class="form-group cls_divradios" >
+					               		<!-- <label class="col-md-3  control-label cls_lblradios "> Consider OT Hours </label> -->
+					                    <div class="col-lg-7">
+											<div class="col-lg-7 radio radio-primary" style="display: inline-block">
+												<label class=" control-label"> <input type="radio" name="considerOTHours"  id="optionsRadios1" value="Y"  ng-model="overTime.considerOTHours"  ng-checked="overTime.considerOTHours == 'Before Shift'"> Before Shift  </label>
+											</div>
+											<div class=" col-lg-7 radio radio-primary" style="display: inline-block">
+												<label class=" control-label"> <input type="radio" name="considerOTHours"  id="optionsRadios2" value="N" ng-model="overTime.considerOTHours"   ng-checked="overTime.considerOTHours == 'After Shift'"> After Shift </label>
+											</div>	
+											<div class=" col-lg-7 radio radio-primary" style="display: inline-block">
+												<label class="control-label"> <input type="radio" name="considerOTHours"  id="optionsRadios3" value="N" ng-model="overTime.considerOTHours"  ng-checked="overTime.considerOTHours == 'Both'"> Both </label>
+											</div>													
+										</div>
+									</div>
+                                </div>
+								
+                                <div class="col-md-6" style="padding:0px;" >
+                                	<div class="panel-heading" style="color:white">
+	                     				<h5> OT Allowed On </h5>
+	                   				 </div>
+                                    <div class="form-group">
+                                    	<div class="col-md-12 checkbox" >
+                                        	<label for="allowOTOnWeeklyOff" class="col-md-6 control-label">
+                                            	<input type="checkbox" ng-model="overTime.allowOTOnWeeklyOff" ng-disabled="readOnly"  id="allowOTOnWeeklyOff" name="allowOTOnWeeklyOff" />
+                                            	 &nbsp;Allow OT On Week OFF </label>
+										</div>                                           
+                                    </div>
+                                    <div class="form-group">
+                                    	<div class="col-md-12 checkbox" >
+                                        	<label for="dis" class="col-md-8 control-label" > 
+	                                   	 		<input type="checkbox" class="col-md-6" ng-model="overTime.allowOTOnPublicHoliday" ng-disabled="readOnly"  id="allowOTOnPublicHoliday" name="allowOTOnPublicHoliday" />
+	                                 		 &nbsp;Allow OT On Public Holidays </label>   
+	                                 	</div>    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <br />
+                     <br />
+                     
+                     
+                </div>
+				
+				<!--  End -->
+				 <div class="panel panel-primary" style="margin: 15px;">
+	                 <div class="sepr">
+                            <div class="row">
+                    			 <div class="col-md-6" style="padding:0px;" >
+                                	<div class="panel-heading" style="color:white">
+	                     				<h5> OT Round Off Rules </h5>
+	                   				</div>
+	                   				<br/>
+   									<div class="panel panel-primary" >
+	                 					<div class="sepr">
+                            				<div class="row">
+					                   	 		<div id="complianceTable">
+					                        		<table class="table table-striped " >
+							                            <thead>
+							                                <tr>
+							                                    <th>#</th>
+							                                    <th>From (Minutes)</th>
+							                                    <th>To (Minutes)</th>
+							                                    <th> Round Off To Minutes</th>		                                    
+							                                    <th>
+							                                        <i class="fa fa-plus addrow " data-toggle="modal" data-target="#myModal" ng-click="plusIconAction()"  ng-disabled="readonly"> </i>
+							                                    </th>
+							                                    <th></th>
+							                                </tr>
+							                            </thead>
+							                            <tbody>
+							                                <tr  ng:repeat="i in overTime.otRoundOffRules"  on-last-repeat-over>
+							                                    <td>{{$index+1}}</td>                                    
+							                                    <td>{{i.fromMinutes}}</td>
+							                                    <td>{{i.toMinutes}}</td>
+							                                    <td>{{i.roundOffToMinutes}}</td>		                                  
+							                                    <td> <i ng-click="Delete($event)" class="fa fa-trash" ng-disabled="readonly" ></i></td>
+							                                    <td>
+							                                       <i ng-click="Edit($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal" ng-disabled="readonly"></i>
+							                                    </td>
+							                                    <td></td>
+							                                    
+							                                </tr>
+							                            </tbody>
+					                       		 	</table>
+					                    		</div>
+					                    	</div>
+					                    </div>
+					             	</div>
+		                		</div>
+		           
+				
+                   				<div class="col-md-6" style="padding:0px;" >
+                                	<div class="panel-heading" style="color:white">
+	                     				<h5> Wage Rates For OT </h5>
+	                   				</div>
+	                   				<br/>
+   									<div class="panel panel-primary" >
+	                 					<div class="sepr">
+                            				<div class="row">
+							                    <div id="complianceTable">
+							                        <table class="table table-striped " >
+							                            <thead>
+							                                <tr>
+							                                    <th>#</th>
+							                                    <th> Worked On</th>
+							                                    <th> Regular Rates</th>
+							                                    <th>OT Rates</th>		                                  
+							                                    <th>
+							                                        <i class="fa fa-plus addrow " data-toggle="modal" data-target="#myModal1" ng-click="plusIconAction1()"  ng-disabled="readonly"> </i>
+							                                    </th>
+							                                    <th></th>
+							                                </tr>
+							                            </thead>
+							                            <tbody>
+							                                <tr  ng:repeat="i in overTime.wageRatesForOT"  on-last-repeat-over>
+							                                    <td>{{$index+1}}</td>                                    
+							                                    <td>{{i.workedOn}}</td>
+							                                    <td>{{i.regularRates}}</td>
+							                                    <td>{{i.otRates}}</td>		                                   
+							                                    <td> <i ng-click="Delete1($event)" class="fa fa-trash" ng-disabled="readonly" ></i></td>
+							                                    <td>
+							                                       <i ng-click="Edit1($event)" class="fa fa-edit" data-toggle="modal" data-target="#myModal1" ng-disabled="readonly"></i>
+							                                    </td>
+							                                    <td></td>
+							                                </tr>
+							                            </tbody>
+							                        </table>
+							                    </div>
+							            	</div>
+							        	</div>
+							    	</div>
+		                		</div>
+		            		</div> 
+                    	</div>
+					</div>
+				<div class="btn-group btn-group-right pull-right">
+					<a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn" ng-click="enable || save($event)">Save</a>
+                    <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn" ng-click="updateBtnAction()">Update</a>
+                    <a href="javascript:void(0)" class="btn btn-info" ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn">View Or Update History</a>
+                    <a href="javascript:void(0)" class="btn btn-info"  ng-show="correcttHistoryBtn" ng-click="enable || save($event)">Correct History</a>
+                    <button class="btn btn-primary resetBtn"  ng-show="resetBtn" type="reset">Reset</button>
+                    <a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="fun_cancelBtnCLick()"> Cancel </a>
+                    <a href="#/DefineOverTimeControl" class="btn btn-warning">Return to search</a>                                                           
+                </div>
+                
+				<div></div>
+
+
+			</div>
+
+			<br />
+
+	</form>
+		</div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+ <form id="otRoundOffRules" name="otRoundOffRules" novalidate ng-submit="submit" > 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">OT Round OFF Rules </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                                                                                    
+
+                                   
+                                    <div class="form-group">
+                                        <label for="fromMinutes"  class="col-md-4 control-label "> From  </label>
+                                        <div class="col-md-8">
+                                             <input type="text" ng-model="fromMinutes"  maxlength="45" class="form-control onlyNumbers" id="fromMinutes" placeholder="from Minutes" />                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="toMinutes"  class="col-md-4 control-label ">To </label>
+                                        <div class="col-md-8"> 
+                                            <input type="text" ng-model="toMinutes" name="toMinutes" maxlength="45" class="form-control onlyNumbers" id="toMinutes" placeholder="To Minutes" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="roundOffToMinutes" class="col-md-4 control-label "> Round OFF To</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="roundOffToMinutes" name="roundOffToMinutes"  maxlength="100" class="form-control onlyNumbers" id="Round Off To Minutes"  />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                    
+                                                                                                      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="addDetailstoList($event)" class="btn btn-primary" ng-show="popUpSave">Save changes</button>
+                <button type="button" ng-click="updateDetailstoList($event)" class="btn btn-primary" ng-show="popUpUpdate">Update changes</button>
+                <button type="button" class="btn btn-warning" ng-click="clearPopUP($event)"> Reset</button>
+            </div>
+            </div>
+          </form>
+        </div>
+</div>
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+ <form id="defineComplianceTypespopup" name="defineComplianceTypespopup" novalidate ng-submit="submit" > 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Wage Rates For OT </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                                                                                    
+									 <div class="form-group">
+                                        <label for="workedOn"  class="col-md-4 control-label "> Worked On  </label>
+                                        <div class="col-md-8">
+                                        <select  ng-model="workedOn" name="workedOn" ng-options="item.id as item.name for item in list_workedOn " class="form-control" id="workedOn" >
+                                            <option value="">Select</option>
+                                            </select>                                                                                                                                    
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="regularRates"  class="col-md-4 control-label "> Regular Rates </label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="regularRates" name="regularRates" maxlength="45" class="form-control onlyNumbers" id="regularRates" placeholder="Regular Rates" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="otRates" class="col-md-4 control-label "> OT Rates </label>
+                                        <div class="col-md-8"> 
+                                            <input type="text" ng-model="otRates" name="otRates" class="form-control" maxlength="100" class="form-control onlyNumbers" id="otRates" placeholder="OT Rates"  />
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-6">                                    
+                                                                                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+                <button type="button" ng-click="addDetailstoList1($event)" class="btn btn-primary" ng-show="popUpSave1">Save changes</button>
+                <button type="button" ng-click="updateDetailstoList1($event)" class="btn btn-primary" ng-show="popUpUpdate1">Update changes</button>
+                <button type="button" class="btn btn-warning" ng-click="clearPopUP1($event)"> Reset</button>
+            </div>
+            </div>
+          </form>
+        </div>
+</div>
+
+
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+

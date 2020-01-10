@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AttendanceRepot" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="882972af-449b-4374-ac7b-84810cbf500d">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.2" value="pageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="groupHeader"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.group.3" value="ProductGroup"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.report.3" value="ProductReport"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="BankDetails" uuid="5a07e581-11f2-42d6-bc19-25b78244ae66">
+		<parameter name="customerId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="companyId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="vendorId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="bankName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="employeeCode" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="employeeName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="searchBy" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT vv.vendor_code,vv.vendor_name,vw.worker_code,
+REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN ''
+ ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ')  AS WorkerName,
+vw.Bank_Name,vw.Branch_Name,vw.Ifsc_Code ,vw.Acount_Number
+FROM v_worker_details vw
+INNER JOIN vendor_view vv ON (vw.vendor_id = vv.vendor_id)
+WHERE vw.is_active= 'Y' AND vv.vendor_status = 'Validated'
+AND vw.customer_id = $P{customerId}
+AND vw.company_id = $P{companyId}
+AND (vv.vendor_id = $P{vendorId} OR $P{vendorId} = -1)
+AND CASE WHEN $P{searchBy} = 1
+THEN
+vw.Bank_Name IS NOT NULL AND vw.Bank_Name != '' AND vw.Acount_Number IS NOT NULL AND vw.Acount_Number != ''
+  AND ((vw.Branch_Name IS NOT NULL AND vw.Branch_Name != '') OR (vw.Ifsc_Code IS NOT NULL AND vw.Ifsc_Code != ''))
+  ELSE
+  vw.Bank_Name IS NULL OR vw.Bank_Name = '' OR vw.Acount_Number IS NULL OR vw.Acount_Number = ''
+  AND ((vw.Branch_Name IS NULL OR vw.Branch_Name = '') OR (vw.Ifsc_Code IS NULL OR vw.Ifsc_Code = ''))
+END
+AND CASE WHEN $P{bankName} = '' then -1=-1 else vw.Bank_Name LIKE '%$P!{bankName}%' end
+AND (vw.worker_code = $P{employeeCode}  OR  $P{employeeCode} = -1)
+AND REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN ''
+ ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ') LIKE '%$P!{employeeName}%'
+order by vv.vendor_code,vw.worker_code,vv.vendor_name,REPLACE((CONCAT(RTRIM(vw.first_name), ' ',CASE WHEN (vw.middle_name IS NULL) THEN ''
+ ELSE CONCAT(RTRIM(vw.middle_name),' ') END, vw.last_name)),'  ',' ')]]>
+		</queryString>
+		<field name="Vendor_Code" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Vendor_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Worker_code" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="WorkerName" class="java.lang.String"/>
+		<field name="Bank_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Branch_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Ifsc_Code" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Acount_Number" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="employeeCode" class="java.lang.String"/>
+	<parameter name="employeeName" class="java.lang.String"/>
+	<parameter name="bankName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="searchBy" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select current_Date() from dual;]]>
+	</queryString>
+	<field name="current_Date()" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="128" y="0" width="249" height="23" uuid="5ddae43e-969f-4772-873a-ba24b42a8b23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="16" isBold="true" isItalic="true" isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[Worker Bank Details]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="52" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="360" height="50" uuid="3fce343d-a766-4e77-a7ea-1b4a357222d4"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="BankDetails" uuid="7c03364d-bba0-41d4-8a66-7289493c913b">
+						<datasetParameter name="customerId">
+							<datasetParameterExpression><![CDATA[$P{customerId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="companyId">
+							<datasetParameterExpression><![CDATA[$P{companyId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="vendorId">
+							<datasetParameterExpression><![CDATA[$P{vendorId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="bankName">
+							<datasetParameterExpression><![CDATA[$P{bankName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="employeeCode">
+							<datasetParameterExpression><![CDATA[$P{employeeCode}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="employeeName">
+							<datasetParameterExpression><![CDATA[$P{employeeName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="searchBy">
+							<datasetParameterExpression><![CDATA[$P{searchBy}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="50" uuid="901750bb-3dd2-474c-9375-c06f5fe4fe1d">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="18" uuid="526ad8e4-4624-4753-97a7-f8c495e21876"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Vendor Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="d19870f6-b5e1-443c-b693-2ae826bfc81f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Vendor_Code}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="fc6924e8-7a92-443c-9302-fbbbb0759844">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="18" uuid="1dc9fcb5-d7be-41ca-9db7-96445f52d377"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Vendor Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="4228e13a-1ce5-4084-8cb3-4bb0490a53a8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Vendor_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="50" uuid="968412ad-4787-46ef-800e-6580e3323013">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="18" uuid="4d19f26b-2d73-4fd4-b654-02c11805bae8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Worker Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="50" height="15" uuid="ed7fe856-e97a-46d8-a3e4-b1f5d340c8df"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Worker_code}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="9696db23-936e-42c0-814f-161a3944bbef">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="18" uuid="b30b256e-b87d-458c-a079-ff68a1dd3f75"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Worker Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="a3f2c909-7125-4774-8776-3da0d42d1026"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{WorkerName}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="45" uuid="907e2f30-0822-4f6e-849a-e0b599c4bb67">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="45" height="18" uuid="5203c687-d47f-4f4d-96e0-4e7645d53e4d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Bank Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="45" height="15" uuid="912e5680-2ce6-40da-8a6e-5f5df4bd182f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Bank_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="73" uuid="9f622f2c-2229-4a5c-bfeb-1b54696c3885">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="73" height="18" uuid="5426e755-5db2-40ef-ad63-1590bffcf0e8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Branch Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="73" height="15" uuid="815589be-d681-457d-819f-55c84b06f11c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Branch_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="66" uuid="ed9ab87a-0c7e-46e9-98bb-22f7cda1450e">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="66" height="18" uuid="24680bdd-54ba-420f-a5f0-f3eb92c01ddf"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Branch Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="66" height="15" uuid="3f2a65ce-e5cf-4b32-847a-0c5ceaf7293e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Ifsc_Code}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="8b7a06ea-796c-4695-8692-0318cff7f1a3">
+						<jr:columnHeader style="table 1_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="18" uuid="3d17cf4a-f164-4042-b096-d1a91ec53201"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Account Number]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="15" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="15" uuid="290aa1de-751a-4269-83d3-0a4d7c33610b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Acount_Number}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch">
+			<textField>
+				<reportElement x="480" y="3" width="47" height="20" uuid="e9e307a1-543d-4045-8720-d47e3d1dc210"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="527" y="3" width="21" height="20" uuid="51cd89c3-f53f-4473-87d0-4265bd443cb6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="2" splitType="Stretch"/>
+	</summary>
+</jasperReport>

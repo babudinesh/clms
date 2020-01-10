@@ -1,0 +1,556 @@
+<form name="locationForm" id="locationForm" novalidate ng-submit="submit">
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader">Define Location</h3> 
+        
+        <br />
+        <div class="col-md-12">
+	        <ul class="nav nav-tabs">
+	            <li class="active"><a ng-href="#/LocationAdd/{{location.locationDetailsId}}">Define Location</a></li>
+	            <li><a ng-href="#/LocationCharacteristics/{{location.locationId}}">Characteristics</a></li>
+	        </ul>
+        	 <div class="panel panel-primary" ng-show="transactionList">
+	         	<div class="panel-heading">
+	        	 	<h5 > Search : </h5>
+	        	</div>
+				<div class="container">
+					<div class="row">
+						<div class="col-md-6 transactionList">
+							<div class="form-group">
+								<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+								<div class="col-md-6 select-box">
+	                                <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" name="transactionModel"  id="transactionModel" ng-disabled="readOnly ">
+	                                	<option value="">Select</option>
+	                                </select>    
+                                    <span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>                                     											
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			  	<hr class="pull-left" style="width: 105%" />
+			 </div>
+             <div class="panel panel-primary">
+			 	<div class="sepr">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="custName" class="col-md-4 control-label required">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="location.customerId" ng-options="item.customerId as item.customerName for item in locationList.customerList" class="form-control" id="custName" name="customerName" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+							
+							<div class="form-group is-empty">
+								<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="countryChange()" ng-model="location.countryId" ng-options="item.id as item.name for item in locationList.countryList" class="form-control" name="countryName" id="countryName" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="companyName" class="col-md-4 control-label required">Company Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="companyChange()" ng-model="location.companyId" ng-options="item.id as item.name for item in locationList.companyList" class="form-control" name="companyName" id="cmpName" ng-disabled="readOnly || onlyRead" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+							
+							<div class="form-group is-empty">
+								<label for="locationId" class="col-md-4 control-label required">Location Code</label>
+								<div class="col-md-8">
+									<input class="form-control capitalize" ng-model="location.locationCode" placeholder="Location Code" id="location Code" name="locationCode" type="text" ng-change="fun_checkLocationCode()" ng-disabled="readOnly || onlyRead" required>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+            <div class="panel panel-primary">
+             	<div class="panel-heading">
+        	 		<h5 >Define Location</h5>
+        	 	</div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-model="location.transactionDate" id="transactionDate" readonly="true" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LocationName" class="col-md-4 control-label required">Location Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.locationName" id="LocationName" placeholder="Location Name" maxlength="45" ng-disabled="readOnly" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ContactPerson" class="col-md-4 control-label">Contact Person</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.contactName" id="ContactPerson" placeholder="Contact Person" maxlength="45" ng-disabled="readOnly" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="FaxNumber" class="col-md-4 control-label ">Fax Number</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control onlyNumbers" ng-model="location.faxNumber" id="FaxNumber" placeholder="Fax Number" maxlength="15" ng-disabled="readOnly"/>
+                                </div>
+                            </div>
+
+							<div class="form-group col-md-4">
+								   <a class="btn btn-primary addressAdd" data-toggle="modal" data-target="#myModal" ng-disabled="readOnly" >{{labelName}} Address <i class="fa fa-plus-circle"></i></a>
+							</div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="Status"ng-model="location.status" class="form-control" name="status" ng-disabled="readOnly" required >
+                                        <option value="Y">Active</option>
+                                        <option value="N">In Active</option>
+                                    </select>
+                                      <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="LocationTypeId" class="col-md-4 control-label required">Location Type</label>
+                                <div class="col-md-8 select-box">
+                                     <select  ng-model="location.locationTypeId" ng-options="item.id as item.name for item in locationList.locationTypesList" class="form-control" id="departmentTypeId" name="departmentTypeId" ng-disabled="readOnly" required>
+									 	<option value="">Select</option>
+                                     </select>
+                                       <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="PhoneNumber" class="col-md-4 control-label ">Phone Number</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control onlyNumbers" ng-model="location.phoneNumber" name="PhoneNumber" id="PhoneNumber" placeholder="Phone Number"  minlength="10" maxlength="15" ng-disabled="readOnly"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email" class="col-md-4 control-label ">Email</label>
+                                <div class="col-md-8">
+                                    <input type="email" class="form-control" ng-model="location.emailId" id="Email" name="Email"  placeholder="Email"  minlength="5" maxlength="45" ng-disabled="readOnly" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class=" col-md-6 checkbox">
+                                    <label>
+                                        <input type="checkbox" ng-model="location.isHeadquarter" ng-click="validateHeadquarter()"   ng-disabled="readOnly"/>
+                                        Head Quarter
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+         	<div class="panel panel-primary">
+            	<div class="panel-heading">
+             		<h5 >Standard Working Hours and Shift Details</h5>
+            	</div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="workWeekStartDay" class="col-md-4 control-label ">Work Week Start Day</label>
+                                <div class="col-md-6 select-box">
+                                    <select id="workWeekStartId"  name="workWeekStartDay" class="form-control" ng-model="location.workWeekStartDay" ng-change="changeWeekEnd()"  name="workWeekStartId"  ng-options="item.id as item.name for item in Week_Days "  ng-disabled="readOnly" >
+                                    	<option value=""> Select </option>                                           
+                                    </select>
+                                    <span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="workWeekEndDay" class="col-md-4 control-label ">Work Week End Day</label>
+                                <div class="col-md-6 select-box">
+                                    <select id="workWeekEndId" class="form-control" name="workWeekEndDay" ng-model="location.workWeekEndDay"  name="workWeekEndDay"  ng-options="item.id as item.name for item in Week_Days "  ng-disabled="true" >
+                                    	<option value=""> Select</option>                                           
+                                    </select>
+                                    <span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="BusinessHoursDay" class="col-md-4 control-label ">Business Hours/Day</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control onlyNumbersWithZero"  ng-model="location.businessHoursPerDay"  id="businessHours"  name="businessHours" placeholder="Hours" ng-disabled="readOnly" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="BusinessStartTime" class="col-md-4 control-label ">Business Start Time</label>
+                                <div class="col-md-6">
+                                     <input type="text" class="form-control timeNumbers" ng-model="location.businessStartTime"  id="businessStartTime" name="businessStartTime"  placeholder="HH:MM" ng-disabled="readOnly" />
+<!--                       <uib-timepicker ng-model="location.businessStartTime"  arrowkeys=false ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></uib-timepicker>         
+ --> </div>
+                                
+                            </div>
+                            <!-- <div class="form-group">
+                                <div class="checkbox col-md-4">
+                                    <label>
+                                        <input type="checkbox" ng-model="location.isShiftSystem"  ng-disabled="readOnly"  />
+                                        Shift System
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" ng-show="location.isShiftSystem == true">
+                                    <label for="ShiftID" class="col-md-6 control-label"  ng-model="location.shiftId"  ng-disabled="location.isShiftSystem == 'Y'" ng-style="margin-top: 30px">Shift ID</label>
+                                    <input type="text" class="form-control"  ng-model="location.shiftId" name ="shiftId" id="shiftId" placeholder="Enter ShiftId" ng-disabled="readonly"  ng-required="location.isShiftSystem == true"/>
+
+                                </div>
+                            </div>-->
+                        </div> 
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Status" class="col-md-4 control-label ">Number of Working Days</label>
+                                <div class="col-md-6">
+                                	<input type="text" class="form-control onlyNumbersWithZero"  ng-model="location.numberOfWorkingDays" name ="numberOfWorkingDays" id="numberOfWorkingDays"  placeholder="Working Days" onchange="angular.element(this).scope().validateDays()" ng-disabled="readOnly" maxlength="1" minlength="1" />
+                                </div>
+                            </div>
+                            <div class="form-group" >
+                                <label for="servtax" class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    
+                                       <!-- <select id="Select1" class="form-control">
+                                            <option>Recognized Provident Fund</option>
+                                            <option>Statutory Provident Fund</option>
+                                        </select>-->
+                                </div>
+                            </div>
+                            <br/>
+                            
+                            <div class="form-group">
+                                <label for="StandardHoursDay" class="col-md-4 control-label ">Standard Hours/Week</label>
+                                <div class="col-md-6">
+                                    <input type="text " class="form-control onlyNumbersWithZero" ng-model="location.standardHoursPerWeek" ng-disabled="readOnly" name="standardHoursPerWeek" id="standardHoursPerWeek" placeholder="Hours"  />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="BusinessEndTime" class="col-md-4 control-label ">Business End Time</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control timeNumbers" id="businessEndTime" name="businessEndTime" ng-model="location.businessEndTime"  placeholder="HH:MM" ng-disabled="readOnly"  />
+                                </div>
+                               <!--  <div>
+                                   <span ng-show="locationForm.businessEndTime.$error.pattern" style="color:red">Please enter HH:MM format.</span>
+                                
+                                </div> -->
+                                <!--<div class="col-md-3">
+                                    <select id="Select1" class="form-control">
+                                        <option>AM</option>
+                                        <option>PM</option>
+                                    </select>
+                                </div>-->
+                            </div>
+                            <!-- <div class="form-group">
+                                <label for="holidayCalendarId" ng-model="location.holidayCalendarId" class="col-md-6 control-label" ng-disabled="readOnly">Holiday Calendar</label>
+                            	<div class="col-md-6">
+                                    <input type="text" class="form-control" id="holidayCalendarId" name="holidayCalendarId" ng-model="location.holidayCalendarId" placeholder="Calendar Id" ng-disabled="readOnly" />
+                                </div>
+                            </div> -->
+                            <!-- <div class="form-group">
+                                <div class="checkbox col-md-4">
+                                    <label >
+                                        <input type="checkbox" ng-model="location.holidayCalendarId"  ng-disabled="readOnly" />
+                                        Holiday Calendar
+                                    </label>
+                                </div>
+                                <div class="form-group col-md-6" ng-show="location.holidayCalendarId == true">
+                                    <label for="ShiftID" class="col-md-6 control-label"  ng-model="location.shiftId"  ng-disabled="location.isShiftSystem == 'Y'" ng-style="margin-top: 30px">Shift ID</label>
+                                    <input type="text" class="form-control"  ng-model="location.holidayCalendarId" name ="holidayCalendarId" id="holidayCalendarId" placeholder="Enter Holiday Calendar Id" ng-disabled="readonly"  ng-required="location.holidayCalendarId == true"/>
+
+                                </div>
+                            </div> -->
+                    	</div>
+                	</div>
+            	</div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="sepr">
+                    <div class="row">
+                       <!--  <div class="col-md-6" style="padding:0px;">
+                        	<div class="panel-heading" style="color:white">
+                            	<h5 >Associate Departments</h5>
+                            </div>
+                            <br/>
+                             <div class="row">
+                            <div class="form-group">
+									<div class="checkbox col-md-6">
+								        <label >
+		                                    <input type="checkbox" id="associateAllDepts"  ng-model="associateAllDepts" name="associateAllDepts" ng-checked="associateAllDepts == true" ng-disabled="associateAllDepts" ng-click="associateDepts()" my-directive my-attribute="locationList.departmentList" /> Associate All Departments
+		                                </label>
+		                            </div>
+	                           </div> 
+                              <br/>
+                              </div>
+                               <div class="row">
+                              <div class="form-group well well-sm col-md-6  pre-scrollable" style = "max-height: 150px;width:75%">
+                            <table class="table table-stiped table-striped   " ng-disabled="readOnly" required>
+                                <thead>
+                                    <tr>
+                                        <td data-type="id">SNo</td>
+                                        <th data-type="text-multi" >Department Code
+                                        </th>
+                                        <th data-type="text">Department Name
+                                        </th>
+                                        <th><i class="fa fa-plus" data-toggle="modal" data-target="#myModal1" ng-show="gridButtons" ng-click="plusIconAction()"> </i>
+
+                                        </th>
+                                        <th>
+                                           
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="i in locationList.departmentList" on-last-repeat>
+                                        <td>{{i.SNo}}</td>
+                                        <td>{{i.departmentCode}}</td>
+                                        <td>{{i.departmentName}}</td>
+                                        <td input type="hidden" ng-model="i.departmentInfoId">
+                                        <td> <i ng-click="Delete($event)" class="fa fa-trash" ng-show="gridButtons"></i></td>
+	                                    <td>
+	                                       <i ng-click="Edit($event)"  class="fa fa-edit" data-toggle="modal" data-target="#myModal1" ng-show="gridButtons"></i>
+	                                    </td>
+                                    <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            </div>
+                            
+                        </div> -->
+                        <div class=" col-md-12" style="padding:0px;" >
+                           <div class="panel-heading" style="color:white">
+                            	<h5 >Risk Profile</h5>
+                            </div>
+                            <div class="sepr">
+                               
+                                <div class="form-group">
+                                    <label for="HazardousIndicator" class="col-md-2 control-label ">Hazardous Indicator</label>
+                                    <div class="col-md-4 select-box">
+                                        <select  ng-model="location.hazardousIndicator"  name = "HazardousIndicator" id="HazardousIndicator" class="form-control" ng-disabled="readOnly" >
+											<option value="">Select</option>
+                                            <option value="Maximum Grade">Maximum Grade</option>
+                                            <option value="Minimum Grade">Minimum Grade</option>
+                                            <option value="Middle Grade">Middle Grade</option>
+                                            <option value="Not Applicable">Not Applicable</option>
+                                        </select>
+                                          <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="RiskIndicator" class="col-md-2 control-label ">Risk Indicator</label>
+                                    <div class="col-md-4 select-box">
+                                        <select  ng-model="location.riskIndicator" name="RiskIndicator" id="RiskIndicator" ng-disabled="readOnly"  class="form-control" >
+                                        	<option value="">Select</option>
+                                            <option value="High">High</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Low">Low</option>
+                                            <option value="Not Applicable">Not Applicable</option>
+                                        </select>
+                                          <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Details" class="col-md-2 control-label">Details</label>
+                                    <div class="col-md-4">
+                                        <input type="text" ng-model="location.riskDetails" class="form-control onlyAlphabets"  name="details" id="Details" placeholder="Details" ng-disabled="readOnly"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+       		</div>
+
+	        <div class="btn-group btn-group-right pull-right">
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+				 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updatelocationBtnAction()">Update</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn  && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave()">Correct History</a>
+				 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+				 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+				 <a href="#/LocationSearch" class="btn btn-primary">Return to search</a>
+			</div>
+   
+        </div>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 	<div class="modal-dialog modal-lg" role="document">
+		    	<div class="modal-content">
+		        	<div class="modal-header">
+		            	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		                 	<span aria-hidden="true">&times;</span>
+		                </button>
+		                <h4 class="modal-title">Address Information</h4>
+		            </div>
+					<div class="modal-body">
+						<div class="panel panel-default">
+							<div class="sepr">
+								<div class="row">
+									<div class="col-md-6">
+
+										<div class="form-group">
+											<label for="address1"  class="col-md-4 control-label required">Address Line 1</label>
+											<div class="col-md-8">
+												<input type="text" ng-model="location.address1" class="form-control" id="address1"  name="address1" placeholder="Address Line 1" required/>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="address3"  class="col-md-4 control-label">Address Line 3</label>
+											<div class="col-md-8">
+												<input type="text" ng-model="location.address3" class="form-control" id="address3" name="address3" placeholder="Address Line 3" />
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="state"  class="col-md-4 control-label">State</label>
+											<div class="col-md-8 select-box">
+												<select ng-model="location.stateId" ng-options="item.id as item.name for item in locationList.statesList" class="form-control"  id="state" name="state" >
+												<option value="">Select</option>
+												</select>
+												  <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+											</div>
+										</div>
+
+										<div class="form-group">
+											<label for="pincode"  class="col-md-4 control-label">Pincode</label>
+											<div class="col-md-8">
+												<input type="text" ng-model="location.pincode" class="form-control onlyNumbers" id="pincode" name="pincode" placeholder="pincode" minlength="6" maxlength="6" />
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+
+										<div class="form-group">
+											<label for="address2" class="col-md-4 control-label">Address line 2</label>
+											<div class="col-md-8">
+												<input type="text"  ng-model="location.address2" class="form-control" id="address2" name="address2" placeholder="Address line 2" />
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="Country" class="col-md-4 control-label required">Country</label>
+											<div class="col-md-8 select-box">
+											   <select ng-model="location.countryId" ng-options="item.id as item.name for item in locationList.countryList" class="form-control" name="country" id="country" required>
+												<option value="">Select</option>
+												</select>
+												  <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="City" class="col-md-4 control-label">City</label>
+											<div class="col-md-8">
+												<!-- <select  ng-model="location.cityId" ng-options="item.id as item.name for item in locationList.cityList" class="form-control"  name="city" id="city" required>
+												<option value="">Select</option>
+												</select> -->
+												 <input type="text" class="form-control" id="City" placeholder="City Name" name = "cityId" ng-model="location.cityId" maxlength="45" ng-disabled="readOnly" />
+												
+											</div>
+										</div>
+
+
+									</div>
+								</div>
+		                   </div>
+		               </div>
+		            </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary saveAddr" ng-click="saveAddress()">Save changes</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+					</div>
+		        </div>
+		    </div>
+		</div>
+	
+		 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	 		<div class="modal-dialog modal-lg" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <h4 class="modal-title">Add Department Details</h4>
+	                </div>
+	                <div class="modal-body">
+	                    <div class="panel panel-default">
+	                        <div class="sepr">
+	                            <div class="row">
+	                                <div class="col-md-6">                                   
+	
+	                                     <div class="form-group">
+	                                        <label for="departmentName"  class="col-md-4 control-label">Department Name</label>
+	                                        <div class="col-md-8 select-box">
+		                                        <select  ng-model="department" ng-options="item as item.departmentName for item in locationList.deptList" class="form-control"  id="departmentName">
+		                                            <option value="">Select</option>
+		                                        </select>
+	                                            <span class="input-group-btn">
+                                     				<label for="Select1" class="fa fa-caret-down"></label>
+                                        		</span>
+	                                        </div>
+	                                	</div>
+	                            	</div>
+	                        	</div>
+	                    	</div>
+	                	</div>
+	                <div class="modal-footer">
+		                <button type="button" ng-click="saveDepartmentDetails()" class="btn btn-primary saveDept" data-dismiss="modal" ng-click="saveDepartmentDetails()" >Save changes</button>
+		                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+		                
+		                <!-- <button type="button" ng-click="updateDepartmentDetails($event)" class="btn btn-primary updateDept" data-dismiss="modal" ng-show="popUpUpdate">Update changes</button> -->
+	            	</div>
+	            </div>
+			</div>
+		</div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</form>

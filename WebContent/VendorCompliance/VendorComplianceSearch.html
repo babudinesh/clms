@@ -1,0 +1,159 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Vendor Document</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" href="#/VendorComplianceAdd/0" ng-show="buttonArray.includes('ADD')">Add New Vendor Document <i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br/>
+			<br/>
+			<!-- panel 1 starts -->
+            <div class="panel panel-primary">
+            	<div class="panel-heading">
+            		<h5>Search Vendor Documents</h5>
+            	</div>
+            	
+	            <div class="sepr">
+	            	<div class="row">
+							<!-- <div >
+								<h5>Vendor Licences and Policies</h5>
+							</div> -->
+						<div class="col-md-6">
+		                    <div class="form-group">
+	                        	<label for="fromDate" class="col-md-4 control-label">From Date</label>
+								<div class="col-md-8">
+									<input type="text" class="form-control" ng-model="fromDate" id="fromDate" readonly="true" name="fromDate"  placeholder="From Date &#xf073;" /><!-- onchange="angular.element(this).scope().fun_checkErr(this)" -->
+								</div>
+		                	</div>
+		                    <div class="form-group">
+	                              	<label for="custName" class="col-md-4 control-label">Customer Name</label>
+							  	<div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList track by item.customerId" class="form-control" id="custName" ng-disabled="dropdownDisable">
+										<option value="">Select</option>
+									</select>
+									 <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+	                          	</div>
+	                           <div class="form-group">
+	                               <label for="vendorName" class="col-md-4 control-label">Vendor Name</label>
+	                               <div class="col-md-8 select-box">
+	                               	<select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorName" ng-disabled="dropdownDisable">
+	                                   	<option value="">Select</option>
+	                                   </select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+	                               </div>
+	                           </div>
+	                           <div class="form-group">
+	                               <label for="status" class="col-md-4 control-label">Vendor Status</label>
+	                               <div class="col-md-8 select-box">
+	                                   <select class="form-control" id="status" ng-model="vendorStatus" ng-options="item.id as item.name for item in vendorStatus_list" name="status">
+											<option value="">Select</option>
+	                                   </select>
+	                                    <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+	                             	</div>
+	                       </div>
+			            </div>
+	                	<div class="col-md-6">
+	                    	<div class="form-group">
+	                       		<label for="toDate" class="col-md-4 control-label">To Date</label>
+						  		<div class="col-md-8">
+									<input type="text" class="form-control" ng-model="toDate" id="toDate" readonly="true" name="toDate" placeholder="To Date &#xf073;" />
+								</div>
+	                    	</div>
+	                    	<div class="form-group">
+                               	<label for="wageCode" class="col-md-4 control-label">Company Name</label>
+                               	<div class="col-md-8 select-box">
+									<select  ng-change="companyChange()" ng-model="companyName" ng-options="item as item.name for item in companyList" class="form-control" id="compName" ng-disabled="dropdownDisable">
+										<option value="">Select</option>
+									</select>       
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                         
+								</div>
+                           	</div>
+
+                         		<div class="form-group">
+                               	<label for="complianceType" class="col-md-4 control-label">Document Type</label>
+                               	<div class="col-md-8 select-box">
+                                	<select   ng-model="defineComplianceTypeId" name="complianceType" ng-options="item.defineComplianceTypeId as item.doccumentName for item in complianceTypeList" class="form-control" id="complianceType">
+										<option value="">Select</option>
+									</select>       
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>
+                               	</div>
+                           	</div>
+                           	<!-- <div class="form-group">
+                           		<div class="col-md-12">
+	                                <div class="col-md-6 checkbox">
+	                                   <label style="margin-left:-14px" >
+	                                        <input type="checkbox" ng-model="saved"  id ="saved" /> Saved 
+	                                    </label>
+									</div>
+	                                <div class="col-md-6 checkbox">
+	                                    <label style="margin-top:15px;" >
+	                                    	<input type="checkbox" ng-model="validated" id="validated" name="validated"  /> Validated
+	                                    </label>
+	                            	</div>
+	                            </div>
+
+	                		</div> -->
+	                		<div class="form-group">
+                                <label for="status" class="col-md-4 control-label">Document Status</label>
+                                <div class="col-md-8 select-box">
+                                    <select class="form-control" id="status" ng-model="status"  ng-options="item.id as item.name for item in documentStatus_list"  name="status">
+                                    	<option value="">Select</option>
+                                       <!--  <option>Saved</option>
+                                        <option>Verified</option> -->
+                                    </select>
+                                     <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+                              	</div>
+	                       </div>
+             			</div>
+             				
+           				<div class="col-md-4 col-md-offset-9">
+	                        <a class="btn btn-primary col-md-4 col-md-offset-9" ng-click="search()">Search <i class="fa fa-search"></i></a>
+	                        <a class="btn btn-warning col-md-4" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                  		</div>
+	             	</div><!--  sub panel ends -->
+				</div>
+            </div>
+            <!--  panel 1 ends -->
+            
+			<!--  panel 2 starts -->
+        	<div class="panel panel-primary" id="searchPanel" ng-show="vendorComplianceTableView">
+	         	<div class="panel-heading">
+	           		<h5>Search Result</h5>
+	           	</div>
+            	<div class="sepr">
+                	<div>
+                        <table class="table table-striped" id="vendorComplianceTable">
+                            <thead>
+                                <tr>
+                                    <th>Vendor Name</th>
+                                    <th>Document Name </th>
+                                    <th>Issue Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Due Date</th>
+                                    <th>Workers Limit</th>
+                                    <th>Document Status</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+	                        
+                        </table>
+                 	</div>
+             	</div>
+         	</div><!--  panel 2 ends -->
+    	</div>
+    </div>
+</div>
+
+

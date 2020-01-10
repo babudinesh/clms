@@ -1,0 +1,525 @@
+<!-- <link rel="stylesheet" href="/company/create/all.css"/> -->
+<form id="workerForm">
+	<div class="body">
+
+
+		<div class="container-fluid  childGrid">
+			<form id="CompanyDetails" name="CompanyDetails" novalidate
+				ng-submit="submit">
+				<div class="col-md-12 well">
+					<h3 class="cls_plainheader">Worker Details</h3>
+					<ul class="nav nav-tabs">
+						<li><a ng-href="#/Customer/CustomerAdd">Worker</a></li>
+						<li><a ng-href="#/workerFamilyDetails">Family Details</a></li>
+						<!-- <li class="active"><a ng-href="#/workerFamilyDetails">Education
+								& Employment Details</a></li> -->
+					</ul>
+					<br />
+
+					<div class="row">
+						<div class="col-md-4">Customer Name : {{worker.customerName}}</div>
+						<div class="col-md-4">Company Name : {{worker.companyName}}</div>
+						<div class="col-md-4">Country Name : {{worker.countryName}}</div>
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-4">Vendor Name : {{worker.vendorName}}</div>
+						<div class="col-md-4">Worker Code : {{worker.workerCode}}</div>
+						<div class="col-md-4">Worker Name : {{worker.workerName}}</div>
+					</div>
+
+
+
+					<br /> <br />
+					<div class="col-md-12">
+
+
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<h5>Worker Qualification & Employement Details</h5>
+							</div>
+							<div class="sepr">
+
+								<div class="row">
+									<div class="panel panel-primary" style="margin: 15px">
+										<div class="panel-heading">
+											<h5>Add Educational Details</h5>
+										</div>
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Education Level</th>
+													<th>Degree Name</th>
+													<th>Mode Of Education</th>
+													<th>Institution name</th>												
+													<th><i class="fa fa-plus addrow " data-toggle="modal"
+														data-target="#Educaion" ng-click="plusIconAction()"> </i></th>
+													
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng:repeat="i in worker.educationList" on-last-repeat>
+													<td>{{i.educationLevel}}</td>
+													<td>{{i.degreeName}}</td>
+													 <td>{{i.modeOfEducation}}</td>
+													<td>{{i.institutionName}}</td>													
+													<td><i ng-click="DeleteEducation($event)" class="fa fa-trash"></i></td>
+													<td><i ng-click="EditEducation($event)" class="fa fa-edit"
+														data-toggle="modal" data-target="#Educaion"></i>
+													</td>
+													
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							
+							<!--  Certification Start  -->
+							
+							<div class="sepr">
+
+								<div class="row">
+									<div class="panel panel-primary" style="margin: 15px">
+										<div class="panel-heading">
+											<h5>Add Certification Details</h5>
+										</div>
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Certificate Name</th>
+													<th>Issuing Authority</th>													
+													<th>Validity</th>												
+													<th><i class="fa fa-plus addrow " data-toggle="modal"
+														data-target="#Certificate" ng-click="plusIconAction()"> </i></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr ng:repeat="i in worker.educationList" on-last-repeat>
+													<td>{{i.certificateName}}</td>
+													<td>{{i.issuingAuthority}}</td>													
+													<td>{{i.validiy}}</td>													
+													<td><i ng-click="DeleteCertification($event)" class="fa fa-trash"></i></td>
+													<td><i ng-click="EditCertification($event)" class="fa fa-edit"
+														data-toggle="modal" data-target="#Educaion"></i>
+													</td>
+													
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							
+							<div class="sepr">
+
+								<div class="row">
+									<div class="panel panel-primary" style="margin: 15px">
+										<div class="panel-heading">
+											<h5>Add Previous Employment Details</h5>
+										</div>
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th>Country</th>
+													<th>Identification Type</th>
+													<th>Attachment</th>
+													<th><i class="fa fa-plus addrow " data-toggle="modal"
+														data-target="#Employment"> </i></th>
+													<th><i class="fa fa-minus"></i></th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+							</div>
+						
+						<div class="btn-group btn-group-right pull-right">
+                  			 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="enable || SaveWorker($event)">Save</a>                   
+                  			 <a href="#/customerDetailsSearch" class="btn btn-default">Return to search</a>
+                		</div>
+						
+						</div>
+					</div>
+
+
+				</div>
+
+
+				
+		</div>
+
+
+		<div class="container-fluid">
+			<div class="navbar navbar-default navbar-fixed-bottom text-center"
+				style="min-height: 15px; padding: 0px;">
+				<div class="container text-right">
+					<label class="control-label text-center"
+						style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+				</div>
+			</div>
+		</div>
+</div>
+</form>
+
+<form id="EducationForm">
+<!-- Modal -->
+<div class="modal fade" id="Educaion" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="col-md-12">
+
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h5>Add Education Details</h5>
+                        </div>
+                        <div class="sepr">
+
+                            <div class="row">
+                                
+					<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="educationLevel" class="col-md-4 control-label ">Education Level</label>
+                                        <div class="col-md-8 ">
+                                            <select   ng-model="education.educationLevel" name="educationLevel"  ng-options="item.id as item.name for item in educationLevelList" class="form-control"  id="educationLevel"  >
+                                           
+                                   			 </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="modeOfEducation" class="col-md-4 control-label ">Mode Of Education </label>
+                                        <div class="col-md-8">
+                                            
+                                            
+                                            <select   ng-model="education.modeOfEducation" name="modeOfEducation"  ng-options="item.id as item.name for item in modeofEducationList" class="form-control"  id="modeOfEducation"  >
+                                           
+                                   			 </select>
+                                        </div>
+                                    </div>
+
+											<br/>
+                                    <div class="form-group">
+                                        <label for="yearOfPassing" class="col-md-4 control-label ">Year Of Passing</label>
+                                        <div class="col-md-8 ">
+                                             <input type="text" class="form-control" id="yearOfPassing" placeholder="Transaction Date &#xf073;" ng-model="education.yearOfPassing" name="yearOfPassing" date-change-picker  />
+                                        </div>
+                                    </div>
+
+                       </div>
+
+
+						<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="degreeName" class="col-md-4 control-label ">Degree Name</label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" class="form-control" id="degreeName" placeholder="Degree Name" ng-model="education.degreeName" name="degreeName"  minlength="2" maxlength="45" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="institutionName" class="col-md-4 control-label ">Institution Name </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="institutionName" placeholder="Institution Name" ng-model="education.institutionName" name="institutionName"   />
+                                        </div>
+                                    </div>
+
+											<br/>
+                                    <div class="form-group">
+                                        <label for="percentage" class="col-md-4 control-label ">Percentage/Grade</label>
+                                        <div class="col-md-8 ">
+                                            <input  type="text" class="form-control z-index:1000px" placeholder="Percentage / Grade"  ng-model="education.percentage" name="percentage" minlength="2" maxlength="45" >                                            
+                                          </input>
+                                        </div>
+                                    </div>
+					  </div>
+                                
+                                
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="memberName" class="col-md-4 control-label ">Upload Certificate</label>
+                                        
+                                    </div>
+
+                                    
+
+
+                                   
+
+                                </div>
+                                
+								<div class="modal-footer btn-group btn-group-right pull-right">
+
+									<button class="btn btn-primary" ng-click="saveEducationDetails($event)" onclick="return false;"  ng-show="popUpSave">Save</button>
+									<button class="btn btn-primary" ng-click="updateEducationDetails($event)" onclick="return false;"  ng-show="popUpUpdate">Update</button>
+									<button type="button" class="btn btn-warning" data-dismiss="modal" ng-show="popUpSave">Close</button>
+								</div>
+
+							</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                
+                
+            
+            </div>
+          
+        </div>
+</div>
+</form>
+
+<!--    Certification Details Start -->
+
+
+<form id="CertificateForm">
+<!-- Modal -->
+<div class="modal fade" id="Certificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="col-md-12">
+
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h5>Add Certification Details</h5>
+                        </div>
+                        <div class="sepr">
+
+                            <div class="row">
+                                
+					<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="educationLevel" class="col-md-4 control-label ">Certificate Name</label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" class="form-control" id="Text1" placeholder="Member Name" ng-model="workerNomine.memberName" name="educationLevel"   />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dateOfBirth" class="col-md-4 control-label ">Validity </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="dateOfBirth" placeholder="Transaction Date &#xf073;" ng-model="dateOfBirth" name="dateOfBirth" date-change-picker ng-disabled="readOnly"  />
+                                        </div>
+                                    </div>
+
+											<br/>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-4 control-label ">Valid To</label>
+                                        <div class="col-md-8 ">
+                                            <textarea class="form-control z-index:1000px" placeholder="Address"  ng-model="workerNomine.address" name="address" minlength="2" maxlength="499" >                                            
+                                          </textarea>
+                                        </div>
+                                    </div>
+
+                       </div>
+
+
+						<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="memberName" class="col-md-4 control-label ">Issuing Authority</label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" class="form-control" id="Text1" placeholder="Member Name" ng-model="workerNomine.memberName" name="memberName"  minlength="2" maxlength="45" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dateOfBirth" class="col-md-4 control-label ">Valid From </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="dateOfBirth" placeholder="Transaction Date &#xf073;" ng-model="dateOfBirth" name="dateOfBirth" date-change-picker ng-disabled="readOnly"  />
+                                        </div>
+                                    </div>
+
+					  </div>
+                                
+                                
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="memberName" class="col-md-4 control-label ">Upload Certificate</label>
+                                        
+                                    </div>
+
+                                    
+
+
+                                   
+
+                                </div>
+                                
+								<div class="modal-footer btn-group btn-group-right pull-right">
+
+									<button class="btn btn-primary" ng-click="saveCertificationDetails($event)" onclick="return false;"  ng-show="popUpSave">Save</button>
+									<button class="btn btn-primary" ng-click="updateCertificationDetails($event)" onclick="return false;"  ng-show="popUpUpdate">Update</button>
+									<button type="button" class="btn btn-warning" data-dismiss="modal" ng-show="popUpSave">Close</button>
+								</div>
+
+							</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                
+                
+            
+            </div>
+          
+        </div>
+</div>
+</form>
+
+<!-- Certification Details End -->
+
+
+
+
+
+<!--    Employment Details Start -->
+
+
+<form id="EmploymentForm">
+<!-- Modal -->
+<div class="modal fade" id="Employment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+               <div class="col-md-12">
+
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h5>Add Employment Details</h5>
+                        </div>
+                        <div class="sepr">
+
+                            <div class="row">
+                                
+					<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="educationLevel" class="col-md-4 control-label ">Organization Name</label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" class="form-control" id="Text1" placeholder="Organization Name" ng-model="workerNomine.organizationName" name="educationLevel"   />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="Designation" class="col-md-4 control-label ">Designation </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="Designation" placeholder="Designation" ng-model="Designation" name="Designation"  ng-disabled="readOnly"  />
+                                        </div>
+                                    </div>
+
+											<br/>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-4 control-label ">Start Date</label>
+                                        <div class="col-md-8 ">
+                                            <textarea class="form-control z-index:1000px" placeholder="Address"  ng-model="workerNomine.address" name="address" minlength="2" maxlength="499" >                                            
+                                          </textarea>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-4 control-label ">Total Years</label>
+                                        <div class="col-md-8 ">
+                                            <textarea class="form-control z-index:1000px" placeholder="Address"  ng-model="workerNomine.address" name="address" minlength="2" maxlength="499" >                                            
+                                          </textarea>
+                                        </div>
+                                    </div>
+
+                       </div>
+
+
+						<div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="memberName" class="col-md-4 control-label ">Organization Number</label>
+                                        <div class="col-md-8 ">
+                                            <input type="text" class="form-control" id="Text1" placeholder="Organization Number" ng-model="workerNomine.memberName" name="memberName"  minlength="2" maxlength="45" />
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="dateOfBirth" class="col-md-4 control-label ">Current </label>
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="dateOfBirth" placeholder="Transaction Date &#xf073;" ng-model="dateOfBirth" name="dateOfBirth" date-change-picker ng-disabled="readOnly"  />
+                                        </div>
+                                    </div>
+
+											<br/>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-4 control-label ">End Date</label>
+                                        <div class="col-md-8 ">
+                                            <textarea class="form-control z-index:1000px" placeholder="Address"  ng-model="workerNomine.address" name="address" minlength="2" maxlength="499" >                                            
+                                          </textarea>
+                                        </div>
+                                    </div>
+					  </div>
+                                
+                                
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label for="memberName" class="col-md-4 control-label ">Upload Certificate</label>
+                                        
+                                    </div>
+
+                                    
+
+
+                                   
+
+                                </div>
+                                
+								<div class="modal-footer btn-group btn-group-right pull-right">
+
+									<button class="btn btn-primary" ng-click="saveNomineeDetails($event)" onclick="return false;" data-dismiss="modal" ng-show="popUpSave">Save</button>
+									<button class="btn btn-primary" ng-click="updateNomineeDetails($event)" onclick="return false;" data-dismiss="modal" ng-show="popUpUpdate">Update</button>
+									<button type="button" class="btn btn-warning" data-dismiss="modal" ng-show="popUpSave">Close</button>
+								</div>
+
+							</div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+                
+                
+            
+            </div>
+          
+        </div>
+</div>
+</form>
+
+<!-- Employment Details End -->
+
+
+
+
+
+
+
+
+

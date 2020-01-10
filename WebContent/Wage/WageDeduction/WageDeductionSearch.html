@@ -1,0 +1,111 @@
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Define Deduction</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" href="#/WageDeduction/0" ng-show="buttonArray.includes('ADD')">Add New Deduction Code<i class="fa fa-plus-circle"></i></a>
+            <br />
+            <br />
+            <br />
+            <div class="panel panel-primary">
+            	<div class="panel-heading">
+            		<h5>Search Existing Data</h5>
+            	</div>
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="custName" class="col-md-4 control-label">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList track by item.customerId" class="form-control" id="custName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="locationName" class="col-md-4 control-label">Location Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-model="locationName" ng-options="item.id as item.name for item in locationList " class="form-control" id="locationName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span> 
+								</div>
+                            </div>
+                           
+                            
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="wageCode" class="col-md-4 control-label">Company Name</label>
+                                <div class="col-md-8 select-box">
+									<select  ng-change="companyChange()" ng-model="companyName" ng-options="item.id as item.name for item in companyList" class="form-control" id="compName">
+										<option value="">Select</option>
+									</select>       
+									<span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+									</span>                         
+								</div>
+                            </div>
+
+                             <div class="form-group">
+                                <label for="deductionCode" class="col-md-4 control-label">Deduction Code</label>
+                                <div class="col-md-8">
+                                    <input type="text" name="deductionCode" class="form-control"  ng-model="deductionCode" id="deductionCode" placeholder="Deduction Code" />
+                                </div>
+                            </div>
+							
+                            
+                        </div>
+
+                        <div class="col-md-4 col-md-offset-2 pull-right">
+                            <a class="btn btn-primary col-md-6 col-md-offset-5" ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-primary" ng-show="wageDeductionTableView">
+             	<div class="panel-heading">
+             		<h5>Search Result</h5>
+           		</div>
+                <div class="sepr">
+                    <div>
+                        <table class="table table-striped" id="wageDeductionTable">
+                            <thead>
+                                <tr>
+                                    
+                                    <th>CustomerName</th>
+                                    <th>Company Name</th>
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>
+                                    <th>Location Name</th>    
+                                    <th>Deduction Code</th>  
+                                    <th>Deduction Name</th>                                  
+                                </tr>
+                            </thead>
+                            <!-- <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td><a ng-href="#/WageRateAdd/{{i.wageRateDetailsId}}">{{i.wageRateCode}}</td>
+                                    <td>{{i.customerName}}</td>
+                                    <td>{{i.companyName}}</td>
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.status}}</td>
+                                    <td>{{i.wageRateName}}</td>
+                                </tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+
+

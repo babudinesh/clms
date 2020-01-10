@@ -1,0 +1,68 @@
+<div class="container" style="max-width:800px;" >
+<button back-button>Back</button> 
+ <div class="" ng-show="(edit)">
+                              
+                                <!--  h4>{{alertMessage}}</h4>-->
+                                <div class="row">
+                                                            
+                                <div class="col-md-4">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label">Current Day
+										</label>
+									<div class="col-md-8 ">
+									 	<span type="text" class="form-control">{{cevent.start}}</span>
+											
+										
+									</div>
+								</div>
+								</div> 
+								<div class="col-md-4">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label">Current Shift
+										</label>
+									<div class="col-md-4 ">
+									 	<span type="text" class="form-control">{{cevent.Shift_Name}}</span>										
+										
+									</div>
+								</div>
+								</div>
+								 <div class="col-md-4">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label">New Shift
+										</label>
+									<div class="col-md-8  select-box">
+									 		<select ng-model="ceven1" class="form-control">
+										<option value="" > </option>
+											<option ng:repeat="i in shifts" value="{{i}}" > {{i.Shift_Name}}</option>
+										</select>
+											<span class="input-group-btn">
+                                     <label for="New Shift" class="fa fa-caret-down"></label>
+                                        </span>
+										
+									
+								</div>
+								</div>
+								<div class="form-group">
+									<button ng-click="updateInfo()">Submit
+										</button>
+										<button ng-click="edit=false;">Cancel
+										</button>
+									
+								</div>
+                              </div></div>
+                              </div>  
+        <section id="directives-calendar"  ng-show="!(edit)">
+             
+                              <div class="btn-toolbar" >
+                                <p class="pull-right lead">Calendar One View Options</p>
+                                <div class="btn-group">
+                                    <button class="btn btn-success" ng-click="changeView('agendaDay', 'myCalendar1')">Day</button>
+                                    <button class="btn btn-success" ng-click="changeView('agendaWeek', 'myCalendar1')">Week</button>
+                                    <button class="btn btn-success" ng-click="changeView('month', 'myCalendar1')">Month</button>
+                                </div>
+                              </div>
+                            <div class="calendar" ng-model="eventSources" calendar="myCalendar1" ui-calendar="uiConfig.calendar"></div>          
+                   
+         
+        </section>
+    </div>

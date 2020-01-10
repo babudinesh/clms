@@ -1,0 +1,162 @@
+<!-- <link rel="stylesheet" href="/company/list/all.css" /> -->
+
+
+<!-- <div class="container-fluid" style="margin-bottom: 35px;">
+	<div style="display: inline-block">
+	
+	</div>
+	<div class="pull-right">
+		<span style="padding-top: 10px; cursor: pointer;"><i
+			class="fa fa-question-circle fa-3x clsicon_help" aria-hidden="true"
+			title="Help"></i></span>
+	</div>
+
+
+
+</div> -->
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Assigning Duty and Schedule to
+			Workers</h3>
+		<form name="companySearchForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<!-- a ng-href="#/companyDetails/create"
+					class="btn btn-primary pull-right">Add New Company <i
+					class="fa fa-plus-circle"></i></a> <br /> <br /> <br /> -->
+				<div class="panel panel-primary">
+					<!-- <div class="panel-heading">
+				<h5>Search Duty </h5>
+				</div> -->
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerName" class="col-md-4 control-label">Pattern
+										As of <i class="fa fa-asterisk text-danger" title="Required"></i>
+									</label>
+									<div class="col-md-8 ">
+										<input type="date" class="form-control" ng-model="patternDate"
+											ng-change="fun_changePatternDate()" required/ >
+
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="countryName" class="col-md-4 control-label">Location
+										Name</label>
+									<div class="col-md-8">
+
+										<input type="text" ng-readonly="checked" readonly="readonly"
+											ng-model="jobdetails.work.Location_Name" class="form-control" />
+									</div>
+
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Department
+										Name</label>
+									<div class="col-md-8 ">
+										<input type="text" ng-readonly="checked" readonly="readonly"
+											ng-model="jobdetails.work.Department" class="form-control" />
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="Department Name" class="col-md-4 control-label">Select
+										Pattern Code <i ng-show="!(dname)"
+										class="fa fa-asterisk text-danger" title="Required" required></i>
+										<i ng-show="(dname)" class="fa fa-asterisk text-success"
+										title="Required"></i>
+									</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="shiftPatternDetailId" class="form-control"
+											ng-change="shiftPatternDetailId=='0'?dname=false:dname=true; " required>
+
+											<option ng:repeat="i in jobdetails.pattern"
+												value="{{i.Shift_Pattern_Id}}">
+												{{i.Shift_Pattern_Code}}</option>
+										</select> <span class="input-group-btn"> <label for="Select1"
+											class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<button ng-click="saveData()" class="btn btn-success"
+									type="submit" loading-text="Saving..."
+									ng-disabled="!companySearchForm.$valid" enable-button="ready"
+									submit-button>Save Changes</button>
+								&nbsp;<a ng-href="#/shiftAssignment/{{encruptParams}}" >Back</a>
+							</div>
+							<!--  ng-change="fun_customerNameChange()" ng-change="fun_companyNameChange()"-->
+							<div class="col-md-6">
+
+								<div class="form-group">
+									&nbsp;
+									<!-- <label for="companyName" class="col-md-4 control-label">Vendor Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="Assign.status" class="form-control">
+											<option ng:repeat="i in Assign.VendorDetails" value="{{i.Vendor_id}}"> {{i.vendor_name}}</option>
+										</select>
+										
+										<span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div> -->
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Plant
+										Name</label>
+									<div class="col-md-8 ">
+										<input ng-readonly="checked" readonly="readonly"
+											ng-model="jobdetails.work.Plant_Name" class="form-control" />
+
+
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Worker
+										Area</label>
+									<div class="col-md-8 ">
+										<input type="text"
+											ng-model="jobdetails.workarea.Work_Area_Name"
+											class="form-control" />
+
+
+
+									</div>
+								</div>
+								<div class="form-group">
+									<a href="#/calandershiftAssignment/{{encruptParams}}">View
+										and Assign Schedule</a>
+
+								</div>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+
+			<div></div>
+
+		</form>
+		<div id="output1" style="margin: 30px;"></div>
+		 <div id="output" style="margin: 30px;"></div>
+	</div>
+
+	<br />
+
+</div>
+
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+</div>

@@ -1,0 +1,121 @@
+<!-- <link rel="stylesheet" href="/company/companyContact/list/all.css" /> -->
+<div class="body">
+	
+	<div class="container-fluid">
+	
+		<div class="col-md-12 well">
+		 <h3 class="cls_plainheader">Define Customer Contacts</h3>
+			<form name="companyAddressForm" novalidate ng-submit="submit">
+				<!-- <div class="navbar navbar-default">
+					<div class="container-fluid">
+						<div class="navbar-header">
+							 <button type="button" class="navbar-toggle"
+								data-toggle="collapse" data-target=".navbar-responsive-collapse">
+								<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+									class="icon-bar"></span>
+							</button> 
+						</div>
+						
+					</div>
+				</div> -->
+				
+				<div class="col-md-12">
+					<ul class="nav nav-tabs">
+						<li><a href="#/CustomerDetails/{{customerinfoId}}">Customer</a></li>								
+						<li class="active"><a href="#/customerContctsSearch">Contacts</a></li>
+					</ul>
+				
+					<a ng-href="#/customerAddress/create" class="btn btn-primary pull-right">Add New Address <i class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h5>Address Information</h5>					
+						</div>
+						
+						<div class="sepr">
+							<div>
+								<table class="table table-striped" id="AddressInformation">
+									<thead>
+										<tr>											
+											<th>Address Type</th>
+											<th>Address 1</th>
+											<th>Address 2</th>
+											<th>Address 3</th>
+											<th>City</th>
+											<th>State</th>
+											<th>Country</th>
+											<th>Pincode</th>
+										</tr>
+									</thead>
+									<!-- <tbody ng:repeat="i in address_result">
+										<tr>											
+											<td><a ng-href="#/customerAddress/{{i.addressId}}">{{i.addressType}}</a></td>
+											<td>{{i.address1}}</td>
+											<td>{{i.address2}}</td>
+											<td>{{i.city}}</td>
+											<td>{{i.state}}</td>
+											<td>{{i.country}}</td>
+											<td>{{i.pincode}}</td>
+										</tr>
+									</tbody> -->
+
+								</table>
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+
+				<div class="col-md-12">
+					<a ng-href="#/customerContact/create" class="btn btn-primary pull-right">Add New Contact <i class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h5 >Contact Information</h5>
+						</div>
+						
+						<div class="sepr">
+							<div>
+								<table class="table table-striped" id="ContactInformation">
+									<thead>
+										<tr>
+											<th>Contact Type</th>
+											<th>Contact Name</th>
+											<th>Phone Number</th>
+											<th>Email</th>
+											<th>Address</th>
+										</tr>
+									</thead>
+									<!-- <tbody ng:repeat="i in contact_result">
+										<tr>
+											<td><a ng-href="#/customerContact/{{i.contactId}}">{{i.contactTypeName}}</a></td>
+											<td>{{i.contactName}}</td>
+											<td>{{i.mobileNumber}}</td>
+											<td>{{i.emailId}}</td>
+											<td>{{i.address}}</td>
+										</tr>
+
+									</tbody> -->
+
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="btn-group btn-group-right pull-right">
+					<a href="#/customerDetailsSearch"  class="btn  btn-default">Return To Search</a>
+			   </div>
+			   <div class="container-fluid">
+			            <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+			                <div class="container text-right">
+			                    <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+			                </div>
+			            </div>
+        			</div>	
+			</form>
+		</div>
+	</div>
+</div>

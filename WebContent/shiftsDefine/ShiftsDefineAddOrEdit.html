@@ -1,0 +1,297 @@
+
+
+<div class="container-fluid">
+ <form id="shiftDefineDetails" name="shiftDefineDetails" novalidate ng-submit="submit" > 
+	 <div class="col-md-12 well">
+	    <h3 class="cls_plainheader">Define Shift</h3>
+         <div class="panel panel-primary" ng-show="transactionList">
+         <div class="panel-heading">
+         <h5 > Search : </h5>
+         </div>
+			<div class="container">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="shiftId" class="col-md-4 control-label">Transaction Date's :</label>
+							<div class="col-md-6 select-box">
+                                  <select  ng-model="shiftsDefine.shiftDefineId" ng-change="fun_transactionDatesListChnage()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="shiftId">
+                                  		<option value="">Select</option>
+                                  </select>                                       
+								 <span class="input-group-btn">
+								<label for="Select1" class="fa fa-caret-down"></label>
+								</span>                                     											
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<hr class="pull-left" style="width: 105%" />
+			</div>
+   
+        <div class="col-md-12">
+           <div class="panel panel-primary">
+          <!--  <div class="panel-heading">
+          <h5>Define Shifts</h5>
+         </div> -->
+                <div class="sepr">
+                  
+                    <div class="row"> 
+						<div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="customerDetailsId" class="col-md-4 control-label required">Customer Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="shiftsDefine.customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerDetailsId" ng-change="fun_CustomerChangeListener()" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="0" required>
+                                         <option value="">Select</option>
+                                        </select>                                                    
+										 <span class="input-group-btn">
+										<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                             
+	                                </div>
+	                            </div> 
+	                             <div class="form-group">
+	                                <label for="locationDetailsId" class="col-md-4 control-label required"> Location Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="shiftsDefine.locationDetailsId" name="locationDetailsId" ng-options="item.locationId as item.locationName for item in locationList " class="form-control" id="locationDetailsId"  ng-change="fun_locationChangeListener()" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="3" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                  
+	                                </div>
+                               </div>
+	                           <div class="form-group">
+	                                <label for="countryId" class="col-md-4 control-label required">Country Name</label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="shiftsDefine.countryId" name="countryId" ng-options="item.id as item.name for item in countryList " class="form-control" id="countryId" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="3" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                  
+	                                </div>
+                               </div>                     
+                        </div>                        
+                       	<div class="col-md-6">
+	                       	<div class="form-group">
+	                                <label for="companyDetailsId" class="col-md-4 control-label required">Company Name</label>
+	                                <div class="col-md-8 select-box">
+	                                
+	                                <select  ng-model="shiftsDefine.companyDetailsId" name="companyDetailsId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyDetailsId" ng-change="fun_CompanyChangeListener()" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="1" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                  
+	                                </div>                          
+	                         </div>  
+	                          <div class="form-group">
+	                                <label for="plantDetailsId" class="col-md-4 control-label required"> Plant Name </label>
+	                                <div class="col-md-8 select-box">
+	                                <select  ng-model="shiftsDefine.plantDetailsId" name="plantDetailsId" ng-options="item.plantId as item.plantName for item in plantList " class="form-control" id="plantDetailsId" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="3" required>
+	                                            <option value="">Select</option>
+	                                            </select>    
+	                                            
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span>                                  
+	                                </div>
+                               </div>  
+	                         <div class="form-group"> 
+	                                <label for="shiftCode" class="col-md-4 control-label required">Shift Code</label>
+	                                <div class="col-md-8">
+	                                <input type="text" class="form-control" id="shiftCode" name="shiftCode" placeholder="Shift Code" ng-model="shiftsDefine.shiftCode" ng-disabled="shiftsDefine.shiftDefineId != undefined && shiftsDefine.shiftDefineId != '' && shiftsDefine.shiftDefineId != null && shiftsDefine.shiftDefineId > 0" tabindex="4" required/>              
+	                                </div>                          
+	                         </div>    
+	                                                                             
+                        </div> 
+                   </div>
+              </div>
+                        
+            </div>
+        
+            <input type="hidden" ng-model="shifts.shiftId" />
+            <div class="panel panel-primary">
+             <div class="panel-heading">
+          <h5>Define Shift</h5>
+         </div>
+                <div class="sepr">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date  &#xf073;" ng-model="transactionDate" ng-disabled="readonly" tabindex="5" required/>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="shiftName" class="col-md-4 control-label required">Shift Name</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="shiftName" name="shiftName" placeholder="Shift Name" required  ng-model="shiftsDefine.shiftName" ng-disabled="readonly" tabindex="7"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="isActive" class="col-md-4 control-label required">Status</label>
+                                <div class="col-md-8 select-box">
+                                   <select  ng-model="shiftsDefine.isActive" name="isActive" ng-options="item.id as item.name for item in list_status " class="form-control" id="isActive" ng-model="shiftsDefine.isActive" ng-disabled="readonly" tabindex="6">
+                                         <option value="">Select</option>
+                                   </select>   
+                                   
+ <span class="input-group-btn">
+<label for="Select1" class="fa fa-caret-down"></label>
+</span> 
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <input type="color" style="margin-left: 20px; margin-top: 10px; width: 100px;" ng-model="shiftsDefine.shiftColor" id="shiftColor" ng-disabled="readonly" tabindex="8"/>
+                                </div>
+                                <label for="shiftColor" class="col-md-8 control-label" style="margin-left: -20px;">Select Color For the Shift</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="col-md-7">
+            <div class="panel panel-primary" id="shifftDiv">
+            	<div class="panel-heading">
+          			<h5> Shift Timings </</h5>
+         		</div>
+                <div class="sepr">
+                    <div class="row">
+                    	<div class="col-md-5">
+                        	<div class="form-group"> 
+	                        	<label for="startTimeLabel" id="startTimeLabel" class="col-md-4 control-label required">Start Time</label>
+	                        	<div class="col-md-6">
+                                    <input type="text" ng-model="startTime" name="startTime"   class="form-control" id="startTime" ng-disabled="readonly || timeDisable"  tabindex="9" placeholder = "HH:MM" required/>
+                                    <!-- <input type="text" ng-model="startTime" name="startTime"   class="form-control"  id="startTime" ng-disabled="readonly"  tabindex="9" required/> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                           	<div class="form-group"> 
+                         		<label for="endTime" id="endtimeLabel" class="col-md-4 control-label required">End Time</label>
+                         	 	<div class="col-md-3">
+                            		<input type="text" ng-model="endTime" name="endTime" class="form-control"    id="endTime" ng-disabled="readonly || timeDisable"  tabindex="10" placeholder = "HH:MM" required/>
+                            	</div>
+                            	<div class="col-md-5 check-box">
+                            		<!-- <label><input type="checkbox" ng-model="shiftsDefine.isNextDay" name="isChecked"    id="isChecked" ng-checked="shiftsDefine.isNightShift == 'Y'" ng-disabled="readonly"  tabindex="10"  /> &nbsp; Is Next Day</label> -->
+                            	</div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                          	<div class="form-group"> 
+                         		<label for="unpaidBreak"  id="unpaidBreakLabel" class="col-md-4 control-label required">Unpaid Break</label>
+                          		<div class="col-md-6">
+                           			<input type="text" ng-model="unpaidBreak" placeholder="Enter in Minutes " name="unpaidBreak"  ng-change="fun_timeChangeListener()"  class="form-control onlyNumbers"  id="unpaidBreak" ng-disabled="readonly"  tabindex="11" required/> 
+                            	</div>
+                        	</div>
+                        </div>
+                        <div class="col-md-7">
+                           	<div class="form-group"> 
+                         		<label for="totalHours" id="totalHoursLabel"  class="col-md-4 control-label required">Total in Hours</label>
+                          		<div class="col-md-8">
+                             		<input type="text" ng-model="totalHours" name="totalHours" placeholder="Total in Hours" class="form-control" ng-disabled="true"  id="totalHours"  tabindex="12" required/>
+                            	</div>
+                            </div>
+                        </div>                                                                             
+                       
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+                        
+            <div class="col-md-5">
+            	<div class="panel panel-primary">
+             		<div class="panel-heading">
+          				<h5> Shift Controls </</h5>
+         			</div>
+                	<div class="sepr">
+                    	<div class="row">
+                          	<div class="checkbox col-md-6">
+	                            <label style="margin-left: 30px; margin-top: 25px">
+	                                <input type="checkbox" ng-model="offShift" ng-disabled="readonly"   tabindex="13" id="offShift" ng-change="fun_offShiftChnage()"/>
+	                                Off Shift
+	                            </label>
+                            </div>
+                            <div class="checkbox col-md-6">
+                                <label style="margin-left: 30px; margin-top: 40px">
+                                    <input type="checkbox" ng-model="halfDayShift" ng-disabled="readonly" id="halfDayShift"  tabindex="13"/>
+                                    Half Day Shift
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                              <!--  <label style="margin-left: 30px; margin-top: 30px">
+                                   <input type="checkbox" ng-model="flexibleShift" ng-disabled="readonly"  tabindex="16"/>
+                                   Flexible Shift
+                               </label> -->
+                            </div>  
+                            <div class="col-md-6">
+                              <!--  <label style="margin-left: 30px; margin-top: 30px">
+                                   <input type="checkbox" ng-model="flexibleShift" ng-disabled="readonly"  tabindex="16"/>
+                                   Flexible Shift
+                               </label> -->
+                            </div> 
+                            <div class="col-md-6">
+                              <!--  <label style="margin-left: 30px; margin-top: 30px">
+                                   <input type="checkbox" ng-model="flexibleShift" ng-disabled="readonly"  tabindex="16"/>
+                                   Flexible Shift
+                               </label> -->
+                            </div> 
+                            <div class="col-md-6">
+                              <!--  <label style="margin-left: 30px; margin-top: 30px">
+                                   <input type="checkbox" ng-model="flexibleShift" ng-disabled="readonly"  tabindex="16"/>
+                                   Flexible Shift
+                               </label> -->
+                            </div> 
+                            <div class="col-md-6">
+                              <!--  <label style="margin-left: 30px; margin-top: 30px">
+                                   <input type="checkbox" ng-model="flexibleShift" ng-disabled="readonly"  tabindex="16"/>
+                                   Flexible Shift
+                               </label> -->
+                            </div>
+                            <div class="checkbox col-md-6">
+                                <label style="margin-left: 30px; margin-top: 25px">
+                                    <input type="checkbox" ng-model="shiftAllowance" ng-disabled="readonly" id="shiftAllowance" tabindex="15"/>
+                                    Shift Allowance
+                                </label>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                      
+                         
+			<div class="btn-group btn-group-right pull-right">
+		            <a href="javascript:void(0)" class="btn btn-primary" ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click=" enable || fun_save_shiftDefineData($event)" tabindex="17">Save</a>
+		            <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="fun_updateActionBtn()" tabindex="18" >Update</a>
+		            <a href="javascript:void(0)" class="btn btn-success" ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click=" enable || fun_save_shiftDefineData($event)" tabindex="19"> Correct History</a>
+		            <button class="btn" ng-show="resetBtn" type="reset" tabindex="20"> Reset </button>
+		            <a href="javascript:void(0)" class="btn btn-info" ng-show="viewHistoryBtn && buttonArray.includes('VIEW HISTORY')" ng-click="fun_viewHistoryBtn()" tabindex="21">View Or Update History</a>
+		            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelBtn" ng-click="fun_shiftDefineCancelBtn()" tabindex="22"> Cancel </a>
+		            <a ng-href="#/ShiftDefineSearch" class="btn btn-warning" ng-show="returnTOSearchBtn" tabindex="23">Return to search </a>
+		        </div>        
+		    </div>
+    </form>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>

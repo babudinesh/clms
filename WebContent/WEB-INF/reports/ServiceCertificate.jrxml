@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ServiceCertificate" language="groovy" pageWidth="374" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="334" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c67a3095-586a-42b2-abfd-602fd2d141d3">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="333"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="fc212592-5fde-4dd4-8744-89db0cd55c67">
+		<parameter name="customerId" class="java.lang.String"/>
+		<parameter name="companyId" class="java.lang.String"/>
+		<parameter name="vendorId" class="java.lang.String"/>
+		<parameter name="workerId" class="java.lang.String"/>
+		<parameter name="workerCode" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="workerName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT COALESCE(base_rate,0) AS baseRate,COALESCE(Case  When Date_of_leaving is null then TIMESTAMPDIFF(MONTH,Date_of_joining,DATE_FORMAT(now(),'%Y-%m-%d')) Else TIMESTAMPDIFF(MONTH,Date_of_joining,Date_of_leaving) END) AS Total_Period,
+REPLACE((CONCAT(RTRIM(wds.first_name), ' ',CASE WHEN (wds.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wds.middle_name),' ') END, wds.last_name)),'  ',' ') AS emp_name,Worker_code AS emp
+
+FROM worker_details wd
+INNER JOIN worker_details_info wds ON (wd.worker_id=wds.worker_id)
+
+LEFT JOIN work_job_details wod ON (wd.worker_id=wod.worker_id  AND CONCAT(DATE_FORMAT(wds.Transaction_Date, '%Y%m%d'),LPAD(wds.Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(wod1.Transaction_Date, '%Y%m%d'),LPAD(wod1.Sequence_id, 2, '0'))) FROM work_job_details wod1
+WHERE (wod.worker_id=wod1.worker_id) AND wod1.transaction_date <= CURRENT_DATE() GROUP BY worker_id))
+
+LEFT JOIN wage_rate_details_info wr ON(wod.wage_rate_id=wr.wage_rate_id AND CONCAT(DATE_FORMAT(wr.Transaction_Date, '%Y%m%d'),LPAD(wr.wage_rate_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(wage_rate_Sequence_id, 2, '0'))) FROM wage_rate_details_info wrd
+WHERE (wrd.wage_rate_id=wr.wage_rate_id) AND wrd.transaction_date <= CURRENT_DATE() GROUP BY wage_rate_id))
+
+WHERE CONCAT(DATE_FORMAT(wds.Transaction_Date, '%Y%m%d'),LPAD(wds.Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Sequence_id, 2, '0'))) FROM worker_details_info wjdi
+WHERE (wds.worker_id=wjdi.worker_id) AND wjdi.transaction_date <= CURRENT_DATE() GROUP BY worker_id)
+and wds.is_active='Y'
+AND wd.customer_id = $P{customerId}
+AND wd.company_id = $P{companyId}
+AND (wd.vendor_id = $P{vendorId} OR $P{vendorId} = '-1')
+AND (wd.worker_id = $P{workerId} OR  $P{workerId} = '-1')
+AND (wd.worker_code = $P{workerCode} OR $P{workerCode} = -1)
+AND (REPLACE((CONCAT(RTRIM(wds.first_name), ' ',CASE WHEN (wds.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wds.middle_name),' ') END, wds.last_name)),'  ',' ')  LIKE '%$P!{workerName}%'  );]]>
+		</queryString>
+		<field name="baseRate" class="java.lang.Float"/>
+		<field name="Total_Period" class="java.lang.Long"/>
+		<field name="emp_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="emp" class="java.lang.String"/>
+		<group name="Worker" isStartNewPage="true" isReprintHeaderOnEachPage="true">
+			<groupExpression><![CDATA[$F{emp}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="workerId" class="java.lang.String"/>
+	<parameter name="workerCode" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="workerName" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  wd.customer_id,wd.company_id,wd.vendor_id,wd.worker_id,COALESCE(base_rate,0) AS baseRate,v.Vendor_Name,Company_Name,CASE WHEN (l.Location_Name IS NOT NULL AND v.nature_of_work IS NOT NULL) THEN CONCAT(v.nature_of_work,', ',l.Location_Name) ELSE COALESCE(v.nature_of_work, l.Location_Name ,'') END AS Location_Name,Customer_Name,CONCAT(First_name,Last_name) AS emp_name,Worker_code AS emp,DATE_FORMAT(Date_of_birth,'%Y-%m-%d') as Date_of_birth,COALESCE(Father_spouse_Name,'-') AS Father_spouse_Name,Identification_type,CASE WHEN Age IS NULL THEN '' ELSE CONCAT(Age,' ,') END AS Age,CASE WHEN jc.job_Name  IS NULL THEN '' ELSE CONCAT(jc.job_Name,' / ') END AS job_Name,COALESCE(wod.work_skill,'-') AS work_skill,Base_Rate,COALESCE(Case  When Date_of_leaving is null then TIMESTAMPDIFF(MONTH,Date_of_joining,DATE_FORMAT(now(),'%Y-%m-%d')) Else TIMESTAMPDIFF(MONTH,Date_of_joining,Date_of_leaving) END) AS Total_Period
+,CONCAT(COALESCE(CASE WHEN adv.address_1 IS NOT NULL THEN CONCAT(adv.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN adv.address_2 IS NOT NULL THEN CONCAT(adv.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN adv.address_3 IS NOT NULL THEN CONCAT(adv.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN adv.city_name IS NOT NULL THEN CONCAT(adv.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN adv.state_name  IS NOT NULL THEN CONCAT(adv.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN adv.country_name  IS NOT NULL THEN CONCAT(adv.country_name,', ') ELSE '' END ,'' ),COALESCE(adv.pincode,''),'') AS vendor_address,
+CONCAT(COALESCE(CASE WHEN adc.address_1 IS NOT NULL THEN CONCAT(adc.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN adc.address_2 IS NOT NULL THEN CONCAT(adc.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN adc.address_3 IS NOT NULL THEN CONCAT(adc.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN adc.city_name  IS NOT NULL THEN CONCAT(adc.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN adc.state_name  IS NOT NULL THEN CONCAT(adc.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN adc.country_name  IS NOT NULL THEN CONCAT(adc.country_name,', ') ELSE '' END ,'' ),COALESCE(adc.pincode,''),'') AS Company_address,
+CONCAT(COALESCE(CASE WHEN  adcu.address_1 IS NOT NULL THEN CONCAT(adcu.address_1,', ') ELSE '' END ,''),COALESCE(CASE WHEN adcu.address_2 IS NOT NULL THEN CONCAT(adcu.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN adcu.address_3 IS NOT NULL THEN CONCAT(adcu.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN adcu.city_name  IS NOT NULL THEN CONCAT(adcu.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN adcu.state_name  IS NOT NULL THEN CONCAT(adcu.state_name,', ') ELSE '' END ,''  ),COALESCE(CASE WHEN adcu.country_name  IS NOT NULL THEN CONCAT(adcu.country_name,', ') ELSE '' END ,'' ),COALESCE(adcu.pincode,''),'') AS Customer_address
+,CONCAT(COALESCE(CASE WHEN adw.address_1 IS NOT NULL THEN CONCAT(adw.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN adw.address_2 IS NOT NULL THEN CONCAT(adw.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN adw.address_3 IS NOT NULL THEN CONCAT(adw.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN adw.city_name IS NOT NULL THEN CONCAT(adw.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN adw.state_name  IS NOT NULL THEN CONCAT(adw.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN adw.country_name  IS NOT NULL THEN CONCAT(adw.country_name,', ') ELSE '' END ,'' ),COALESCE(adw.pincode,''),'') AS Worker_address
+FROM vendor_details_info v INNER JOIN company_details_info c ON(v.Company_id=c.Company_id)
+INNER JOIN customer_details_info cd ON(cd.Customer_id=v.Customer_id)
+INNER JOIN vendor_details vd ON(vd.vendor_id=v.vendor_id)
+INNER JOIN worker_details wd ON (wd.vendor_id=v.vendor_id)
+INNER JOIN worker_details_info wds ON (wds.worker_id=wd.worker_id)
+
+LEFT JOIN location_details_info l ON(l.Location_id=v.Location_id AND CONCAT(DATE_FORMAT(l.Transaction_Date, '%Y%m%d'),LPAD(l.Location_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Location_Sequence_id, 2, '0'))) FROM location_details_info ldi
+WHERE (ldi.Location_id=l.Location_id) AND transaction_date <= CURRENT_DATE() GROUP BY Location_id))
+
+LEFT JOIN work_job_details wod ON (wod.worker_id=wds.worker_id  AND CONCAT(DATE_FORMAT(wds.Transaction_Date, '%Y%m%d'),LPAD(wds.Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(wod1.Transaction_Date, '%Y%m%d'),LPAD(wod1.Sequence_id, 2, '0'))) FROM work_job_details wod1
+WHERE (wod.worker_id=wod1.worker_id) AND wod1.transaction_date <= CURRENT_DATE() GROUP BY worker_id))
+
+LEFT JOIN job_code_details_info jc ON(jc.job_code_id=wod.job_name AND CONCAT(DATE_FORMAT(jc.Transaction_Date, '%Y%m%d'),LPAD(jc.job_code_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(job_code_Sequence_id, 2, '0'))) FROM job_code_details_info jcd
+WHERE (jc.job_code_id=jcd.job_code_id) AND jcd.transaction_date <= CURRENT_DATE() GROUP BY job_code_id))
+
+LEFT JOIN wage_rate_details_info wr ON(wr.wage_rate_id=wod.wage_rate_id AND CONCAT(DATE_FORMAT(wr.Transaction_Date, '%Y%m%d'),LPAD(wr.wage_rate_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(wage_rate_Sequence_id, 2, '0'))) FROM wage_rate_details_info wrd
+WHERE (wr.wage_rate_id=wrd.wage_rate_id) AND transaction_date <= CURRENT_DATE() GROUP BY wage_rate_id))
+
+LEFT JOIN vendor_addressview adv ON (adv.vendor_id=v.vendor_id)
+LEFT JOIN company_addressview adc ON (c.Company_id=adc.Company_id)
+LEFT JOIN customer_addressview adcu ON (cd.Customer_id=adcu.Customer_id)
+LEFT JOIN worker_addressview adw ON (wds.worker_id=adw.worker_id)
+
+WHERE CONCAT(DATE_FORMAT(v.Transaction_Date, '%Y%m%d'),LPAD(v.Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Sequence_id, 2, '0'))) FROM vendor_details_info vdi
+WHERE (v.vendor_id=vdi.vendor_id) AND transaction_date <= CURRENT_DATE()  GROUP BY vendor_id)
+AND CONCAT(DATE_FORMAT(c.Transaction_Date, '%Y%m%d'),LPAD(c.Company_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Company_Sequence_id, 2, '0'))) FROM company_details_info cdi
+WHERE (cdi.Company_id=c.Company_id) AND transaction_date <= CURRENT_DATE() GROUP BY Company_id)
+AND CONCAT(DATE_FORMAT(cd.Transaction_Date, '%Y%m%d'),LPAD(cd.Customer_Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Customer_Sequence_id, 2, '0'))) FROM customer_details_info cdi
+WHERE (cdi.Customer_id=cd.Customer_id) AND transaction_date <= CURRENT_DATE() GROUP BY Customer_id)
+AND CONCAT(DATE_FORMAT(wds.Transaction_Date, '%Y%m%d'),LPAD(wds.Sequence_id, 2, '0'))=(SELECT MAX(CONCAT(DATE_FORMAT(Transaction_Date, '%Y%m%d'),LPAD(Sequence_id, 2, '0'))) FROM worker_details_info wjdi
+WHERE (wjdi.worker_id=wds.worker_id) AND transaction_date <= CURRENT_DATE() GROUP BY worker_id)
+AND wds.IS_ACTIVE = 'Y'
+AND v.customer_id = $P{customerId}
+AND v.company_id = $P{companyId}
+AND (v.vendor_id = $P{vendorId} OR $P{vendorId} = '-1')
+AND (wd.worker_code = $P{workerCode} or $P{workerCode} = '-1')
+AND (REPLACE((CONCAT(RTRIM(wds.first_name), ' ',CASE WHEN (wds.middle_name IS NULL) THEN '' ELSE CONCAT(RTRIM(wds.middle_name),' ') END, wds.last_name)),'  ',' ')  LIKE '%$P!{workerName}%'  )
+
+ ORDER BY v.Vendor_Name,emp_name;]]>
+	</queryString>
+	<field name="customer_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="company_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendor_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="worker_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="baseRate" class="java.lang.Float"/>
+	<field name="Vendor_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emp_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="emp" class="java.lang.String"/>
+	<field name="Date_of_birth" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Father_spouse_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Identification_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Age" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="job_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="work_skill" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Base_Rate" class="java.lang.Float">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Total_Period" class="java.lang.Long"/>
+	<field name="vendor_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_address" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_address" class="java.lang.String"/>
+	<field name="Worker_address" class="java.lang.String"/>
+	<variable name="emp_1" class="java.lang.Integer" calculation="DistinctCount">
+		<variableExpression><![CDATA[$F{emp}]]></variableExpression>
+	</variable>
+	<group name="vendor_Name">
+		<groupExpression><![CDATA[$F{Vendor_Name}]]></groupExpression>
+	</group>
+	<group name="Emp_Name" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{emp_name}]]></groupExpression>
+		<groupHeader>
+			<band height="348">
+				<staticText>
+					<reportElement isPrintRepeatedValues="false" x="0" y="167" width="171" height="23" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="dcf4a552-7253-4d66-9fd1-c7ed19cf5ed1"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[1. Name and address of the Workman]]></text>
+				</staticText>
+				<textField>
+					<reportElement isPrintRepeatedValues="false" x="171" y="167" width="163" height="23" isPrintInFirstWholeBand="true" printWhenGroupChanges="Emp_Name" uuid="7d301d81-a2ee-4d5c-ada1-957c12d0fc10"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{emp_name} == null ? "" : $F{emp_name}+", ")+"      "
++($F{Worker_address} == null ? "" : $F{Worker_address} )]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="190" width="171" height="21" printWhenGroupChanges="Emp_Name" uuid="3e80b741-32dd-4129-93ca-26ba6106ea62"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[2. Sl. No. in the register of workman employed (EMP NO)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="211" width="171" height="20" printWhenGroupChanges="Emp_Name" uuid="25099cb0-b94c-4693-9e5d-2938811d3910"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[3. Nature of Employment / Designation]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="-1" y="231" width="171" height="20" printWhenGroupChanges="Emp_Name" uuid="ca79646a-57d2-4eef-9443-2a3da55d8e9c"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[4. Age / Date Of Birth]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="251" width="171" height="20" printWhenGroupChanges="Emp_Name" uuid="63952047-a849-4b00-8cbe-938d67c7a8a1"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[5. Identification Marks]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="271" width="171" height="20" printWhenGroupChanges="Emp_Name" uuid="81eb8fd3-fc45-4c2a-954a-c08be95ecae3"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[6. Father/Husband Name]]></text>
+				</staticText>
+				<textField isBlankWhenNull="true">
+					<reportElement x="171" y="190" width="163" height="21" printWhenGroupChanges="Emp_Name" uuid="702a0609-8177-4583-84f0-4c8d4818a36b"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{emp}]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="171" y="211" width="163" height="20" printWhenGroupChanges="Emp_Name" uuid="e6984e91-360e-4aaa-880b-2587dbd82dee"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[(($F{job_Name} == null || $F{job_Name} == "") ? "" : $F{job_Name}+", " )+" "+($F{work_skill} == null ? "" : $F{work_skill})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="170" y="231" width="164" height="20" printWhenGroupChanges="Emp_Name" uuid="bdfba364-ee36-4dc0-835f-92aee1c77dc1"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{Age} == null ? "" : $F{Age})+" "+($F{Date_of_birth} == null ? "" :
+   new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd")
+    .parse($F{Date_of_birth})))]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="171" y="251" width="163" height="20" printWhenGroupChanges="Emp_Name" uuid="0cafd341-50d4-4bed-a27b-26b4a5496856"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA["-"]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="170" y="271" width="164" height="20" printWhenGroupChanges="Emp_Name" uuid="8f6381a2-2767-433e-b101-532f6a710792"/>
+					<box>
+						<pen lineWidth="0.0"/>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Father_spouse_Name}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="-1" y="90" width="154" height="29" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="2c28ab03-8574-4098-b81c-98011caf189d"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{Vendor_Name} == null ? "" : $F{Vendor_Name}+", ") +" "
++($F{vendor_address} == null ? "" : $F{vendor_address})]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="171" y="96" width="163" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="29dabbaa-1a88-4d5d-a5b3-c5908bce7de4"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{Company_Name} == null ? "" : $F{Company_Name}+", ")+" "
++($F{Company_address} == null ? "" : $F{Company_address})]]></textFieldExpression>
+				</textField>
+				<textField isBlankWhenNull="true">
+					<reportElement x="0" y="139" width="171" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="6aa5030b-5764-42ea-9bea-f1c2f4ae6639"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{Location_Name}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="0" y="70" width="171" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="c6a2184e-2e3b-407c-b6cd-a653ef8494ff"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Name and Address of the Contractor]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="171" y="70" width="163" height="26" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="8c1968dd-fbcf-4d6e-8952-ccf8d9b50702"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Name and address of Establishment in /under which contract is carried on]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="0" y="119" width="171" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="9c9c9a88-079d-4f61-a8d2-f35547a88787"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nature of work and Location of work]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="171" y="119" width="163" height="20" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="73e06ded-6c7b-41c4-b021-d7dfd5b7d937"/>
+					<textElement verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Name and Address of Principal Employer]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="171" y="139" width="163" height="28" isPrintInFirstWholeBand="true" printWhenGroupChanges="vendor_Name" uuid="fd4ff423-4d45-4b9b-8c5a-72349983c501"/>
+					<textElement verticalAlignment="Middle">
+						<font size="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{Customer_Name} == null ? "" : $F{Customer_Name}+",") +"   -    "
++($F{Customer_address} == null ? "" : $F{Customer_address} )]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="117" y="0" width="100" height="20" uuid="de25bf5a-763f-4c3b-927c-275d15e58a82"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Form XV]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="117" y="20" width="100" height="20" uuid="08c132f6-89db-43c3-b569-8634df761e67"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[See rule (77)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="111" y="40" width="113" height="20" uuid="675f5d4f-aa9c-48dc-92f8-42b951f44673"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Service Certificate]]></text>
+				</staticText>
+				<elementGroup>
+					<elementGroup>
+						<componentElement>
+							<reportElement key="table" style="table" x="0" y="301" width="334" height="46" uuid="d4669826-3ce3-4c59-892c-e50ab20a1191"/>
+							<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+								<datasetRun subDataset="Table Dataset 1" uuid="a9bfbbfa-5e94-4230-b340-050d01d8150d">
+									<datasetParameter name="customerId">
+										<datasetParameterExpression><![CDATA[$F{customer_id}]]></datasetParameterExpression>
+									</datasetParameter>
+									<datasetParameter name="companyId">
+										<datasetParameterExpression><![CDATA[$F{company_id}]]></datasetParameterExpression>
+									</datasetParameter>
+									<datasetParameter name="vendorId">
+										<datasetParameterExpression><![CDATA[$F{vendor_id}]]></datasetParameterExpression>
+									</datasetParameter>
+									<datasetParameter name="workerId">
+										<datasetParameterExpression><![CDATA[$F{worker_id}]]></datasetParameterExpression>
+									</datasetParameter>
+									<datasetParameter name="workerCode">
+										<datasetParameterExpression><![CDATA[$P{workerCode}]]></datasetParameterExpression>
+									</datasetParameter>
+									<datasetParameter name="workerName">
+										<datasetParameterExpression><![CDATA[$P{workerName}]]></datasetParameterExpression>
+									</datasetParameter>
+									<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+								</datasetRun>
+								<jr:column width="30" uuid="4361ce76-172f-4865-a6d7-759dc9e50c44">
+									<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="30" height="30" uuid="1ad2c237-d068-4520-bebc-b3121155eddc"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="8" isBold="true"/>
+											</textElement>
+											<text><![CDATA[Sl.No]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table_TD" height="20" rowSpan="1">
+										<textField isStretchWithOverflow="true">
+											<reportElement x="0" y="0" width="30" height="20" uuid="b3f62334-e6b5-4874-9b49-6715fc884b9d"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="7"/>
+											</textElement>
+											<textFieldExpression><![CDATA[' '+$V{REPORT_COUNT}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="80" uuid="fca632dd-6117-42f5-81df-b9bebb2e9293">
+									<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="80" height="30" uuid="6ade046a-2d1e-4523-933c-8ab7bacd7ae5"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="8" isBold="true"/>
+											</textElement>
+											<text><![CDATA[Total Period for which employed]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table_TD" height="20" rowSpan="1">
+										<textField isStretchWithOverflow="true">
+											<reportElement x="0" y="0" width="80" height="20" uuid="245d2c71-b001-4206-812d-02b44de7ffde"/>
+											<textElement verticalAlignment="Middle">
+												<font size="7"/>
+											</textElement>
+											<textFieldExpression><![CDATA[' '+$F{Total_Period}+"Months"]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="59" uuid="bf999a2e-c5f9-4cce-85ce-61c8bec74c73">
+									<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="59" height="30" uuid="983e43e9-df36-4d83-878f-cbc8cb3f301d"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="8" isBold="true"/>
+											</textElement>
+											<text><![CDATA[Emp No]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table_TD" height="20" rowSpan="1">
+										<textField isStretchWithOverflow="true">
+											<reportElement x="0" y="0" width="59" height="20" uuid="1f7468c1-8f8e-48d6-85ea-4237c9e65bbd"/>
+											<textElement verticalAlignment="Middle">
+												<font size="7"/>
+											</textElement>
+											<textFieldExpression><![CDATA[' '+$F{emp}]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="118" uuid="1668f474-997b-48b5-b1e6-4ae5dbe47ba5">
+									<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="118" height="30" uuid="a17e8ac2-d559-4a0c-9e3a-1c507ba96478"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="8" isBold="true"/>
+											</textElement>
+											<text><![CDATA[Rate of Wage (With particulars of unit in case of piece work)]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table_TD" height="20" rowSpan="1">
+										<textField isStretchWithOverflow="true">
+											<reportElement x="0" y="0" width="118" height="20" uuid="ed34c01d-8a61-485b-a658-e43d4406bdfc"/>
+											<textElement textAlignment="Right" verticalAlignment="Middle">
+												<font size="7"/>
+											</textElement>
+											<textFieldExpression><![CDATA[$F{baseRate}+' ']]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+								<jr:column width="46" uuid="f9458a38-6bf5-44ce-b9c3-9ded631ff2a1">
+									<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+										<staticText>
+											<reportElement x="0" y="0" width="46" height="30" uuid="02960444-1ccf-4146-bbb9-16aec3b1bf30"/>
+											<textElement textAlignment="Center" verticalAlignment="Middle">
+												<font size="8" isBold="true"/>
+											</textElement>
+											<text><![CDATA[Remarks]]></text>
+										</staticText>
+									</jr:columnHeader>
+									<jr:detailCell style="table_TD" height="20" rowSpan="1">
+										<textField isStretchWithOverflow="true">
+											<reportElement x="0" y="0" width="46" height="20" uuid="2229ef1d-b1a2-4bda-8857-ef8d1cd2290a"/>
+											<textElement verticalAlignment="Middle">
+												<font size="7"/>
+											</textElement>
+											<textFieldExpression><![CDATA[""]]></textFieldExpression>
+										</textField>
+									</jr:detailCell>
+								</jr:column>
+							</jr:table>
+						</componentElement>
+					</elementGroup>
+				</elementGroup>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageFooter>
+		<band height="22" splitType="Stretch">
+			<textField>
+				<reportElement x="214" y="0" width="80" height="20" uuid="6ae34d85-c9a9-4861-9dd9-3e3b5a51953c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="294" y="0" width="40" height="20" uuid="0d52ec8b-15bf-4953-824c-8a5fb283ad2c"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

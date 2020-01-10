@@ -1,0 +1,443 @@
+
+<form id="ManpowerRequestForm" name="ManpowerRequestForm" novalidate ng-submit="submit">
+	<div class="container-fluid">
+		<div class="col-md-12 well">
+			<h3 class="cls_plainheader"> Manpower Requisition </h3>
+			<br/>
+			<div class="col-md-12">
+				<div class="panel panel-default">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerId" class="col-md-4 control-label required">Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="manpower.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerId" ng-change="customerChange()" ng-disabled="readOnly ||onlyRead" tabindex="0" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+											<label for="customerId" class="fa fa-caret-down"></label>
+										</span>
+										
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="countryId" class="col-md-4 control-label required">Country Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="manpower.countryId" name="country" ng-options="item.id as item.name for item in countriesList" class="form-control" id="country" disabled="disabled" tabindex="3" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+											<label for="countryId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								 <div class="form-group">
+									<label for="plantId" class="col-md-4 control-label required">Plant Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="plantChange()" ng-model="manpower.plantId" name="plant" ng-options="item.id as item.name for item in plantsList" class="form-control" ng-change="plantChange()" id="plantId" ng-change="readOnly || onlyRead" required >
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+                                     		<label for="plantId" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="requestCode" class="col-md-4 control-label required">Request ID</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="requestCode" placeholder="Request ID" maxlength="20" ng-model="manpower.requestCode" name="requestCode" required ng-disabled="readOnly || onlyRead"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyId" class="col-md-4 control-label required">Company Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="manpower.companyId" name="companyId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyId" ng-change="companyChange()" ng-disabled="readOnly ||onlyRead" tabindex="1" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn"> 
+										 	<label for="companyId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							
+								<div class="form-group">
+									<label for="locationId" class="col-md-4 control-label required">Location Name</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="manpower.locationId" ng-change="locationChange()"  ng-options="item.locationId as item.locationName for item in locationsList " class="form-control" id="locationId" name="locationId" required ng-disabled="readOnly ||onlyRead"> 
+	                                       <option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn"> 
+	                                       	<label for="locationId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="departmentId" class="col-md-4 control-label required">Department</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="manpower.departmentId" ng-options="item.departmentId as item.departmentName for item in departmentsList " class="form-control" id="department" name="department" required ng-disabled="readOnly ||onlyRead">
+                                          	<option value="">Select</option>
+                                       	</select>
+                                       	<span class="input-group-btn"> 
+                                       		<label for="departmentId" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								<div class="form-group" >
+			                      	<label for="costCenterId" class="col-md-4 control-label " >Cost Center</label> 
+			                    	<div class="col-md-8 select-box"> 
+			                      		<select  ng-model="manpower.costCenterId" ng-options="item.id as item.name for item in costCenterList" class="form-control"  ng-disabled = "readOnly " id="costCenterId" name="costCenterId"  >
+						        			<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="costCenterId" class="fa fa-caret-down"></label>
+	                                    </span> 
+			                      	</div> 
+				                </div>
+							</div>
+						</div>
+					</div>						
+				</div>					
+				
+
+				<div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="requestDate" class="col-md-4 control-label required">Request Date </label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="requestDate" placeholder="Request Date &#xf073;" ng-model="manpower.requestDate" name="requestDate" ng-disabled = "readOnly " required/>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="requestType" class="col-md-4 control-label required">Request Type </label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="manpower.requestType" name="Status" ng-options="item.id as item.name for item in list_RequestType " class="form-control" id="requestType" ng-disabled = "readOnly" required>
+	                                         <option value="">Select</option>
+	                                    </select> 
+										<span class="input-group-btn"> 
+											<label for="requestType" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+							
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="status" class="col-md-4 control-label required">Status</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="manpower.status" name="Status" ng-options="item.id as item.name for item in list_Status " class="form-control" id="status" ng-disabled="true" >
+	                                         <option value="">Select</option>
+	                                    </select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group cls_divradios">
+									<div class="col-lg-12 ">
+										<div class="radio radio-primary" style="display: inline-block">
+											<label class="col-md-12 control-labe"> 
+											<input type="radio" name="requiredFor" id="requiredFor1" value="Addition" ng-click="requiredForChange()" ng-model="manpower.requiredFor" ng-checked="manpower.requiredFor == 'Addition'" ng-change="requiredForChange()" ng-disabled="readOnly">
+												Addition
+											</label>
+										</div>
+										<div class="radio radio-primary" style="display: inline-block">
+											<label class="col-md-12  control-labe"> 
+												<input type="radio" name="requiredFor" id="requiredFor2" value="Reduction" ng-model="manpower.requiredFor" ng-checked="manpower.requiredFor == 'Reduction'" ng-change="requiredForChange()" ng-disabled="readOnly">
+												Reduction
+											</label>
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-group" >
+			                      	<label class="col-md-4 control-label required" >Employee Id</label> 
+			                    	<div class="col-md-8 select-box"> 
+			                      		<select ng-change="employeeChange()" ng-model="manpower.employeeId" ng-options="item.employeeId as item.employeeCode for item in employeesList" class="form-control"  ng-disabled="readOnly" id="employeeId" name="employeeId" required >
+						        			<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="employeeId" class="fa fa-caret-down"></label>
+	                                    </span> 
+			                      	</div> 
+				                </div>
+								<!-- <div class="form-group">
+									<label for="indenterDate" class="col-md-4 control-label required">Indenter Date </label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="indenterDate" placeholder="Indenter Date &#xf073;" ng-model="manpower.indenterDate" name="indenterDate" ng-disabled="readOnly" required/>
+									</div>
+								</div> -->
+								
+								<div class="form-group">
+									<label for="contactNumber" class="col-md-4 control-label"> Contact Number</label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="employeeContactNumber" placeholder="Contact Number" ng-model="manpower.employeeContactNumber" name="employeeContactNumber" ng-disabled="readOnly"   />
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">	
+		                    	<div class="form-group" >
+									<label for="requestReason" class="col-md-4 control-label required"> Request Reason </label>
+									<div class="col-md-8 select-box" ng-show = "manpower.requiredFor == 'Addition'">
+										<select id="requestReason" name="requestReason" class="form-control" ng-model="manpower.requestReason" ng-options="item.id as item.name for item in list_RequiredFor" ng-disabled = "readOnly" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn"> 
+											<label for="requestReason" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+									
+									<div class="col-md-8" ng-show="manpower.requiredFor == 'Reduction'">
+										<input type="text" class="form-control" id="requestReason" placeholder="Request Reason" ng-model="manpower.requestReason" name="requestReason" ng-disabled = "readOnly " required/>
+									</div>
+								</div>
+								<!-- <div class="form-group" ng-show="manpower.requiredFor == 'Reduction'">
+									<label for="requestReason" class="col-md-4 control-label required"> Request Reason </label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="requestReason" placeholder="Request Reason" ng-model="manpower.requestReason" name="requestReason" ng-disabled = "readOnly " required/>
+									</div>
+								</div> -->
+								<div class="form-group">
+									<label for="indenterName" class="col-md-4 control-label required">Employee Name </label>
+									<div class="col-md-8">
+										<input type="text" class="form-control" id="indenterName" maxlength="45" placeholder="Employee Name" ng-model="manpower.nameOfTheIndenter" name="indenterName" required ng-disabled="true"/>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="justification" class="col-md-4 control-label"> Justification For Manpower </label>
+									<div class="col-md-8">
+										<textarea class="form-control" id="justification" placeholder="Justification For Manpower" maxlength="45" ng-model="manpower.justificationForManpower" name="justification" ng-disabled="readOnly"></textarea>
+									</div>
+								</div>	 
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="panel panel-primary" style="margin: 15px">
+								<div class="panel-heading">
+									<h5> Skill Type and Manpower Requirement Details </h5>
+								</div>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th> Sl No </th>
+											<th> Work skill</th>
+											<th> Job Code</th>
+											<th> From Date</th>
+											<th> To Date</th>
+											<th> Total Days</th>
+											<!-- <th> Approved</th>	 -->
+											<th> Addition/Deletion</th>		
+											<!-- <th> Total Count</th>	 -->										
+											<th><i class="fa fa-plus addrow " ng-click="add_ManpowerRecord()" data-toggle="modal" data-target="#myModal" ng-show="gridButtons"  ng-disabled="readOonly" > </i></th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng:repeat="i in manpower.manpowerSkillTypesList" >
+											<td>{{$index+1}}</td>									
+											<td>{{i.skillType}}</td>
+											<td>{{i.jobName}}</td>
+											<td>{{i.fromDate}}</td>
+											<td>{{i.toDate}}</td>
+											<td>{{i.totalDays}}</td>
+											<td>{{i.requiredWorkers}}</td>	
+											<td><i ng-click="edit_ManpowerRecord($event)"  class="fa fa-edit " ng-disabled="readOnly" data-toggle="modal"  data-target="#myModal" ng-show="gridButtons" ></i></td>
+											<td><i ng-click="delete_ManpowerRecord($event)" class="fa fa-trash" ng-disabled="readOnly" ng-show="gridButtons"></i>
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+							
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="totalHeadCount" class="col-md-4 control-label"> Total Head Count </label>
+									<div class="col-md-8">
+										<input type="text" class="form-control onlyNumbers" id="totalHeadCount" placeholder="Total Head Count"  ng-model="manpower.totalHeadCount" name="totalHeadCount" ng-disabled="true"/>
+									</div>
+								</div>
+							</div>
+						</div>
+							
+						<!-- <div class="row">
+							<div class="col-md-12 form-group" ng-show="buttonArray.includes('APPROVE')">
+								<label for="particular" class="col-md-2 control-label required">Comments</label>
+		                        <div class="col-md-10 ">
+		                       		<input type="text" class="form-control" ng-model="manpower.comments" placeholder="Comments" name="comments" id="comments" ng-maxlength=255 required/>
+		                        </div>
+							</div>
+						</div>	
+						<div class="row" ng-show="buttonArray.includes('APPROVE')">
+							<div class="col-md-6 ">
+								<div class="form-group">
+									<label for="approvedBy" class="col-md-4 control-label required">Approved By</label>
+				                    <div class="col-md-8 select-box"> 
+			                      		<select  ng-model="manpower.approvedBy" ng-options="item.employeeId as item.firstName+' ('+item.employeeCode+' )' for item in employeeListForApproval"  class="form-control"   id="approvedBy" name="approvedBy" required >
+						        			<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="approvedBy" class="fa fa-caret-down"></label>
+	                                    </span>  
+	                                     ng-options="item.employeeId as item.employeeCode for item in employeesList"   ng-options="item.id as item.desc+' ('+item.name+' )' for item in employeeListForApproval"
+			                      	</div> 
+			                    </div>
+							</div>
+							<div class="col-md-6 ">
+								<div class="form-group">
+									<label for="particular" class="col-md-4 control-label required">Approved Date</label>
+				                    <div class="col-md-8 ">
+										<input type="text" class="form-control" id="approvedDate" placeholder="Approved Date &#xf073;" ng-model="manpower.approvedDate" name="approvedDate"  required/>
+			                        </div>
+								</div>
+							</div>
+						</div>	 -->
+					</div>
+					
+					<div class="btn-group btn-group-right pull-right">
+						<a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || saveAction($event)" >Save</a>
+		                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="enable || updateBtnAction($event)" >Update</a>
+		                <a href="javascript:void(0)" class="btn btn-success" ng-show="sendForApprovalBtn  && buttonArray.includes('SAVE')" ng-click="sendForApprovalAction($event)">Send For Approval</a>
+ 		                <!-- <a href="javascript:void(0)" class="btn btn-info" ng-click="approveAction($event)" ng-show="approveBtn && buttonArray.includes('APPROVE')">Approve</a>
+		            	<a href="javascript:void(0)" class="btn btn-info" ng-click="correctionAction($event)" ng-show="correctionBtn  && buttonArray.includes('CORRECT HISTORY')">Send For Correction</a>		            
+						<a href="javascript:void(0)" class="btn btn-info" ng-click="rejectAction($event)" ng-show="rejectBtn && buttonArray.includes('REJECT')">Reject</a>  -->
+		                <a href="javascript:void(0)" class="btn btn-primary resetBtn"  ng-show="!statusDisabled && resetBtn" ng-click="clearFun()">Reset</a>
+		                <a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="fun_cancelBtnCLick()"> Cancel </a>
+			            <a ng-href="#/searchManpowerRequest" class="btn btn-warning"  >Return To Search </a>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+</form>
+
+<form id="manpowerSkillsForm" name="manpowerSkills" novalidate ng-submit="submit"> 
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Enter Skill Type and Manpower Requirement Details </h4>
+				</div>
+				<div class="modal-body">
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="skillType" class="col-md-4 control-label required">Work Skill</label>
+										<div class="col-md-8 select-box">
+											<select ng-change = "skillChange()" ng-model="skill.skillType" name="skillType" ng-options="item.id as item.name for item in list_Skills" class="form-control" id="skillType" required>
+												<option value="">Select</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="skillType" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="fromDate" class="col-md-4 control-label required">From Date</label>
+										<div class="col-md-8 select-box">
+											<input type="text" class="form-control" id="fromDate"  placeholder="From Date &#xf073;" ng-model="skill.fromDate" name="fromDate" onchange="angular.element(this).scope().dateChange()"  required />													
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="totalDays" class="col-md-4 control-label required">Total Days</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control onlyNumbersWithZero" ng-model="skill.totalDays" name="totalDays" placeholder="Total Days" id="totalDays" ng-disabled="true" required/>
+										</div>
+									</div>
+
+									<!-- <div class="form-group">
+										<label for="requiredWorkers" class="col-md-4 control-label required">Addition/Deletion of Workers</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="skill.requiredWorkers" maxlength="5" class="form-control onlyNumbersWithZero" id="requiredWorkers" name="requiredWorkers" onchange="angular.element(this).scope().fun_CalculateTotalCount()" placeholder="Addition/Deletion of Workers" required/>
+										</div>
+									</div> -->
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="jobCodeId" class="col-md-4 control-label required">Job Code</label>
+										<div class="col-md-8 select-box">
+											<select ng-model="skill.jobCodeId" ng-options="item.id as item.name for item in jobCodesList" class="form-control" id="jobCodeId" required name="jobCodeId">
+												<option value="">Select</option>
+												<option value="1">MGR</option>
+											</select> 
+											<span class="input-group-btn"> 
+												<label for="jobCodeId" class="fa fa-caret-down"></label>
+											</span>
+										</div>
+									</div>
+									
+									<div class="form-group">
+										<label for="toDate" class="col-md-4 control-label required">To Date</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control" id="toDate" placeholder="To Date &#xf073;"  ng-model="skill.toDate" name="toDate" onchange="angular.element(this).scope().dateChange()"  required />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="requiredWorkers" class="col-md-4 control-label required">Addition/Deletion of Workers</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="skill.requiredWorkers" maxlength="5" class="form-control onlyNumbersWithZero" id="requiredWorkers" name="requiredWorkers"  placeholder="Addition/Deletion of Workers" required/>
+										</div>
+									</div>
+									
+									<!-- <div class="form-group">
+										<label for="assignedWorkers" class="col-md-4 control-label required">Approved</label>
+										<div class="col-md-8">
+											<input type="text" ng-model="skill.assignedWorkers" maxlength="5" class="form-control onlyNumbersWithZero" id="assignedWorkers" name="assignedWorkers" placeholder="Approved"  ng-disabled = "true" required/>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="totalCount" class="col-md-4 control-label required">Total Count</label>
+										<div class="col-md-8">
+											<input type="text" class="form-control onlyNumbersWithZero" ng-model="skill.totalCount" name="totalCount" placeholder="Total Count" id="totalCount" ng-disabled="true" required/>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						<button type="button" ng-click="save_ManpowerRecord($event)" class="btn btn-primary" ng-show="popUpSave">Save changes</button>
+						<button type="button" ng-click="update_ManpowerRecord($event)" class="btn btn-primary" ng-show="popUpUpdate">Update changes</button>
+						<button type="button" class="btn btn-warning" ng-click = "close_ManpowerRecord()">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+		
+
+		
+
+
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>

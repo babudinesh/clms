@@ -1,0 +1,181 @@
+<form name="associatingDepartmentToLocationPlantForm" id="associatingDepartmentToLocationPlantForm" novalidate ng-submit="submit">
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader">Associate Department To Location And Plant</h3> 
+        
+        <br />
+        <div class="col-md-12">
+	     
+             <div class="panel panel-primary">
+			 	<div class="sepr">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="custName" class="col-md-4 control-label required">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select  ng-change="customerChange()"  ng-model="deptToLocAndPlant.customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="custName" name="customerName" required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+							
+							<div class="form-group is-empty">
+								<label for="locationName" class="col-md-4 control-label required">Location</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="locationChange()" ng-model="deptToLocAndPlant.locationId" ng-options="item.id as item.name for item in locationList" class="form-control" name="locationId" id="locationId"  required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group is-empty">
+								<label for="companyName" class="col-md-4 control-label required">Company Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="companyChange()" ng-model="deptToLocAndPlant.companyId" ng-options="item.id as item.name for item in companyList" class="form-control" name="companyName" id="cmpName"  required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+							
+								<div class="form-group is-empty">
+								<label for="plantName" class="col-md-4 control-label required">Plant</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="plantChange()" ng-model="deptToLocAndPlant.plantId" ng-options="item.id as item.name for item in plantList" class="form-control" name="plantId" id="plantId"  required>
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                    	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+         	
+
+            <div class="panel panel-primary">
+                <div class="sepr">
+                    <div class="row">
+                        <div class="col-md-12" style="padding:0px;">
+                        	<div class="panel-heading" style="color:white">
+                            	<h5 >Associate Departments</h5>
+                            </div>
+                            <br/>
+                             <div class="row">
+                            <div class="form-group">
+									<div class="checkbox col-md-6">
+								        <label >
+		                                    <input type="checkbox" id="associateAllDepts"  ng-model="associateAllDepts" name="associateAllDepts" ng-checked="associateAllDepts == true"   ng-click="associateDepts()" my-directive my-attribute1="deptToLocAndPlant.departmentlist" /> Associate All Departments
+		                                </label>
+		                            </div>
+	                           </div> 
+                              <br/>
+                              </div>
+                               <div class="row">
+                              <div class="form-group well well-sm col-md-6  pre-scrollable" style = "max-height: 150px;width:75%">
+                            <table class="table table-stiped table-striped   " ng-disabled="readOnly" required>
+                                <thead>
+                                    <tr>
+                                        <!--<td data-type="id">SNo</td>-->
+                                        <th data-type="text-multi" >Department Code
+                                        </th>
+                                        <th data-type="text">Department Name
+                                        </th>
+                                        <th><i class="fa fa-plus" data-toggle="modal" data-target="#myModal1"  ng-click="plusIconAction()"> </i>
+
+                                        </th>
+                                        <th>
+                                           
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="i in deptToLocAndPlant.departmentlist" on-last-repeat>
+                                        <!--<td>{{i.SNo}}</td>-->
+                                        <td>{{i.departmentCode}}</td>
+                                        <td>{{i.departmentName}}</td>
+                                        <td input type="hidden" ng-model="i.departmentInfoId">
+                                        <td> <i ng-click="Delete($event)" class="fa fa-trash" ></i></td>                              
+
+                                    <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                            </div>
+                            
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+       		</div>
+
+	        <div class="btn-group btn-group-right pull-right">
+				 <a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('SAVE')"  ng-click="enable || saveDetals($event)">Save</a>				
+				 <a href="javascript:void(0)" class="btn btn-primary"   ng-click="clear($event)"> Cancel </a>				
+			</div>
+   
+        </div>
+		
+	
+		 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	 		<div class="modal-dialog modal-lg" role="document">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                        <span aria-hidden="true">&times;</span>
+	                    </button>
+	                    <h4 class="modal-title">Add Department Details</h4>
+	                </div>
+	                <div class="modal-body">
+	                    <div class="panel panel-default">
+	                        <div class="sepr">
+	                            <div class="row">
+	                                <div class="col-md-6">                                   
+	
+	                                     <div class="form-group">
+	                                        <label for="departmentName"  class="col-md-4 control-label">Department Name</label>
+	                                        <div class="col-md-8 select-box">
+		                                        <select  ng-model="department" ng-options="item as item.departmentName for item in companyDepartmentList" class="form-control"  id="departmentName">
+		                                            <option value="">Select</option>
+		                                        </select>
+	                                            <span class="input-group-btn">
+                                     				<label for="Select1" class="fa fa-caret-down"></label>
+                                        		</span>
+	                                        </div>
+	                                	</div>
+	                            	</div>
+	                        	</div>
+	                    	</div>
+	                	</div>
+	                <div class="modal-footer">
+		                <button type="button"  class="btn btn-primary saveDept" data-dismiss="modal" ng-click="saveDepartmentDetails()" >Save changes</button>
+		                <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+		                
+		                <!-- <button type="button" ng-click="updateDepartmentDetails($event)" class="btn btn-primary updateDept" data-dismiss="modal" ng-show="popUpUpdate">Update changes</button> -->
+	            	</div>
+	            </div>
+			</div>
+		</div>
+</div>
+
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</form>

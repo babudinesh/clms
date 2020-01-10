@@ -1,0 +1,283 @@
+<!-- <link href="ShiftDefaults/ShiftsDefaults.css" rel="stylesheet" /> -->
+
+<form id="defineComplianceTypes" name="defineComplianceTypes" novalidate ng-submit="submit" > 
+<div class="container-fluid"> 
+	    <div class="col-md-12 well">
+	 <h3 class="cls_plainheader">Define Compliance Types</h3>
+         <div class="panel panel-default" ng-show="transactionList">
+			<div class="container">
+				<h5 class="cls_plainheader"> Search : </h5>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="shiftId" class="col-md-4 control-label">Transaction Date's :</label>
+							<div class="col-md-8 select-box">
+	                            <select  ng-model="transactionModel" ng-change="fun_transactionDatesListChnage()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="shiftId">
+	                            	<option value="">Select</option>
+	                            </select>  
+	                            <span class="input-group-btn"> 
+									<label for="Select1" class="fa fa-caret-down"></label>
+								</span>                                     											
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<hr class="pull-left" style="width: 105%" />
+			</div>
+   
+        <br />
+        <div class="col-md-12">
+           <div class="panel panel-primary">           
+            <div class="panel-heading">
+				<h5>Define Compliance Types</h5>
+				</div>
+                <div class="sepr">
+                   
+                    <div class="row"> 
+						<div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+	                                <div class="col-md-8 select-box">
+	                                	<select  ng-model="customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" ng-disabled="readonlyEdit" required>
+	                                    	<option value="">Select</option>
+	                                    </select>  
+	                                    <span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                   
+	                                </div>
+	                            </div> 
+	                           <div class="form-group">
+	                                <label for="country" class="col-md-4 control-label required">Country Name</label>
+	                                <div class="col-md-8 select-box">
+		                                <select  ng-model="country" name="country" ng-options="item.id as item.name for item in countriesList " class="form-control" id="country"  disabled="disabled" required>	                                          
+		                                	<option value="">Select</option>
+		                                </select>    
+		                                <span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                 
+	                                </div>
+                               </div>                     
+                        </div>                        
+                       	<div class="col-md-6">
+	                       	<div class="form-group">
+	                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+	                                <div class="col-md-8 select-box">
+		                                <select  ng-model="companyDetailsId" name="companyDetailsId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" ng-disabled="readonlyEdit">
+	                                    	<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                     
+	                                </div>                          
+	                         </div>  
+	                         <div class="form-group">
+	                                <label for="locaname" class="col-md-4 control-label required">Location Name</label>
+	                                <div class="col-md-8 select-box">
+		                                <select  ng-model="locationId" name="locationId" ng-options="item.locationId as item.locationName for item in locationList " class="form-control" id="locationId" ng-change="locationChange()"  required>	                                          
+		                                	<option value="">Select</option>
+		                                </select>    
+		                                <span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>                                 
+	                                </div>
+                               </div>                                                        
+                        </div> 
+                   </div>
+                   
+                   <div class="row">
+					<div class="col-md-6">
+						<br /> <br />
+
+						<div class="form-group">
+							<label for="transactionDate"
+								class="col-md-4 control-label required">Effective From  Date</label>
+							<div class="col-md-8">
+								<input type="text" name="transactionDate"
+									ng-model="transactionDate" class="form-control" readonly="true"
+									id="transactionDate" placeholder="Effective From Date"
+									ng-disabled="readonlyEdit" required />
+							</div>
+						</div>
+					</div>
+					<br /> <br />
+					<div class="panel panel-default">
+						<div class="sepr">
+							<div id="complianceTable">
+								<table class="table table-striped" >
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Compliance Act</th>
+											<th>Status</th>
+											<th>Document Name</th>
+											<th>Description</th>
+											<th>Applicable To</th>
+											<th>Frequency</th>
+											<td><i class="fa fa-plus addrow " data-toggle="modal"
+												data-target="#myModal" ng-click="plusIconAction()"
+												ng-show="gridButtons" ng-disabled="readonly"> </i></td>
+											<td></td>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr ng:repeat="i in defineComplianceTypes.complianceList">
+											<td>{{$index+1}}</td>
+											<td>{{i.complianceAct}}</td>
+											<td>{{i.isActive}}</td>
+											<td>{{i.doccumentName}}</td>
+											<td>{{i.doccumentDescription}}</td>
+											<td>{{i.applicableTo}}</td>
+											<td>{{i.frequency}}</td>
+											<!-- <td><i ng-click="Delete($event)" class="fa fa-trash"
+												ng-disabled="readonly"></i></td> -->
+											<td><i ng-click="Edit($event)" class="fa fa-edit" data-toggle="modal"  data-target="#myModal" ng-show="gridButtons" ng-disabled="readonly"></i></td>
+											<td><input type="hidden"  ng-model="i.complianceUniqueId"></td>
+
+										</tr>
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</div>
+
+				</div>
+              </div>
+                        
+            </div>
+            <br />
+            <br />
+            
+           
+                    
+                    
+				
+
+			</div>
+	<div class="btn-group btn-group-right pull-right">
+            <a href="javascript:void(0)" class="btn btn-primary" ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click=" enable || fun_save_Details($event)">Save</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="fun_updateActionBtn()">Update</a>
+            <a href="javascript:void(0)" class="btn btn-success" ng-show="correctHistoryBtn && buttonArray.includes('CORRECT HISTORY')" ng-click=" enable || fun_save_Details($event)"> Correct History</a>            
+            <a href="javascript:void(0)" class="btn btn-info"    ng-show="viewHistoryBtn && buttonArray.includes('VIEW HISTORY')" ng-click="fun_viewHistoryBtn()">View Or Update History</a>
+            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelBtn" ng-click="fun_Shift_CancelBtn()" > Cancel </a>          
+            <a href="javascript:void(0)" class="btn btn-warning" ng-show="cancelEditBtn" ng-click="fun_Shift_Cancel_Edit_Btn()" > Cancel </a>
+        </div>               
+    </div>
+    </div>
+    </form>
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+ <form id="defineComplianceTypespopup" name="defineComplianceTypespopup" novalidate ng-submit="submit" > 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="fun_close()" >
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Enter Compliance Types</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                                                                                    
+									<input type= "hidden" ng-model="complianceUniqueId">
+                                    <div class="form-group">
+                                        <label for="complianceAct"  class="col-md-4 control-label required"> Compliance Act </label>
+                                        <div class="col-md-8">
+                                             <input type="text" ng-model="complianceAct"  maxlength="45" class="form-control" id="complianceAct" placeholder="Compliance Act" required/>                                            
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="doccumentName"  class="col-md-4 control-label required"> Document Name</label>
+                                        <div class="col-md-8 select-box">
+                                            <!-- <input type="text" ng-model="doccumentName" name="doccumentName" maxlength="45" class="form-control" id="doccumentName" placeholder="Document Name" ng-disabled="onlyRead" required/>  -->
+                                        	<select  ng-change="validateDocument()" ng-model="complianceUniqueId" name="doccumentName" ng-options="item.id as item.name for item in list_DocumentNames" class="form-control" ng-disabled="onlyRead" id="doccumentName" required>
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="doccumentDescription" class="col-md-4 control-label required">Document Description</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="doccumentDescription" name="doccumentDescription"  maxlength="100" class="form-control" id="doccumentDescription" placeholder="Document Description" required />
+                                        </div>
+                                    </div>
+                                    <div class=" form-group">
+                                    	<div class="check-box">
+	                                        <label for="isMandatory" style="margin-left: 15px; margin-top: 25px" >
+	                                            <input type="checkbox" ng-model="isMandatory" name="isMandatory"  id="isMandatory"  ng-checked = "isMandatory == true" />
+	                                         	&nbsp; Is Mandatory 
+	                                        </label>
+	                                    </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="isActive" class="col-md-4 control-label required">Status</label>
+                                        <div class="col-md-8 select-box">
+                                            <select ng-change="statusChange()" ng-model="isActive" name="isActive" ng-options="item.id as item.name for item in list_status" class="form-control"  id="isActive" required>
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="applicableTo" class="col-md-4 control-label required">Applicable To</label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="applicableTo" name="applicableTo"  ng-options="item.id as item.name for item in list_applicableToList" class="form-control" id="applicableTo" required>
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+                                        </div>
+                                    </div> 
+                                    <div class="form-group">
+                                        <label for="frequency" class="col-md-4 control-label required">Frequency</label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="frequency" name="frequency"  ng-options="item.id as item.name for item in list_frequencyList" class="form-control"  id="frequency" required>
+                                            	<option value="">Select</option>
+                                            </select>
+                                            <span class="input-group-btn"> 
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>
+                                        </div>
+                                    </div>                                                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                  <div class="modal-footer">
+               
+                <button type="button" ng-click="addDetailstoList($event)" class="btn btn-primary" ng-show="popUpSave">Save changes</button>
+                <button type="button" ng-click="updateDetailstoList($event)" class="btn btn-primary" ng-show="popUpUpdate">Update changes</button>
+              <!--   <button type="button" class="btn btn-warning" ng-click="clearPopUP($event)"> close</button> -->
+                 <button type="button" class="btn btn-warning"  ng-click="fun_close()">Close</button>
+            </div>
+            </div>
+          </form>
+        </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,320 @@
+
+
+
+</script>
+<div class="body">	
+   
+         
+    <div class="container-fluid ">
+   <!--  <form id="WorkerUpload" name="WorkerUpload" novalidate ng-submit="submit" method="post"  action="uploadWorker.view" enctype="multipart/form-data"> -->
+  
+        <div class="col-md-12 well">
+        <h3 class="cls_plainheader">Bulk Time Upload</h3>  
+       <div class="panel panel-primary">
+				 <div class="row">
+                         <div class="panel-heading">
+				<h5 >Guidelines to be followed</h5>
+				       </div>
+				         <br/>
+						<div id="notiFictionDiv">	
+       				
+                        <div class="col-md-10">                        
+                         <label for="note" style="font-size: 12px;font-weight: bold !important;    color: grey !important;">i) Please select CSV (Comma delimiter) as the file type. Please refer shift code from configuration page. <br/><br/>
+                         																									ii) Worker code should start with the first 3 characters mentioned in vendor name parentheses. <br/><br/>
+                         																									iii) While uploading the CSV file make sure that the data should be in below Grid format.</label><br/>
+                        	
+                        </div>
+                        <div class="sepr">		
+                        <div class="col-md-12">
+							<table class="table table-striped" id="workerDetailsTable" border="1">
+								<thead >
+									<tr>									
+										 <th>Vendor Code <span style = "color:red;font-size:12px"> *</span></th>
+										<th>Vendor Name <span style = "color:red;font-size:12px"> *</span></th> 
+										<th>Worker Code <span style = "color:red;font-size:12px"> *</span></th>
+										<th>Worker Name <span style = "color:red;font-size:12px"> *</span></th>
+                                        <th>Shift <span style = "color:red;font-size:12px"> *</span></th>
+                                        <th>Business Date <span style = "color:red;font-size:12px"> *</span></th>
+                                        <th>In Time</th>
+                                        <th>Out Time</th>
+                                        <th>Attendance Status <span style = "color:red;font-size:12px"> *</span></th>
+                                        <th>Man Hours</th>
+                                        <th>OT Hours</th>
+									</tr>
+								</thead>
+								<tbody>
+								<tr>
+								 <td>605</td>
+								<td>S S Services</td> 
+								<td>605100</td>								
+								<td>Rakesh Kumar</td>
+								<td>G</td>
+								<td>01-10-2016</td>
+								<td>01-10-2016 09:00</td>
+								<td>01-10-2016 18:00</td>
+								<td>Present</td>
+								<td>09:00</td>
+								<td>0</td>
+								</tr>
+								</tbody>								
+							</table>
+						</div>
+						</div>
+                        </div>	
+                         <div class="row">
+                       
+                           <div class="col-md-12">
+                         <label > 
+                         <span style="font-weight: bold !important;    color: grey !important;    font-size: 12px;"> Attendance Status Codes :      </span>                    
+                          <span style="font-size: 12px;">   Present,
+                           Absent,
+                           WO,
+                           PH. </span>
+                           </label> 
+                           </div>
+                           
+                           
+                          </div>	
+           	 		</div>
+           	 		
+           	 		<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div>  
+           	
+          	<form id="attendanceSearchForm">
+          	
+          	
+                    <div class="row">
+                     <div class="panel-heading">
+						<h5>Download the Data in CSV</h5>
+       				</div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group ">
+                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorId" ng-options="item.id as item.name for item in list_vendors " class="form-control" id="vendorId" name="vendorId" required> 
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>
+                                
+                           <div class="form-group" >			               		
+			                   <label for="searchBy" class="col-md-4 control-label required"> Search Period  </label>
+                                <div class="col-md-8 select-box">
+                                         <select ng-model="monthYear" name="monthYear" class="form-control" ng-change="fun_date_year_Listener()" id="searchBy" required>
+                                  			<option value="Y"> By Date  </option>
+											<option value="N">By Month & Year</option>											
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+								</div>
+		            		</div> 
+                                
+                                
+                                <div class="form-group"  ng-show="byDateShow">
+                                <label for="todate" class="col-md-4 control-label required"> By Date  </label>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="fromdate" readonly="true" placeholder=" From Date &#xf073;" ng-model="fromdate" name="fromdate" date-change-picker required/>                                                                                                     
+                                </div>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="todate" readonly="true" placeholder=" To Date &#xf073;" ng-model="todate" name="todate" date-change-picker required/>                                                                                                     
+                                </div>
+                            </div>
+                                                        
+                             <div class="form-group " ng-show="ByMonthYearShow ">
+                                <label for="year" class="col-md-4 control-label required"> Month & Year  </label>
+                                <div class="col-md-4 select-box">
+                                         <select ng-model="year" class="form-control" id="year" name="year" required>
+                                  			<option value="">Select</option>
+											<option value="2016">2016</option>
+											<option value="2017">2017</option>
+										  </select>  
+										  <span class="input-group-btn">
+                                     <label for="year" class="fa fa-caret-down"></label>
+                                        </span> 
+										  </div>
+								 <div class="col-md-4 select-box">                                                                                                                               
+                                           <select  ng-model="month" ng-options="item.id as item.name for item in list_months " name="month" class="form-control" id="month" required> 
+                                            	<option value="">Select</option>
+                                           </select>   
+                                           <span class="input-group-btn">
+                                     <label for="month" class="fa fa-caret-down"></label>
+                                        </span>                                                                                             
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="companyName" class="fa fa-caret-down"></label>
+                                        </span>                                   
+                                </div>
+                            </div>
+							    <div class="form-group">
+                                <label for="employeeName" class="col-md-4 control-label">Workmen Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeName"  placeholder="Workmen Name" id="employeeName" >
+ 	                               </div>
+                                </div>
+                                <div class="form-group">
+                                <label for="employeeCode" class="col-md-4 control-label">Workmen ID No</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeCode"  placeholder="Workmen ID No" id="employeeCode" >
+ 	                               </div>
+                                </div>
+
+
+                        </div>
+                      
+                        <div class="col-md-6 pull-right">
+                        	
+                            <span class="btn btn-primary col-md-3"  ng-click="fun_Excel_Download()"> Download CSV <i class="fa fa-file-excel-o" aria-hidden="true"></i> </span>
+                           <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear <i class="fa fa-times"></i></button>
+                            <!--  <span class="btn btn-primary col-md-3"  ng-click="fun_pdf_Download()"> Download PDF </span> -->
+                              
+                        </div>
+                    </div>
+               
+           	</form>
+           	
+           		<div id="loader1" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+           	 <form id="WorkerUploads" name="WorkerUpload" novalidate ng-submit="submit">
+            <div class="row">
+            <div class="panel-heading">
+				<h5>Bulk Time Upload</h5>
+       		</div>
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+                                    <div class="col-md-8">
+                                        <select ng-change="customerChange()" ng-model="workerVo.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerId" ng-disabled="readOnly" required>
+                                            <option value="">Select</option>
+                                            </select>
+                                    </div>
+                                </div>
+                           </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                    <div class="col-md-8">
+                                         <select  ng-change="companyChange()"  ng-model="workerVo.companyId"  name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyId" ng-disabled="readOnly"  required>
+                                            <option value="">Select</option>
+                                            </select>
+                                    </div>
+                                </div>
+								
+                            </div>
+                           
+                        </div>
+                        
+                        <div class="row">
+                          <br/> <br/>
+                        <div class="col-md-6">
+                        
+                              <label for="Upload" class="col-md-4 control-label required">Upload CSV File</label>				
+                              <div class="col-md-8">		  
+                           		<input type="file" file-model="myFile" accept=".csv"  id="fileCsv"/>
+        						<button class="btn  btn-primary " ng-click="Upload($event)">Upload </button>
+							  </div>
+							
+                       </div>
+                       <div class="col-md-6">
+                       <div class="form-group is-empty">
+							 <label for="Upload" class="col-md-4 control-label required"> Download CSV File Format</label>				
+                              <div class="col-md-8">		  
+                           		<button class="btn  btn-primary " ng-click="downloadUploadFormat('Manage Shift And Time Upload')"> Download </button>
+							 </div>
+							 </div>
+                       </div>
+                      
+				</div>
+                        </form>
+                         
+				
+				
+				
+				<div class="panel panel-primary">				
+				
+				<div  id="viewOrEditTimeWorkerDtaTableDiv" ng-show="errorsList.length > 0"> 
+				<div class="panel-heading">
+				<h5>Errors in Uploaded File</h5>
+				</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="viewOrEditTimeWorkerDtaTable">
+								<thead>
+									<tr >									
+										<th>Vendor Name</th>
+										<th>Vendor Code</th>
+										<th>Worker Code</th>
+										<th>Worker Name</th>										
+                                        <th>Business Date</th>
+                                        <th>Shift</th>
+                                        <th>Attendance Status</th>
+                                        <th style="color:red">Error</th>
+                                         <th>Line Number</th> 
+									</tr>
+								</thead>								
+							</table>
+						</div>
+
+					</div>
+				</div>
+				</div>
+				
+			</div>
+        </div>
+        
+
+        <div class="container-fluid">
+            <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+                <div class="container text-right">
+                    <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+                </div>
+            </div>
+        </div>
+       
+        </div>
+   
+  </div>
+  
+  
+
+
+
+
+

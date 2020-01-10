@@ -1,0 +1,144 @@
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Employee Registration</h3>
+		<form id="search">
+			<div class="panel panel-primary" >
+				<div class="panel-heading">
+            		<h5>Employee Information</h5>
+            	</div>
+				<div class="container">
+					<div class="row">						
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="custName" class="col-md-4 control-label required">Customer Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="customerChange()"
+										ng-model="employeeVo.customerId"
+										ng-options="item.customerId as item.customerName for item in customerList"
+										class="form-control" id="customerName" required name="customerName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="jobType" class="col-md-4 control-label required" >Job Type</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="employeeVo.jobTypeId"
+										ng-options="item.id as item.name for item in jobTypeList"
+										class="form-control" id="jobType" required name="jobType">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="countryName" class="col-md-4 control-label required">Country Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="employeeVo.employeeCountryId"
+										ng-options="item.countryId as item.countryName for item in list_countries"
+										class="form-control" id="countryName" required name="countryName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+							</div>
+				
+						</div>
+						
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="employeeVo.companyId"
+										ng-options="item.id as item.name for item in companyList"
+										class="form-control" id="companyName" required name="companyName">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="JobStatus" class="col-md-4 control-label required">Job Status</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="employeeVo.jobStatusId"
+										ng-options="item.id as item.name for item in jobStatusList"
+										class="form-control" id="jobStatus" required name="jobStatus">
+										<option value="">Select</option>
+									</select>
+									<span class="input-group-btn">
+                                     	<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span> 
+								</div>
+							</div>
+								
+							<div class="form-group">
+								<label for="employeeCode" class="col-md-4 control-label required">Employee Code</label>
+								<div class="col-md-8">
+									<input type="text" ng-model="employeeVo.employeeCode" class="form-control" id="employeeCode"
+										placeholder="Employee Code" required name="employeeCode"/>
+								</div>
+							</div>
+						
+						</div>
+					</div>
+					<div>
+						<div class="btn-group col-md-8">
+							<a href="javascript:void(0)" class="btn btn-primary" ng-show="buttonArray.includes('ADD')"
+								ng-click="enable || continueToEmployee($event)">Proceed to Register an Employee</a>
+								 
+								<a href="javascript:void(0)" class="btn btn-primary"
+								ng-click="enable || SearchExistingEmployees($event)">Search Existing Employee</a>
+								<button class="btn btn-primary resetBtn"
+								type="reset">Reset</button> <br /> <br /> <br />
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="panel panel-primary" id="searchPanel">
+           			<div class="panel-heading">
+          			 		<h5>Search Result</h5>
+           			</div>
+               		<div class="sepr">
+                   		<div class="row">
+							<table id="employeeTable" class="table table-striped">
+								<thead>
+									<tr>
+										<th>Employee Code</th>
+										<th>Employee Name</th>										
+										<th>Designation</th>
+										<th>Location</th>
+										<th>Department</th>
+									</tr>
+								</thead>
+								<!-- <tbody>
+									<tr ng:repeat="i in result" on-last-repeat>
+										<td><a ng-href="#/EmployeeInformation/{{i.employeeId}}">{{i.firstName}}</a></td>
+										<td>{{i.employeeCode}}</td>
+										<td>{{i.jobCode}}</td>
+										<td>{{i.locationName}}</td>
+										<td>{{i.departmentName}}</td>
+									</tr>
+								</tbody> -->
+
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>

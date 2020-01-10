@@ -1,0 +1,165 @@
+<!-- <link href="vendor/locationsearch/VendorLocationSearch.css" rel="stylesheet" />
+
+ -->
+
+<form id="attendanceSearchForm" name="attendanceSearchForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader"> Actual Attendance Report</h3>         
+        <br />
+        <div class="col-md-12">           
+            <div class="panel panel-default">
+                <div class="sepr">
+                   <!--  <h5 class="cls_plainheader">Search Attendance Report</h5> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required >
+                                            <option value="">Select</option>
+                                            </select>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group">
+                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8">                                    
+                                    <select  ng-model="vendorId" ng-options="item.id as item.name for item in list_vendors " class="form-control" id="vendorId" name="vendorId" required> 
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                </div>
+                            </div>
+                                
+                           <div class="form-group" >			               		
+			                   <label for="year" class="col-md-4 control-label"> Search By  </label>
+                                <div class="col-md-8">
+                                         <select ng-model="monthYear" class="form-control" ng-change="fun_date_year_Listener()">
+                                  			<option value="Y"> By Date  </option>
+											<option value="N">By Month & Year</option>											
+										  </select>  
+								</div>
+		            		</div> 
+                                
+                                
+                                <div class="form-group"  ng-show="byDateShow">
+                                <label for="todate" class="col-md-4 control-label"> By Date  </label>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="fromdate" placeholder=" From Date &#xf073;" ng-model="fromdate" name="fromdate" date-change-picker />                                                                                                     
+                                </div>
+                                <div class="col-md-4">
+                                     <input type="text" class="form-control" id="todate" placeholder=" To Date &#xf073;" ng-model="todate" name="todate" date-change-picker />                                                                                                     
+                                </div>
+                            </div>
+                                                        
+                             <div class="form-group" ng-show="ByMonthYearShow">
+                                <label for="year" class="col-md-4 control-label"> Month & Year  </label>
+                                <div class="col-md-4">
+                                         <select ng-model="year" class="form-control">
+                                  			<option value=""> Select Year  </option>
+											<option value="2016">2016</option>
+											<option value="2017">2017</option>
+										  </select>  
+										  </div>
+								 <div class="col-md-4">                                                                                                                               
+                                           <select  ng-model="month" ng-options="item.id as item.name for item in list_months " class="form-control" id="month" > 
+                                            	<option value=""> Select  Month </option>
+                                           </select>                                                                                               
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                            </select>                                     
+                                </div>
+                            </div>
+							    <div class="form-group">
+                                <label for="employeeName" class="col-md-4 control-label">Workmen Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeName"  id="employeeName" placeholder="Workmen Name" >
+ 	                               </div>
+                                </div>
+                                <div class="form-group">
+                                <label for="employeeCode" class="col-md-4 control-label">Workmen ID No</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeCode"  id="employeeCode" placeholder="Workmen ID No" >
+ 	                               </div>
+                                </div>
+
+
+                        </div>
+                      
+                        <div class="col-md-6 pull-right">
+                        	
+                            <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="fun_searchGridData()">Search <i class="fa fa-search"></i></a>
+                            <button class="btn btn-warning col-md-3" type="reset" ng-click="fun_clearSsearchFields()">Clear<i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-default">
+            	<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+                <div id="data_container" class="sepr">
+                    <h5 class="cls_plainheader panhead"> Result </h5>
+                    <div>
+                        <table id="actualTable" class="table table-striped display nowrap overridefont" cellspacing="0" width="100%">
+                            <thead>
+                               <tr>									
+										<th> Contractor Name </th>
+										<th> Work Men </th>
+										<th> ID No</th>
+										<th> Shift </th>
+										<th> Date </th>
+										<th> In Time </th>
+										<th> Out Time </th>
+										<th> Man Hours </th>
+										<th> OT Hours </th>
+										<th> Status </th>
+									</tr>
+								</thead>
+								<!-- <tbody>
+									<tr  ng-repeat="i in result"  on-last-repeat-download >									
+										<td>{{i.contractorName}}</td>
+										<td>{{i.workMenName}}</td>
+										<td>{{i.idNo}}</td>
+										<td>{{i.shift}}</td>
+										<td>{{i.date}}</td>
+										<td>{{i.inTime}}</td>
+										<td>{{i.outTime}}</td>
+										<td>{{i.manHours}}</td>
+										<td>{{i.overTime}}</td>
+										<td>{{i.status}}</td>
+									</tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+</div>
+</div>
+</form>        
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

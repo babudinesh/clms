@@ -1,0 +1,166 @@
+
+
+<form id="workerBankSearchForm" name="workerBankSearchForm" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+    <div class="col-md-12  well">
+     	<h3 class="cls_plainheader">Worker Bank Details</h3>         
+        <br />
+        <div class="col-md-12">           
+            <div class="panel panel-default">
+                <div class="sepr">
+                   <!--  <h5 class="cls_plainheader">Search Attendance Report</h5> -->
+                    <div class="row">
+                        <div class="col-md-6">                 
+                            <div class="form-group">
+                                <label for="customerName" class="col-md-4 control-label required">Customer Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="customerName" name="customerName" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerName" ng-change="fun_CustomerChangeListener()" required >
+                                            <option value="">Select</option>
+                                            </select> 
+                                            <span class="input-group-btn">
+                                     <label for="customerName" class="fa fa-caret-down"></label>
+                                        </span>                                     
+                                </div>
+                            </div>                           
+                            <div class="form-group ">
+                                <label for="vendorId" class="col-md-4 control-label required">Vendor Name</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="vendorId" ng-options="item.id as item.name for item in vendorList " class="form-control" id="vendorId" name="vendorId" required> 
+                                            <option value=""> Select </option>                                           
+                                            </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>    
+                             <div class="form-group">
+                                <label for="bankName" class="col-md-4 control-label">Bank Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="bankName"  id="bankName" placeholder="Bank Name" >
+ 	                               </div>
+                                </div>
+                          <div class="form-group ">
+                                <label for="searchBy" class="col-md-4 control-label required">Search Worker</label>
+                                <div class="col-md-8 select-box">                                    
+                                    <select  ng-model="searchBy" ng-options="item.id as item.name for item in searchByWorkerList " class="form-control" id="searchBy" name="searchBy" required> 
+                                            <option value=""> Select </option>                                           
+                                    </select>
+                                            <span class="input-group-btn">
+                                     <label for="vendorId" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>  
+                            <!--    <div class="form-group">
+                                <label for="branchName" class="col-md-4 control-label">Branch Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="branchName"  id="branchName" placeholder="Branch Name" >
+ 	                               </div>
+                                </div>   -->     
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="companyName" class="col-md-4 control-label required">Company Name</label>
+                                <div class="col-md-8 select-box">
+                                <select  ng-model="companyName" name="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyName" ng-change="fun_CompanyChangeListener()" required>
+                                            <option value="">Select</option>
+                                            </select>   
+                                            <span class="input-group-btn">
+                                     <label for="companyName" class="fa fa-caret-down"></label>
+                                        </span>                                   
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label for="employeeName" class="col-md-4 control-label">Workmen Name</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeName"  id="employeeName" placeholder="Workmen Name" >
+ 	                               </div>
+                                </div>
+                                <div class="form-group">
+                                <label for="employeeCode" class="col-md-4 control-label">Workmen ID No</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="employeeCode"  id="employeeCode" placeholder="Workmen ID No" >
+ 	                               </div>
+                                </div>
+                              <!-- <div class="form-group">
+                                <label for="ifscCode" class="col-md-4 control-label">IFSC Code</label>
+                                <div class="col-md-8">                                    
+                                    <input type="text" class="form-control" ng-model="ifscCode"  id="ifscCode" placeholder="IFSC Code" >
+ 	                               </div>
+                              </div> -->
+							   
+                        </div>
+                      
+                        <div class="col-md-6 pull-right">                        	
+                            <a class="btn btn-primary col-md-2 col-md-offset-5" ng-click="fun_searchGridData()"> View <i class="fa fa-search"></i></a>                            
+                             <span class="btn btn-primary col-md-3"  ng-click="fun_pdf_Download()" ng-show="buttonArray.includes('DOWNLOAD')" > Download <i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                             <button class="btn btn-warning col-md-2" type="reset" ng-click="fun_clearSsearchFields()">Clear <i class="fa fa-times"></i></button>
+                               <span class="btn btn-primary col-md-3"  ng-click="fun_Excel_Download()" ng-show="buttonArray.includes('DOWNLOAD')" > Download Excel <i class="fa fa-file-excel-o" aria-hidden="true"></i> </span> 
+                        </div>
+                    </div>
+                </div>
+            </div>           
+            
+            
+            <div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+				
+                                   
+                    <div class="col-md-12" style="height: 500px !important;" id="data_container"> 
+                     <h5 class="cls_plainheader"> Result </h5>   
+                    <!-- <embed src="{{content}}" type="application/pdf" style="text-align: center; width:100%; height:100%; background-color:transparent;"></embed> -->
+                    <object  ng-show="content"  data="{{content}}" type="application/pdf"  style="text-align: center; width:100%; height:100%; background-color:transparent;"></object>                    
+                    </div>
+            
+             
+             
+            	<!-- <div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+                <div id="data_container" class="sepr">
+                    <h5 class="cls_plainheader panhead"> Result </h5>                   
+                    <div>
+                        <table datatable="ng" id="attendanceReportTable" class="table table-striped display nowrap overridefont" cellspacing="0" width="100%">
+                            <thead>
+                               <tr>									
+										<th> Customer Name </th>
+										<th> Company Name </th>
+										<th> Vendor Name</th>
+										<th> Worker Name</th>
+										<th> Worker Code</th>
+										<th> Bank Name </th>
+										<th> Branch Name </th>
+										<th> IFSC Code </th>
+										
+									</tr>
+								</thead>
+							
+                        </table>
+                    </div>
+                </div> -->
+          
+            <br />
+        </div>
+</div>
+</div>
+</form>        
+
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

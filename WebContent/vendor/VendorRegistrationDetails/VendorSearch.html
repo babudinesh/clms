@@ -1,0 +1,161 @@
+
+
+    <div class="container-fluid" style="padding-right: 100px;padding-left: 20px;">
+        <div class="col-md-12 well">
+             <h3 class="cls_plainheader">Vendor Details</h3>
+            <div class="col-md-12">
+               <a class="btn btn-primary pull-right" href="#/vendorEditDetails/0" ng-show="buttonArray.includes('ADD')">Add New Vendor <i class="fa fa-plus-circle"></i></a>
+                <br />
+                <br />
+                <br />
+                <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h5>Search Vendors</h5>
+                </div>
+                    <div class="sepr">
+                      
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="custName" class="col-md-4 control-label">Customer Name</label>
+                                    <div class="col-md-8 select-box">
+                                       	<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList" class="form-control" id="custName" ng-disabled="statusDisabled">
+                                           	<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+					
+                                 <div class="form-group">
+                                    <label for="venCode" class="col-md-4 control-label">Vendor Code</label>
+                                    <div class="col-md-8 select-box">
+                                       	<!-- <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList" class="form-control" id="venName">
+                                           <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>  -->
+										<input type="text" name="vendorCode" ng-model="vendorCode" id = "vendorCode" maxlength="3" placeholder="Vendor Code"  class="form-control onlyNumbersWithZero"/>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status" class="col-md-4 control-label">Status </label>
+                                    <div class="col-md-8 select-box">
+                                    	<select   ng-model="status" ng-options="item.id as item.name for item in statusList" class="form-control" id="status" name="status">
+                                            <option value=""> Select </option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="cmpName" class="col-md-4 control-label">Company Name</label>
+                                    <div class="col-md-8 select-box">
+                                       	<select  ng-change="companyChange()" ng-model="companyName" ng-options="item.id as item.name for item in companyList " class="form-control" id="compName" ng-disabled="statusDisabled">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="venCode" class="col-md-4 control-label">Vendor Name</label>
+                                    <div class="col-md-8">
+                                       	<!-- <select  ng-model="vendorName" ng-options="item.id as item.name for item in vendorList" class="form-control" id="venName">
+                                           <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>  -->
+										<input type="text" name="vendorName" ng-model="vendorName" id = "vendorName" maxlength="45" placeholder="Vendor Name" class="form-control"/>
+										
+                                    </div>
+                                </div>
+							  
+                                
+                              <!--   <div class="form-group">
+                                    <label for="industryList" class="col-md-4 control-label">Search By Industry</label>
+                                    <div class="col-md-8 select-box">
+                                    	<select   ng-model="industryId" ng-options="item.id as item.name for item in industryList" class="form-control" id="industryList">
+                                            <option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div> -->
+                                 <div class="col-md-8 col-md-offset-7">
+                           			 <a class="btn btn-primary col-md-3 "  ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            		<a class="btn btn-warning col-md-3"  ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        		</div>
+                                
+                                
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                 
+                 <div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+			        <img
+			          src="images/loader.gif"
+			          alt="loading..."
+			          width="214"
+			          height="138" />  	
+				</div> 
+				<div class="panel panel-primary" id="vendorDiv">
+                 <div class="panel-heading" >
+                    <h5>Search results</h5>
+                 </div>
+                    <div class="sepr">
+                     
+
+                        <table id="vendorTable" class="table table-striped">
+                            <thead>
+                                <tr>                                 
+                                    <th>Vendor Name</th>    
+                                    <th>Vendor Code</th> 
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>
+                                    <th>Location </th>
+                                </tr>
+
+                            </thead>
+                            <!-- <tbody>
+                                 <tr ng:repeat="i in result" on-last-repeat>
+                                    <td><a ng-href="#/vendorEditDetails/{{i.vendorDetailsInfoId}}">{{i.vendorDetailsInfoId}}</a></td>
+                                    <td><a ng-href="#/vendorEditDetails/{{i.vendorDetailsInfoId}}">{{i.vendorName}}</a></td>
+                                    <td>{{i.vendorCode}}</td>
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.isActive}}</td>                                   
+                                </tr>
+                            </tbody> -->
+
+                        </table>
+                        </div>
+                        </div>
+                     <div></div>
+
+
+            
+
+            <br />
+            
+          
+        </div>
+
+        </div>
+        </div>

@@ -1,0 +1,152 @@
+
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader">Overtime Controls </h3>
+		<form id="DefineOverTimeForm" name="DefineOverTimeForm" novalidate ng-submit="submit">
+			<div class="col-md-12">
+				<a href="#/DefineOverTimeControl/0"
+					class="btn btn-primary pull-right"> Add New Overtime Control  <i
+					class="fa fa-plus-circle"></i></a> <br /> <br /> <br />
+				<div class="panel panel-primary">
+				<div class="panel-heading">
+				<h5>Search Existing Overtime Controls</h5>
+				</div>
+					<div class="sepr">						
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="customerDetailsId" class="col-md-4 control-label">Customer
+										Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-change="customerChange()" ng-model="overTime.customerDetailsId" name="customerDetailsId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="customerDetailsId" required>
+                                            <option value="">Select</option>
+                                         </select>
+										 <span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                         </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="overTimeControlName" class="col-md-4 control-label"> Overtime Control Name</label>
+									<div class="col-md-8 select-box">
+										<select  ng-model="overTime.overTimeControlName" name="overTimeControlName" ng-options="item.id as item.name for item in overTimeNamesList" class="form-control"  id="overTimeControlName" required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<label for="country" class="col-md-4 control-label">Country Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="overTime.country"  name="country" ng-options="item.id as item.name for item in countryList" class="form-control"  id="country"  >
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>
+									</div>
+								</div>	
+								
+								
+															                               
+							</div>						
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="companyDetailsId" class="col-md-4 control-label">Company Name</label>
+									<div class="col-md-8 select-box">
+										<select  ng-change="companyChange()"  ng-model="overTime.companyDetailsId"  name="companyDetailsId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyDetailsId"   required>
+                                         	<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                 			<label for="Select1" class="fa fa-caret-down"></label>
+                                    	</span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="companyName" class="col-md-4 control-label">Status</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="overTime.isActive" class="form-control">
+											<option value="Y">Active</option>
+											<option value="N">Inactive</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>						
+							</div>
+
+							<div class="col-md-12">
+								<div class="col-md-6"></div>
+								<div class="col-md-5 col-md-offset-1">
+								<button class="btn btn-warning col-md-3 pull-right" type="reset">Clear <i
+										class="fa fa-times"></i></button>
+										
+									<a class="btn btn-primary col-md-3 col-md-offset-5 pull-right"
+										ng-click="search()"
+										onclick="return false;">Search <i class="fa fa-search"></i></a>
+									
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+
+
+				<div class="panel panel-primary" ng-show="defineOverTimeTableShow">
+				<div class="panel-heading">
+				<h5>Search Results</h5>
+				</div>
+					<div class="sepr">						
+						<div>
+							<table class="table table-striped" id="defineOverTimeTable" >
+								<thead>
+									<tr>									
+										<th>Customer Name</th>
+										<th>Company Name</th>										
+										<th>Overtime Control Code </th>
+										<th>Overtime Control Name </th>                                                                                
+                                        <th>Status</th>
+									</tr>
+								</thead>
+								<!-- <tbody ng:repeat="i in result" on-last-repeat>
+									<tr>									
+										<td>{{i.customerName}}</td>
+										<td>{{i.companyName}}</td>
+										<td>{{i.countryName}}</td>
+										<td><a ng-href="#/DefineOverTimeControl/{{i.defineOverTimeDetailsInfoId}}"> {{i.overTimeControlCode}} </a></td>																	
+										<td>{{i.overTimeControlName}}</td>
+										<td>{{i.isActive}}</td>
+										
+									</tr>
+								</tbody> -->
+							</table>
+						</div>
+
+					</div>
+				</div>
+				<div></div>
+
+
+			</div>
+
+			<br />
+			</form>
+	</div>
+	
+</div>
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center"
+		style="min-height: 15px; padding: 0px;">
+		<div class="container text-right" style="">
+			<label class="control-label text-center"
+				style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+		</div>
+	</div>
+</div>
+

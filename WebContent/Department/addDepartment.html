@@ -1,0 +1,326 @@
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Define Department</h3>
+        <form class="form1" id="deptForm"  ng-submit="submit()">
+        	<div class="col-md-12">
+        		<div class="panel panel-primary" ng-show="transactionList">
+	              	<div class="panel-heading">
+	               		<h5> Search : </h5>
+	              	</div>
+					<div class="container">
+						<div class="row">
+							<div class="col-md-6 transactionList">
+								<div class="form-group">
+									<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+									<div class="col-md-6 select-box">
+                                        <select  ng-model="transactionModel" ng-change="transactionDatesListChange()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly">
+                                        	<option value="">Select</option>
+                                        </select>   
+                                        <span class="input-group-btn">
+                                 			<label for="Select1" class="fa fa-caret-down"></label>
+                                    	</span>                                         											
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<hr class="pull-left" style="width: 105%" />
+				</div>
+                <br/>
+                
+				<div class="panel panel-primary">
+             		<div class="sepr">
+                     	<div class="row">
+                         	<div class="col-md-6">
+                            	<div class="form-group is-empty">
+	                                 <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+	                                 <div class="col-md-8 select-box">
+	                                    <select  ng-change="customerChange()"  ng-model="dept.customerId" ng-options="item.customerId as item.customerName for item in deptList.customerList" class="form-control" id="custName" name="custName" ng-disabled="readOnly || onlyRead" required>
+								     		<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>   
+	                                 </div>
+								</div>
+
+								<div class="form-group is-empty">
+                                 	<label for="deptCode" class="col-md-4 control-label">Department Code</label>
+                                 	<div class="col-md-8">
+                                    	<input class="form-control capitalize" ng-model="dept.departmentCode" placeholder="Department Code" ng-change="fun_checkDeptCode()" type="text" maxlength="20"  ng-disabled="readOnly || onlyRead"  required>
+                                 	</div>
+                             	</div>
+							</div>
+
+							<div class="col-md-6">
+                            	<div class="form-group is-empty">
+                                 	<label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                 	<div class="col-md-8 select-box">
+										<select ng-change="companyChange()"  ng-model="dept.companyId" ng-options="item.id as item.name for item in deptList.companyList" class="form-control" ng-disabled="readOnly || onlyRead" id="cmpName" name="companyName" required>
+							 				<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                 			<label for="Select1" class="fa fa-caret-down"></label>
+                                    	</span>   
+                             		</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+            	<div class="panel panel-primary">
+             		<div class="panel-heading">
+              			<h5>Define Department</h5>
+              		</div>
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group is-empty">
+	                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+	                                <div class="col-md-8">
+	                                      <input type="text" ng-model="dept.transactionDate" class="form-control" id="transactionDate" readonly="true" name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required>
+	
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group is-empty">
+	                                <label for="departmnetName" class="col-md-4 control-label required">Department Name</label>
+	                                <div class="col-md-8">
+	                                    <input class="form-control" ng-model="dept.departmentName" placeholder="Department Name"  name="departmentName" id="departmentName" type="text" ng-disabled="readOnly"  maxlength="45" required>
+	                                </div>
+	                            </div>
+	
+	
+	                            <div class="form-group is-empty">
+	                                <label for="departmentTypeId" class="col-md-4 control-label required ">Department Type</label>
+	                                <div class="col-md-8 select-box">
+	                                 	<select  ng-model="dept.departmentTypeId" ng-options="item.id as item.name for item in deptList.deptTypeList" class="form-control" name="departmentTypeId" id="departmentTypeId" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+	                                 	</select>
+	                                 	<span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                 	</span>   
+	                                </div>
+	                            </div>
+								
+								<div class="form-group">
+									<div class="checkbox col-md-6">
+								        <label >
+		                                    <input type="checkbox" id="isCostCenter"  ng-model="dept.isCostCenter" name="isCostCenter" ng-checked="dept.isCostCenter == true" ng-click="isCostCenterClick()"   ng-disabled="readOnly"/> Is Cost Center
+		                                </label>
+		                            </div>
+	                            </div>
+	
+	                        </div>
+	
+	                        <div class="col-md-6">
+	
+	                            <div class="form-group">
+	                                <label for="isActive" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select class="form-control required" ng-model="dept.isActive" name=Status" id="Status" ng-disabled="readOnly" required>
+	                                    <option  value="">Select</option>
+	                                        <option  value="Y">Active</option>
+	                                        <option value="N">Inactive</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>   
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group is-empty">
+	                                <label for="shortName" class="col-md-4 control-label">Short Name</label>
+	                                <div class="col-md-8">
+	                                  <input ng-model="dept.shortName" class="form-control bothNumbersAndAlphabets" placeholder="Short Name" ng-disabled="readOnly" maxlength="20" type="text">
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group is-empty">
+	                                <label for="legacyDepartmentId" class="col-md-4 control-label">Legacy Department ID</label>
+	                                <div class="col-md-8">
+	                                  <input ng-model="dept.legacyDeptId" class="form-control bothNumbersAndAlphabets" placeholder="Legacy Department ID" ng-disabled="readOnly" type="text">
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="form-group is-empty" ng-show="dept.isCostCenter == false">
+	                                <label for="costCenter" class="col-md-4 control-label required">Cost Center</label>
+	                                <div class="col-md-8 select-box" >
+	                                   	<select  ng-model="dept.costCenter" ng-options="item.id as item.name for item in deptList.costCenterList" class="form-control"  ng-disabled="readOnly" id="costCenterList" name="costCenterList" required>
+						        			<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>  
+	                                   <!--  <input ng-model="dept.costCenterName" class="form-control" placeholder="Cost Center" name="costCenter" id="costCenter" ng-disabled="readOnly" type="text"> -->
+	                                    
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+                	<br/>
+            	</div>
+
+           
+            	<div class="panel panel-primary">
+            		<div class="sepr">
+                		<div class="row">
+                			<br/>      			
+	                    	<div class="col-md-6" >
+	                    		<div class="panel panel-primary">
+		            				<div class="panel-heading">
+		             					<h5>Department Owner</h5>
+		              				</div>
+              			            <div class="sepr">
+                						<div class="row">        
+			                     			<div class="col-md-12">
+			                       				<div class=" col-md-4 radio radio-primary" >
+													<label class="control-label "> <input type="radio" ng-model="dept.deptOwner" value="N"   name="deptOwner" ng-disabled="readOnly">None</label>
+							   					</div>
+											</div>
+							
+											<div class="col-md-12">
+						                        <div class=" col-md-4 radio radio-primary" style="display: inline-block">
+													<label class=" control-label"> <input type="radio" ng-model="dept.deptOwner" value="E" id="emp"  ng-checked="dept.deptOwner == 'E'" name="deptOwner" ng-disabled="readOnly">Employee Id</label>
+												</div>
+												<div class="form-group col-md-6 select-box" ng-show="dept.deptOwner == 'E'">
+							                      	<!-- <label class="form-group col-md-5 required" >Employee Id</label> -->
+							                    	<!-- <div class="form-group  col-md-8 select-box"> -->
+							                       		<!-- <input type="text" class="form-control" ng-model="dept.departmentOwnerEmp"  id="deptOwnerEmp" name="deprOwnerEmp" placeholder="Employee Id" ng-disabled="readOnly" required/> -->
+							                      		<select  ng-model="dept.departmentOwnerEmp" ng-options="item.id as item.name for item in deptList.employeeList" class="form-control"  ng-disabled="readOnly" id="departmentOwnerEmp" name="departmentOwnerEmp" required >
+										        			<option value="">Select</option>
+					                                    </select>
+					                                    <span class="input-group-btn">
+					                                 		<label for="Select1" class="fa fa-caret-down"></label>
+					                                    </span> 
+							                      	<!-- </div> -->
+							                    </div>
+							                    <div class="col-md-6" ng-show="dept.deptOwner != 'E'">
+							                	</div>
+											</div>
+											
+											<div class="col-md-12">  
+												<div class="radio radio-primary col-md-4" style="display: inline-block">
+													<label class="control-label"> <input type="radio"  ng-model="dept.deptOwner" value="J" ng-checked="dept.deptOwner == 'J'"  id="job" ng-disabled="readOnly" name="deptOwner">Job Position</label>
+												</div>                    
+			                    				<div class="form-group  col-md-7 select-box"  ng-show="dept.deptOwner =='J'" >
+			                    					<!-- <label class="form-group col-md-5 required" for="jobPosition">Job Position</label> -->
+			                         	 			<!-- <div class="form-group  col-md-8 select-box"> -->
+<!-- 			                      					<input type="text" class="form-control" ng-model="dept.departmentOwnerJob"  id="deptOwnerJob" name="deptOwnerJob" placeholder="Job Position" ng-disabled="readOnly" required/>-->
+					                                   	<select  ng-model="dept.departmentOwnerJob" ng-options="item.jobCodeId as item.jobName for item in deptList.jobCodeList" class="form-control"  ng-disabled="readOnly" id="deptOwnerJob" name="deptOwnerJob" required >
+										        			<option value="">Select</option>
+					                                    </select>
+					                                    <span class="input-group-btn">
+					                                 		<label for="Select1" class="fa fa-caret-down"></label>
+					                                    </span>   
+						                                
+			                     				<!-- </div>  -->
+			                     				</div>
+			                    			</div>
+			                    		</div>
+			                    	</div>
+                	 			</div>
+                  			</div>
+                  			
+                  			<div class="col-md-6" style="padding:0px;">
+                				<div class="panel panel-primary">
+	                     			<div class="panel-heading" style="color:white">
+	                         			<h5 >Associate Division</h5>
+	                         		</div>
+                         			<div class="sepr">
+                						<div class="row">
+				                         	<table class="table table-stiped table-striped  col-md-6" ng-disabled="readOnly" required>
+				                            	<thead>
+				                                	<tr>
+					                                     <th data-type="text" >Division Code </th>
+					                                     <th data-type="text">Division Name</th>
+					                                     <th></th>
+					                                     <th><i class="fa fa-plus" data-toggle="modal"  ng-show="gridButtons" ng-click="plusIconAction()"> </i></th>
+					                                     <th></th>
+				                                 	</tr>
+				                             	</thead>
+				                             	<tbody>
+				                                 	<tr ng-repeat="i in deptList.divisionList" on-last-repeat>
+					                                     <td>{{i.divisionCode}}</td>
+					                                     <td>{{i.divisionName}}</td>
+					                                     <td input type="hidden" ng-model="i.divisionInfoId">
+					                                     <td> <i ng-click="Delete($event)" class="fa fa-trash" "></i></td>
+					                                     <td></td>
+					                                     <td></td>
+				                                 	</tr>  
+				                             	</tbody>
+				                         	</table>
+	                         			</div>
+	                         		</div>
+	                         	</div>
+                    		</div>
+						</div>   
+         			</div> 
+            	</div>
+			
+	            <div class="btn-group btn-group-right pull-right">
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn  && buttonArray.includes('SAVE')" ng-click="enable || save($event)">Save</a>
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn  && buttonArray.includes('UPDATE')" ng-click="updateDeptBtnAction()">Update</a>
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-click="viewOrEditHistory()" ng-show="viewOrUpdateBtn   && buttonArray.includes('VIEW HISTORY')">View Or Update History</a>
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="correcttHistoryBtn  && buttonArray.includes('CORRECT HISTORY')" ng-click="enable || correctHistorySave()">Correct History</a>
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+	                 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+	                 <a href="#/DepartmentSearch" class="btn btn-primary">Return to search</a>
+	            </div>
+	        </div>
+        </form>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+	        <div class="modal-header">
+	            <button type="button" class="close"  aria-label="Close">
+	                <span aria-hidden="true">&times;</span>
+	            </button>
+	            <h4 class="modal-title">Add Division Details</h4>
+	        </div>
+	        
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-12">                                   
+                                 <div class="form-group">
+                                    <label for="departmentName"  class="col-md-4 control-label">Division Name</label>
+                                    <div class="col-md-8 select-box">
+	                                    <select  ng-model="division" ng-options="item as item.divisionName+' - '+item.divisionCode for item in deptList.divList" class="form-control"  id="divisionName">
+	                                        <option value="">Select</option>
+	                                    </select>
+                                        <span class="input-group-btn">
+                                			<label for="Select1" class="fa fa-caret-down"></label>
+                                   		</span>
+                                    </div>
+                            	</div>
+                        	</div>
+                    	</div>
+                	</div>
+            	</div>
+            	<div class="modal-footer">
+             		<button type="button" ng-click="saveDivisionDetails()" class="btn btn-primary"  >Save changes</button>
+             		<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+        		</div>
+        	</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	    <div class="container text-right" style="">
+	        <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	    </div>
+	</div>
+</div>

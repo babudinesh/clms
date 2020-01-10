@@ -1,0 +1,233 @@
+<form id="charForm">
+	<div class="container-fluid">
+	    <div class="col-md-12 well">
+	     	<h3 class="cls_plainheader">Define Locations</h3>
+	        <br />
+	        <div class="col-md-12">
+		        <ul class="nav nav-tabs">
+		            <li><a ng-href="#/LocationAdd/{{locationDetailsId}}">Define Location</a></li>
+		            <li class="active"><a ng-href="#/LocationCharacteristics/{{locationId}}">Characteristics</a></li>
+		        </ul>
+	        
+	            <div class="panel panel-primary">
+					<div class="sepr">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="custName" class="col-md-6 control-label required">Customer Name</label>
+									<div class="col-md-6 select-box">
+										<select  ng-change="customerChange()"  ng-model="location.customerId" ng-options="item.customerId as item.customerName for item in locationList.customerList" class="form-control" name="custName" id="custName" ng-disabled="true" required>
+																					<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+	                                     	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>  
+									</div>
+								</div>
+									<input type="hidden" value="0" ng-model="location.locationId" class="locationId">
+								 <div class="form-group is-empty">
+									<label for="countryName" class="col-md-6 control-label required">Country Name</label>
+									<div class="col-md-6 select-box">
+										<select  ng-model="location.countryId" ng-options="item.id as item.name for item in locationList.countryList" class="form-control" name="countryName" id="countryName" ng-disabled="true" required>
+												<option value="">Select</option>
+										</select>	
+										<span class="input-group-btn">
+	                                     	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>  							
+	                               </div>
+								</div>
+							</div>
+	
+							<div class="col-md-6">
+								<div class="form-group is-empty">
+									<label for="companyName" class="col-md-6 control-label required">Company Name</label>
+									<div class="col-md-6 select-box">
+										<select  ng-change="companyChange()"  ng-model="location.companyId" ng-options="item.id as item.name for item in locationList.companyList" class="form-control" id="cmpName" name="cmpName"  ng-disabled="true" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+	                                     	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>  
+									</div>
+								</div>
+								<div class="form-group is-empty">
+									<label for="locationCode" class="col-md-6 control-label required">Location Code</label>
+									<div class="col-md-6">
+										<input class="form-control capitalize" ng-model="location.locationCode" placeholder="Location ID" id="locationCode" name="locationCode" type="text" ng-disabled="true" required >
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+	            <div class="panel panel-primary">
+	            	<div class="panel-heading">
+	             		<h5 >Characteristics</h5>
+	            	</div>
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="CSTNumber" class="col-md-4 control-label ">CST Number</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.cstNumber" id="CSTNumber" name="cstNumber" maxlength="20" placeholder="CST Number" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group">
+	                                <label for="LSTNumber" class="col-md-4 control-label ">LST Number</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.lstNumber" id="LSTNumber" placeholder="LST Number" maxlength="20" name="lstNumber" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group">
+	                                <label for="TANNo" class="col-md-4 control-label ">TAN Number</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.tanNumber" id="TANNo" placeholder="TAN Number" maxlength="20" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	                        </div>
+	
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="ShopActLicenNumber" class="col-md-6 control-label ">Shop Act License Number</label>
+	                                <div class="col-md-6">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.shopActLicenseNumber" id="ShopActLicenseNumber" maxlength="45" placeholder="Shop Act License Number" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="checkbox col-md-12">
+	                                    <label class="col-md-10" style="margin-left: 30px; margin-top: 15px"" >
+	                                        <input type="checkbox"  ng-model="location.isProfessionalTax" id="isProfessionalTax" name="isProfessionalTax" ng-disabled="readOnly" />
+	                                        Professional Tax Applicable
+	                                    </label>
+	                                </div>
+	                            </div>
+	                            
+	                            <div class="form-group">
+	                                <div class="checkbox col-md-6">
+	                                    <label style="margin-left: 30px; margin-top: 15px" >
+	                                        <input type="checkbox"   ng-model="location.isUnion"  id="isUnion" name="isUnion" ng-disabled="readOnly" /> Belongs to Union
+	                                    </label>
+	                                </div>
+	                                <div class="form-group col-md-6" ng-show="location.isUnion">
+	                                    <input type="text" class="form-control onlyAlphabets"  ng-model="location.unionName" id="UnionName"  name="unionName" ng-required="location.isUnion == true" maxlength="45"  placeholder="Union Name" ng-disabled="readOnly" required />
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	             </div> 
+	   
+	            <div class="panel panel-primary">
+		            <div class="panel-heading">
+		            	 <h5 >PF Details</h5>
+		            </div>
+	                <div class="sepr">
+	                   
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="PFAccountNumber" class="col-md-4 control-label ">PF Account Number</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.pfAccountNumber" id="PFAccountNumber" name="pfAccuntNumber" maxlength="20" placeholder="PF Account Number" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="form-group">
+	                                    <label for="PFRegistrationDate" class="col-md-4 control-label ">PF Registration Date</label>
+	                                    <div class="col-md-8">
+	                                        <input type="text" class="form-control" ng-model="location.pfRegistrationDate" id="pfRegistrationDate" readonly="true" onchange="angular.element(this).scope().fun_checkErr(this)" placeholder="PF Registration Date &#xf073;"   date-change-picker ng-disabled="readOnly" />
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="PFType" class="col-md-4 control-label ">PF Type</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select  ng-model="location.pfTypeId" ng-options="item.id as item.name for item in locationList.pfTypesList" class="form-control" id="pfTypeId" name="pfTypeId" ng-disabled="readOnly" >
+											<option value="">Select</option>
+	                                     </select>
+	                                     <span class="input-group-btn">
+	                                     	<label for="Select1" class="fa fa-caret-down"></label>
+	                                     </span>  
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            
+	                            <div class="form-group">
+	                                <div class="form-group">
+	                                    <label for="PFStartDate" class="col-md-4 control-label ">PF Start Date</label>
+	                                    <div class="col-md-8">
+	                                        <input type="text" class="form-control" ng-model="location.pfStartDate" id="pfStartDate" readonly="true" name="PFStartDate" onchange="angular.element(this).scope().fun_checkErr(this)" placeholder="PF Start Date &#xf073;"   date-change-picker ng-disabled="readOnly" />
+	                                    </div>
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <label for="PFCircle" class="col-md-4 control-label ">PF Circle</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.pfCircle" id="PFCircle"  name="pfCircle" placeholder="PF Circle" maxlength="25" ng-disabled="readOnly" />
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            
+	            <div class="panel panel-primary">
+		             <div class="panel-heading">
+		             	<h5 >ESI Details</h5>
+		            </div>
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <label for="ESIAccountNumber" class="col-md-4 control-label ">ESI Account Number</label>
+	                                <div class="col-md-8">
+	                                    <input type="text" class="form-control bothNumbersAndAlphabets" ng-model="location.esiAccountNumber" id="esiAccountNumber" name="esiAccountNumber" placeholder="ESI Account Number" maxlength="20" ng-disabled="readOnly"  />
+	                                </div>
+	                            </div>
+	                            <div class="form-group">
+	                                <div class="form-group">
+	                                    <label for="ESIStartDate" class="col-md-4 control-label ">ESI Start Date</label>
+	                                    <div class="col-md-8">
+	                                        <input type="text" class="form-control" ng-model="location.esiStartDate" id="esiStartDate" readonly="true" name="esiStartDate" placeholder="ESI Start Date &#xf073;" date-change-picker onchange="angular.element(this).scope().fun_checkErr(this)"   ng-disabled="readOnly" />
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        <div class="col-md-6">
+	                            <div class="form-group">
+	                                <div class="form-group">
+	                                    <label for="ESIRegistrationDate" class="col-md-4 control-label ">ESI Registration Date</label>
+	                                    <div class="col-md-8">
+	                                        <input type="text" class="form-control" ng-model="location.esiRegistrationDate" id="esiRegistrationDate" readonly="true" name="esiRegistrationDate" placeholder="ESI Registration Date &#xf073;" date-change-picker  onchange="angular.element(this).scope().fun_checkErr(this)" ng-disabled="readOnly" />
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	
+		        <div class="btn-group btn-group-right pull-right">
+					 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="save()">Save</a>
+					 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction()">Update</a>
+					 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+					 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+					 <a href="#/LocationSearch" class="btn btn-primary">Return to search</a>
+		        </div>
+	
+	    </div>
+	</div>
+	<div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+
+</form>

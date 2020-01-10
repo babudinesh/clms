@@ -1,0 +1,339 @@
+
+
+<div class="container-fluid">
+        <div class="col-md-12 well">
+            <form class="form1" id="bankDetails" novalidate>
+             <h3 class="cls_plainheader">Vendor Bank Details</h3>
+            <div class="col-md-12">
+				<br />
+					<div class="panel panel-primary" ng-show="transactionList">
+					<div class="panel-heading">					
+					<h5> Search : </h5>
+					</div>
+						<div class="container">
+							
+							<div class="row">
+								<div class="col-md-6 transactionList">
+									<div class="form-group">
+										<label for="transactionList" class="col-md-4 control-label">Transaction Date's :</label>
+										<div class="col-md-6 select-box">
+                                            <select  ng-model="transactionModel" ng-change="transactionDatesListChnage()" ng-options="item.id as item.name for item in transactionDatesList " class="form-control" id="transactionModel" ng-disabled="readOnly" >
+                                            	<option value="">Select</option>
+                                            </select>   
+											<span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span>                                       											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</div>
+        
+                <div class="panel panel-primary">
+                    <div class="sepr">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select ng-change="customerChange()" ng-model="vendorBankVo.customerId" name="customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control"  id="Select1" ng-disabled="masterData" required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="venName" class="col-md-4 control-label required">Vendor Name</label>
+                                    <div class="col-md-8 select-box">
+                                         <select   ng-model="vendorBankVo.vendorId"  ng-change="vendorChange()" name="vendorId" ng-options="item.id as item.name for item in vendorList" class="form-control"  id="vendorId" name="vendorId"  required>
+                                            <option value="">Select</option>
+                                         </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+								<div class="form-group is-empty">
+                                    <label for="countryId" class="col-md-4 control-label required">Country Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-model="vendorBankVo.countryid"   ng-options="item.id as item.name for item in countriesList" class="form-control"  id="countryId" ng-disabled="true" name="countryId" required>
+                                        	<option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                   <!--  {{vendorBankVo.companyid}} -->
+                                    <div class="col-md-8 select-box">
+                                        <select  ng-change="companyChange()"  ng-model="vendorBankVo.companyid"  name="companyId" ng-options="item.id as item.name for item in companyList" class="form-control"  id="companyId"  required>
+                                           <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="locName" class="col-md-4 control-label required">Location Name</label>
+                                    <div class="col-md-8 select-box">
+                                         <select    ng-model="vendorBankVo.locationId"  name="locationId" ng-options="item.id as item.name for item in locationList" class="form-control"  id="locationId" ng-disabled="masterData"  required>
+                                            <option value="">Select</option>
+                                         </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+								<div class="form-group is-empty">
+                                    <label for="bnkCode" class="col-md-4 control-label required">Bank Code</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="vendorBankVo.bankCode" placeholder="Bank Code" type="text" ng-disabled="masterData" required minlength="2" maxlength="45"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-primary">
+                <div class="panel-heading">					
+					 <h5>Define Bank Details</h5>
+					</div>
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group is-empty">
+                                    <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+                                    <div class="col-md-8">
+                                        <input data-dtp="dtp_cdo8l" class="form-control" ng-model="transactionDate" placeholder="Effective From Date" type="text" id="transactionDate" readonly="true" name="transactionDate" ng-disabled="readOnly" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="bnkName" class="col-md-4 control-label required">Bank Name</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="vendorBankVo.bankName" placeholder="Bank Name" type="text" name="bankName" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group is-empty">
+                                    <label for="accNo" class="col-md-4 control-label required">Account Number</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="vendorBankVo.accountNumber" placeholder="Account Number" name="accountNumber" type="text" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="branch" class="col-md-4 control-label required">Branch</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" ng-model="vendorBankVo.branch" placeholder="Branch" type="text" name="branch" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="ifscCode" class="col-md-4 control-label ">IFSC Code</label>
+                                    <div class="col-md-8">
+                                        <input class="form-control" style="z-index:10px;" ng-model="vendorBankVo.ifscCode" placeholder="IFSC Code" name="ifscCode"  type="text" ng-disabled="readOnly" minlength="2" maxlength="11">
+                                    </div>
+                                </div>
+                            </div>
+                           
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="status" class="col-md-4 control-label required">Status</label>
+                                    <div class="col-md-8 select-box">
+                                    	<select class="form-control" ng-model="vendorBankVo.isActive" name="isActive" ng-disabled="readOnly" required>
+                                           <option value="Y">Active</option>
+                                           <option value="N">In Active</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+
+                                <div class="form-group is-empty">
+                                    <label for="accHolderName" class="col-md-4 control-label required">A/C Holder Name</label>
+                                    <div class="col-md-8">
+                                      <input ng-model="vendorBankVo.accountHolderName" class="form-control" placeholder="A/C Holder Name" type="text"  name="accountHolderName" ng-disabled="readOnly" required minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+
+                                 <div class="form-group is-empty">
+                                    <label for="city" class="col-md-4 control-label">City</label>
+                                    <div class="col-md-8">
+                                      <input ng-model="vendorBankVo.bankCity" class="form-control" placeholder="City" type="text" ng-disabled="readOnly" minlength="2" maxlength="45">
+                                    </div>
+                                </div>
+                              
+                                 <div class="form-group is-empty">
+                                    <label for="micr" class="col-md-4 control-label">MICR Code</label>
+                                    <div class="col-md-8">
+                                      <input ng-model="vendorBankVo.micrCode" class="form-control" placeholder="MICR Code" type="text" ng-disabled="readOnly" minlength="2" maxlength="9">
+                                    </div>
+                                </div>
+
+                                 <div class="form-group is-empty">
+                                    <label for="phno" class="col-md-4 control-label">Phone No</label>
+                                    <div class="col-md-8">
+                                      <input ng-model="vendorBankVo.phoneNumber" class="form-control onlyNumbers" placeholder="Phone No" type="text" ng-disabled="readOnly" minlength="2" maxlength="12">
+                                    </div>
+                                </div>
+                              
+                            </div>
+                        </div>
+                        <div class="row">
+	 						<div class="col-md-6">
+                             	<div class="form-group">
+                                    <a class="btn btn-primary addressAdd" data-toggle="modal" data-target="#myModal" ng-disabled="readOnly"  > <span ng-if="VendorAdders == undefined || VendorAdders == '' || VendorAdders == null">  Add Address </span> <span ng-if="VendorAdders.length > 0"> View/Edit Address </span>  <i class="fa fa-plus-circle"></i></a>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="address" class="col-md-4 control-label">Address</label>
+                                    <div class="col-md-8">
+                                        <textarea id="address" ng-disabled="true" ng-model="VendorAdders" class="form-control"  name="address"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                      </div>
+                    </div>
+
+                    <br>
+                </div>
+                <div class="btn-group btn-group-right pull-right">
+	                <a href="javascript:void(0)" class="btn btn-danger" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateBtnAction($event)"> Update </a>
+					<a class="btn  btn-primary " ng-show="saveBtn && buttonArray.includes('SAVE')" ng-click="enable || validateBankCode($event)" ">Save</a> 
+					<a class="btn  btn-primary " ng-show="correcttHistoryBtn && buttonArray.includes('CORRECT HISTORY')" type="submit" ng-click="enable || validateBankCode($event)" > Correct History </a>						
+					<button class="btn  btn-danger  " ng-show="resetBtn" type="reset"> Reset </button> 
+					<a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="cancelButnAction()"> Cancel </a>
+					<a href="javascript:void(0)" class="btn  btn-info" ng-show="viewOrUpdateBtn  && buttonArray.includes('VIEW HISTORY')" ng-click="viewOrEditHistory($event)"> View Or Update History </a>
+					<a href="#/vendorBankSearchList"  class="btn btn-default">Return To Search</a>
+				</div>	
+            </div>
+            <div class="container-fluid">
+                <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+                    <div class="container text-right" style="">
+                        <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+                    </div>
+                </div>
+            </div>
+		</form>
+	</div>
+</div>
+
+
+<form id="addressForm">
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+ <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Address Information</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="sepr">
+                            <div class="row">
+                                <div class="col-md-6">                                   
+
+                                    <div class="form-group">
+                                        <label for="aal1"  class="col-md-4 control-label required">Address Line 1</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="vendorBankVo.addressLine1" name="address1" class="form-control" id="aal1" placeholder="Address Line 1"  minlength="2" maxlength="45" required/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="aal3"  class="col-md-4 control-label">Address Line 3</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="vendorBankVo.addressLine3" class="form-control" id="aal3" placeholder="Address Line 3" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="state"  class="col-md-4 control-label">State</label>
+                                        <div class="col-md-8 select-box">
+                                            <select  ng-model="vendorBankVo.state" ng-options="item.id as item.name for item in statesList" class="form-control"  id="state">
+                                            	<option value="">Select</option>
+                                            </select>
+											<span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span> 
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="pincode"  class="col-md-4 control-label ">Pincode</label>
+                                        <div class="col-md-8">
+                                            <input type="text" ng-model="vendorBankVo.pincode" name="pincode" class="form-control onlyNumbers" id="pincode" placeholder="Pincode"  minlength="6" maxlength="6"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">                                    
+                                    <div class="form-group">
+                                        <label for="addl2" class="col-md-4 control-label">Address line 2</label>
+                                        <div class="col-md-8">
+                                            <input type="text"  ng-model="vendorBankVo.addressLine2" class="form-control" id="addl2" placeholder="Address line 2" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="Country" class="col-md-4 control-label required">Country</label>
+                                        <div class="col-md-8 select-box">
+                                            <select ng-change="countryChange()" ng-model="vendorBankVo.country" name="country" ng-options="item.id as item.name for item in list_Country" class="form-control"  id="country" required>
+                                            	<option value="">Select</option>
+                                            </select>
+
+											<span class="input-group-btn">
+												<label for="Select1" class="fa fa-caret-down"></label>
+											</span> 
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="City" class="col-md-4 control-label ">City</label>
+                                        <div class="col-md-8">                                           
+                                            <!-- <select  ng-model="vendorBankVo.city" name="city" ng-options="item.id as item.name for item in cityList" class="form-control"  id="Select5" >
+                                            <option value="">Select</option>
+                                            </select> -->
+                                             <input type="text" ng-model="vendorBankVo.city" class="form-control" id="aal3" placeholder="City Name" name="city" minlength="2" maxlength="45"/>
+                                        </div>
+                                    </div>
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                	<button type="button" ng-click="saveAddress()" class="btn btn-primary" >Save Changes</button>
+                	<button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
+            	</div>
+            </div>
+          
+        </div>
+</div>
+</form>

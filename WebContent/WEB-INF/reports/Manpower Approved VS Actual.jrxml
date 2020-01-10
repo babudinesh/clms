@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="cross" language="groovy" printOrder="Horizontal" pageWidth="1700" pageHeight="1700" whenNoDataType="AllSectionsNoDetail" columnWidth="0" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d6b573e6-900e-4a40-8c0a-ab9a7a650d5a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\mohd.osman\\Desktop\\new_jasper\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="locationId" class="java.lang.String"/>
+	<parameter name="plantId" class="java.lang.String"/>
+	<parameter name="businessDate" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="departmentId" class="java.lang.String"/>
+	<parameter name="shift" class="java.lang.String"/>
+	<parameter name="year" class="java.lang.String"/>
+	<parameter name="month" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT count(  l.emp) Worker_Count_Date,ContractorName,Shift,Work_Skill,d.department_Name,p.plant_Name,d.department_id,Count_Year,Count_Month,(Count_Year+Count_Month) Total,Year(Business_Date) AS Year
+FROM labor_time_report l
+JOIN department_details_info d ON (l.department_id=d.department_id)
+JOIN plant_details_info p ON (l.plant_id=p.plant_id)
+JOIN manpower_requisition m ON (m.plant_id=p.plant_id)
+JOIN customer_view cd ON (cd.Customer_id=l.Customer_id)
+JOIN company_view com ON (com.company_id = l.company_id)
+JOIN vendor_view vd ON (vd.vendor_id = l.vendor_id)
+JOIN location_details_info ld ON (ld.location_id=l.location_id)
+
+LEFT OUTER JOIN
+
+(SELECT Required_workers Count_Year,d.department_Name,p.plant_Name,d.department_id
+FROM manpower_requisition_daywise m
+JOIN department_details_info d ON (m.department_id=d.department_id)
+JOIN plant_details_info p ON (m.plant_id=p.plant_id)
+
+
+
+where
+CONCAT(DATE_FORMAT(d.transaction_date, '%Y%m%d'), LPAD(d.department_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(ddi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(ddi1.department_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                department_details_info ddi1
+            WHERE
+                d.department_Id = ddi1.department_Id
+               AND ddi1.transaction_date <= CURRENT_DATE()
+        )
+AND
+CONCAT(DATE_FORMAT(p.transaction_date, '%Y%m%d'), LPAD(p.plant_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(pdi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(pdi1.plant_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                plant_details_info pdi1
+            WHERE
+                p.plant_Id = pdi1.plant_Id
+                AND pdi1.transaction_date <= CURRENT_DATE()
+        )
+AND
+
+p.plant_id = $P{plantId}
+AND
+Year(m.Business_Date) = year($P{businessDate})
+AND
+(d.department_id = $P{departmentId} or '-1' = $P{departmentId})
+
+
+GROUP BY d.department_Name,p.plant_Name) a
+ON (d.department_id = a.department_id)
+
+LEFT OUTER JOIN
+
+(SELECT Required_workers Count_Month,d.department_Name,p.plant_Name,d.department_id
+FROM manpower_requisition_daywise m
+JOIN department_details_info d ON (m.department_id=d.department_id)
+JOIN plant_details_info p ON (m.plant_id=p.plant_id)
+
+
+
+where
+CONCAT(DATE_FORMAT(d.transaction_date, '%Y%m%d'), LPAD(d.department_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(ddi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(ddi1.department_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                department_details_info ddi1
+            WHERE
+                d.department_Id = ddi1.department_Id
+                AND ddi1.transaction_date <= CURRENT_DATE()
+        )
+AND
+CONCAT(DATE_FORMAT(p.transaction_date, '%Y%m%d'), LPAD(p.plant_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(pdi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(pdi1.plant_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                plant_details_info pdi1
+            WHERE
+                p.plant_Id = pdi1.plant_Id
+                AND pdi1.transaction_date <= CURRENT_DATE()
+        )
+
+
+AND
+p.plant_id = $P{plantId}
+AND
+Year(Business_Date) = year($P{businessDate})
+AND
+Month(Business_Date) = month($P{businessDate})
+AND
+(d.department_id = $P{departmentId} or '-1' = $P{departmentId})
+
+
+
+GROUP BY d.department_Name,p.plant_Name) b
+
+ON (d.department_id = b.department_id)
+
+
+where
+CONCAT(DATE_FORMAT(d.transaction_date, '%Y%m%d'), LPAD(d.department_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(ddi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(ddi1.department_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                department_details_info ddi1
+            WHERE
+                d.department_Id = ddi1.department_Id
+                AND ddi1.transaction_date <= CURRENT_DATE()
+        )
+AND
+CONCAT(DATE_FORMAT(p.transaction_date, '%Y%m%d'), LPAD(p.plant_Sequence_Id, 2, '0')) =    (
+            SELECT
+                MAX(CONCAT(DATE_FORMAT(pdi1.transaction_date,
+                '%Y%m%d'),
+                LPAD(pdi1.plant_Sequence_Id,
+                2,
+                '0')))
+            FROM
+                plant_details_info pdi1
+            WHERE
+                p.plant_Id = pdi1.plant_Id
+                AND pdi1.transaction_date <= CURRENT_DATE()
+        )
+
+
+AND
+CONCAT(DATE_FORMAT(ld.transaction_date, '%Y%m%d'), LPAD(ld.Location_Sequence_Id, 2, '0')) = (SELECT MAX(CONCAT(DATE_FORMAT(li1.transaction_date, '%Y%m%d'), LPAD(li1.Location_Sequence_Id, 2, '0'))) FROM location_details_info li1
+WHERE (ld.Location_Id=li1.Location_Id AND li1.transaction_date <= CURRENT_DATE()) )
+AND
+com.company_id = $P{companyId}
+AND
+cd.customer_id = $P{customerId}
+AND
+ld.location_id = $P{locationId}
+AND
+p.plant_id = $P{plantId}
+AND
+business_date = $P{businessDate}
+AND
+(vd.vendor_id = $P{vendorId} or '-1'= $P{vendorId})
+AND
+(d.department_id = $P{departmentId} or '-1' = $P{departmentId})
+AND
+(Shift = $P{shift} or '-1' = $P{shift})
+
+
+GROUP BY ContractorName,Shift,Work_Skill,d.department_Name,p.plant_Name;]]>
+	</queryString>
+	<field name="Worker_Count_Date" class="java.lang.Long"/>
+	<field name="ContractorName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shift" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Work_Skill" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="plant_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Count_Year" class="java.lang.Integer"/>
+	<field name="Count_Month" class="java.lang.Integer"/>
+	<field name="Total" class="java.lang.Long"/>
+	<field name="Year" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="26">
+			<staticText>
+				<reportElement x="0" y="0" width="606" height="26" uuid="6cd24c34-ec9d-4e0f-bd83-8a30f7d0a006"/>
+				<textElement>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[WELSPUN CORP LTD - CONTRACT LABOUR DAILY DEPLOYMENT REPORT]]></text>
+			</staticText>
+		</band>
+	</title>
+	<summary>
+		<band height="42" splitType="Stretch">
+			<crosstab ignoreWidth="true">
+				<reportElement x="0" y="0" width="1723" height="42" uuid="a6ad6341-1059-4a83-a370-9fcc8a0fc02b"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="29" y="60" width="65" height="29" backcolor="#C5BE97" uuid="e71b6b2f-5621-49de-8e13-1c6e345adc6b"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Plant]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="94" y="60" width="102" height="30" backcolor="#C5BE97" uuid="ef926194-3c87-4e8d-a7b8-febd0cfdb34d"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Department]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="60" width="29" height="30" forecolor="#000000" backcolor="#C5BE97" uuid="59fb21cd-2560-40bf-861b-f1d59bd3d9d3"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<text><![CDATA[S.No.]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="plant_Name" width="94" totalPosition="End" headerPosition="Stretch">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{plant_Name}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="29" y="0" width="65" height="50" backcolor="#93CDDD" uuid="355c7917-9174-4578-af86-5dfe3fc8f619"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{plant_Name}]]></textFieldExpression>
+							</textField>
+							<textField pattern="" isBlankWhenNull="false">
+								<reportElement style="Crosstab Data Text" mode="Transparent" x="0" y="0" width="29" height="50" forecolor="#000000" backcolor="#FFFFFF" uuid="fba78aed-addb-4707-8c1c-2f6438e6fd71"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{SL.NO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="196" height="25" forecolor="#000000" backcolor="#75923C" uuid="52ea2070-876f-4a56-a934-540683e3805c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Grand Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="department_Name" width="102" totalPosition="End" headerPosition="Stretch">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{department_Name}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="102" height="25" uuid="006ad06b-eff3-4663-be71-bce51bec4d09"/>
+								<textElement textAlignment="Left" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{department_Name}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="102" height="25" backcolor="#FAC090" uuid="e90df003-bb0d-4b17-a217-230f2dd39de9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="ContractorName" height="30" totalPosition="End" headerPosition="Stretch">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{ContractorName}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Transparent">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="63" height="30" backcolor="#FFFF99" uuid="eef03d87-ff45-4155-8a65-982f71085ee2"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{ContractorName}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="90" forecolor="#000000" backcolor="#FFFF00" uuid="cfaec8e7-7863-4f42-a665-73c15b466241"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Grand Total]]></text>
+							</staticText>
+							<staticText>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="93" y="0" width="47" height="90" forecolor="#000000" backcolor="#FFFF00" uuid="fab311a1-6eaa-4eae-acbc-2f5b2a46932a"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Additional Approval  Against Sales Order etc..]]></text>
+							</staticText>
+							<staticText>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="140" y="0" width="44" height="90" forecolor="#000000" backcolor="#FFFF00" uuid="49364795-518e-4ab4-a320-13f81867be81"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Total Approval ]]></text>
+							</staticText>
+							<textField>
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="50" y="0" width="43" height="90" forecolor="#000000" backcolor="#FFFF00" uuid="345d0bad-8593-4116-bc68-77debee8fa45"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA["Approved Manpower FY" +" "+ $V{Year}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="Shift" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Shift}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="63" height="30" backcolor="#C5BE97" uuid="142e69d8-a8f4-4a9f-9053-63896bf9ce76"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Shift}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#E46D0A" mode="Opaque">
+							<box rightPadding="0">
+								<pen lineWidth="0.0"/>
+								<topPen lineWidth="0.0"/>
+								<leftPen lineWidth="0.0"/>
+								<bottomPen lineWidth="0.0"/>
+								<rightPen lineWidth="0.0"/>
+							</box>
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="50" height="60" backcolor="#E46D0A" uuid="7d89871d-567a-4d27-a3f0-a36deabc89d7"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="WorkSkill" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Work_Skill}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents>
+							<textField isStretchWithOverflow="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="63" height="30" backcolor="#C5BE97" uuid="8450692c-e124-43a3-aa5b-c688ef1834c6"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{WorkSkill}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents/>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="Worker_Count" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{Worker_Count_Date}]]></measureExpression>
+				</measure>
+				<measure name="Manpower_Year" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{Count_Year}]]></measureExpression>
+				</measure>
+				<measure name="Manpower_Month" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{Count_Month}]]></measureExpression>
+				</measure>
+				<measure name="Total_Manpower" class="java.lang.Long" calculation="Sum">
+					<measureExpression><![CDATA[$F{Total}]]></measureExpression>
+				</measure>
+				<measure name="Year" class="java.lang.String">
+					<measureExpression><![CDATA[$F{Year}]]></measureExpression>
+				</measure>
+				<measure name="SL.NO" class="java.lang.String">
+					<measureExpression><![CDATA[$V{PAGE_NUMBER}]]></measureExpression>
+				</measure>
+				<crosstabCell width="63" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="63" height="25" forecolor="#000000" uuid="812e1871-7660-4374-8187-b94217875f27"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="63" height="25" rowTotalGroup="plant_Name">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="63" height="25" forecolor="#FF0000" backcolor="#75923C" uuid="ccd48d1f-acd8-44eb-ab7e-bc9021f76c08"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="184" height="25" columnTotalGroup="ContractorName">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="d237c743-2a1e-4153-9dce-47c8eb31f0c0"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="50" y="0" width="43" height="25" forecolor="#000000" backcolor="#BFBFBF" uuid="b14940d9-68ab-4d32-a550-ba5a53271c69"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Year}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="93" y="0" width="47" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="e8ffc7b7-74f7-4bba-bfb2-6ea8cfcbf553"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Month}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="140" y="0" width="44" height="25" forecolor="#000000" backcolor="#FFFFFF" uuid="b30ad7c0-017f-4887-85d2-42e15f1c817a"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Total_Manpower}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="184" rowTotalGroup="plant_Name" columnTotalGroup="ContractorName">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#000000" backcolor="#75923C" uuid="50e0ab4d-653a-4f98-b5bf-e534e370e8d2"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="50" y="0" width="43" height="25" forecolor="#FF0000" backcolor="#75923C" uuid="bd4dfd49-5fe0-409f-a925-88908014330a"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+								<topPen lineWidth="0.5" lineColor="#000000"/>
+								<leftPen lineWidth="0.5" lineColor="#000000"/>
+								<bottomPen lineWidth="0.5" lineColor="#000000"/>
+								<rightPen lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Year}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="93" y="0" width="47" height="25" forecolor="#000000" backcolor="#75923C" uuid="dfb19395-85b4-41bc-8e2e-106b98c31ee4"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Month}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="140" y="0" width="44" height="25" forecolor="#000000" backcolor="#75923C" uuid="a317b59c-0fdb-4d2b-bbe7-f189bfa7643f"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Total_Manpower}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="25" columnTotalGroup="Shift">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="a97ba101-acca-4e29-9f6c-1c25ec0bf2b8"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="plant_Name" columnTotalGroup="Shift">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#FF0000" backcolor="#75923C" uuid="52047267-7704-422b-a9dd-9052eefa8b33"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="63" height="25" rowTotalGroup="department_Name">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="63" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="8656f1a1-10ca-4a86-b359-bddfe0958b3e"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="184" rowTotalGroup="department_Name" columnTotalGroup="ContractorName">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="9cdb9a44-ba4b-4cf0-90e6-4fa736026583"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+								<topPen lineWidth="0.5" lineColor="#000000"/>
+								<leftPen lineWidth="0.5" lineColor="#000000"/>
+								<bottomPen lineWidth="0.5" lineColor="#000000"/>
+								<rightPen lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="50" y="0" width="43" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="2748d949-204e-4d6e-9efa-cfc3e6b46007"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+								<topPen lineWidth="0.5" lineColor="#000000"/>
+								<leftPen lineWidth="0.5" lineColor="#000000"/>
+								<bottomPen lineWidth="0.5" lineColor="#000000"/>
+								<rightPen lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Year}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="93" y="0" width="47" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="871e8183-e8ec-4cfe-948a-e2006d38ec2c"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+								<topPen lineWidth="0.5" lineColor="#000000"/>
+								<leftPen lineWidth="0.5" lineColor="#000000"/>
+								<bottomPen lineWidth="0.5" lineColor="#000000"/>
+								<rightPen lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Manpower_Month}]]></textFieldExpression>
+						</textField>
+						<textField pattern="" isBlankWhenNull="false">
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="140" y="0" width="44" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="9f2a6f8d-f871-4ac7-bfa7-bb10d69847d6"/>
+							<box leftPadding="0">
+								<pen lineWidth="0.5" lineColor="#000000"/>
+								<topPen lineWidth="0.5" lineColor="#000000"/>
+								<leftPen lineWidth="0.5" lineColor="#000000"/>
+								<bottomPen lineWidth="0.5" lineColor="#000000"/>
+								<rightPen lineColor="#000000"/>
+							</box>
+							<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+								<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+								<paragraph lineSpacing="Single"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Total_Manpower}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="department_Name" columnTotalGroup="Shift">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="50" height="25" forecolor="#FF0000" backcolor="#FAC090" uuid="addf2dce-b868-4a26-a37e-bdf7eb9b16f4"/>
+							<textElement verticalAlignment="Middle">
+								<font size="6" isBold="true"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{Worker_Count}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="0" height="25" columnTotalGroup="WorkSkill">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell width="0" rowTotalGroup="plant_Name" columnTotalGroup="WorkSkill">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell width="0" rowTotalGroup="department_Name" columnTotalGroup="WorkSkill">
+					<cellContents/>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

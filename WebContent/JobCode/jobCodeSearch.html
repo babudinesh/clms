@@ -1,0 +1,125 @@
+<!-- <link href="JobCode/SearchJobCode/JobCodeSearch.css" rel="stylesheet" /> -->
+
+
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+      <h3 class="cls_plainheader">Job Code Search</h3>
+        <div class="col-md-12">
+            <a class="btn btn-primary pull-right" ng-href="#/AddJobCode/0/0" ng-show="buttonArray.includes('ADD')">Add New Job Code<i class="fa fa-plus-circle"></i></a>
+            <br/>
+        	<br/>
+        	<br/>
+            <div class="panel panel-primary">
+	            <div class="panel-heading">
+	             	<h5>Search Existing Job Code</h5>
+	            </div>
+                <div class="sepr">                   
+                    <div class="row">
+                        <div class="col-md-6">
+                        	<div class="form-group">
+                                <label for="custName" class="col-md-4 control-label">Customer Name</label>
+								  <div class="col-md-8 select-box">
+										<select  ng-change="customerChange()"  ng-model="customerName" ng-options="item as item.customerName for item in customerList track by item.customerId" class="form-control" id="custName">
+											<option value="">Select</option>
+										</select>
+										 <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span> 
+								</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="JobCode" class="col-md-4 control-label">Job Code</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control capitalize bothNumbersAndAlphabets" id="JobCode" ng-model="jobCode" maxlength="20" placeholder="Job Code" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        	<div class="form-group">
+                                <label for="Companyname" class="col-md-4 control-label">Company Name</label>
+                                  <div class="col-md-8 select-box">
+									<select  ng-model="companyName" ng-options="item.id as item.name for item in companyList" class="form-control" id="compName">
+										<option value="">Select</option>
+									</select>  
+								    <span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                    </span>           
+								   </div>
+                             </div>
+                         </div>
+	                        
+                        
+
+                        <!-- <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="aal1" class="col-md-4 control-label">Search By</label>
+                                <div class="col-md-8 select-box">
+                                    <select id="Status" class="form-control">
+                                        <option>Transaction Date</option>
+                                        <option>Status</option>
+                                        <option>Job Type</option>
+                                        <option>Job Category</option>
+                                    </select>
+                                     <span class="input-group-btn">
+                                     <label for="Select1" class="fa fa-caret-down"></label>
+                                        </span> 
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <div class="col-md-4 col-md-offset-2">
+                            <a class="btn btn-primary col-md-3 col-md-offset-5" ng-click="search()">Search <i class="fa fa-search"></i></a>
+                            <a class="btn btn-warning col-md-3" ng-click="clear()">Clear <i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-primary" id="searchPanel">
+	            <div class="panel-heading">
+	            	<h5 >Search Result</h5>
+	            </div>
+                <div class="sepr">
+                    
+                    <div>
+                        <table class="table table-striped" id="jobCodeTable">
+                            <thead>
+                                <tr>                                  
+                                    <th>Company Name </th>
+                                    <th>Job Code </th>
+                                    <th> Designation </th>
+                                    <th>Job Type </th>
+                                    <th>Job Skill </th>
+                                    <th>Effective From Date </th>
+                                    <th>Status </th>
+                                </tr>
+                            </thead>
+                           <!--  <tbody>
+                                <tr ng:repeat="i in result" on-last-repeat>
+                                    <td>{{i.SNo}}</td>
+                                    <td>{{i.companyName}}</td>
+                                    <td><a ng-href="#/AddJobCode/{{i.jobCodeDetailsId}}/{{i.jobCodeId}}">{{i.jobCode}}</td>
+                                    <td>{{i.jobName}}</td>
+                                    <td>{{i.jobType}}</td>
+                                    <td>{{i.jobCategory}}</td>
+                                    <td>{{i.transactionDate}}</td>
+                                    <td>{{i.status}}</td>
+                                </tr>
+                            </tbody> -->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+        <div class="container text-right" style="">
+            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+        </div>
+    </div>
+</div>
+</body>
+</html>

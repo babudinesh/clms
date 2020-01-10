@@ -1,0 +1,295 @@
+<form id="usersForm" name="usersForm" novalidate >
+	<div class="container-fluid">
+    	<div class="col-md-12 well">
+	    	<h3 class="cls_plainheader">Define  User </h3>
+        	<br />
+        	
+        	<input type="hidden" ng-model="users.userId">
+        	
+        	<div class="col-md-12">
+				<div class="panel panel-default">
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                        	<div class="form-group">
+									<label for="customerId" class="col-md-4 control-label "> Customer Name</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.customerId" ng-options="item.customerId as item.customerName for item in customerList " class="form-control" id="customerId" disabled="disabled">
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+	                            <div class="form-group">
+									<label for="userName" class="col-md-4 control-label required">  User Name</label>
+									<div class="col-md-8">
+										<input id="userName" name="userName" type="text" class="form-control" ng-model="users.userName" maxlength="99" required /> 
+									</div>
+								</div>	
+								<div class="form-group">
+									<label for="password" class="col-md-4 control-label required"> Password </label>
+									<div class="col-md-8">
+										<input ng-change="passwordChanged();" id="password" name="password" type="password" class="form-control" ng-model="users.password" maxlength="99" required  /> 
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="userType" class="col-md-4 control-label required"> User Type</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.userType" ng-options="item.id as item.name for item in userTypeList " class="form-control" id="userType" name="userType" required>
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+									
+								<div class="form-group" ng-show="users.userType == 'Employee'">
+									<label for="employeeName" class="col-md-4 control-label required"> Employee Name </label> <!--  employeeUniqueId -->
+									<div class="col-md-8">
+										<input id="employeeName" name="employeeName" type="text" class="form-control" ng-model="users.employeeName" maxlength="150" required disabled="disabled"/> 
+									</div>
+								</div>
+								<div class="form-group" ng-show="users.userType == 'Vendor'">
+									<label for="vendorName" class="col-md-4 control-label required"> Vendor Name </label> <!--  employeeUniqueId -->
+									<div class="col-md-8">
+										<input id="vendorName" name="vendorName" type="text" class="form-control" ng-model="users.vendorName" maxlength="150" required disabled="disabled"/> 
+									</div>
+								</div>								
+	                        </div>
+	
+	                        <div class="col-md-6">	
+	                        	<div class="form-group">
+									<label for="companyId" class="col-md-4 control-label "> Company Name</label>
+									<div class="col-md-8 select-box ">
+										<select ng-model="users.companyId" ng-options="item.id as item.name for item in companyList " class="form-control" id="companyId" disabled="disabled">
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>	
+	                        	<div class="form-group">
+									<label for="isActive" class="col-md-4 control-label required">  Status </label>
+									<div class="col-md-8 select-box ">
+										<select ng-model="users.isActive" ng-options="item.id as item.name for item in json_status " class="form-control" name="isActive"  id="isActive"  required  >
+											<option value="">Select</option>
+										</select>
+										<span class="input-group-btn">
+                                     		<label for="Select1" class="fa fa-caret-down"></label>
+                                        </span>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="confirmPassword" class="col-md-4 control-label required"> Confirm Password </label>
+									<div class="col-md-8">
+										<input id="confirmPassword" name="confirmPassword" type="password" class="form-control" ng-model="users.confirmPassword" maxlength="85" required /> 
+									</div>
+								</div>
+								<div class="form-group" class="col-md-12">
+									&nbsp;
+								</div>
+								<div class="form-group" ng-show="users.userType != undefined && users.userType != ''">
+									<button  class="col-md-4 control-label btn-info" style="cursor: pointer;"  data-toggle="modal" data-target="#myModal"> Search {{users.userType}} <i class="fa fa-search" aria-hidden="true" ></i> </button>
+								</div>
+								
+							</div>
+	                	</div>
+	            	</div>
+				</div>
+				
+				
+				<div class="panel panel-default">
+					<div class="panel-heading">
+                    	<h5>  Add Roles List</h5>
+                    </div>
+	                <div class="sepr">
+	                    <div class="row">
+	                    	<div class="col-md-12">
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-2 control-label required"> Roles </label>
+									<div class="col-md-4 select-box">
+										<select ng-model="users.userRoles" style="border: 4px solid #eeeeee;height:200px" multiple ng-options="item.roleId as item.roleName for item in roles" class="form-control" id="userRoles" required style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+							</div>	
+	                    	                    		                    	
+	                    </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+					<div class="panel-heading">
+                    	<h5>  Assign Data Security</h5>
+                    </div>
+	                <div class="sepr">
+	                    <div class="row">
+	                    	<div class="col-md-6">
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-4 control-label required"> Location </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.locationArrayId" style="border: 4px solid #eeeeee;height:100px" multiple ng-options="item.id as item.name for item in locationList" class="form-control" id="userRoles" ng-change="locationChange()" required style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-4 control-label required"> Department </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.departmentArrayId" style="border: 4px solid #eeeeee;height:100px" multiple ng-options="item.departmentId as item.departmentName for item in departmentList" class="form-control" id="userRoles" ng-change="departmentChange()" required style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-4 control-label "> Work Area </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.workAreaArrayId" style="border: 4px solid #eeeeee;height:100px" multiple ng-options="item.id as item.name for item in workAreaList" class="form-control" id="userRoles"  style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+							</div>	
+							<div class="col-md-6">
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-4 control-label required"> Plant </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.plantArrayId" style="border: 4px solid #eeeeee;height:100px" multiple ng-options="item.id as item.name for item in plantList" class="form-control" id="userRoles" ng-change="plantChange()" required style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+								<div class="form-group" >
+									<label for="userRoles" class="col-md-4 control-label "> Section </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="users.sectionArrayId" style="border: 4px solid #eeeeee;height:100px" multiple ng-options="item.id as item.name for item in sectionList" class="form-control" id="userRoles" ng-change="sectionChange()" style="height: 230px;">
+											
+										</select>
+									</div>
+								</div>
+								
+							</div>	
+	                    	                    		                    	
+	                    </div>
+                    </div>
+                </div>
+				
+          	 	<div class="btn-group btn-group-right pull-right">
+                  	<a href="javascript:void(0)" class="btn btn-primary" ng-click="enable || saveOrUpdateDetails($event)"> {{saveOrUpdate}}</a>
+                   	<a href="#/users" class="btn btn-default">Return to search</a>
+               	</div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    <!-- Modal Company Start -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"> Pick {{users.userType}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="sepr">
+                        <div class="row">
+                            <div class="col-md-6">
+	                            <div class="form-group">
+									<label for="empCode" class="col-md-4 control-label required">{{users.userType}} Code</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="empCode" class="form-control" id="empCode"
+											placeholder="{{users.userType}} Code" required name="empCode"/>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+	                            <div class="form-group">
+									<label for="empName" class="col-md-4 control-label required">{{users.userType}} Name</label>
+									<div class="col-md-8">
+										<input type="text" ng-model="empName" class="form-control" id="empName"
+											placeholder="{{users.userType}} Name" required name="empName"/>
+									</div>
+								</div>
+								<div class="form-group">
+									<a href="javascript:void(0)" class="btn btn-primary col-md-4"
+										ng-click="searchEmployee();">Search {{users.userType}}</a>
+									
+									<a class="btn btn-primary col-md-4"
+										ng-click="fun_popupReset();">Reset</a> 
+							</div>
+							</div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="panel panel-primary" id="searchPanel" ng-show="showTableData">
+           			<div class="panel-heading">
+          			 		<h5>Search Result</h5>
+           			</div>
+               		<div class="sepr" ng-show="users.userType == 'Employee'">
+                   		<div class="row">
+							<table id="employeeTable" class="table table-striped" ng-show="users.userType == 'Employee'">
+								<thead>
+									<tr>
+										<th> Select </th>
+										<th>Employee Code</th>
+										<th>Employee Name</th>										
+										<th>Designation</th>
+										<th>Location</th>
+										<th>Department</th>
+									</tr>
+								</thead>
+							</table>
+						</div>
+					</div>
+					<div class="sepr" ng-show="users.userType == 'Vendor'">
+                   		<div class="row">
+							<table id="vendorTable" class="table table-striped" ng-show="users.userType == 'Vendor'">
+                            <thead>
+                                <tr>     
+                                	<th> Select </th>    
+                                	<th>Vendor Code</th>                         
+                                    <th>Vendor Name</th>                               
+                                    <th>Effective From Date</th>
+                                    <th>Status</th>
+                                    <th>Location </th>
+                                </tr>
+                            </thead>
+                        </table>
+						</div>
+					</div>
+				</div>
+                
+                
+                
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close"> Select Employee</button> -->
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- Modal Company End-->
+    
+    <div class="container-fluid">
+	    <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	        <div class="container text-right" style="">
+	            <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	        </div>
+	    </div>
+	</div>
+</form>
+
+
+

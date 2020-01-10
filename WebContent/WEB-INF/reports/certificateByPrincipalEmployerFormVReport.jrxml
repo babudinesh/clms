@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="FORM V 1" language="groovy" pageWidth="700" pageHeight="800" whenNoDataType="AllSectionsNoDetail" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="db144af1-9536-45e7-aa5a-64819358d2e4">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="75"/>
+	<parameter name="Customer_Name" class="java.lang.String"/>
+	<parameter name="Company_Name" class="java.lang.String"/>
+	<parameter name="Vendor_Name" class="java.lang.String">
+		<defaultValueExpression><![CDATA['']]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT  vi.Customer_id,vi.Company_id,Country,Vendor_name,CONCAT(COALESCE(CASE WHEN ca.address_1 IS NOT NULL THEN CONCAT(ca.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN ca.address_2 IS NOT NULL THEN CONCAT(ca.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.address_3 IS NOT NULL THEN CONCAT(ca.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.city_name  IS NOT NULL THEN CONCAT(ca.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.state_name  IS NOT NULL THEN CONCAT(ca.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN ca.country_name  IS NOT NULL THEN CONCAT(ca.country_name,', ') ELSE '' END ,'' ),COALESCE(ca.pincode,''),'') AS companyAddr
+
+ FROM vendor_details_info vi INNER JOIN company_details_info cdi ON (vi.company_id = cdi.company_id)
+LEFT JOIN `company_AddressView` ca ON (vi.`Company_Id` = ca.`Company_Id`)
+WHERE
+
+CONCAT(vi.transaction_date, vi.sequence_id) =(SELECT MAX(CONCAT(transaction_date, sequence_id)) FROM vendor_details_info vdi
+WHERE vi.vendor_id = vdi.vendor_id GROUP BY vendor_id)
+
+AND CONCAT(cdi.transaction_date, cdi.company_sequence_id) =(SELECT MAX(CONCAT(transaction_date, company_sequence_id)) FROM company_details_info cdi1
+WHERE cdi.Company_id = cdi1.Company_id GROUP BY Company_id)
+
+
+AND vi.Customer_id = $P{Customer_Name}
+AND vi.Company_id =  $P{Company_Name}
+AND (vi.Vendor_id = $P{Vendor_Name} OR $P{Vendor_Name} = '')
+GROUP BY vi.Customer_Id,vi.Company_Id,vi.Vendor_Name]]>
+	</queryString>
+	<field name="Customer_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Country" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="companyAddr" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement x="141" y="21" width="379" height="20" forecolor="#000000" uuid="ff326237-22c6-4fc6-b45d-59c545b03340"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORM V]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="79" width="660" height="1" uuid="bee5ce17-819a-4051-b64f-d6bb3fd657db"/>
+			</line>
+			<staticText>
+				<reportElement x="140" y="42" width="379" height="18" forecolor="#000000" uuid="9422440c-b790-464c-9725-4db28ff302f9"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[[See rule 21 (2)]]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="60" width="379" height="19" forecolor="#000000" uuid="26c40956-9210-47e6-a3aa-4cb586197f96"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[Form of Certificate by Principal Employer]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="213" splitType="Stretch">
+			<staticText>
+				<reportElement x="66" y="174" width="100" height="19" uuid="6e68c750-6c20-4605-ae1b-82d4309912aa"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Place :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="137" width="163" height="18" uuid="e86b3fda-67aa-48c7-a2fa-c6e611970e9c"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Signature of Principal Employer :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="345" y="154" width="198" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="dd2093fd-88e6-4136-96d5-f0edf5ded738"/>
+				<textElement textAlignment="Justified" verticalAlignment="Top" rotation="None" markup="none">
+					<font fontName="SansSerif" size="10" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Name and address of  the Establishment :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="66" y="193" width="100" height="19" uuid="e17d8853-f282-4744-befa-c3268cd56b6a"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[Date  :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="399" y="119" width="149" height="18" uuid="667a74a9-82c2-40b7-b023-7d0926e397ec"/>
+				<textElement textAlignment="Justified">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<text><![CDATA[...............................................]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="212" width="100" height="1" uuid="4ae0d264-fcb9-4a1b-b99f-1acaa74c38ac"/>
+			</break>
+			<textField>
+				<reportElement x="66" y="33" width="465" height="67" uuid="aee236ad-a74b-4744-860b-b485a493c29a"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA["                   	" + "Certified that I have engaged the applicant"+"      "+ $F{Vendor_name}                                                                           +"   "+ "as a contractor  in my establishment. I undertake to be bound by all the provisions of the Contract Labour (Regulation and Abolition ) Act. 1970. and the Contract Labour (Regulation and Abolition ) Central Rules. 1971. in so far as the provisions are applicable to me in respect of the emloyement of Contract Labourby the applicatent in my establishment."]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="102" y="193" width="100" height="19" uuid="87ec729c-9132-45f9-ae49-febed2c31316"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="174" width="257" height="38" uuid="8c59f267-fc7f-433a-b45c-f8964ffc6c79"/>
+				<textFieldExpression><![CDATA[$F{companyAddr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25">
+			<staticText>
+				<reportElement x="0" y="7" width="166" height="13" uuid="b31cfc17-4dab-445d-8b21-6c8f88a665f7"/>
+				<textElement>
+					<font fontName="SansSerif" size="7" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Report Generated Through CLMSFULCHRUM On ]]></text>
+			</staticText>
+			<textField evaluationTime="Report">
+				<reportElement x="616" y="7" width="40" height="13" uuid="342dc8f3-7545-4e99-ac58-6f73d131439e"/>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="536" y="7" width="80" height="13" uuid="37496f61-bceb-4b28-8d17-aa1327cc1fcb"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy h.mm a">
+				<reportElement x="170" y="7" width="100" height="13" uuid="ade9c4b4-a4b9-455c-9213-b32609afe926"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="3" width="660" height="1" uuid="89a5877d-2f05-4e79-838d-1d44ffc76d85"/>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

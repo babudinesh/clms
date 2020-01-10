@@ -1,0 +1,168 @@
+<!-- <link rel="stylesheet" href="/company/create/all.css"/> -->
+<form id="workerEditForm" novalidate="">
+<div class="body">	
+<div class="container-fluid">
+	<div class="col-md-12 well">
+	<h3 class="cls_plainheader">Manage Shifts and Time</h3>
+   		<div class="col-md-12">
+   			<br/>	
+            	<div class="panel panel-primary">
+           			<div  class="panel-heading">
+        	 			<h5> View/ Edit Shifts and Time</h5>
+        			</div>
+     
+       			<div class="sepr">          
+           	 		<div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-4">
+                                    <label for="workerCode" class="control-label required">Worker Id : </label> &nbsp;&nbsp;
+                                    {{employeeCode}}                                  
+                                </div>
+
+                                <div class="col-md-4">
+                                    &nbsp;&nbsp;<label for="firstName" class="control-label required">Worker Name :</label> &nbsp;&nbsp;
+                                     {{empName}}                                   
+                                </div>
+                                <div class="col-md-4">
+                                   &nbsp;&nbsp; &nbsp;&nbsp;<label for="designation" class="control-label required">Job Title :</label> &nbsp;&nbsp;
+                                   {{designation}}                          
+                                </div>
+
+                            </div>
+							<div class="col-md-4">
+							<div class="form-group">
+									<label for="locationId" class="col-md-4 control-label required">Location </label>
+									<div class="col-md-8 select-box">
+										<select ng-model="workerVo.locationId" ng-options="item.locationId as item.locationName for item in list_locations" class="form-control" id="locationId" name="locationId" ng-change="locationChange()" ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+								
+						</div>
+						<div class="col-md-4">
+                         <div class="form-group">
+								<label for="plantName" class="col-md-4 control-label required">Plant</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="plantChange()" ng-model="workerVo.plantId" name="plant" ng-options="item.id as item.name for item in plantsList" class="form-control"  id="plantId"  required>
+                                           <option value="">Select</option>
+                                       </select>
+									<span class="input-group-btn">
+                                    		<label for="Select1" class="fa fa-caret-down"></label>
+                                       </span>
+								</div>
+							</div>
+                         
+                         </div>  
+						<div class="col-md-4">
+								
+								<div class="form-group">
+									<label for="tanno" class="col-md-4 control-label required">Department</label>
+									<div class="col-md-8 select-box">
+										<select ng-model="workerVo.departmentId" ng-options="item.departmentId as item.departmentName for item in departmentsList" class="form-control" id="departmentId" name="departmentId"  ng-disabled="readonly" required>
+											<option value="">Select</option>
+										</select> 
+										<span class="input-group-btn"> 
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span>
+									</div>
+								</div>
+							</div>
+							
+                         </div>
+                          
+
+                            
+							 
+						</div>
+						<div id="loader" style="display:none; text-align: center; width:100%; height:100%; background-color:transparent;">
+					        <img
+					          src="images/loader.gif"
+					          alt="loading..."
+					          width="214"
+					          height="138" />  	
+						</div> 
+				
+						<div class="row">
+								<div class="panel panel-primary" style="margin: 15px ">	                      
+									<table id="workerTimeEdit" class="table table-striped">
+										<thead>
+											<tr>
+												<th>Business Date</th>
+												<th>Shift <span style="color:red;font-size:10px">*</span></th>
+												 <th>In Time</th>
+												<th>Out Time</th>	
+												<th>Man Hours</th>		
+												<th>OT Hours</th>		
+												<th>Status <span style="color:red;font-size:10px">*</span></th>	 											
+												
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng:repeat="i in labourTimeList"
+												on-last-repeat-new>
+												<td><input type="text"  ng-model="labourTimeList[$index].businessDate" class="businessDate" date-change-picker ng-disabled="true"/></td>
+												
+												<td><!-- ng-change="shiftChange(($index),value[$index]) -->			
+																					
+													<select  id="shiftCode"  ng-model="labourTimeList[$index].shiftId" name="shiftCode" ng-options="item.shiftCode as item.shiftCode for item in shiftCodesList " ng-change="shiftChnage($event,$index)" required>
+                                            			
+                                            				<option value=""> Select </option>
+                                            				                                                  
+                                        		   </select>
+												</td>
+												 <td><input   type="text"  class="WorkerTimeChnageinTime" name="inTime"  id="'inTime{{$index}}'" ng-model="labourTimeList[$index].inTime" ng-keyup="intimeChange($event,$index)" ng-init="labourTimeList[$index].inTime = (labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' || labourTimeList[$index].shiftId == undefined) ? '' :labourTimeList[$index].inTime" ng-disabled="labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' "/>												   
+												 </td>	
+												<td><input type="text" class="WorkerTimeChnageoutTime" name="outTime" ng-model="labourTimeList[$index].outTime" ng-keyup="outTimeChange($event,$index)"  ng-init="labourTimeList[$index].outTime = (labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' || labourTimeList[$index].shiftId == undefined) ? '' :labourTimeList[$index].outTime"  ng-disabled="labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' "/></td>	
+												<td><input type="text"  ng-model="labourTimeList[$index].manHours" ng-init="labourTimeList[$index].manHours = (labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' || labourTimeList[$index].shiftId == undefined ) ? '' :labourTimeList[$index].manHours" class="workerManHOursTimeEdit" ng-keyup="manHoursChange($event,$index)" ng-disabled="labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' "/></td>	
+												<td><input type="text"  ng-model="labourTimeList[$index].otHours" ng-init="labourTimeList[$index].otHours = (labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' || labourTimeList[$index].shiftId == undefined) ? '' :labourTimeList[$index].otHours" ng-disabled="labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' "/></td>
+												
+												<td>
+												<select  id="stausId"  ng-model="labourTimeList[$index].status" name="stausId" ng-options="item.id as item.name for item in status " ng-disabled="labourTimeList[$index].shiftId == 'WO' || labourTimeList[$index].shiftId == 'AB' || labourTimeList[$index].shiftId == 'PH' " required>
+                                            				<option value=""> Select </option>                                           
+                                        		   </select>
+												
+												
+												</td>	 																			
+												
+
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>				
+
+                       
+				
+				</div>
+            	<div class="btn-group btn-group-right pull-right">
+		                    	<a href="javascript:void(0)" class="btn btn-danger" ng-show="labourTimeList.length > 0" ng-click="enable || updateWorkerTimeDetails($event)"> Update </a>								
+								<a href="#/WorkerTimeModification"  class="btn btn-default">Return To Search</a>
+				</div>	
+
+        </div>
+        </div>
+        </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+                <div class="container text-right">
+                    <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+                </div>
+            </div>
+        </div>
+ 
+   
+   
+  </div>
+  
+  
+
+</form>
+
+
+

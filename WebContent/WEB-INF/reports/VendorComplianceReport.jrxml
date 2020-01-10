@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contractor" pageWidth="700" pageHeight="842" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="660" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="54bb9ffc-8081-4f96-8b64-3b2ed2ead192">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="742"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 4_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="VendorCompliance" uuid="f5f585af-5d61-43c4-ba21-9be48951881a">
+		<parameter name="customerId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="companyId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Vendor Name" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Work Order" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="Document Type" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="saved" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="status" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="validated" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="From Date" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="To Date" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="ExpFrom" class="java.lang.String"/>
+		<parameter name="ExpTo" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[SELECT  DATE_FORMAT(vc.Expiry_Date,'%d-%m-%Y') AS Expiry_Date,DATE_FORMAT(vc.Issue_Date,'%d-%m-%Y') AS Issue_Date,vd.vendor_name,vc.vendor_id,dt.doccument_name,wi.work_order_name,vc.status AS status_,vc.number_of_workers_covered,DATE_FORMAT(DATE_ADD(vc.Expiry_Date,INTERVAL -1 DAY),'%d-%m-%Y') AS duedate  ,License_Policy_Number,Vendor_Compliance_Unique_Id
+FROM vendor_compliance vc
+INNER JOIN vendor_details_info vd ON (vd.vendor_id = vc.vendor_id)
+INNER JOIN vendor_details vdtls ON (vdtls.vendor_id = vc.vendor_id)
+LEFT JOIN define_compliance_types dt ON (dt.`Compliance_Unique_Id` = vc.`Compliance_Unique_Id` AND CONCAT(DATE_FORMAT(dt.transaction_date, '%Y%m%d'), LPAD(dt.sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM define_compliance_types vdi1
+WHERE  dt.define_compliance_type_id = vdi1.define_compliance_type_id
+AND vdi1.transaction_date <= CURRENT_DATE()  GROUP BY define_compliance_type_id
+))
+LEFT JOIN workorder_detail_info wi ON (wi.company_id = vc.company_id AND CONCAT(DATE_FORMAT(wi.transaction_date, '%Y%m%d'), LPAD(wi.sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM workorder_detail_info vdi1
+WHERE  wi.WorkOrder_id = vdi1.WorkOrder_id
+AND vdi1.transaction_date <= CURRENT_DATE() GROUP BY WorkOrder_id
+))
+WHERE ($P{From Date}  BETWEEN vc.Issue_Date AND vc.Expiry_Date)
+OR ($P{To Date}  BETWEEN vc.Issue_Date AND vc.Expiry_Date )
+AND CONCAT(DATE_FORMAT(vd.transaction_date, '%Y%m%d'), LPAD(vd.sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.sequence_id, 2, '0')))
+FROM vendor_details_info vdi1
+WHERE  vd.vendor_id = vdi1.vendor_id
+AND vdi1.transaction_date <= CURRENT_DATE() GROUP BY vendor_id
+)
+
+
+
+AND CONCAT(DATE_FORMAT(vc.transaction_date, '%Y%m%d'), LPAD(vc.vendor_compliance_sequence_id, 2, '0')) =
+(
+SELECT MAX(CONCAT(DATE_FORMAT(vdi1.transaction_date, '%Y%m%d'), LPAD(vdi1.vendor_compliance_sequence_id, 2, '0')))
+FROM vendor_compliance vdi1
+WHERE  vc.Vendor_Compliance_Unique_Id = vdi1.Vendor_Compliance_Unique_Id
+AND vdi1.transaction_date <= CURRENT_DATE() GROUP BY Vendor_Compliance_Unique_Id
+)
+
+AND vd.customer_id = $P{customerId}
+AND vd.company_id = $P{companyId}
+AND (vd.vendor_id = $P{Vendor Name}  OR $P{Vendor Name}= '-1' )
+AND (vdtls.vendor_status = $P{status} OR  $P{status} = '-1')
+GROUP BY  vc.Compliance_Unique_Id;]]>
+		</queryString>
+		<field name="Expiry_Date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Issue_Date" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="vendor_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="vendor_id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="doccument_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="work_order_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="status_" class="java.lang.String"/>
+		<field name="number_of_workers_covered" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="duedate" class="java.lang.String"/>
+		<field name="License_Policy_Number" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Vendor_Compliance_Unique_Id" class="java.lang.Integer">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+	</subDataset>
+	<parameter name="From Date" class="java.lang.String"/>
+	<parameter name="To Date" class="java.lang.String"/>
+	<parameter name="Vendor Name" class="java.lang.String"/>
+	<parameter name="Work Order" class="java.lang.String"/>
+	<parameter name="Document Type" class="java.lang.String"/>
+	<parameter name="status" class="java.lang.String"/>
+	<parameter name="saved" class="java.lang.String"/>
+	<parameter name="validated" class="java.lang.String"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="ExpFrom" class="java.lang.String"/>
+	<parameter name="ExpTo" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select current_date()]]>
+	</queryString>
+	<field name="current_date()" class="java.sql.Date"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="44">
+			<staticText>
+				<reportElement x="213" y="0" width="242" height="20" uuid="dad29f36-1290-458a-8904-0bb9e939749a"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vendor Compliance Report
+]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="39" width="649" height="1" uuid="8d4231d3-efff-4bdf-8c17-6d4e9abf42eb"/>
+			</line>
+			<staticText>
+				<reportElement x="455" y="21" width="37" height="16" uuid="703bf98d-44bb-4f75-93e2-da358e1535d2"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[From Date :]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+				<reportElement x="492" y="20" width="50" height="17" uuid="ae000276-2dab-4efd-84a5-94396b7bdd53"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd")
+    .parse($P{From Date}))]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="542" y="20" width="30" height="17" uuid="085cdc20-9e6c-4fec-8cf0-628365d614d1"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[To Date :]]></text>
+			</staticText>
+			<textField pattern="dd-MM-yyyy">
+				<reportElement x="572" y="20" width="85" height="16" uuid="4ad57c61-8e51-4639-ae95-45cc621dafbc"/>
+				<textElement verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.text.SimpleDateFormat("dd-MM-yyyy").format(new java.text.SimpleDateFormat("yyyy-MM-dd").parse($P{To Date}))]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="40">
+			<componentElement>
+				<reportElement key="table 4" style="table 4" x="0" y="0" width="360" height="40" uuid="a3e10843-596b-48bd-a38c-8839f699d0c9"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="VendorCompliance" uuid="d19846a3-46da-4615-97b5-dd86251667a9">
+						<datasetParameter name="customerId">
+							<datasetParameterExpression><![CDATA[$P{customerId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="companyId">
+							<datasetParameterExpression><![CDATA[$P{companyId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Vendor Name">
+							<datasetParameterExpression><![CDATA[$P{Vendor Name}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Work Order">
+							<datasetParameterExpression><![CDATA[$P{Work Order}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Document Type">
+							<datasetParameterExpression><![CDATA[$P{Document Type}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="saved">
+							<datasetParameterExpression><![CDATA[$P{saved}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="validated">
+							<datasetParameterExpression><![CDATA[$P{validated}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="status">
+							<datasetParameterExpression><![CDATA[$P{status}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="From Date">
+							<datasetParameterExpression><![CDATA[$P{From Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="To Date">
+							<datasetParameterExpression><![CDATA[$P{To Date}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="ExpFrom">
+							<datasetParameterExpression><![CDATA[$P{ExpFrom}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="ExpTo">
+							<datasetParameterExpression><![CDATA[$P{ExpTo}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="131" uuid="236c574a-2da4-444f-a9d6-ec23ae04e7de">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="131" height="18" uuid="849f1874-cf23-4286-bd8e-ac48dd7c96f9"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Vendor Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="131" height="20" uuid="7c12b139-44cd-4cfa-957e-dcb78f8edee8"/>
+								<textElement verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{vendor_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="97b159d6-b942-476c-a705-3a0d4f1929fd">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="18" uuid="ed18776c-e516-4be4-b23b-93c31ad1e079"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Doccument Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="90" height="20" uuid="1c12c880-cbba-405c-8dae-ed46986970b8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{doccument_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="75" uuid="00ea269e-5ba3-4bdf-a071-9e31b63a9d59">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="75" height="18" uuid="203aa84e-39ac-470b-8993-ae55c0d3ddeb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Policy Number]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="75" height="20" uuid="06c87854-26e9-40af-8cc7-3cc61aaecdfc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{License_Policy_Number}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="56" uuid="34f4278a-587a-4f3d-a96b-d83122d079d2">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="56" height="18" uuid="a9c7dc60-3b8d-40de-a990-e92ea81f5fbe"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Issue Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="56" height="20" uuid="69a7dd18-3386-4bc5-9a9a-6ea5535e9b5f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Issue_Date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="61" uuid="339b2663-774f-4442-b951-7f95691b855a">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="61" height="18" uuid="c8eacd2a-b8ff-47b3-bafe-06676d692d61"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Expiry Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="61" height="20" uuid="652816c6-a7b6-4d18-9d6d-1abc23bec31b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Expiry_Date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="55" uuid="f80ce2ec-48f5-463c-90d0-9cb718718e92">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="55" height="18" uuid="e127955e-d792-4221-9902-7f55707d91d1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Due Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" pattern="dd-MM-yyyy" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="55" height="20" uuid="cbc9c27c-6fab-42be-ad9f-f8ee6abcacab"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{duedate}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="53" uuid="ba60f4e4-5875-4135-99fc-730045ce263e">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="53" height="18" uuid="44473c5b-5eae-4bcd-85d5-ea825eb81835"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Total Work Men]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="53" height="20" uuid="8d3fa43d-1bc0-4273-a5de-dc42fc062524"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{number_of_workers_covered}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="72" uuid="573ed953-a6be-486a-9975-e2af750c1a54">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="72" height="18" uuid="267d17af-1956-4699-8dc4-edef340c5d0d"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Work Order]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="72" height="20" uuid="a4b9c7ff-2b84-4a13-b31f-7c369e22595f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{work_order_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="58" uuid="dbe64dae-96d6-4dc5-87fc-ca2ebd129be0">
+						<jr:columnHeader style="table 4_CH" height="18" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="58" height="18" uuid="2bc4dcfd-f50d-4876-8753-caf3525d58bc"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<text><![CDATA[Status]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 4_TD" height="20" rowSpan="1">
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement x="0" y="0" width="58" height="20" uuid="4a359952-5d5f-4e9d-98f0-54d3136693f4"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="8"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{status_}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField evaluationTime="Report">
+				<reportElement x="593" y="0" width="40" height="20" uuid="99db49e5-e880-4bed-b1f6-c7133201b408"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="547" y="0" width="61" height="20" uuid="720d92a5-492b-46f4-951d-ea66aa78c12d"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

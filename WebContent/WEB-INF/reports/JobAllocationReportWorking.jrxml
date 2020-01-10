@@ -1,0 +1,847 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Job_Allocation_Report" language="groovy" pageWidth="900" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7916d99f-fec9-4d9e-b3d6-d6b0ca6015cc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Daily Job Allocation" uuid="9925bc5a-1d17-4190-8329-ed0ed702ea5b">
+		<parameter name="fromDate" class="java.lang.String"/>
+		<parameter name="departmentId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="locationId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="plantId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="sectionId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="workAreaId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="workerName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="workerCode" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="allocationStatus" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="toDate" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="customerId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="companyId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="vendorId" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="schemaName" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<parameter name="jobType" class="java.lang.String">
+			<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+		</parameter>
+		<queryString>
+			<![CDATA[SELECT  ltr.contractorname,ltr.ContractorCode AS code,ltr.emp AS emp_code,ltr.emp_name,COALESCE(ltr.work_skill,'') AS work_skill , COALESCE(ltr.Designation,'') As Job_name,COALESCE(lss.shift,'') AS shift,COALESCE(lss.wo,'') AS wo, COALESCE(ddi.Department_Name,'') AS Department_Name, COALESCE(ldi.Location_name, '') AS Location_name, COALESCE(wadi.Work_Area_Name, '') AS Work_Area_Name, COALESCE(pdi.Plant_Name, '') AS Plant_Name , COALESCE(sdi.Section_Name, '') AS Section_Name, ltr.business_date,substring(ltr.intime,11) intime, coalesce(substring(ltr.outtime,11),'') AS outtime,ltr.Allocation_Status as Allocation
+        FROM
+        $P!{schemaName}.labor_time_report ltr
+    INNER JOIN
+        labor_scheduled_shifts lss
+            ON ltr.Emp = lss.Emp_Code
+    INNER JOIN
+        v_worker_details vw
+            ON ltr.Emp = vw.Worker_Code
+    LEFT JOIN
+        plant_details_info pdi
+            ON pdi.Plant_Id = lss.Plant_Id
+            AND  CONCAT(DATE_FORMAT(pdi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(pdi.Plant_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(pdi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(pdi1.Plant_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            plant_details_info pdi1
+        WHERE
+            pdi.`Plant_Id` = pdi1.`Plant_Id`
+            AND pdi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        location_details_info ldi
+            ON ldi.Location_Id = lss.Location_Id
+            AND  CONCAT(DATE_FORMAT(ldi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(ldi.Location_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(ldi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(ldi1.Location_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            location_details_info ldi1
+        WHERE
+            ldi.`Location_Id` = ldi1.`Location_Id`
+            AND ldi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        department_details_info ddi
+            ON ddi.Department_Id = lss.Department_Id
+            AND  CONCAT(DATE_FORMAT(ddi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(ddi.Department_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(ddi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(ddi1.Department_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            department_details_info ddi1
+        WHERE
+            ddi.`Department_Id` = ddi1.`Department_Id`
+            AND ddi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        section_details_info sdi
+            ON sdi.Section_Id = lss.Section_Id
+            AND  CONCAT(DATE_FORMAT(sdi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(sdi.Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(sdi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(sdi1.Sequence_Id,
+            2,
+            '0')))
+        FROM
+            section_details_info sdi1
+        WHERE
+            sdi.`Section_Id` = sdi1.`Section_Id`
+            AND sdi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        work_area_details_info wadi
+            ON wadi.Work_Area_Id = lss.Work_Area_Id
+            AND  CONCAT(DATE_FORMAT(wadi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(wadi.Work_Area_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(wadi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(wadi1.Work_Area_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            work_area_details_info wadi1
+        WHERE
+            wadi.`Work_Area_Id` = wadi1.`Work_Area_Id`
+            AND wadi1.transaction_date <= CURRENT_DATE() )
+
+ WHERE
+ltr.Intime IS NOT NULL AND
+
+ltr.business_date between $P{fromDate} and $P{toDate}
+and
+
+vw.customer_id =  $P{customerId}
+and
+vw.company_id = $P{companyId}
+and
+(vw.vendor_id = $P{vendorId} or $P{vendorId} = '-1')
+and
+(lss.department_id =  $P{departmentId} or  $P{departmentId} = '-1')
+and
+lss.Location_id =  $P{locationId}
+and
+lss.plant_id =  $P{plantId}
+and
+(lss.section_id =  $P{sectionId} or $P{sectionId} = '-1')
+and
+(lss.work_area_id = $P{workAreaId}  or $P{workAreaId} = '-1')
+and
+(lss.emp_name LIKE  '$P!{workerName}%' )
+and
+(lss.emp_code LIKE  '$P!{workerCode}%' )
+and ((CASE when $P{jobType} = 'Supervisor' then ltr.Designation = 'Supervisor' ELSE case when $P{jobType} = 'Others' then ltr.Designation in (select distinct Designation from labor_time_report where Designation <> 'Supervisor')end  end)OR $P{jobType} = '-1')
+
+and ( ltr.Allocation_Status = $P{allocationStatus} OR $P{allocationStatus} = '-1')
+Group By ltr.business_date,ltr.contractorname,ltr.emp_name
+order by ltr.business_date,ltr.contractorname,ltr.emp_name]]>
+		</queryString>
+		<field name="contractorname" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="code" class="java.lang.Integer"/>
+		<field name="emp_code" class="java.lang.Long"/>
+		<field name="emp_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="work_skill" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Job_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="shift" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="wo" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Department_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Location_name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Work_Area_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Plant_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Section_Name" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="business_date" class="java.sql.Date">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="intime" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="outtime" class="java.lang.String">
+			<fieldDescription><![CDATA[]]></fieldDescription>
+		</field>
+		<field name="Allocation" class="java.lang.String"/>
+	</subDataset>
+	<parameter name="fromDate" class="java.lang.String"/>
+	<parameter name="departmentId" class="java.lang.String"/>
+	<parameter name="locationId" class="java.lang.String"/>
+	<parameter name="plantId" class="java.lang.String"/>
+	<parameter name="sectionId" class="java.lang.String"/>
+	<parameter name="workAreaId" class="java.lang.String"/>
+	<parameter name="workerName" class="java.lang.String"/>
+	<parameter name="workerCode" class="java.lang.String"/>
+	<parameter name="allocationStatus" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="toDate" class="java.lang.String"/>
+	<parameter name="companyId" class="java.lang.String"/>
+	<parameter name="customerId" class="java.lang.String"/>
+	<parameter name="vendorId" class="java.lang.String"/>
+	<parameter name="schemaName" class="java.lang.String"/>
+	<parameter name="jobType" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT distinct ltr.contractorname,ltr.ContractorCode AS code, DATE_FORMAT($P{fromDate},'%d/%m/%Y') AS startDate,
+DATE_FORMAT($P{toDate},'%d/%m/%Y') AS endDate
+        FROM
+        $P!{schemaName}.labor_time_report ltr
+    INNER JOIN
+        labor_scheduled_shifts lss
+            ON ltr.Emp = lss.Emp_Code
+    INNER JOIN
+        v_worker_details vw
+            ON ltr.Emp = vw.Worker_Code
+    LEFT JOIN
+        plant_details_info pdi
+            ON pdi.Plant_Id = lss.Plant_Id
+            AND  CONCAT(DATE_FORMAT(pdi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(pdi.Plant_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(pdi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(pdi1.Plant_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            plant_details_info pdi1
+        WHERE
+            pdi.`Plant_Id` = pdi1.`Plant_Id`
+            AND pdi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        location_details_info ldi
+            ON ldi.Location_Id = lss.Location_Id
+            AND  CONCAT(DATE_FORMAT(ldi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(ldi.Location_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(ldi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(ldi1.Location_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            location_details_info ldi1
+        WHERE
+            ldi.`Location_Id` = ldi1.`Location_Id`
+            AND ldi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        department_details_info ddi
+            ON ddi.Department_Id = lss.Department_Id
+            AND  CONCAT(DATE_FORMAT(ddi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(ddi.Department_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(ddi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(ddi1.Department_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            department_details_info ddi1
+        WHERE
+            ddi.`Department_Id` = ddi1.`Department_Id`
+            AND ddi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        section_details_info sdi
+            ON sdi.Section_Id = lss.Section_Id
+            AND  CONCAT(DATE_FORMAT(sdi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(sdi.Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(sdi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(sdi1.Sequence_Id,
+            2,
+            '0')))
+        FROM
+            section_details_info sdi1
+        WHERE
+            sdi.`Section_Id` = sdi1.`Section_Id`
+            AND sdi1.transaction_date <= CURRENT_DATE() )
+    LEFT JOIN
+        work_area_details_info wadi
+            ON wadi.Work_Area_Id = lss.Work_Area_Id
+            AND  CONCAT(DATE_FORMAT(wadi.Transaction_date,
+        '%Y%m%d'),
+        LPAD(wadi.Work_Area_Sequence_Id,
+        2,
+        '0')) =   (  SELECT
+            MAX(CONCAT(DATE_FORMAT(wadi1.Transaction_date,
+            '%Y%m%d'),
+            LPAD(wadi1.Work_Area_Sequence_Id,
+            2,
+            '0')))
+        FROM
+            work_area_details_info wadi1
+        WHERE
+            wadi.`Work_Area_Id` = wadi1.`Work_Area_Id`
+            AND wadi1.transaction_date <= CURRENT_DATE() )
+
+ WHERE
+ltr.Intime IS NOT NULL AND
+
+ltr.business_date between $P{fromDate} and $P{toDate}
+and
+
+vw.customer_id =  $P{customerId}
+and
+vw.company_id = $P{companyId}
+and
+(vw.vendor_id = $P{vendorId} or $P{vendorId} = '-1')
+and
+(lss.department_id =  $P{departmentId} or  $P{departmentId} = '-1')
+and
+lss.Location_id =  $P{locationId}
+and
+lss.plant_id =  $P{plantId}
+and
+(lss.section_id =  $P{sectionId} or $P{sectionId} = '-1')
+and
+(lss.work_area_id = $P{workAreaId}  or $P{workAreaId} = '-1')
+and
+(lss.emp_name LIKE  '$P!{workerName}%' )
+and
+(lss.emp_code LIKE  '$P!{workerCode}%' )
+and ((CASE when $P{jobType} = 'Supervisor' then ltr.Designation = 'Supervisor' ELSE case when $P{jobType} = 'Others' then ltr.Designation in (select distinct Designation from labor_time_report where Designation <> 'Supervisor')end  end) OR $P{jobType} = '-1')
+and ( ltr.Allocation_Status = $P{allocationStatus} OR $P{allocationStatus} = '-1')
+Group By ltr.business_date,ltr.contractorname,ltr.emp_name
+order by ltr.business_date,ltr.contractorname,ltr.emp_name]]>
+	</queryString>
+	<field name="contractorname" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="code" class="java.lang.Integer"/>
+	<field name="startDate" class="java.lang.String"/>
+	<field name="endDate" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="42">
+			<staticText>
+				<reportElement x="323" y="0" width="214" height="20" uuid="c8da02a6-11e0-46b0-9611-362c2c0ee355"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Daily Job Allocation]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="393" y="23" width="340" height="15" uuid="7b7bfe93-2718-4a41-b137-6145385d2051"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Vendor Name : " + $F{contractorname} + " " + "(" + $F{code} + ")"+" -- "+"From Date :"+$F{startDate}+"  "+ "To Date :"+$F{endDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="105" y="0" width="650" height="37" uuid="0f246a88-92d1-4caa-8469-6b77923320b6"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Daily Job Allocation" uuid="70bd06f7-0abb-45fa-ab6d-b00f81bfc74c">
+						<datasetParameter name="departmentId">
+							<datasetParameterExpression><![CDATA[$P{departmentId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="locationId">
+							<datasetParameterExpression><![CDATA[$P{locationId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="plantId">
+							<datasetParameterExpression><![CDATA[$P{plantId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="sectionId">
+							<datasetParameterExpression><![CDATA[$P{sectionId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="workAreaId">
+							<datasetParameterExpression><![CDATA[$P{workAreaId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="workerName">
+							<datasetParameterExpression><![CDATA[$P{workerName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="workerCode">
+							<datasetParameterExpression><![CDATA[$P{workerCode}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="allocationStatus">
+							<datasetParameterExpression><![CDATA[$P{allocationStatus}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="fromDate">
+							<datasetParameterExpression><![CDATA[$P{fromDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="toDate">
+							<datasetParameterExpression><![CDATA[$P{toDate}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="customerId">
+							<datasetParameterExpression><![CDATA[$P{customerId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="companyId">
+							<datasetParameterExpression><![CDATA[$P{companyId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="vendorId">
+							<datasetParameterExpression><![CDATA[$P{vendorId}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="schemaName">
+							<datasetParameterExpression><![CDATA[$P{schemaName}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="jobType">
+							<datasetParameterExpression><![CDATA[$P{jobType}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="42" uuid="8b186fda-4b02-42ee-821b-1dd5fb6b61d2">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="42" height="15" forecolor="#000000" backcolor="#BFE1FF" uuid="e6ea9571-2969-458c-84de-17eb444c5ac6"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Business Date]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="dd-MM-yyyy" isBlankWhenNull="false">
+								<reportElement mode="Transparent" x="0" y="0" width="42" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="bd656550-992d-45fe-a746-9214d3c4d14e"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{business_date}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="43" uuid="be35d43d-f657-4ccb-939d-d7fc435d05ac">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="43" height="15" uuid="f2934afc-6817-4c01-b8b3-343346edefab"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Worker Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="43" height="20" uuid="a9e6db55-a236-4aa5-922b-444459cef0e6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{emp_code}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2ac2ebf9-188f-4776-9680-3c9ccf6eb5ee">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="15" uuid="f3616a65-3f2a-4571-8e27-ecd70184ce25"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Worker Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="20" uuid="3971df32-e988-45e8-8118-768ff98f5dc2"/>
+								<textElement verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{emp_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="52" uuid="acb587bf-e85d-483d-936e-4f24500d130e">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="52" height="15" uuid="fc4e30c6-088f-4d87-a608-f41f500b0800"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Skill Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="52" height="20" uuid="f2becf32-cc16-45c4-a0cf-24c88d1456e9"/>
+								<textElement verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{work_skill}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="47" uuid="fb9e59f0-8233-4d1c-a78c-dca3de36d718">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="47" height="15" uuid="8ad02711-442a-4acc-b663-4c1c553c1101"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Job Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="47" height="20" uuid="37443b36-ccc2-4e09-ab5d-2484dbe79c0d"/>
+								<textElement verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Job_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="31" uuid="f289f2dd-ab15-412e-9a0c-c35352a08e14">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="31" height="15" uuid="fb8d9efa-b3d7-43d1-9ac9-7d37e5ee3f1a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Shift Code]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="31" height="20" uuid="ec9ef033-74dc-475c-afda-6135055b4f0c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{shift}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="27" uuid="4c5bae29-3657-48db-ba66-ea79fe86dbf3">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="27" height="15" forecolor="#000000" backcolor="#BFE1FF" uuid="ee62ddb7-0282-4fd3-8555-b72b3945c167"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[In Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="HH.mm.ss" isBlankWhenNull="false">
+								<reportElement mode="Transparent" x="0" y="0" width="27" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="419bb7ba-2c01-4f9f-8b7a-eb0785c8893d"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{intime}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="27" uuid="ce0e9e4e-9cdc-4a08-a37f-6aa9962386df">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="27" height="15" forecolor="#000000" backcolor="#BFE1FF" uuid="ee8225a7-9c3e-40b8-8e71-215fd669f90b"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Out Time]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="HH.mm.ss" isBlankWhenNull="false">
+								<reportElement mode="Transparent" x="0" y="0" width="27" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="5cec36c1-ecb1-46f1-a39a-d4954419b3c1"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{outtime}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="34" uuid="ca50b1a4-bd2b-4006-b2e6-f5301dae40e5">
+						<jr:columnHeader height="15" rowSpan="1">
+							<staticText>
+								<reportElement mode="Opaque" x="0" y="0" width="34" height="15" forecolor="#000000" backcolor="#BFE1FF" uuid="cc8a9450-a921-4bff-a236-9fe2df37c53b"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<text><![CDATA[Allocation]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="20" rowSpan="1">
+							<textField pattern="HH.mm.ss" isBlankWhenNull="true">
+								<reportElement mode="Transparent" x="0" y="0" width="34" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="b6cb2925-e114-4c83-8929-5085b878ae00"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle" rotation="None" markup="none">
+									<font fontName="SansSerif" size="6" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+									<paragraph lineSpacing="Single"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Allocation}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="57" uuid="6749e3e2-0fe3-4e35-b363-17232d1510a2">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="57" height="15" uuid="6705fa1c-b47f-4340-8d04-23507d9bde9b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Location]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="57" height="20" uuid="501b7c56-b55c-4846-865e-9144b63704be"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Location_name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="39" uuid="54ccf44a-5761-4085-91bc-662cc1d8e05e">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="39" height="15" uuid="ddc0d58c-6d4e-4989-a161-4a97973e00ee"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Plant]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="39" height="20" uuid="1689c616-1e43-401c-a1e4-54113d84705a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Plant_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="63" uuid="d1a82289-6a0e-4ef3-9aaa-4ec2e4a6c84f">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="63" height="15" uuid="8513c365-bcd3-4163-a0be-b5c1127b124f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Department]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="63" height="20" uuid="3979a4d3-b8f5-4d00-bda2-76112f5d6def"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Department_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="48" uuid="6c186ddf-83d1-4e11-b3de-0f1a0e3b4dd6">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="48" height="15" uuid="44d32cd1-3489-4319-8cb6-c9f6dae1c8d1"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Section]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="48" height="20" uuid="8d2f9b6d-7660-4921-845c-fc6fab679f0b"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Section_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="44" uuid="64392b9e-7d2e-4395-9b78-404d3fbfdfd9">
+						<jr:columnHeader style="table 1_CH" height="15" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="44" height="15" uuid="119776f6-7738-466a-8230-80cc7f355ecb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Work Area]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="20" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="44" height="20" uuid="45d2096a-6e1d-48bb-a5ac-4883bcc1be0e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{Work_Area_Name}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

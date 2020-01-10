@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Contract_labour_Report" language="groovy" pageWidth="1900" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="1860" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isSummaryWithPageHeaderAndFooter="true" uuid="41ae66d5-26a3-4224-9745-a2fe2740f408">
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="Vendor_Code" class="java.lang.String"/>
+	<parameter name="Year" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Month" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT *,monthname(business_date),year(business_date)
+,CONCAT(COALESCE(CASE WHEN vv.address_1 IS NOT NULL THEN CONCAT(vv.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN vv.address_2 IS NOT NULL THEN CONCAT(vv.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.address_3 IS NOT NULL THEN CONCAT(vv.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.city_name IS NOT NULL THEN CONCAT(vv.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN vv.state_name  IS NOT NULL THEN CONCAT(vv.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN vv.country_name  IS NOT NULL THEN CONCAT(vv.country_name,', ') ELSE '' END ,'' ),COALESCE(vv.pincode,''),'') AS vendorAddr,
+ CONCAT(COALESCE(CASE WHEN ca.address_1 IS NOT NULL THEN CONCAT(ca.address_1,', ') ELSE '' END ,'') ,COALESCE(CASE WHEN ca.address_2 IS NOT NULL THEN CONCAT(ca.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.address_3 IS NOT NULL THEN CONCAT(ca.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.city_name  IS NOT NULL THEN CONCAT(ca.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN ca.state_name  IS NOT NULL THEN CONCAT(ca.state_name,', ') ELSE '' END ,'' ),COALESCE(CASE WHEN ca.country_name  IS NOT NULL THEN CONCAT(ca.country_name,', ') ELSE '' END ,'' ),COALESCE(ca.pincode,''),'') AS companyAddr,
+ CONCAT(COALESCE(CASE WHEN  cav.address_1 IS NOT NULL THEN CONCAT(cav.address_1,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.address_2 IS NOT NULL THEN CONCAT(cav.address_2,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.address_3 IS NOT NULL THEN CONCAT(cav.address_3,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.city_name  IS NOT NULL THEN CONCAT(cav.city_name,', ') ELSE '' END ,''),COALESCE(CASE WHEN cav.state_name  IS NOT NULL THEN CONCAT(cav.state_name,', ') ELSE '' END ,''  ),COALESCE(CASE WHEN cav.country_name  IS NOT NULL THEN CONCAT(cav.country_name,', ') ELSE '' END ,'' ),COALESCE(cav.pincode,''),'') AS customerAddr FROM labor_scheduled_shifts l
+inner join worker_details wd on l.emp_code = wd.worker_code
+inner JOIN worker_details_info wdi on wd.worker_id = wdi.worker_id
+inner join vendor_details_info vd on (vd.vendor_id=wd.vendor_id)
+inner join location_details_info ld on (ld.location_id=vd.location_id)
+inner join company_details_info cd on (cd.company_id=vd.company_id)
+inner join customer_details_info cu on (cu.customer_id=vd.customer_id)
+LEFT JOIN vendor_addressview vv ON (vv.vendor_id=vd.vendor_id)
+LEFT JOIN `company_AddressView` ca ON (ca.`Company_Id` = cd.`Company_Id`)
+LEFT JOIN customer_addressview cav ON (cu.Customer_id = cav.Customer_id)
+
+ where
+concat(DATE_FORMAT(wdi.transaction_date, '%Y%m%d'), LPAD(wdi.sequence_id, 2, '0')) = (select max(concat(DATE_FORMAT(transaction_date, '%Y%m%d'), LPAD(sequence_id, 2, '0'))) from worker_details_info w
+ where w.worker_id = wd.worker_id AND transaction_date <= CURRENT_DATE() group by worker_id)
+and concat(DATE_FORMAT(vd.transaction_date, '%Y%m%d'), LPAD(vd.sequence_id, 2, '0')) = (select max(concat(DATE_FORMAT(transaction_date, '%Y%m%d'), LPAD(sequence_id, 2, '0'))) from vendor_details_info v
+ where vd.vendor_id=v.vendor_id AND transaction_date <= CURRENT_DATE() group by vendor_id)
+and concat(DATE_FORMAT(ld.transaction_date, '%Y%m%d'), LPAD(ld.Location_sequence_id, 2, '0')) =(select max(concat(DATE_FORMAT(transaction_date, '%Y%m%d'), LPAD(Location_sequence_id, 2, '0'))) from location_details_info ldi
+ where ld.location_id=ldi.location_id AND transaction_date <= CURRENT_DATE() group by location_id)
+and concat(DATE_FORMAT(cd.transaction_date, '%Y%m%d'), LPAD(cd.Company_sequence_id, 2, '0')) =(select max(concat(DATE_FORMAT(transaction_date, '%Y%m%d'), LPAD(Company_sequence_id, 2, '0'))) from company_details_info cdi
+ where cd.company_id=cdi.company_id AND transaction_date <= CURRENT_DATE() group by company_id)
+and concat(DATE_FORMAT(cu.transaction_date, '%Y%m%d'), LPAD(cu.Customer_sequence_id, 2, '0')) =(select max(concat(DATE_FORMAT(transaction_date, '%Y%m%d'), LPAD(Customer_sequence_id, 2, '0'))) from customer_details_info cui
+ where cu.customer_id=cui.customer_id AND transaction_date <= CURRENT_DATE() group by customer_id)
+and wdi.is_active = 'Y'
+and year(business_date)=$P{Year} and month(business_date)=$P{Month}
+and (wd.vendor_id  =$P{Vendor_Code} or $P{Vendor_Code}= '-1')
+ ;]]>
+	</queryString>
+	<field name="Business_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Code" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ContractorName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emp_Code" class="java.lang.Long">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emp_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shift" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="WO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="department_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Created_By" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Modified_By" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Created_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Modified_Date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Worker_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Country_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="vendor_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Worker_code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Worker_info_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Blood_group" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_of_birth" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Email" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emergency_contact_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Emergency_contact_person" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PAN_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Father_Spouse_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="First_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Gender" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Identification_type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Is_Active" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Last_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Marital_Status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Middle_name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Phone_number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Religion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sequence_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Transaction_Date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Father_Or_Spouse" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Age" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_Of_Leaving" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Date_Of_Joining" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shift_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Weekly_Off" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Reason_for_Status_change" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Image_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Image_Path" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Is_Auto_Deactivated" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Acount_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Acount_Holder_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Bank_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Branch_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Ifsc_Code" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_Details_Info_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_Type_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Telephone_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="FAX_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Website" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Mode_Of_Payment_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Payment_Frequency_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Type_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Registered_Under_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Registration_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Registration_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Service_Registration_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Country" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="VAT_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="CST_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TAN_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LST_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Employee_Strength" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Last_Year_Sales_Turnover" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Currency_In" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Security_Deposit_Details" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Discounts" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address_1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address_2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address_3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Country" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="State" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="City" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Pincode" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_Status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Director_Owner_Proprietor_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Nature_Of_Work" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Status_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Vendor_Registration_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Details_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Sequence_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Contact_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Email_Id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Is_Headquarter" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Location_Type_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="State_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Risk_Indicator" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Hazardous_Indicator" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Risk_Details" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Status" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Is_Shift_System" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Shift_Id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Holiday_Calendar_Id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Work_Week_Start_Day" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Work_Week_End_Day" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Number_Of_Working_Days" class="java.lang.Integer">
+		<fieldDescription><![CDATA[Should be 0-7]]></fieldDescription>
+	</field>
+	<field name="Business_Hours_Per_Day" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Standard_Hours_Per_Week" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Business_Start_Time" class="java.sql.Time">
+		<fieldDescription><![CDATA[HH:MM:SS]]></fieldDescription>
+	</field>
+	<field name="Business_End_Time" class="java.sql.Time">
+		<fieldDescription><![CDATA[HH:MM:SS]]></fieldDescription>
+	</field>
+	<field name="City_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Info_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Company_Sequence_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sector_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Legacy_Id" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Industry_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Sub_Industry_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Corporate_Identity_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ROC_Registration_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Registration_Act_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Service_Tax_Registration_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TIN_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PAN_Registration_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PF_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PF_Registration_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PF_Start_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="PF_Type_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ESI_Number" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ESI_Registration_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="ESI_Start_Date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Unique_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_Info_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_Sequence_Id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Customer_Name_Other_Language" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Entity_Type" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Is_Multinaional" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Number_Of_Companies" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Legacy_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Country_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="State_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="City_Name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="Address_type_id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="monthname(business_date)" class="java.lang.String"/>
+	<field name="year(business_date)" class="java.lang.Long"/>
+	<field name="vendorAddr" class="java.lang.String"/>
+	<field name="companyAddr" class="java.lang.String"/>
+	<field name="customerAddr" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="86" splitType="Stretch">
+			<staticText>
+				<reportElement x="669" y="1" width="422" height="43" uuid="d188adf0-bfcc-4de9-8876-5e4c410cda5e"/>
+				<textElement>
+					<font size="15" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contract Labour (Regulation & Abolition) Central Rules
+                                        FORM XVI]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="44" width="100" height="20" uuid="27dad438-6dfb-4d4f-a52f-93e414e6d0ed"/>
+				<text><![CDATA[See Rule 78(a)(i)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="830" y="64" width="100" height="20" uuid="8e02d2a2-1ed8-4b93-b98a-c34b446c8a4b"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Muster Roll]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="83" width="1860" height="1" uuid="2e44ce7e-656c-49b0-9068-5643e0bcc9b2"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="120" splitType="Stretch">
+			<line>
+				<reportElement x="177" y="19" width="247" height="1" uuid="08a23ae3-0a5b-459d-9096-32e259f607f7"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="4" y="0" width="1820" height="19" uuid="3c5a126b-5769-4af8-8718-cd0d02e375ee"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name and address of Contractor :" + "    "+ ($F{Vendor_Name} == null ? '' : $F{Vendor_Name})+ "    "+($F{vendorAddr} == null ? '' :$F{vendorAddr})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="20" width="508" height="20" uuid="30b59dee-bc9f-4937-925c-398fa6b01518"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nature and location of work :"+ "          " +($F{Location_Name} == null ? '' : $F{Location_Name})+ "        "+ ($F{Nature_Of_Work} != null ? $F{Nature_Of_Work} : '')]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="177" y="40" width="247" height="1" uuid="ac4e3363-f9b9-4ae3-b045-dabb42ccffa4"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="0" y="41" width="1824" height="20" uuid="ddc99f65-15fe-4095-93cc-dc70614925e3"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name and address of establishment in/under which contract is carried on :" +"      "+($F{Company_Name} == null ? '' : $F{Company_Name}) +"      "+($F{companyAddr} == null ? '' : $F{companyAddr})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="399" y="61" width="109" height="1" uuid="9c0e1f79-1428-46f7-810c-5c966e52900e"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement x="3" y="61" width="1820" height="20" uuid="6b56713a-fba1-47df-afdc-a739478d0043"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name and address of principal employer :" + "        "+($F{Customer_Name} == null ? '' : $F{Customer_Name}) + "        "+($F{customerAddr} == null ? '' : $F{customerAddr})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="234" y="80" width="178" height="1" uuid="dcd212a9-4be2-428c-8f40-ee862d773aa5"/>
+			</line>
+			<textField>
+				<reportElement x="0" y="81" width="508" height="20" uuid="90932615-1364-4d4e-ab19-f64e61543c49"/>
+				<textElement verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["For the month of :"+ "    " +($F{monthname(business_date)} == null ? '' : $F{monthname(business_date)}) +"("+($F{year(business_date)} == null ? '' : $F{year(business_date)})+")"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="96" y="101" width="172" height="1" uuid="ae67bcff-cdad-42dc-af60-8bc20f393a08"/>
+			</line>
+		</band>
+	</pageHeader>
+	<pageFooter>
+		<band height="30">
+			<textField>
+				<reportElement x="1740" y="10" width="80" height="20" uuid="e74f4890-956a-4321-aa8b-1b47ed2e4ad1"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="1820" y="10" width="40" height="20" uuid="6c15ce08-8cb9-46fb-a2ef-4b1fb42183b3"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<lastPageFooter>
+		<band height="30"/>
+	</lastPageFooter>
+	<summary>
+		<band height="60" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="1860" height="55" uuid="69e78e62-ba81-482e-91a4-a420b99a0a9f"/>
+				<crosstabHeaderCell>
+					<cellContents>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="177" height="30" backcolor="#CCCCCC" uuid="f0f7a189-af8a-4b46-8c83-1240719e7aff"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="10" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Name of Workman]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="177" y="0" width="94" height="30" backcolor="#CCCCCC" uuid="0291c0b2-dd5d-4b32-9a6f-f504882c906e"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="10" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Father's/Husband's Name]]></text>
+						</staticText>
+						<staticText>
+							<reportElement style="Crosstab Data Text" mode="Opaque" x="271" y="0" width="18" height="30" backcolor="#CCCCCC" uuid="65e37c81-f89d-4934-bdb4-9a74b93946a8"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="9" isBold="true"/>
+							</textElement>
+							<text><![CDATA[Sex]]></text>
+						</staticText>
+					</cellContents>
+				</crosstabHeaderCell>
+				<rowGroup name="First_name" width="177">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{First_name}+" "+$F{Last_name}+" ("+$F{Worker_code}+")"]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="177" height="25" backcolor="#CCCCCC" uuid="93349f83-ed8e-4752-aa93-fe0652bce6d9"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{First_name}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Father_Spouse_name" width="94">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Father_Spouse_name}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="94" height="25" uuid="21d51e38-fbf1-47da-8e86-4bdaaf835d26"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle"/>
+								<textFieldExpression><![CDATA[$V{Father_Spouse_name}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="Sex" width="18">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{Gender}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents>
+							<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="18" height="25" uuid="21332d13-5b62-4d92-b938-2a0af7c8f9e9"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Sex}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents/>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="Business_Date" height="30" totalPosition="End">
+					<bucket class="java.sql.Date">
+						<bucketExpression><![CDATA[$F{Business_Date}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField pattern="dd-MM-yyyy">
+								<reportElement style="Crosstab Data Text" mode="Opaque" x="0" y="0" width="49" height="30" backcolor="#3366FF" uuid="9143d03e-45c7-4eb8-80cf-3bec19fc30f7"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{Business_Date}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="30" uuid="535f88b7-a183-420e-a428-df226d9ec30a"/>
+								<box>
+									<pen lineWidth="0.5"/>
+									<topPen lineWidth="0.5"/>
+									<leftPen lineWidth="0.5"/>
+									<bottomPen lineWidth="0.5"/>
+									<rightPen lineWidth="0.5"/>
+								</box>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9" isBold="true"/>
+								</textElement>
+								<text><![CDATA[Remarks]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="ShiftMeasure" class="java.lang.String">
+					<measureExpression><![CDATA[$F{Shift}]]></measureExpression>
+				</measure>
+				<crosstabCell width="49" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="49" height="25" uuid="afe56960-8585-4034-a294-92f60e5efe76"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle">
+								<font size="9"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{ShiftMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="25" columnTotalGroup="Business_Date">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="cab95ea3-ae81-4385-b90c-afb360621fd9"/>
+							<box>
+								<pen lineWidth="0.5"/>
+								<topPen lineWidth="0.5"/>
+								<leftPen lineWidth="0.5"/>
+								<bottomPen lineWidth="0.5"/>
+								<rightPen lineWidth="0.5"/>
+							</box>
+							<textElement verticalAlignment="Middle"/>
+							<textFieldExpression><![CDATA[""]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Sex">
+					<cellContents/>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="Sex" columnTotalGroup="Business_Date">
+					<cellContents/>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

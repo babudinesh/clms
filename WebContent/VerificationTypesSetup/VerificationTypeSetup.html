@@ -1,0 +1,149 @@
+
+<div class="container-fluid">
+    <div class="col-md-12 well">
+     <h3 class="cls_plainheader">Define Verification Types</h3>
+        <form class="form1" id="veriTypeForm"  ng-submit="submit()">
+        	<div class="col-md-12">
+        		 
+				<div class="panel panel-primary">
+             		<div class="sepr">
+                     	<div class="row">
+                         	<div class="col-md-4">
+                            	<div class="form-group is-empty">
+	                                 <label for="custName" class="col-md-4 control-label required">Customer Name</label>
+	                                 <div class="col-md-8 select-box">
+	                                    <select  ng-change="customerChange()"  ng-model="dept.customerId" ng-options="item.customerId as item.customerName for item in customerList" class="form-control" id="custName" name="custName" ng-disabled="readOnly || onlyRead" required>
+								     		<option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>   
+	                                 </div>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+                            	<div class="form-group is-empty">
+                                 	<label for="cmpName" class="col-md-4 control-label required">Company Name</label>
+                                 	<div class="col-md-8 select-box">
+										<select ng-change="companyChange()"  ng-model="dept.companyId" ng-options="item.id as item.name for item in companyList" class="form-control" ng-disabled="readOnly || onlyRead" id="cmpName" name="companyName" required>
+							 				<option value="">Select</option>
+                                        </select>
+                                        <span class="input-group-btn">
+                                 			<label for="Select1" class="fa fa-caret-down"></label>
+                                    	</span>   
+                             		</div>
+								</div>
+							</div>
+							<div class="col-md-4">
+							   <div class="form-group">
+                                    <label for="locName" class="col-md-4 control-label required">Country Name</label>
+                                    <div class="col-md-8 select-box">
+                                        <!-- <input type="text" class="form-control" id="locName" placeholder="Country Name" name="" required/> -->
+                                    	<select  ng-model="dept.countryId" name="countryId" ng-options="item.id as item.name for item in countriesList" class="form-control"  id="countryId" ng-disabled="true"  required>
+                                            <option value="">Select</option>
+                                        </select>
+										<span class="input-group-btn">
+											<label for="Select1" class="fa fa-caret-down"></label>
+										</span> 
+                                    </div>
+                                </div>
+                                </div>
+						</div>
+					</div>
+				</div>
+
+
+            	<div class="panel panel-primary">
+             		<!-- <div class="panel-heading">
+              			<h5>Define Department</h5>
+              		</div> -->
+	                <div class="sepr">
+	                    <div class="row">
+	                        <div class="col-md-6">
+	                            <div class="form-group is-empty">
+	                                <label for="transactionDate" class="col-md-4 control-label required">Effective From Date</label>
+	                                <div class="col-md-8">
+	                                      <input type="text" ng-model="transactionDate" class="form-control" id="transactionDate"  name="transactionDate" placeholder="Effective From Date &#xf073;" ng-disabled="readOnly" required>
+	
+	                                </div>
+	                            </div>
+	
+	                            <div class="form-group is-empty">
+	                                <label for="verificationType" class="col-md-4 control-label required">Verification Type</label>
+	                                <div class="col-md-8">
+	                                    <input class="form-control" ng-model="dept.verificationType" placeholder="Verification Type"  name="verificationType" id="verificationType" type="text" ng-disabled="readOnly"  maxlength="45" required>
+	                                </div>
+	                            </div>
+	
+	
+	                            <div class="form-group is-empty">
+	                                <label for="verificationFrequencyName" class="col-md-4 control-label required ">Verification Frequency</label>
+	                                <div class="col-md-8 select-box">
+	                                 	<select  ng-model="dept.verificationFrequency" ng-options="item.id as item.name for item in verificationFrequencyList" class="form-control" name="verificationFrequency" id="verificationFrequency" ng-disabled="readOnly" required>
+											<option value="">Select</option>
+	                                 	</select>
+	                                 	<span class="input-group-btn">
+	                                 		<label for="Select1" class="fa fa-caret-down"></label>
+	                                 	</span>   
+	                                </div>
+	                            </div>
+								
+								
+	
+	                        </div>
+	
+	                        <div class="col-md-6">
+	
+	                            <div class="form-group">
+	                                <label for="isActive" class="col-md-4 control-label required">Status</label>
+	                                <div class="col-md-8 select-box">
+	                                    <select class="form-control required" ng-model="dept.isActive" name=Status" id="Status" ng-disabled="readOnly" required>
+	                                    <option  value="">Select</option>
+	                                        <option  value="Y">Active</option>
+	                                        <option value="N">Inactive</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 	<label for="Select1" class="fa fa-caret-down"></label>
+	                                    </span>   
+	                                </div>
+	                                
+	                               <div class="form-group">
+									<div class="checkbox col-md-6">
+								        <label >
+		                                    <input type="checkbox" id="mandatiory"  ng-model="dept.mandatiory" ng-checked="dept.mandatiory == 'true'"  name="mandatiory"  ng-disabled="readOnly"/> Is Mandatory
+		                                </label>
+		                            </div>
+	                            </div>
+	                               
+	                            </div>
+	
+	                            
+	                        </div>
+	                    </div>
+	                </div>
+                	<br/>
+            	</div>
+
+	            <div class="btn-group btn-group-right pull-right">
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn  && buttonArray.includes('SAVE') " ng-click="enable || save($event)">Save</a>
+	                 <a href="javascript:void(0)" class="btn btn-primary" ng-show="updateBtn && buttonArray.includes('UPDATE')" ng-click="updateDeptBtnAction()">Update</a>	               
+	                 <a href="javascript:void(0)" class="btn btn-primary"  ng-show="cancelBtn" ng-click="cancelBtnAction($event)"> Cancel </a>
+	                 <button class="btn btn-primary" ng-show="resetBtn" type="reset"> Reset </button>
+	                 <a href="#/verificationTypesSetupSearch" class="btn btn-primary">Return to search</a>
+	            </div>
+	        </div>
+        </form>
+    </div>
+</div>
+
+
+
+<div class="container-fluid">
+	<div class="navbar navbar-default navbar-fixed-bottom text-center" style="min-height: 15px; padding: 0px;">
+	    <div class="container text-right" style="">
+	        <label class="control-label text-center" style="color: white; margin: 0px; font-size: 14px;">@Copyright</label>
+	    </div>
+	</div>
+</div>

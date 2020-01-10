@@ -1,0 +1,91 @@
+
+<form name="certificateByPrincipalEmployerFormVReport" id="certificateByPrincipalEmployerFormVReport" novalidate ng-submit="submit" > 
+<div class="container-fluid">
+	<div class="col-md-12 well">
+		<h3 class="cls_plainheader"> Certificate by Principal Employer (Form V)</h3>
+		<h5 class="cls_plainheader"> Labor Law Of 1970, Rule No 21(2), Certificate by Principal Employer </h5>
+		<div class="col-md-12">
+			<br/>
+			<div class="panel panel-primary">				
+				<div class="sepr">
+
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="custName" class="col-md-4 control-label required">Customer
+									Name</label>
+								<div class="col-md-8 select-box">
+
+									<select ng-change="customerChange()" ng-model="customerName"
+										ng-options="item as item.customerName for item in customerList" required
+										class="form-control" id="custName" name="custName">
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+						
+							<div class="form-group">
+								<label for="vendorName" class="col-md-4 control-label">Vendor
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-model="vendorName"
+										ng-options="item.id as item.name for item in vendorList"
+										class="form-control" id="vendorName" name="vendorName">
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+
+
+
+						</div>
+
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="cmpName" class="col-md-4 control-label required">Company
+									Name</label>
+								<div class="col-md-8 select-box">
+									<select ng-change="companyChange()" ng-model="companyName"
+										ng-options="item.id as item.name for item in companyList "
+										class="form-control" id="compName" name="compName" ng-change="companyChange()" required>
+										<option value="">Select</option>
+									</select> <span class="input-group-btn"> <label for="Select1"
+										class="fa fa-caret-down"></label>
+									</span>
+								</div>
+							</div>
+							
+							<div class="col-md-8 col-md-offset-4">
+								<a class="btn btn-primary col-md-3 " ng-click="fun_previewGridData()"> View <i class="fa fa-search"></i></a>
+								<a class="btn btn-primary col-md-4 " ng-show="buttonArray.includes('DOWNLOAD')" 
+									ng-click="search()"> Download <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> <a
+									class="btn btn-warning col-md-3" ng-click="clear()">Clear <i
+									class="fa fa-times"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			
+				<div id="loader"
+					style="display: none; text-align: center; width: 100%; height: 100%; background-color: transparent;">
+					<img src="images/loader.gif" alt="loading..." width="214"
+						height="138" />
+				</div>
+			<div id="data_container" class="sepr">
+                    <h5 class="cls_plainheader panhead"> Result </h5>                   
+                    <div class="col-md-12" style="height: 500px !important;">
+                    <!-- <embed src="{{content}}" type="application/pdf" style="text-align: center; width:100%; height:100%; background-color:transparent;"></embed> -->
+                    <object  ng-show="content"  data="{{content}}" type="application/pdf"  style="text-align: center; width:100%; height:100%; background-color:transparent;"></object>                    
+                    </div>
+                    </div> 
+		</div>
+	</div>
+</div>
+</form>

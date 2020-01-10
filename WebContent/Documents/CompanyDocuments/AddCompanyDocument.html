@@ -1,0 +1,144 @@
+<form id="companyDocumentForm" name="companyDocumentForm" novalidate ng-submit="submit">
+    <div class="container-fluid">
+        <div class="col-md-12 well">
+         	<h3 class="cls_plainheader">{{companyName}}({{companyCode}})</h3>
+            <div class="col-md-12">
+            <br/>
+            	<div class="panel panel-primary">
+                 	<div class="panel-heading">
+                    	<h5>Company Document Details</h5>
+                    </div>
+                    
+                    <div class="sepr">
+                    	<div class="row">
+                          	<div class="col-md-6"> 
+	                    		<div class="form-group">
+									<label for="locationId" class="col-md-4 control-label required">Location Name</label>
+									<div class="col-md-8 select-box">
+										<select   ng-model="document.locationId"   name="locationId" ng-options="item.locationId as item.locationName for item in documentList.locationsList" class="form-control"  id="locationId"  ng-disabled="readOnly"  required>
+	                                        <option value="">Select</option>
+	                                    </select>
+	                                    <span class="input-group-btn">
+	                                 		<label for="locationId" class="fa fa-caret-down"></label>
+	                                    </span>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6"> 
+							</div>
+						</div> 
+                        <div class="row">
+                           <div class="col-md-6">    
+	                           <div class="form-group">
+	                               <label for="documentDate" class="col-md-4 control-label required">Date</label>
+	                               <div class="col-md-8 ">
+	                               	<input type="text" class="form-control" ng-model="document.documentDate" name="documentDate" class="form-control" placeholder="Date" id="documentDate" maxlength=50 ng-disabled="readOnly"  required/>
+	                               </div>
+	                           </div>
+	                           
+	                           <!-- <div class="form-group">
+	                               <label for="documentName" class="col-md-4 control-label required">Document Name</label>
+	                               <div class="col-md-8 ">
+	                               	<input type="text"  class="form-control" ng-model="document.documentName" name="documentName" placeholder="Document Name" id="documentName" ng-maxlength=50  required/>
+	                               </div>
+	                            </div> -->
+	                            
+	                            <div class="form-group is-empty">
+	                                <label for="documentName" class="col-md-4 control-label required">Document Name</label>
+	                                <div class="col-md-8 select-box">
+	                                	 <select  ng-model="document.documentName" ng-options="item.doccumentName as item.doccumentName for item in documentList.documentsList" class="form-control" id="documentName" ng-disabled="readOnly"   name="documentName" required>
+							 				<option value="">Select</option>
+	                                    </select> 
+	                                     <span class="input-group-btn">
+											<label for="documentName" class="fa fa-caret-down"></label>
+										 </span> 
+	                                </div>
+                            	</div>
+	                            
+	                            <div class="form-group">
+	                               <label for="headCount" class="col-md-4 control-label">Head Count</label>
+	                               <div class="col-md-8 ">
+	                               	<input type="text"  class="form-control" ng-model="document.headCount" name="headCount" placeholder="Head Count" id="headCount" ng-disabled="readOnly"  ng-maxlength=50  />
+	                               </div>
+	                            </div>
+	                            
+	                            <div class="form-group is-empty">
+			                     	<label for="documentFrequency" class="col-md-4 control-label required">Document Frequency</label>
+			                        <div class="col-md-8 select-box">
+										<select  ng-model="document.documentFrequency" class="form-control" id="documentFrequency" name="documentFrequency"  ng-options="item.id as item.name for item in list_frequency" ng-disabled="readOnly"  required>
+											<option value="">Select</option>
+			                            </select> 
+			                            <span class="input-group-btn">
+											<label for="documentFrequency" class="fa fa-caret-down"></label>
+										</span>	                                    
+			                        </div>
+	                     		</div>
+                            </div>
+                                
+                            <div class="col-md-6"> 
+                            	<div class="form-group is-empty">
+		                          	<label for="status" class="col-md-4 control-label required">Status</label>
+		                            <div class="col-md-8 select-box">
+										<select  ng-model="document.status" class="form-control" id="status" name="status"  ng-options="item.id as item.name for item in list_status" ng-disabled="true"  required>
+											<option value="">Select</option>
+			                            </select> 
+			                            <span class="input-group-btn">
+											<label for="status" class="fa fa-caret-down"></label>
+										</span>	                                    
+		                           </div>
+								</div>
+                          
+                          		<div class="form-group">
+                                    <label for="challanNumber" class="col-md-4 control-label required">Challan Number</label>
+                                    <div class="col-md-8 ">
+                                    	<input type="text" class="form-control" ng-model="document.challanNumber"  name="challanNumber" placeholder="Challan Number" id="challanNumber" ng-disabled="readOnly"  maxlength=50 required/>
+                                    </div>
+								</div>
+                                
+                                <div class="form-group">
+                                    <label for="amount" class="col-md-4 control-label">Amount</label>
+                                    <div class="col-md-4">
+                                    	<input type="text"  class="form-control" ng-model="document.amount"  name="amount" id="amount" placeholder="Amount"  />
+                                    </div>
+                                    <div class="col-md-4">
+								  		<input type="text" class="form-control"  ng-model="document.currencyName" id="currency" name="currency" placeholder="Currency" maxlength="10" ng-disabled="true"  />                       
+									</div>
+                                 </div> 
+                                 
+                                 <div>
+                                	<label for="file" class="col-md-4 control-label">Attachment</label>
+                                    <div class="col-md-8">
+                                      	<input type ="file" file-model ="myFile"  name="fileName" id ="fileName" ng-model="document.fileName" onchange="angular.element(this).scope().getFileDetails(this)" ng-disabled="readOnly" />
+                                      	<div ng-show="document.fileName != null && myFile == null" ng-disabled="readOnly">
+                              				<a href ng-click="fun_download(document.filePath, document.fileName)" >{{document.fileName}}</a>
+                              			</div>
+                                    </div>
+                                </div>                                  
+                            </div>
+		                </div>
+		                <div class="row">
+		                	<div class="col-md-12 form-group" ng-show="commentsShow">
+								<label for="comments" class="col-md-2 control-label">Comments</label>
+			                       <div class="col-md-10 ">
+			                       		<input type="text" class="form-control" ng-model="document.comments" placeholder="Comments" name="comments" id="comments" ng-maxlength=255 />
+			                       </div>
+							</div>	
+		                </div>
+		            </div>
+				</div>  
+			</div>
+            <br />
+            <br />
+		
+            <div class="btn-group btn-group-right pull-right">               
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="saveBtn" ng-click="enable || saveDocument($event)" >Save</a>
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="submitBtn" ng-click="enable || submitDocument($event)" >Submit</a>
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="verifyBtn" ng-click="enable || verifyDocument($event)" >Verify</a>
+                <a href="javascript:void(0)" class="btn btn-primary"  ng-show="updateBtn" ng-click="enable || updateBtnAction($event)" >Update</a>
+                <a href="javascript:void(0)" class="btn btn-primary resetBtn"  ng-show="!statusDisabled && resetBtn" ng-click="clearFun()">Reset</a>
+                <a  class="btn  btn-danger" ng-show="cancelBtn" ng-click="fun_cancelBtnCLick()"> Cancel </a>
+                <a href="#/searchCompanyDocument" class="btn btn-warning">Return To Search</a>
+            </div>
+		</div>
+	</div>
+</form>

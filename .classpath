@@ -107,5 +107,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/h2-1.4.196.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javax.xml.bind.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -51,5 +51,9 @@ public class ShiftPatternServiceImpl implements ShiftPatternService {
 	public List<SimpleObject> getShiftPatternDropdown(Integer customerId, Integer companyId) {
 		return shiftPatternDao.getShiftPatternDropdown(customerId, companyId);
 	}
-
+	
+	@Override
+	public List<ShiftPatternAdditionalRulesVo> getAdditionalRules(Integer customerId, Integer companyId, Integer shiftPatternDetailsId) {
+		return shiftPatternDao.getShiftAdditionalRules(customerId, companyId, shiftPatternDetailsId);
+	}
 }

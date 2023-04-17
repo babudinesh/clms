@@ -23,4 +23,6 @@ public interface ShiftPatternService {
 
     public List<SimpleObject> getShiftPatternDropdown(Integer customerId, Integer companyId);
     
+    public List<ShiftPatternAdditionalRulesVo> getAdditionalRules(Integer customerId, Integer companyId, Integer shiftPatternDetailsId);
+    
 }

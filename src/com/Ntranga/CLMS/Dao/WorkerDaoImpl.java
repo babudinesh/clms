@@ -533,7 +533,7 @@ public class WorkerDaoImpl implements WorkerDao  {
 						+" WHERE vdi.`vendor_id` = vdi1.`vendor_id` AND vdi1.transaction_date <= CURRENT_DATE()  "
 						+" ) AND wdi.`Worker_info_id` =" +workerInfoId;
 		 					
-							//System.out.println("query"+q);					 
+						System.out.println("query"+q);					 
 		
 				List tempList = session.createSQLQuery(q).list();
 				for(Object o:tempList){
@@ -655,7 +655,7 @@ public class WorkerDaoImpl implements WorkerDao  {
 							java.io.File file = new java.io.File((String)obj[36]);
 							byte[] b = new byte[(int)file.length()];
 							b = FileUtils.readFileToByteArray(file);
-							System.out.println(b);
+							//System.out.println(b);
 							workerDetailsVo.setFile(b);
 						}catch(Exception e){
 							log.error("Error Occured ",e);
@@ -676,7 +676,7 @@ public class WorkerDaoImpl implements WorkerDao  {
 							  +" ) "*/
 							  + " AND wdi.`Worker_info_id` = "+workerInfoId;
 				 					
-						System.out.println("query"+q1);					 
+						//System.out.println("query"+q1);					 
 		
 						List addressList = session.createSQLQuery(q1).list();
 						for (Object o1 : addressList) {
